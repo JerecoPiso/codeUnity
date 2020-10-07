@@ -1,0 +1,65 @@
+.dont-have{
+	color: rgb(10, 150, 185);
+	font-size: 100%;
+	
+}
+.dont-have:hover{
+	margin-left: 2%;
+	transition: 1s;
+}
+.err-msg{
+	color: red;
+}
+header{
+    background-color: cadetblue;
+    text-align: center;
+    padding: 2%;
+    font-size: 200%;
+    color: rgb(255, 255, 255);
+}
+.hide{
+	display: none;
+}
+label{
+	font-size: 100%;
+	color: rgb(10, 150, 185);
+	font-weight: bold;
+
+}
+.login-btn, .signup-btn{
+	width: 100%;
+	border: none;
+	margin-top: 2%;
+	background-color: cadetblue;
+	padding: 2.5%;
+	color: rgb(255,255,255);
+	border-radius: 0.5rem;
+}
+input:focus{
+	border: none;
+	border: 2px solid cadetblue;
+}
+
+input{
+	height: 35px;
+	width: 100%;
+	border: 2px solid cadetblue;
+	border-radius: 0.5rem;
+}
+.login-form, .signup-form{
+	width: 80%;
+	margin-left: 10%;
+	border: 2px solid cadetblue;
+	padding: 5%;
+	margin-top: 15%;
+	background-color: rgba(230, 230, 230, 0.6);
+	border-radius: 0.5rem;
+}
+.m-0{
+	margin: 0;
+}
+.success-msg{
+
+	color: cadetblue;
+	
+}

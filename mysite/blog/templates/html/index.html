@@ -1,0 +1,149 @@
+{% extends 'html/base.html' %}
+
+
+{% block main_page %}
+   {% include 'html/header.html' %}
+
+  
+   	<div class="mt-5">
+   		<div class="img-container">
+        <p class="img-text" style="position: absolute;font-size: 500%;color: white;margin-left: 10%;margin-top: 15%;">We CODE As ONE</p> 
+   			<img class="img mt" src="/media/slider.jpg" width="100%" height="500px">
+   		
+            <form id="form">
+               <p class="form-title">codeUnity</p>
+               <label>E-mail</label>
+               <input type="email" name="" required>
+             <!--   <label>Username</label> 
+               <input type="text" name=""> -->
+                <label>Password</label>
+               <input type="password" name="">
+                <label>Re-type password</label>
+               <input type="password" name="">
+              <!--  <input type="file" name="document" multiple = "true" webkitdirectory="true" directory = "true"/> -->
+              <!--  <label>Photo</label>
+               <input type="file" id="border_none" style="border: none" name="image" required> -->
+               <button type="submit" class="btn-signup">Signup</button>
+            </form>
+   		</div>
+   	</div>
+      <div style="margin: 7% 0% 5% 0%">
+          <h2 class="center-align">Let's help each other to be a good developer.</h2>
+        
+      </div>
+      <div class="row" style="padding: 0% 8% 0% 8%;">
+         <div class="col s12 m12">
+            <h3 class="main-color center-align">Jobs</h3>
+            <div class="job-div"  style=" ">
+               <div class="job-info">
+              <img src="/media/download.jpg">
+            </div>
+         
+             
+            </div>
+           
+         </div>
+      </div>
+      <div class="row pt-3">
+        <div class="col m4">
+           <div class="total-devs right">  <h4 class="mt-n3"> 2000+ </h4><h6 class="mt-n5">Developers</h6>
+
+             </div>
+        </div>
+        <div class="col m4">
+           <div class="total-apps" style=""><h4 class="mt-n3"> 2000+ </h4><h6 class="mt-n5">Projects</h6>
+
+             </div>
+        </div>
+        <div class="col m4">
+           <div class="total-jobs left">  <h4 class="mt-n3"> 2000+ </h4><h6 class="mt-n5">Projects</h6>
+
+             </div>
+        </div>
+      </div>
+
+
+      <div class="row top-downloads-jobs">
+      
+         <div class="col s12 m5">
+            <p class="top-downloads">Most Popular Projects</p>
+            <ul id="collection" class="collection">
+               <li class="collection-item">1. Real Time Chat App <span class="right">1000+ Downloads</span></li>
+               <li class="collection-item">1. Real Time Chat App <span class="right">1000+ Downloads</span></li>
+             </ul>
+           <!--   <div class="total-apps" style=""> <h5> Over </h5> <h3 class="mt-n3"> 2000+ </h3><h5 class="mt-n5">Projects</h5>
+
+             </div> -->
+         </div>
+           <div class="col s12 m7" style="padding: 0% 5% 5% 5%">
+            <p class="top-downloads">Top Languages</p>
+            <ul id="collection" class="collection">
+               <li class="collection-item">NodeJS  <a href="#" class="right">See Projects</a> <span class="right">1000+ Projects</span> 
+                 
+               </li>
+               <li class="collection-item">Real Time Chat App <a href="#" class="right">See Projects</a><span class="right">1000+ Downloads</span></li>
+             </ul>
+           
+         </div>
+      </div>
+
+       <!--  Developers Section -->
+      <div class="row">
+         <div class="col s12">
+             <p class="developers">Developers</p>
+
+             <div class="row">
+                <div class="col s12 m4">
+                     <div class="card">
+                        <div class="card-image">
+                          <img src="/media/it2.jpg">
+                          <span class="card-title">Card Title</span>
+                        </div>
+                        <div class="card-content">
+                          <p>I am a very simple card. I am good at containing small bits of information.
+                          I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                          <a href="#">See uploads...</a>
+                        </div>
+                   </div>
+                </div>
+                 <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                          <img src="/media/it2.jpg">
+                          <span class="card-title">Card Title</span>
+                        </div>
+                        <div class="card-content">
+                          <p>I am a very simple card. I am good at containing small bits of information.
+                          I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                          <a href="#">See uploads...</a>
+                        </div>
+                     </div>
+                </div>
+                 <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                          <img src="/media/it2.jpg">
+                          <span class="card-title">Card Title</span>
+                        </div>
+                        <div class="card-content">
+                          <p>I am a very simple card. I am good at containing small bits of information.
+                          I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                          <a href="#">See uploads...</a>
+                        </div>
+                  </div>
+                   
+                </div>
+             </div>
+                  
+         </div>
+
+      </div>
+  
+   {% include 'html/footer.html' %}
+{% endblock %}

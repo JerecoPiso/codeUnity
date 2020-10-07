@@ -1,0 +1,28 @@
+{% extends 'html/login_signup_base.html' %}
+
+{% block login_signup %}
+		
+			<!-- 	{% if message is not null %}
+
+				<h5>dfsdf</h5>
+
+				{% endif %} -->
+				<div class="form">
+					<form id="login-form" method="POST" action="register">
+						{% csrf_token %}
+					
+						<img class="login-logo" src="/media/images.png">
+						<div>
+							<label>Username</label>
+							<input type="text" class="login-input" name="name">
+							<label>Password</label>
+							<input type="password" name="password">
+							<button type="submit" id="btn-login">Login</button>
+							<a href="signup" id="forgot-password">Signup</a>
+							<a href="" class="right" id="forgot-password">Forgot password?</a>
+						</div>				
+					</form>
+				</div>
+			
+	
+{% endblock %}
