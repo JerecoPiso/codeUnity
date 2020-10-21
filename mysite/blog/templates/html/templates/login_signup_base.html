@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 {% load static %}
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>{{request.session.title}}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
+	
+
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/formsszz.css' %}">
+</head>
+<body>
+
+	{% block login_signup_verify %}
+    
+
+    {% endblock %}
+<script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/loginSignup.js' %}"></script>
+</body>
+</html>

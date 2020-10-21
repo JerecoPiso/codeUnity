@@ -1,0 +1,84 @@
+{% extends 'html/user_pages/user_base.html' %}
+
+
+{% block user_page %}
+		<span class="fa fa-bars" id="show"></span>
+		<div class="flex-container">
+			<div class="flex-item1">
+				
+				{% include 'html/user_pages/side_nav.html' %}
+				
+			</div>
+			<div class="flex-item2">
+				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
+				<div class="row clear-float">
+				<!-- 	-->
+					<div class="col l6 s12 m12 xl6">
+
+						<div id="user-dp">
+							<p>Profile Photo</p>
+							<form>
+								{% csrf_token %}
+								<img class="dp-account-settings" src="/media/it2.jpg">
+								<button id="btn-change-dp">Change Photo <span class="fa fa-camera"></span> </button>
+
+							</form>
+								
+							
+						</div>
+						
+						
+					</div>
+					<div class="col l6 s12 m12 xl6">
+						<div id="security-info">
+							<p>Security</p>
+							<div id="forms">
+								<form>
+									{% csrf_token %}
+									<label>Email</label><br>
+									<input type="email" name="" value="jerecojamespiso@gmail.com" disabled>
+									<button class="edit-btn">Edit</button>
+						
+								</form>
+								<form>
+									{% csrf_token %}
+									<label>Password</label><br>
+									<input type="password" name="" value="11111111" disabled>
+									<button class="edit-btn">Edit</button>
+								</form>
+								<form>
+									{% csrf_token %}
+									
+									<label>Hint</label><br>
+									<input type="text" value="jerecojamespiso@gmail.com" disabled>
+									<button class="edit-btn">Edit</button>
+								</form>
+								<br><br>
+							</div>
+								
+							
+						</div>
+					</div>
+					<div class="col l12 m12 s12 xl12 other-info">
+						<div id="other-info">
+							<p>Other Information</p>
+							<form>
+								{% csrf_token %}
+									
+								<label>Skills</label><br>
+								<textarea></textarea>
+								<label>Work Experience (Optional)</label>
+								<input type="text" name="">
+								<button class="other-info-edit-btn">Edit</button>
+							</form>
+						</div>
+					</div>
+					
+				</div>
+				
+				
+			</div>
+			
+		</div>
+
+{% endblock %}

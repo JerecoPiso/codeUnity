@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 {% load static %}
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>{{request.session.title}}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innneessedzzesss.css' %}">
+	{% if request.session.title == 'Jobs' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobszzed.css' %}">
+	{% endif %}
+	{% if request.session.title == 'Questions' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionedcc.css' %}">
+	{% endif %}
+	
+	{% if request.session.title == 'Projects' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectzzzsssszztttteecceebbeedd.css' %}">
+	{% endif %}
+	
+</head>
+<body>
+
+	{% block main_page %}
+    
+
+    {% endblock %}
+
+<script type="text/javascript" src="{% static 'assets/js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/indexxxxx.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/materialize.js' %}"></script>
+
+<script type="text/javascript">
+
+ $(document).ready(function(){
+
+	$(window).resize(function(){
+       	if(document.body.clientWidth > 651){
+       		$('#top-nav').css({'width': '100%'})
+       		$('#open').hide() 	
+       	}else if(document.body.clientWidth < 651){
+       		$('#top-nav').css({'width': '0'})
+       		$('#open').show() 	
+       	}
+
+       	if(document.body.clientWidth > 600){
+       		$('#projects').show()
+       	}else{
+       		$('#projects').hide()
+       	}
+   	});
+
+	$('#open').click(function(){
+	 		
+	 	$('#top-nav').css({'width': '50%'})
+	 	$(this).hide()
+	 	
+	})
+	$('#close').click(function(){
+	 		
+	 	$('#top-nav').css({'width': '0'})
+	 	$('#open').show() 	
+	 	
+	})
+
+
+ 	$('#search-question input').focus(function(){
+ 		$(this).css({'box-shadow': '1px 1px 2px 1px rgb(153, 214, 255)'})
+ 	})
+ 	$('#search-question input').mouseout(function(){
+ 		$(this).css({'box-shadow': '0px 0px 0px 0px'})
+ 	})
+  	
+  	$('#btn-languages').click(function(){
+	 		
+	 	$('#projects').show()
+	 	
+	 	
+	})
+	$('#close-show').click(function(){
+	 		
+	 	$('#projects').hide()
+	 	
+	})
+	
+	})
+</script>
+</body>
+</html>

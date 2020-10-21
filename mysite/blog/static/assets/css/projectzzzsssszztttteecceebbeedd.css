@@ -1,0 +1,293 @@
+.clear-float{
+	clear: both;
+}
+.download-app{
+	background-color: rgb(0, 134, 179);
+	color: rgb(255,255,255);
+	padding: 1%;
+	border-radius: 0.3rem;
+	margin-left: 93%;
+}
+@media(max-width: 600px){
+	#btn-languages{
+		margin-top: 3%;
+		border-radius: 0.5rem;
+		border: none;
+		padding: 1.5%;
+		font-size: 120%;
+		background-color: rgb(0, 134, 179);
+		color: rgb(255,255,255);
+	}
+	#close-show{
+		margin-top: -80%;
+		margin-left: 100%;
+		border: none;
+		font-size: 300%;
+		background-color: transparent;
+		color: rgb(255,255,255);
+		margin-bottom: -80%;
+	}
+
+	.for-free{
+		/*font-size: 200%;
+		width: 98%;
+		margin-left: 1%;*/
+		display: none;
+		/*margin-left: 30%;*/
+		
+
+	}
+	.languages{
+		margin-top: 1%;
+		padding: 4% 1% 1% 8%;
+		margin-bottom: -5%;
+		font-size: 150%;
+		color: white;
+	}
+	#projects{
+		position: absolute;
+		background-color: rgb(0, 128, 128);;
+		top: 9%;
+		display: none;
+		width: auto;
+		padding: 5% 8% 0% 5%;
+
+	}
+	#projects ul{
+		margin-left: 5%;
+		padding: 3% 3% 3% 3%;
+
+
+	}
+	#projects ul li{
+		padding: 5% 4% 5% 0%;
+		font-size: 120%;
+
+	}
+	#projects ul li a{
+		color: white;
+		font-family: sans-serif;
+		
+	}
+	#projects ul li:hover a{
+		margin-left: 3%;
+		
+	}
+	#search{	
+		width: 70%;
+	}
+}
+@media(min-width: 601px) and (max-width: 991px){
+	#btn-languages{
+		display: none;
+
+	}
+	#close-show{
+		display: none;
+	}
+	.for-free{
+		
+		width: 80%;
+		margin-left: 12%;
+		padding: 1%;
+		font-size: 200%;
+	
+	}
+	.for-free:hover{
+		color: rgb(255, 255, 255);
+		background-color: rgb(0, 128, 128);
+		transition: 0.5s;
+
+	}
+	.languages{
+		margin-top: 13%;
+		padding: 4% 1% 1% 8%;
+		margin-bottom: -5%;
+		font-size: 150%;
+		color: rgb(0, 128, 128);
+	}
+
+	#projects ul{
+		margin-left: 5%;
+		padding: 3% 3% 3% 3%;
+
+
+	}
+	#projects ul li{
+		padding: 2% 2% 2% 0%;
+		font-size: 120%;
+
+	}
+	#projects ul li a{
+		color: rgb(92, 138, 138);
+		font-family: sans-serif;
+		
+	}
+	#projects ul li:hover a{
+		margin-left: 3%;
+		color: rgb(0, 128, 128);
+	}
+	#search{	
+		width: 60%;
+	}
+}
+@media(min-width: 992px) and (max-width: 1999px){
+	#btn-languages{
+		display: none;
+	}
+	#close-show{
+		display: none;
+	}
+	.for-free{
+	
+		width: 60%;
+		margin-left: 20%;
+		font-size: 250%;
+		
+	}
+	.for-free:hover{
+		color: rgb(255, 255, 255);
+		background-color: rgb(0, 128, 128);
+		transition: 0.5s;
+
+	}
+	.languages{
+		margin-top: 13%;
+		padding: 4% 1% 1% 8%;
+		margin-bottom: -5%;
+		font-size: 150%;
+		color: rgb(0, 128, 128);
+	}
+
+	#projects ul{
+		margin-left: 5%;
+		padding: 3% 3% 3% 3%;
+
+
+	}
+	#projects ul li{
+		padding: 2% 2% 2% 0%;
+		font-size: 120%;
+
+	}
+	#projects ul li a{
+		color: rgb(92, 138, 138);
+		font-family: sans-serif;
+		
+	}
+	#projects ul li:hover a{
+		margin-left: 3%;
+		color: rgb(0, 128, 128);
+	}
+	#search{
+		
+		width: 40%;
+	}
+}
+@media(min-width: 1200px){
+	#btn-languages{
+		display: none;
+	}
+	#close-show{
+		display: none;
+	}
+	.for-free{
+		width: 45%;
+		margin-left: 30%;
+		margin-top: 1%;
+		font-size: 230%;
+	}
+	.for-free:hover{
+		color: rgb(255, 255, 255);
+		background-color: rgb(0, 128, 128);
+		transition: 0.5s;
+
+	}
+	.languages{
+		margin-top: 13%;
+		padding: 4% 1% 1% 8%;
+		margin-bottom: -5%;
+		font-size: 150%;
+		color: rgb(0, 128, 128);
+	}
+
+	#projects ul{
+		margin-left: 5%;
+		padding: 3% 3% 3% 3%;
+
+
+	}
+	#projects ul li{
+		padding: 2% 2% 2% 0%;
+		font-size: 120%;
+
+	}
+	#projects ul li a{
+		color: rgb(92, 138, 138);
+		font-family: sans-serif;
+		
+	}
+	#projects ul li:hover a{
+		margin-left: 3%;
+		color: rgb(0, 128, 128);
+	}
+	#search{
+		
+		width: 30%;
+	}
+}
+.mt-n3{
+	margin-top: -3%;
+}
+/**/
+.for-free{
+	color: rgb(92, 138, 138);
+	text-align: center;
+	border: 2px solid rgb(0, 128, 128);
+	/*margin: 1%;*/
+	font-weight: bolder;
+	/*width: 45%;*/
+/*	margin-left: 30%;*/
+	font-family: sans-serif;
+	border-radius: 0.5rem;
+}
+.project-box{
+	width: 100%;
+	padding: 2%;
+	border: 1px solid rgb(209, 224, 224);
+
+}
+.projects-div{
+
+	width: 100%;
+	padding: 0% 0% 3% 0%;
+
+	
+}
+.projects-div .app-title{
+	font-size: 200%;
+}
+
+.projects-div .app-title:hover{
+	border-bottom: 2px solid rgb(0, 153, 255);
+}
+#search{
+	margin-top: 3%;
+	padding-left: 1%;
+	float: right;
+	/*width: 30%;*/
+	height: 33px;
+	border: 1px solid rgb(217, 217, 217);
+	
+	border-radius: 2rem;
+	height: 40px;
+
+}
+
+#search:hover{
+	box-shadow: 1px 1px 2px 1px rgb(153, 214, 255);
+	border: 1px solid rgb(177, 205, 205);
+	width: 5	0%;
+	transition: 1s;
+	
+}

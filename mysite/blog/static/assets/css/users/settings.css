@@ -1,0 +1,73 @@
+#btn-change-dp{
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 0.5%;
+	margin-bottom: 2%;
+	border: none;
+	background-color: rgb(0, 128, 128);
+	padding: 1.5%;
+	color: rgb(255,255,255);
+	font-size: 100%;
+}
+.dp-account-settings{
+	width: 80%;
+	height: 230px;
+	margin: auto;
+	display: block;
+}
+.edit-btn{
+	width: 15%;
+	border-radius: 0.5rem;
+	border: none;
+	background-color: rgb(0, 128, 128);
+	padding: 2%;
+	color: rgb(255,255,255);
+	font-size: 100%;
+}
+
+#forms form input{
+	width: 83%;
+}
+#user-dp, #security-info, #other-info{
+	background-color: rgb(242, 242, 242);
+	width: 100%;
+}
+#user-dp p, #security-info p, #other-info p{
+	font-size: 140%;
+	margin: 2% 0% 1% 10%;
+	color: rgb(0, 128, 128);
+}
+.other-info-edit-btn{
+	width: 14%;
+	border-radius: 0.5rem;
+	border: none;
+	background-color: rgb(0, 128, 128);
+	padding: 1%;
+	color: rgb(255,255,255);
+	font-size: 100%;
+	margin-left: 86%;
+	margin-bottom: 2%;
+}
+.other-info{
+	margin-top: -6%;
+}
+#other-info form label{
+	font-size: 100%;
+
+}
+#other-info input{
+	height: 35px;
+	width: 100%;
+}
+#security-info form input{
+	height: 35px;
+}
+#security-info #forms, #other-info form{
+	margin: 0% 10% 10% 10%;
+}
+#security-info #forms form input{
+	height: 35px;
+}
+#security-info #forms form label{
+	font-size: 100%;
+}

@@ -1,0 +1,46 @@
+{% extends 'html/user_pages/user_base.html' %}
+
+
+{% block user_page %}
+		<span class="fa fa-bars" id="show"></span>
+		<div class="flex-container">
+			<div class="flex-item1">
+				{% include 'html/user_pages/side_nav.html' %}
+				
+			</div>
+			<div class="flex-item2">
+				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
+				<div class="row clear-float">
+				<!-- 	-->
+					<div class="col l6 s12 m12 xl6">
+
+						<!-- <p class="you-have-uploaded-total">23 Projects Uploaded</p> -->
+					
+					</div>
+					<div class="col l6 s12 m12 xl6">
+						<div id="files" >
+						 <p>Upload a Project</p>
+						 <form  @submit.prevent="file()">
+					                    {% csrf_token %}
+					       	<div>
+					       		<label>Folder</label><br>
+					       		<input type='file' webkitdirectory ref="file" @change="handleFileUpload()" ><br> 
+					       		<label>About</label>
+					       		<textarea></textarea>
+					       	</div>
+						
+							<button  type="submit" id="upload-btn">Upload <span class="fa fa-upload"></span> </button>
+
+						 </form>
+
+					</div> 
+					</div>
+				</div>
+				
+				
+			</div>
+			<!-- class flex-item2 end -->
+			
+		</div>
+		<!-- class flex-container end -->
+{% endblock %}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>User</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/userzzzzzzzzzzzzzzzzzcc.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chart.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/projectszzzz.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questionst.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settings.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}"/>  
+</head>
+<body>
+
+	{% block user_page %}
+
+
+
+	{% endblock %}
+<script src="{% static 'assets/js/jquery.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/js/chart.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'assets/js/userrrrrsss.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/myCharts.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
+<script type="text/javascript">
+	var folderUpload = new Vue({
+		el: "#files",
+		data:{
+			folder: ''
+		},
+		methods:{
+			handleFileUpload: function(){
+				folderUpload.folder = this.$refs.file.files
+				//alert(this.files)
+			},
+			file: function(){
+				//  var pos = files[0]['webkitRelativePath'].indexOf("/");
+    //        // alert(files[0]['webkitRelativePath'].slice(0, 2))
+				// alert(document.querySelector('[name=csrfmiddlewaretoken]').value)
+				let fd = new FormData();
+				 for(var i = 0; i < folderUpload.folder.length; i++){
+				 	fd.append('files', folderUpload.folder[i])
+				 	fd.append('paths', folderUpload.folder[i]['webkitRelativePath'])
+				 	//fd.append("csrfmiddlewaretoken", ocument.csrfmiddlewaretoken.val)
+				 }
+
+				 axios.post('get', fd,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
+
+				 	alert(response.data)
+				 })
+
+			
+			}
+
+		}
+	})
+</script>
+</body>
+</html>

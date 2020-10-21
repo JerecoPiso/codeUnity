@@ -1,0 +1,88 @@
+{% extends 'html/templates/base.html' %}
+
+
+{% block main_page %}
+	
+	{% include 'html/templates/header.html' %}
+	<!-- <p class="question-slogan">Asked Questions:</p> -->
+	<!-- <label>haha</label> -->
+	<!-- <select>
+		<option>Python</option>
+		<option>Python</option>
+		<option>Python</option>
+	</select> -->
+	
+	
+	<div class="row">
+		<div class="col s12 m12 xl8 l8">
+			<div class="row" style="margin-bottom: -3%;">
+				<div class="col l6 m5 s12">
+					<form id="form-filter-question">
+						 <!--  <label  class="filter-by">Search by:</label> -->
+
+						  <select class="browser-default">
+						    <option value="" disabled selected>Search by Language</option>
+						    <option value="1">Option 1</option>
+						    <option value="2">Option 2</option>
+						    <option value="3">Option 3</option>
+						  </select>
+					</form>
+				</div>
+				<div class="col l6 m7 s12">
+					<form id="search-question">
+						<input type="text" name="" placeholder="Search for question">
+					</form>
+				</div>
+
+			</div>
+			<!-- <strong>Questions</strong> -->
+			<ul class="questions-box">
+				<li class="question">
+					<a href="">How to make a component in VUEJS?</a> <br>
+					<cite style="">by: Jereco James Piso <i>(2 weeks ago)</i></cite>
+					<div class="infos">
+						<span class="fa fa-comments comments" style=""></span><b class="question-info">  100</b> 
+							<b class="question-info"><span class="fa fa-thumbs-up likes" style=""></span> 100</b>
+					</div>
+				
+				</li>
+				<li class="question">
+					<a href="">How to make a component in VUEJS?</a> <br>
+					<cite style="">by: Jereco James Piso <i>(2 weeks ago)</i></cite>
+					<div class="infos">
+						<span class="fa fa-comments comments" style=""></span><b class="question-info">  100</b> 
+							<b class="question-info"><span class="fa fa-thumbs-up likes" style=""></span> 100</b>
+					</div>
+				
+				</li>
+				<li class="question">
+					<a href="">How to make a component in VUEJS?</a> <br>
+					<cite style="">by: Jereco James Piso <i>(2 weeks ago)</i></cite>
+					<div class="infos">
+						<span class="fa fa-comments comments" style=""></span><b class="question-info">  100</b> 
+							<b class="question-info"><span class="fa fa-thumbs-up likes" style=""></span> 100</b>
+					</div>
+				
+				</li>
+
+			</ul>
+			
+		</div>
+		<div class="col s12 m12 xl4 l4">
+			<p class="question-categories">Question Categories:</p>
+				<ul class="categories">
+					<a href="">Desktop</a>
+					<a href="">Android</a>
+					<a href="">IOS</a>
+					<a href="">Front-End</a>
+					<a href="">Back-End</a>
+					
+				</ul>
+		</div> 
+	</div>
+
+	
+
+	{% include 'html/templates/footer.html' %} 
+
+{% endblock %}

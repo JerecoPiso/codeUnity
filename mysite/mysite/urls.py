@@ -4,9 +4,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 
+
 urlpatterns = [
 	  url(r'^$', views.index, name='index'),
-	  url(r'^blog/', include('blog.urls')),
+	  url(r'^codeunity/', include('blog.urls')),
+	  url(r'^codeunity/user/', include('blog.admin_urls')),
       url('admin/', admin.site.urls),
 ]
 

@@ -1,9 +1,9 @@
-{% extends 'html/login_signup_base.html' %}
+{% extends 'html/templates/login_signup_base.html' %}
 
-{% block login_signup %}
-		<div class="form">
+{% block login_signup_verify %}
+		<div class="form" id="signup">
 
-				<form id="login-form" method="POST" action="register" enctype="multipart/form-data">
+				<form id="signup-form" v-on:submit.prevent="register()">
 				{% csrf_token %}
              <!--  <h5> {% if message != "null" %}
 
@@ -11,17 +11,29 @@
 
 				{% endif %}</h5> -->
 		
-				<img class="login-logo" src="/media/images.png">
+				<img class="signup-logo" src="/media/images.png">
 				<div>
-					<label>Username</label>
-					<input type="text" class="login-input" name="name" required>
+					<!-- <label>E-mail</label>
+					<input type="email" name="email" required>
 					<label>Password</label>
                     <input type="password" name="password" required>
                     <label>Re-type Password</label>
-                    <input type="password" name="pass2" required>
-                    <label>Photo</label>
-					<input type="file" id="border_none" style="border: none" name="image" required>
-					<button type="submit" id="btn-login">Signup</button>
+                    <input type="password" name="password2" required> -->
+                     {% csrf_token %}
+            
+             
+		               <label >E-mail</label>
+		               <input  type="email" v-model="signupInfo.email" required>
+		    
+		                <label>Password</label>
+		               <input type="password" v-model="signupInfo.password" required>
+		                <label>Re-type password</label>
+		               <input type="password" v-model="signupInfo.password2" required>
+                   <!--  <label>Photo</label>
+					<input type="file" id="border_none" style="border: none" name="image" required> -->
+					<button type="submit" id="btn-signup">Signup</button>
+					  <p class="center-align error" v-if="error">[error]</p>
+               		  <p class="center-align success" v-if="success">[success]</p>
 					<a href="login" >Login</a>
 					<a href="" class="right" id="forgot-password">Forgot password?</a>
 				</div>				
