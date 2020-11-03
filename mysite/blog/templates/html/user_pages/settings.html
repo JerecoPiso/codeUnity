@@ -11,20 +11,27 @@
 			</div>
 			<div class="flex-item2">
 				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
+				<button class="btn-back" onclick="back()"> <span class="fa fa-arrow-left"></span> Back</button>
+				<button class="btn-home" onclick="home()"> <span class="fa fa-home"></span> Home</button>
 				<div class="row clear-float">
 				<!-- 	-->
 					<div class="col l6 s12 m12 xl6">
 
 						<div id="user-dp">
 							<p>Profile Photo</p>
-							<form>
+							<form @submit.prevent="changeDp()">
 								{% csrf_token %}
 								<img class="dp-account-settings" src="/media/it2.jpg">
-								<button id="btn-change-dp">Change Photo <span class="fa fa-camera"></span> </button>
+								<button type="button" id="btn-change-dp" @click="changeDpModal = true">Change Photo <span class="fa fa-camera"></span> </button>
 
 							</form>
 								
-							
+							<!-- modal for changing profile photo -->
+							<div class="dpModal" v-if="changeDpModal">
+								<div class="modalHeader">
+									<p id="change-dp-title">Change Profile</p> <button  @click="changeDpModal=false" class="close">&times;</button>
+								</div>
+							</div>
 						</div>
 						
 						
@@ -33,31 +40,48 @@
 						<div id="security-info">
 							<p>Security</p>
 							<div id="forms">
-								<form>
+								<form @submit.prevent="editEmail()">
 									{% csrf_token %}
 									<label>Email</label><br>
-									<input type="email" name="" value="jerecojamespiso@gmail.com" disabled>
-									<button class="edit-btn">Edit</button>
+									<input type="email" name="" value="jerecojamespiso@gmail.com" v-bind:disabled="editEmailDisable">
+									<button type="submit" v-if="!email_save" @click="editEmailDisable=false" class="edit-btn">Edit</button>
+									<button v-if="email_save" class="save-btn" type="submit"> Save</button>
 						
 								</form>
-								<form>
+								<form @submit.prevent="editPassword()">
 									{% csrf_token %}
 									<label>Password</label><br>
-									<input type="password" name="" value="11111111" disabled>
-									<button class="edit-btn">Edit</button>
+									<input type="password" name="" value="11111111" v-bind:disabled="editPassDisable">
+									<button type="submit" v-if="!password_save" @click="editPassDisable=false" class="edit-btn">Edit</button>
+									<button v-if="password_save" class="save-btn" type="submit"> Save</button>
 								</form>
-								<form>
+								<form @submit.prevent="editHint()">
 									{% csrf_token %}
 									
 									<label>Hint</label><br>
-									<input type="text" value="jerecojamespiso@gmail.com" disabled>
-									<button class="edit-btn">Edit</button>
+									<input  type="text" value="jerecojamespiso@gmail.com" v-bind:disabled="editHintDisable">
+									<button type="submit" v-if="!hint_save" @click="editHintDisable=false"class="edit-btn">Edit</button>
+									<button v-if="hint_save" class="save-btn" type="submit">Save</button>
 								</form>
 								<br><br>
 							</div>
-								
+							
+							<!-- modal for verifying password -->
+							<div class="passwordModal" v-if="changePassModal">
+								<div class="modalHeader">
+									<p id="change-password-title">Verify Password</p> <button  @click="changePassModal=false" class="close">&times;</button>
+								</div>
+								<div class="modalBody">
+									<form>
+										<label>Re-type password</label>
+										<input type="text" name="" id="verify-pass">
+										<button class="verify-pass-btn">Verify</button>
+									</form>
+								</div>
+							</div>
 							
 						</div>
+						<!-- id security-info ends -->
 					</div>
 					<div class="col l12 m12 s12 xl12 other-info">
 						<div id="other-info">

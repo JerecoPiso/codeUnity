@@ -11,14 +11,16 @@
 			</div>
 			<div class="flex-item2">
 				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
+				<button class="btn-back" onclick="back()"> <span class="fa fa-arrow-left"></span> Back</button>
+				<button class="btn-home" onclick="home()"> <span class="fa fa-home"></span> Home</button>
 				<div class="row clear-float">
 				<!-- 	-->
 					<div class="col l6 s12 m12 xl6">
 
-						<p class="questions-asked-p">Questions Asked (128)</p>
+						<p class="questions-asked-p">Questions Asked ({{ total_question }})</p>
 						<ul class="collection question-ask" id="question-ask">
-
-							<li class="collection-item">How to limit the checked checkboxes using VueJS?
+							{% for question in myquestions %}
+							<li class="collection-item">{{ question.question }} <br>
 								<cite class="date-asked">asked: June 12 2020</cite>
 								<div class="question-info">
 									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
@@ -27,41 +29,9 @@
 
 								</div>
 							</li>
-							<li class="collection-item">How to limit the checked checkboxes using VueJS?
-								<div class="question-info">
-									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
-									<button type="button" id="btn-remove"> <span class="fa fa-trash"></span> Remove </button>
-									<button type="button" id="set-to-answered">Set as Answered</button>
-
-								</div></li>
-							<li class="collection-item">How to limit the checked checkboxes using VueJS?
-							<div class="question-info">
-									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
-									<button type="button" id="btn-remove"> <span class="fa fa-trash"></span> Remove </button>
-									<button type="button" id="set-to-answered">Set as Answered</button>
-
-								</div></li>
-							<li class="collection-item">How to limit the checked checkboxes using VueJS?
-							<div class="question-info">
-									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span></button>
-									<button type="button" id="btn-remove"> <span class="fa fa-trash"></span> Remove </button>
-									<button type="button" id="set-to-answered">Set as Answered</button>
-
-								</div></li>
-							<li class="collection-item">How to limit the checked checkboxes using VueJS?
-							<div class="question-info">
-									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
-									<button type="button" id="btn-remove"> <span class="fa fa-trash"></span> Remove </button>
-									<button type="button" id="set-to-answered">Set as Answered</button>
-
-								</div></li>
-							<li class="collection-item">How to limit the checked checkboxes using VueJS?
-							<div class="question-info">
-									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
-									<button type="button" id="btn-remove"> <span class="fa fa-trash"></span> Remove </button>
-									<button type="button" id="set-to-answered">Set as Answered</button>
-
-								</div></li>
+							{% endfor %}
+						
+				
 
 						</ul>
 						
@@ -70,19 +40,19 @@
 					</div>
 					<div class="col l6 s12 m12 xl6">
 						<div id="ask-question">
-							<form>
+							<form @submit.prevent="askQuestion()">
 								{% csrf_token %}
 								<p>Ask Question</p>
 								<label>Question</label>
-								<textarea></textarea>
+								<textarea v-model="questionInfo.question"></textarea>
 								<label>Code(Optional)</label>
-								<textarea></textarea>
+								<textarea v-model="questionInfo.code"></textarea>
 								<label>Language(Optional)</label>
-								 <select class="browser-default" id="select">
+								 <select class="browser-default" id="select" v-model="questionInfo.language">
 								    <option value="" disabled selected>Select Language</option>
-								    <option value="1">Option 1</option>
-								    <option value="2">Option 2</option>
-								    <option value="3">Option 3</option>
+								    <option>Option 1</option>
+								    <option>Option 2</option>
+								    <option>Option 3</option>
 								  </select>
 								<button type="submit" id="ask-btn">Ask</button>
 							</form>

@@ -13,24 +13,18 @@
 		
 				<img class="signup-logo" src="/media/images.png">
 				<div>
-					<!-- <label>E-mail</label>
-					<input type="email" name="email" required>
-					<label>Password</label>
-                    <input type="password" name="password" required>
-                    <label>Re-type Password</label>
-                    <input type="password" name="password2" required> -->
+	
                      {% csrf_token %}
             
-             
+            		   <label>Username</label>
+					   <input type="text" class="login-input" v-model="signupInfo.username" required>
 		               <label >E-mail</label>
 		               <input  type="email" v-model="signupInfo.email" required>
-		    
 		                <label>Password</label>
 		               <input type="password" v-model="signupInfo.password" required>
 		                <label>Re-type password</label>
 		               <input type="password" v-model="signupInfo.password2" required>
-                   <!--  <label>Photo</label>
-					<input type="file" id="border_none" style="border: none" name="image" required> -->
+                  
 					<button type="submit" id="btn-signup">Signup</button>
 					  <p class="center-align error" v-if="error">[error]</p>
                		  <p class="center-align success" v-if="success">[success]</p>

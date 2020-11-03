@@ -7,7 +7,6 @@ urlpatterns = [
      url(r'^signup', views.signup, name="Signup"),
      url(r'^register', views.register, name="Register"),
      url(r'^upload', views.folderUpload, name="upload"),
-     url(r'^get', views.get, name="Register"),
      url(r'^download/(?P<folder>.+)$', views.download, name="Download Project"),
      url(r'^sendEmail', views.sendEmail, name="sendEmail"),
      url(r'^verify', views.verify, name="Verify"),

@@ -11,10 +11,11 @@
 	margin-left: 1%;
 	margin-top: 2%;
 	background-color: rgb(242, 242, 242);
-	padding: 2% 5% 5% 5%;
+	padding: 1% 5% 5% 5%;
+	border-radius: 0.7rem;
 }
 #ask-question p{
-	margin: 2% 2% 2% 0%;
+	margin: 1% 2% 1% 0%;
 	font-size: 150%;
 	color: rgb(0, 128, 128);
 
@@ -81,6 +82,7 @@ textarea{
 	font-size: 150%;
 	padding: 1.7%;
 	margin: 2% 0% 1.5% 0%;
+	border-radius: 0.3rem;
 	/*border: 2px solid rgb(0, 128, 128);*/
 	text-align: center;
 	font-family: sans-serif;

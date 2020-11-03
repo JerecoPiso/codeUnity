@@ -2,7 +2,7 @@ var signup = new Vue({
 	delimiters: ['[', ']'],
 	el: "#signup",
 	data:{
-		signupInfo: {email: '', password: '', password2: ''},
+		signupInfo: {username: '', email: '', password: '', password2: ''},
 		error: '',
 		success: ''
 	},
@@ -31,6 +31,7 @@ var signup = new Vue({
 								signup.signupInfo.email = ''
 								signup.signupInfo.password2 = ''
 								signup.signupInfo.password = ''
+								signup.signupInfo.username = ''
 							}, 5000)
 
 						}

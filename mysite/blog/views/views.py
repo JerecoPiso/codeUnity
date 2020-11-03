@@ -1,36 +1,32 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from blog.models import User, Developers
+from blog.models import User, Developers, Projects, Questions
 from django.core.files.storage import FileSystemStorage
 import os, datetime, json, zipfile, tempfile, mimetypes
 from django.conf import settings
 from django.contrib import messages
 import io, smtplib, ssl
-from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import Paginator
+import random
+
 rootDir = ""
 message = "www"
 resp = ""
 
 def sendEmail(request):
- 
+      code = str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))
       port = 465  # For SSL
       smtp_server = "smtp.gmail.com"
-      sender_email = "jamesjerecopiso@gmail.com"  # Enter your address
-      receiver_email = "jerecojamespiso@gmail.com"  # Enter receiver address
+      sender_email = "jamesjerecopiso@gmail.com"  # sites email
+      receiver_email = "jerecojamespiso@gmail.com"  # receivers email
       password = "prograpper20"
-      # message = """\
-      # codeUnity
 
-
-
-      # This message is sent from Python."""
-
-      message = 'Subject: {}\n\n{}'.format("Verify Account", "Verify")
+      message = 'Subject: {}\n\n{}'.format("Verify Account", "Verification code : " + code)
       context = ssl.create_default_context()
       with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-          server.login(sender_email, password)
-          server.sendmail(sender_email, receiver_email, message)
+         server.login(sender_email, password)
+         server.sendmail(sender_email, receiver_email, message)
    
       return HttpResponse("sended")
 
@@ -38,18 +34,18 @@ def folderUpload(request):
      return render(request, "html/upload.html")
 
 def download(request, folder):
-    project_name="public"
      # FIXME: Change this (get paths from DB etc)
+    # print(folder)
     filenames = []
     files= getfilenames(folder)
     for names in files:
     
       filenames.append(settings.MEDIA_ROOT +"\\"+folder+"\\"+names.strip("."))
     
-    zip_subdir = "zip"# name of the zip file to be downlaoded
-    zip_filename = "%s.zip" % zip_subdir
+    # zip_subdir = "zip"# name of the zip file to be downlaoded
+    zip_filename = "%s.zip" % folder
 
-    # Open StringIO to grab in-memory ZIP contents
+    # Open BytesO to grab in-memory ZIP contents
     s = io.BytesIO()
 
     # The zip compressor
@@ -58,13 +54,16 @@ def download(request, folder):
     for fpath in filenames:
     # Calculate path for file in zip
       fdir, fname = os.path.split(fpath)
-      zip_path = os.path.join(zip_subdir, fpath[fpath.index("media", 0):len(fpath)])
-  
-      zf.write(fpath, zip_path)
+      zip_path = os.path.join(folder, fpath[fpath.index("media", 0):len(fpath)])
+      zf.write(fpath, zip_path.replace("media\\",""))
      
     
     zf.close() 
-  
+    download_total = Projects.objects.get(project_name__exact=folder)
+    download_total.downloads = download_total.downloads + 1
+
+    download_total.save()
+    
     resp = HttpResponse(s.getvalue())
     resp["Content-Disposition"] = "attachment; filename=%s" % zip_filename
 
@@ -75,7 +74,6 @@ def getfilenames(folder):
     rootDir = settings.MEDIA_ROOT +"\\"+folder+"\\"
 
     fileSet = set()
-
     for dir_, _, files in os.walk(rootDir):
       for fileName in files:
         relDir = os.path.relpath(dir_, rootDir)
@@ -83,45 +81,39 @@ def getfilenames(folder):
         fileSet.add(relFile)
     return list(fileSet)
 
-
-
-def get(request):
-    if request.method == 'POST':
-        
-        dir=request.FILES
-        dirlist=dir.getlist('files')
-
-        pathlist=request.POST.getlist('paths')
-        # print(pathlist[0].find('/'))
-        if not dirlist:
-            return HttpResponse('files not found')
-        else:
- 
-            for file in dirlist:
-                position = os.path.join(os.path.abspath(os.path.join(os.getcwd(),'media')),'/'.join(pathlist[dirlist.index(file)].split('/')[:-1]))
-                
-                if not os.path.exists(position):
-                    os.makedirs(position)
-             
-                storage = open(position+'/'+file.name, 'wb+')    
-                for chunk in file.chunks():          
-                    storage.write(chunk)
-                storage.close()                 
-            return HttpResponse("1")
-      
- 
-    return HttpResponse("hha")
-
 def index(request):
-  # messages.error(request, 'Document deleted.')
-  contact_list = Developers.objects.all()
-  paginator = Paginator(contact_list, 5) # Show 25 contacts per page.
-  # print(contact_list)
-  page_number = request.GET.get('page')
-  
-  page_obj = paginator.get_page(page_number)
+  # contact_list = Developers.objects.all()
+  # paginator = Paginator(contact_list, 5)
+  # page_number = request.GET.get('page')
+  # page_obj = paginator.get_page(page_number)
+  total_devs = Developers.objects.all().count()
+  if (total_devs / 1000) >= 1:
+    devs = str(1000*(total_devs/1000))+"+"
+  elif (total_devs/100) >= 1:
+    devs = str(100*(total_devs/100))+"+"
+  else:
+    devs = str(total_devs)
+
+  total_projects = Projects.objects.all().count()
+  if (total_projects / 1000) >= 1:
+    proj = str(1000*(total_projects/1000))+"M+"
+  elif (total_projects  / 100) >= 1:
+    proj = str(100*(total_projects/100))+"K+"
+  else:
+    proj = str(total_projects)
+
+  developers = Developers.objects.all()
+
   request.session.title = "Code Unity"
-  return render(request, 'html/index.html',{'page_obj': page_obj, 'contact': contact_list})
+  apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
+  context = {}
+  # context['page_obj'] = page_obj
+  # context['contact'] = contact_list
+  context['apps'] = apps
+  context['total_devs'] = devs.replace(".0", "")
+  context['total_projects'] = proj
+  context['developers'] = developers
+  return render(request, 'html/index.html', context)
 
 def login(request):
   if request.session.get("loggin"):
@@ -136,12 +128,14 @@ def verify(request):
   return render(request, 'html/verify.html')
 
 def projects(request):
+  project = Projects.objects.all()
   request.session.title = "Projects"
-  return render(request, 'html/projects.html')
+  return render(request, 'html/projects.html', {'projects': project})
 
 def questions(request):
+  myquestions = Questions.objects.all()
   request.session.title = "Questions"
-  return render(request, 'html/forum.html')
+  return render(request, 'html/forum.html', {'myquestions': myquestions})
 
 def userLogin(request):
     msg = ""
@@ -155,9 +149,11 @@ def userLogin(request):
             if checker:
                 user = Developers.objects.get(email__exact = request.POST['email'])
 
-                if user.password == request.POST['password']:
-
+                if check_password(request.POST['password'], user.password):
+                    request.session['id'] = user.id
                     request.session['loggin'] = True
+                    request.session['username'] = user.uname
+        
 
                     msg = "Success"
 
@@ -193,7 +189,8 @@ def register(request):
                                # rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
                                # fss = FileSystemStorage()
                                # filename = fss.save(rename, upload_file)
-                               user = Developers(email=request.POST["email"], password = request.POST["password"], photo='haha')
+                               hashed_pwd = make_password(request.POST['password'], salt=None, hasher='default')
+                               user = Developers(email=request.POST["email"], password = hashed_pwd, photo='haha', uname = request.POST['username'])
                                user.save()
                                msg = "Registered successfully"
                     

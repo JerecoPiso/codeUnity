@@ -4,11 +4,12 @@
 	{% load static %}
 	<title>User</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/userzzzzzzzzzzzzzzzzzcc.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/usr.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chart.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/projectszzzz.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questionst.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settings.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/projjectts.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/q.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/sets.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/project_filesedexxsedessd.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}"/>  
 </head>
 <body>
@@ -25,10 +26,105 @@
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
 <script type="text/javascript">
+	var changeDp = new Vue({
+		el: "#user-dp",
+		data:{
+			changeDpModal: false
+		},
+		medthods:{
+			changeDp: function(){
+				alert("hehe")
+			}
+		}
+	})
+	var settings = new Vue({
+		el: "#security-info",
+		data:{
+			editEmailDisable: true,
+			editPassDisable: true,
+			editHintDisable: true,
+			email_save: false,
+			password_save: false,
+			hint_save: false,
+			disabled: false,
+			changePassModal: false
+		},
+		methods:{
+			editEmail: function(){
+				if(settings.email_save){
+					// edit code
+				}else{
+					settings.email_save = true
+				}
+			},
+			editPassword: function(){
+				if(settings.password_save){
+					// edit code
+					settings.changePassModal = true
+				}else{
+					settings.password_save = true
+				}
+			},
+			editHint: function(){
+				if(settings.hint_save){
+					// edit code
+				}else{
+					settings.hint_save = true
+				}
+			}
+		}
+	})
+	var questions = new Vue({
+		el: "#ask-question",
+		data: {
+			questionInfo: {question: '', code: '', language: ''}
+		},
+		methods:{
+			askQuestion: function(){
+				let data = new FormData()
+
+				data.append('question', questions.questionInfo.question)
+				data.append('code', questions.questionInfo.code)
+				data.append('language', questions.questionInfo.language)
+				axios.post("askQuestion", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
+					alert(response.data)
+				})
+			}
+		}
+	})
+	var hehe = new Vue({
+		delimiters: ['[', ']'],
+		el: ".folders-files",
+		data:{
+			path: '',
+			filename: '',
+			code: ''
+		},
+		methods: {
+			getFile: function(){
+				// document.querySelector('[name=csrfmiddlewaretoken]').value
+				
+				let fd = new FormData();
+				 
+				 	fd.append('path', hehe.path)
+				 	fd.append('fname', hehe.filename)
+		
+
+				 axios.post('../readFile', fd,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
+
+				 	 if(response.data != ""){
+				 	 	hehe.code = response.data
+				 	 }
+				 	
+				 })
+			}
+		}
+	})
 	var folderUpload = new Vue({
 		el: "#files",
 		data:{
-			folder: ''
+			folder: '',
+			about: ''
 		},
 		methods:{
 			handleFileUpload: function(){
@@ -36,17 +132,17 @@
 				//alert(this.files)
 			},
 			file: function(){
-				//  var pos = files[0]['webkitRelativePath'].indexOf("/");
-    //        // alert(files[0]['webkitRelativePath'].slice(0, 2))
-				// alert(document.querySelector('[name=csrfmiddlewaretoken]').value)
+				var pos = folderUpload.folder[0]['webkitRelativePath'].indexOf("/");
 				let fd = new FormData();
 				 for(var i = 0; i < folderUpload.folder.length; i++){
 				 	fd.append('files', folderUpload.folder[i])
 				 	fd.append('paths', folderUpload.folder[i]['webkitRelativePath'])
-				 	//fd.append("csrfmiddlewaretoken", ocument.csrfmiddlewaretoken.val)
-				 }
 
-				 axios.post('get', fd,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
+				 }
+				 fd.append("project_name", folderUpload.folder[0]['webkitRelativePath'].slice(0, pos))
+				 fd.append('about', folderUpload.about)
+
+				 axios.post('uploadProject', fd,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
 
 				 	alert(response.data)
 				 })
@@ -56,6 +152,12 @@
 
 		}
 	})
+	function back(){
+		window.history.back()
+	}
+	function home(){
+		window.location.href = "/codeunity/user/"
+	}
 </script>
 </body>
 </html>

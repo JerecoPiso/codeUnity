@@ -1,7 +1,7 @@
 #btn-login, #btn-verify, #btn-signup{
 	width: 100%;
 	padding: 3%;
-	margin-top: -5%;
+	
 	background-color: rgb(0, 128, 128);
 	color: rgb(255,255,255);
 	border: none;
@@ -31,19 +31,51 @@ body{
     padding-top: 10%;
  /*   background-color:  rgb(0, 128, 128);*/
 }
-#login-form, #signup-form, #verify-form{
-	background-color: rgb(239, 245, 245);
-	width: 25%;
-	margin-left: 37%;
-	padding: 1.7%;
-	margin-top: 5%;
-	border-radius: 1rem
-
-
+@media(max-width: 699px){
+	#login-form, #signup-form, #verify-form{
+		background-color: rgb(239, 245, 245);
+		width: 50%;
+		margin-left: 25%;
+		padding: 1.7%;
+		margin-top: 20%;
+		border-radius: 1rem
+	}
 }
+@media(min-width: 700px) and (max-width: 991px){
+	#login-form, #signup-form, #verify-form{
+		background-color: rgb(239, 245, 245);
+		width: 35%;
+		margin-left: 32.5%;
+		padding: 1.7%;
+		margin-top: 10%;
+		border-radius: 1rem
+	}
+}
+@media(min-width: 992px) and (max-width: 1999px){
+	#login-form, #signup-form, #verify-form{
+		background-color: rgb(239, 245, 245);
+		width: 25%;
+		margin-left: 37%;
+		padding: 1.7%;
+		margin-top: 5%;
+		border-radius: 1rem
+	}
+}
+@media(min-width: 1200px){
+	#login-form, #signup-form, #verify-form{
+		background-color: rgb(239, 245, 245);
+		width: 25%;
+		margin-left: 37%;
+		padding: 1.7%;
+		margin-top: 5%;
+		border-radius: 1rem
+	}
+}
+
 #login-form label, #signup-form label, #verify-form label{
 	font-size: 100%;
 	color: rgb(0,0,0);
+	
 	font-weight: bold;
 }
 .login-logo, .signup-logo{
@@ -53,10 +85,12 @@ body{
 	margin-left: 37%;
 	display: block;
 }
-#login-form input, #signup-form input, #verify-form input{
+#login-form div input, #signup-form div input, #verify-form div input{
 	border: 1px solid rgb(0, 128, 128);
 	height: 35px;
 	border-radius: 0.3rem;
+	margin-bottom: 3%;
+	
 }
 #login-form input:focus, #signup-form input:focus, #verify-form input:focus{
 	border: 1px solid rgb(0, 128, 128);

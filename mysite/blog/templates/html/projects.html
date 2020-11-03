@@ -22,72 +22,24 @@
 						<li> <a href="">ExpressJS</a> </li>
 						<li> <a href="">Django</a> </li>
 						<li> <a href="">Flask</a> </li>
-						<li> <a href="">Codeigniter</a> </li>				
+						<li> <a href="">Codeigniter</a> </li>
+						<!-- <p class="languages">Frameworks</p>			 -->
 					</ul>
 				</div>
 				<div class="col l10 m9 s12 xl10">
 				
 					<button id="btn-languages">Languages</button>
-					<input type="text" id="search" placeholder="Enter name of project . . .">		
+					<input type="text" id="search" placeholder="Search project . . .">		
 					<div class="projects-div clear-float">
-
+						{% for project in projects %}
 						<div class="project-box">
-							<a href="#" class="app-title">Real Time Chat App</a>
+							<a href="#" class="app-title">{{ project.project_name }}</a>
 							<div>
-								Real time chat ap is blablalalalalalalalaaaaaaaaaa
-								lalalaReal time chat ap is blablalalalalalalalaaaaaaaaaa
-								lalala
-								lala
-								Real time chat ap is blablalalalalalalalaaaaaaaaaa
-								lalala
-								lala
-								Real time chat ap is blablalalalalalalalaaaaaaaaaa
-								lalala
-								lala
-								Real time chat ap is blablalalalalalalalaaaaaaaaaa
-								lalala
-								lala
-
+								{{ project.about }}
 							</div>
-								<a href="download/js" class="download-app"><span class="fa fa-download"></span> </a>
+								<a href="download/{{ project.project_name }}" class="download-app"><span class="fa fa-download"></span> </a>
 						</div>
-						<div class="project-box">
-							<a href="#" class="app-title">Real Time Chat App</a>
-							<div>
-								Real time chat ap is blablalalalalalalalaaaaaaaaaa
-								lalala
-								lala
-							</div>
-								<a href="download/js" class="download-app"><span class="fa fa-download"></span> </a>
-						</div>
-						<div class="project-box">
-							<a href="#" class="app-title">Real Time Chat App</a>
-							<div>
-								Real time chat ap is blablalalalalalalalaaaaaaaaaa
-								lalala
-								lala
-							</div>
-							<a href="download/js" class="download-app"><span class="fa fa-download"></span> </a>
-						</div>
-						<div class="project-box">
-							<a href="#" class="app-title">Real Time Chat App</a>
-							<div>
-								Real time chat ap is blablalalalalalalalaaaaaaaaaa
-								lalala
-								lala
-							</div>
-								<a href="download/js" class="download-app"><span class="fa fa-download"></span> </a>
-						</div>
-						<div class="project-box">
-							<a href="#" class="app-title">Real Time Chat App</a>
-							<div>
-								Real time chat ap is blablalalalalalalalaaaaaaaaaa
-								lalala
-								lala
-							</div>
-							<a href="download/js" class="download-app"><span class="fa fa-download"></span> </a>
-						</div>
-						
+						{% endfor %}
 					</div>
 
 					<!--  <ul class="pagination">

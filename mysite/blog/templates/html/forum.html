@@ -37,34 +37,18 @@
 			</div>
 			<!-- <strong>Questions</strong> -->
 			<ul class="questions-box">
+				{% for question in myquestions %}
 				<li class="question">
-					<a href="">How to make a component in VUEJS?</a> <br>
+					<a href="">{{ question.question }}</a> <br>
 					<cite style="">by: Jereco James Piso <i>(2 weeks ago)</i></cite>
 					<div class="infos">
-						<span class="fa fa-comments comments" style=""></span><b class="question-info">  100</b> 
-							<b class="question-info"><span class="fa fa-thumbs-up likes" style=""></span> 100</b>
+						<span class="fa fa-comments comments" style=""></span><b class="question-info">  {{ question.likes }}</b> 
+							<b class="question-info"><span class="fa fa-thumbs-up likes" style=""></span> {{ question.likes }}</b>
 					</div>
 				
 				</li>
-				<li class="question">
-					<a href="">How to make a component in VUEJS?</a> <br>
-					<cite style="">by: Jereco James Piso <i>(2 weeks ago)</i></cite>
-					<div class="infos">
-						<span class="fa fa-comments comments" style=""></span><b class="question-info">  100</b> 
-							<b class="question-info"><span class="fa fa-thumbs-up likes" style=""></span> 100</b>
-					</div>
-				
-				</li>
-				<li class="question">
-					<a href="">How to make a component in VUEJS?</a> <br>
-					<cite style="">by: Jereco James Piso <i>(2 weeks ago)</i></cite>
-					<div class="infos">
-						<span class="fa fa-comments comments" style=""></span><b class="question-info">  100</b> 
-							<b class="question-info"><span class="fa fa-thumbs-up likes" style=""></span> 100</b>
-					</div>
-				
-				</li>
-
+				{% endfor %}
+			
 			</ul>
 			
 		</div>
@@ -76,7 +60,6 @@
 					<a href="">IOS</a>
 					<a href="">Front-End</a>
 					<a href="">Back-End</a>
-					
 				</ul>
 		</div> 
 	</div>

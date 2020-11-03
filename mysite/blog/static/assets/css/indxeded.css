@@ -383,7 +383,7 @@
 	.img-container #form{
 		width: 27%;
 		position: absolute;
-		top: 12%;
+		top: 8%;
 		left: 67%;
 	    /*color: rgb(255,255,255);*/
 	    background-color: rgb(239, 245, 245);
@@ -477,6 +477,7 @@
 	background-color: rgb(0, 128, 128);
 	width: 100%;
 	padding: 3%;
+	margin-top: 1%;
 	color: rgb(255,255,255);
 	border: none;
 	border-radius: 0.5rem;
@@ -526,6 +527,12 @@
 	font-size: 200%;
 	color: rgb(0, 128, 128);
 }
+.dev-name{
+	background-color: rgba(0,0,0,0.4);
+	width: 100%;
+	padding: 1.5%;
+	text-align: center;
+}
 .error{
 	background-color: #ff5252 ;
 	color: rgb(255,255,255);
@@ -560,12 +567,14 @@
 	border-radius: 0.3rem;
 	width: 100%;
 	color: rgb(0,0,0);
-
+	margin-bottom: 3%;
 }
 .img-container #form label{
+	margin-top: -10%;
 	font-size: 100%;
-	color: rgb(0,0,0);
-	
+	color: rgb(10, 15, 15);
+	font-weight: bold;
+	font-family: sans-serif;
 }
 
 .footer-links li a{
@@ -624,7 +633,7 @@
 	float: right;
 }
 #slogan-2{
-	margin: 3% 0% 4% 0%;
+	margin: 2% 0% 3% 0%;
 	font-size: 100%;
 	text-align: center;
 	font-size: 250%;
