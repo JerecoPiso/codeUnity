@@ -13,10 +13,7 @@ import random
 rootDir = ""
 message = "www"
 resp = ""
-
-def folderUpload(request):
-     return render(request, "html/upload.html")
-
+# download folder in a zip format
 def download(request, folder):
      # FIXME: Change this (get paths from DB etc)
     # print(folder)
@@ -137,12 +134,12 @@ def verified(request):
 
 def projects(request):
   project = Projects.objects.all()
-  request.session.title = "Projects"
+  request.session['title'] = "Projects"
   return render(request, 'html/projects.html', {'projects': project})
 
 def questions(request):
   myquestions = Questions.objects.all()
-  request.session.title = "Questions"
+  request.session['title'] = "Questions"
   return render(request, 'html/forum.html', {'myquestions': myquestions})
 
 def userLogin(request):
@@ -231,9 +228,9 @@ def register(request):
      return HttpResponse(msg)
      
 def signup(request):
-     request.session.title = "Signup"
+     request.session['title'] = "Signup"
      return render(request, "html/signup.html")
 
 def jobs(request):
-     request.session.title = "Jobs"
+     request.session['title'] = "Jobs"
      return render(request, "html/jobs.html")

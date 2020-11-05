@@ -555,7 +555,7 @@
 }
 
 .boxes{
-	background-color: rgba(230, 230, 230, 0.8);
+	background-color: rgba(230, 230, 230, 0.4);
 	padding: 5%;
 	margin-top: -1%;
 }
@@ -771,4 +771,4 @@
 }
 ::-webkit-scrollbar{
 	display: none
-}
+}asdasd

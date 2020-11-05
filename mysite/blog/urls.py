@@ -6,7 +6,6 @@ urlpatterns = [
      url(r'^login', views.login, name="Login"),
      url(r'^signup', views.signup, name="Signup"),
      url(r'^register', views.register, name="Register"),
-     url(r'^upload', views.folderUpload, name="upload"),
      url(r'^download/(?P<folder>.+)$', views.download, name="Download Project"),
      url(r'^verify', views.verify, name="Verify"),
      url(r'^projects', views.projects, name="Projects"),
