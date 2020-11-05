@@ -14,22 +14,6 @@ rootDir = ""
 message = "www"
 resp = ""
 
-def sendEmail(request):
-      code = str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))
-      port = 465  # For SSL
-      smtp_server = "smtp.gmail.com"
-      sender_email = "jamesjerecopiso@gmail.com"  # sites email
-      receiver_email = "jerecojamespiso@gmail.com"  # receivers email
-      password = "prograpper20"
-
-      message = 'Subject: {}\n\n{}'.format("Verify Account", "Verification code : " + code)
-      context = ssl.create_default_context()
-      with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-         server.login(sender_email, password)
-         server.sendmail(sender_email, receiver_email, message)
-   
-      return HttpResponse("sended")
-
 def folderUpload(request):
      return render(request, "html/upload.html")
 
