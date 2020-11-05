@@ -13,5 +13,6 @@ urlpatterns = [
      url(r'^projects', views.projects, name="Projects"),
      url(r'^jobs', views.jobs, name="Jobs"),
      url(r'^questions', views.questions, name="Questions"),
+     url(r'^verified', views.verified, name="Verified"),
      url(r'^userLogin', views.userLogin, name="User Login")
 ]

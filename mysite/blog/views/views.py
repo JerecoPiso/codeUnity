@@ -127,6 +127,30 @@ def verify(request):
   request.session.title = "Verify Account"
   return render(request, 'html/verify.html')
 
+def verified(request):
+  if request.session.get('code') != request.POST['code']:
+    return HttpResponse("Incorrect code!")
+  else:
+    # saved new user's info to the db if the verification code match
+    hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
+    user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo='haha', uname = request.session.get('reg_username'))
+    user.save()
+    # save session for the users panel
+    request.session['id'] = user.id
+    request.session['loggin'] = True
+    request.session['username'] = user.uname
+    # del all sessions stored
+    try:
+      del request.session['code']
+      del request.session['reg_password']
+      del request.session['reg_email']
+      del request.session['reg_username']
+    except:
+      pass
+
+    return HttpResponse("Correct")
+
+
 def projects(request):
   project = Projects.objects.all()
   request.session.title = "Projects"
@@ -189,10 +213,25 @@ def register(request):
                                # rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
                                # fss = FileSystemStorage()
                                # filename = fss.save(rename, upload_file)
-                               hashed_pwd = make_password(request.POST['password'], salt=None, hasher='default')
-                               user = Developers(email=request.POST["email"], password = hashed_pwd, photo='haha', uname = request.POST['username'])
-                               user.save()
-                               msg = "Registered successfully"
+                               code = str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))
+                               request.session['reg_email'] = request.POST['email']
+                               request.session['reg_password']  = request.POST['password']
+                               request.session['reg_photo'] = "haha"
+                               request.session['reg_username'] = request.POST['username']
+                               request.session['code'] = code
+                               port = 465  # For SSL
+                               smtp_server = "smtp.gmail.com"
+                               sender_email = "jamesjerecopiso@gmail.com"  # sites email
+                               receiver_email = request.POST['email']  # receivers email
+                               password = "prograpper20"
+
+                               message = 'Subject: {}\n\n{}'.format("Verify Account", "Verification code : " + code)
+                               context = ssl.create_default_context()
+                               with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+                                   server.login(sender_email, password)
+                                   server.sendmail(sender_email, receiver_email, message)
+
+                               msg = "Success"
                     
                     else:
                          msg = "Password didn't matched!"

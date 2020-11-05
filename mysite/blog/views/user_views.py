@@ -113,6 +113,8 @@ def uploadProject(request):
 def logout(request):
     try:
         del request.session['loggin']
+        del request.session['id']
+        del request.session['username']
 
     except:
         pass
