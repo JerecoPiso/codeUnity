@@ -15,7 +15,7 @@ def askQuestion(request):
     return HttpResponse("Failed")
 
 def index(request):
-
+    request.session['title'] = "Home"
     if request.session.get("loggin"):
          project = Projects.objects.filter(uploader_id__exact=request.session['id']).count()
          question = Questions.objects.filter(asker_id__exact=request.session['id']).count()
@@ -24,6 +24,7 @@ def index(request):
          return redirect("/codeunity/login")
 
 def projects(request):
+        request.session['title'] = "Projects"
         count = Projects.objects.filter(uploader_id__exact=request.session['id']).count()
         proj = Projects.objects.filter(uploader_id__exact=request.session['id'])
         return render(request, 'html/user_pages/projects.html', {'myproject':proj, 'count': count})
@@ -43,6 +44,7 @@ def readFile(request):
     return HttpResponse(str(ret))
 # getting the directories and files the users project
 def project_files(request, folder):
+    request.session['title'] = folder
     context = {}
     folder_checker = folder.find("%")
     if folder_checker < 0:
@@ -77,6 +79,7 @@ def project_files(request, folder):
     return render(request, 'html/user_pages/project_files.html', context)
 
 def questions(request):
+    request.session['title'] = "Questions"
     total_question = Questions.objects.filter(asker_id__exact=request.session['id']).count()
     myquestion = Questions.objects.all()
     return render(request, 'html/user_pages/questions.html', {'myquestions': myquestion, 'total_question': total_question})
@@ -122,4 +125,5 @@ def logout(request):
     return redirect('/codeunity/login')
 
 def settings(request):
+    request.session['title'] = "Settings"
     return render(request, 'html/user_pages/settings.html')
