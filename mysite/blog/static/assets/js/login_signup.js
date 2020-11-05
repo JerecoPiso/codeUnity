@@ -1,13 +1,15 @@
-var signup = new Vue({
+va	var signup = new Vue({
 	delimiters: ['[', ']'],
 	el: "#signup",
 	data:{
 		signupInfo: {username: '',email: '', password: '', password2: ''},
 		error: '',
-		success: ''
+		success: '',
+		status: 'Signup'
 	},
 	mounted: function(){
 		// alert($('input[name=csrfmiddlewaretoken]').val())
+
 	},
 	methods: {
 		register: function(){
@@ -21,20 +23,21 @@ var signup = new Vue({
 
 					 var data = signup.toFormData(signup.signupInfo);
 					axios.post("register", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
-						if(response.data != "Registered successfully"){
-							signup.error = response.data;
-						}else{
-							signup.success = response.data
-
-							setTimeout(function(){							
-								signup.success = "";
-								signup.signupInfo.email = ''
-								signup.signupInfo.password2 = ''
-								signup.signupInfo.password = ''
-								signup.signupInfo.username = ''
-							}, 5000)
-
-						}
+						
+							if(response.data != "Success"){
+								signup.error = response.data;
+								setTimeout(function(){
+									signup.error = "";
+												
+								}, 2000)
+							}else{
+								$("#btn-signup").css({'opacity': '0.6'})
+								signup.status = 'Redirecting...'
+								setTimeout(function(){
+									window.location.href = "verify"
+								}, 2000)
+								
+							}
 						
 					})
 				}	
@@ -43,10 +46,7 @@ var signup = new Vue({
 			 		signup.error =	"All fields must be filled up!";
 			}
 			
-			setTimeout(function(){
-							signup.error = "";
-							
-						}, 5000)
+			
 
 		},
 
@@ -59,7 +59,31 @@ var signup = new Vue({
       },
 	}
 })
-
+	var verify = new Vue({
+		el: "#verify",
+		data:{
+			verifyInfo: {code: ''}
+		},
+		methods:{
+			verify: function(){
+				let data = verify.toFormData(verify.verifyInfo)
+				axios.post('verified', data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(resp){
+					if(resp.data == "Correct"){
+						window.location.href = "/codeunity/user"
+					}else{
+						alert(resp.data)
+					}
+				})
+			},
+			 toFormData: function(obj){
+	            var form_data = new FormData();
+	            for(var key in obj){
+	                form_data.append(key, obj[key]);
+	            }
+	            return form_data;
+      		},
+		}
+	})
 
 var login = new Vue({
 		delimiters: ['[', ']'],
