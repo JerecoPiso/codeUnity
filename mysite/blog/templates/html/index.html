@@ -60,33 +60,53 @@
    		</div>
    	</div>
    <!--  <div class="slogan-2"> -->
-          <h2 id="slogan-2">Let's help each other be a<br> good developer.</h2>
+        
     
-      <div class="row pt-3">
-        <div class="col m4 s12">
-           <div class="total-devs">  <h4 class="mt-n3"> {{total_devs}} </h4><h6 class="mt-n5">
-            {% if total_devs == '1' %}
-               Developer
-            {% else %}
-               Developers
-            {% endif %}
-
-           </h6>
-
-             </div>
+      <div class="row boxes" style="">
+        <h2 id="slogan-2">Let's help each other be a<br> good developer.</h2>
+        <div class="col l4 xl4 m6 s12">
+           <div class="total-devs mt-20">
+                <span class="fa fa-users back-span"></span>
+                
+                   <p class="m-0 "> {{total_devs}} </p>
+                <strong>
+                  {% if total_devs == '1' %}
+                    Developer
+                  {% else %}
+                    Developers
+                  {% endif %}
+                </strong>
+              
+               
+              
+            </div>
+          
         </div>
-        <div class="col m4 s12">
-           <div class="total-apps" style=""><h4 class="mt-n3"> {{total_projects }} </h4><h6 class="mt-n5">
-            {% if total_projects == '1' %}
-               Project
-            {% else %}
-               Projects
-            {% endif %}</h6>
-
-             </div>
+        <div class="col xl4 l4 m6 s12">
+           <div class="total-apps mt-20" style="">
+              <span class="fa fa-folder-open back-span"></span>
+              <p class="m-0 "> {{total_projects}} </p>
+              <strong>
+                  {% if total_projects == '1' %}
+                     Project
+                  {% else %}
+                     Projects
+                  {% endif %}
+              </strong>     
+            </div>
+      
         </div>
-        <div class="col m4 s12">
-           <div class="total-jobs">  <h4 class="mt-n3"> 2000+ </h4><h6 class="mt-n5">Projects</h6>
+        <div class="col xl4 l4 m6 s12">
+           <div class="total-jobs mt-20">
+              <span class="fa fa-handshake back-span"></span>
+                  <p class="m-0 "> 20,000 </p>
+                  <strong>
+                      {% if total_projects == '1' %}
+                         Project
+                      {% else %}
+                         Projects
+                      {% endif %}
+                  </strong>     
 
              </div>
         </div>

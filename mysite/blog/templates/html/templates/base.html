@@ -9,16 +9,16 @@
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/indxeded.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/inndexedexex.css' %}">
 	{% if request.session.title == 'Jobs' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobszzedesed.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jooob.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionedcced.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questt.css' %}">
 	{% endif %}
 	
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectzzzsssszztttteecceebbeedd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prrooject.css' %}">
 	{% endif %}
 	
 </head>
@@ -57,7 +57,7 @@ var signup = new Vue({
 					signup.error = "Password didn't matched!";
 				}else{
 
-					 var data = signup.toFormData(signup.signupInfo);
+					var data = signup.toFormData(signup.signupInfo);
 					axios.post("register", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
 						if(response.data != "Registered successfully"){
 							signup.error = response.data;
