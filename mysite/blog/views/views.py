@@ -15,8 +15,7 @@ message = "www"
 resp = ""
 # download folder in a zip format
 def download(request, folder):
-     # FIXME: Change this (get paths from DB etc)
-    # print(folder)
+    
     filenames = []
     files= getfilenames(folder)
     for names in files:
@@ -63,23 +62,24 @@ def getfilenames(folder):
     return list(fileSet)
 
 def index(request):
+  request.session['title'] = "Home"
   # contact_list = Developers.objects.all()
   # paginator = Paginator(contact_list, 5)
   # page_number = request.GET.get('page')
   # page_obj = paginator.get_page(page_number)
   total_devs = Developers.objects.all().count()
   if (total_devs / 1000) >= 1:
-    devs = str(1000*(total_devs/1000))+"+"
+    devs = str(1000*(total_devs/1000))+"K+"
   elif (total_devs/100) >= 1:
-    devs = str(100*(total_devs/100))+"+"
+    devs = str(100*(total_devs/100))+"H+"
   else:
     devs = str(total_devs)
 
   total_projects = Projects.objects.all().count()
   if (total_projects / 1000) >= 1:
-    proj = str(1000*(total_projects/1000))+"M+"
+    proj = str(1000*(total_projects/1000))+"K+"
   elif (total_projects  / 100) >= 1:
-    proj = str(100*(total_projects/100))+"K+"
+    proj = str(100*(total_projects/100))+"H+"
   else:
     proj = str(total_projects)
 

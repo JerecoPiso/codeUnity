@@ -4,14 +4,6 @@
 {% block main_page %}
    {% include 'html/templates/header.html' %}
 <!-- 
-  {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}-->
-<!-- 
 {% for contact in page_obj %}
    
     {{ contact.email|upper }}<br>
@@ -43,9 +35,9 @@
               {% csrf_token %}
             
                <p class="form-title">codeUnity</p>
-                <label > Username</label>
-               <input  type="text" v-model="signupInfo.username" required>
-               <label > Email</label>
+               <label> Username</label>
+               <input type="text" v-model="signupInfo.username" required>
+               <label> Email</label>
                <input  type="email" v-model="signupInfo.email" required>
             
                 <label>Password</label>
@@ -84,7 +76,7 @@
         </div>
         <div class="col xl4 l4 m6 s12">
            <div class="total-apps mt-20" style="">
-              <span class="fa fa-folder-open back-span"></span>
+              <span class="fa fa-briefcase back-span"></span>
               <p class="m-0 "> {{total_projects}} </p>
               <strong>
                   {% if total_projects == '1' %}
@@ -94,7 +86,7 @@
                   {% endif %}
               </strong>     
             </div>
-      
+    
         </div>
         <div class="col xl4 l4 m6 s12">
            <div class="total-jobs mt-20">
@@ -148,7 +140,23 @@
                 <div class="col s12 m3">
                      <div class="card">
                         <div class="card-image">
-                          <img src="/media/it2.jpg">
+                          <img src="/media/dep.jpg" height="250px">
+                          <span class="card-title dev-name">{{ dev.uname }}</span>
+                        </div>
+                        <div class="card-content">
+                          <p>Sanaol Bina Bio</p>
+                        </div>
+                        <div class="card-action">
+                          <a href="#">See uploads...</a>
+                        </div>
+                   </div>
+                </div>
+                {% endfor %}
+                 {% for dev in developers %}
+                <div class="col s12 m3">
+                     <div class="card">
+                        <div class="card-image">
+                          <img src="/media/it2.jpg" height="250px">
                           <span class="card-title dev-name">{{ dev.uname }}</span>
                         </div>
                         <div class="card-content">

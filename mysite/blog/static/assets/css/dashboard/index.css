@@ -1,0 +1,174 @@
+.admin-panel{
+	height: auto;
+	border-bottom: 1px solid rgb(255,255,255);
+	padding: 10% 10% 1% 10%;
+	margin-bottom: -7%;
+}
+.admin-panel img{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	margin: auto;
+	display: block;
+}
+.admin-panel p{
+	margin-top: -10%;
+	color: rgb(255,255,255);
+	font-size: 200%;
+	letter-spacing: 1px;
+	text-align: center;
+}
+.admin-panel #user-name{
+	font-size: 100%;
+	margin-top: 5%;
+	text-align: center;
+}
+.bg-color{
+	background-color: rgb(0, 102, 102);
+}
+body{
+	background-color: rgba(230, 230, 230,0.5);
+}
+.card{
+	width: 100%;
+	height: 120px;
+	border: 1px solid rgb(0, 128, 128);
+}
+.card-body p{
+	font-size: 150%;
+	color: rgb(255,255,255);
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 4%;
+	opacity: 0.7;
+
+}
+.card-header span{
+	font-size: 50px;
+	margin-left: 4%;
+	opacity: 0.8;
+	color: rgb(255,255,255);
+}
+.card-header{
+	border-bottom: 1px solid rgba(255,255,255,0.2);
+	padding: 2%;height: auto;
+}
+.card-projects{
+	background-color: rgb(92, 138, 138);
+}
+.card-notif{
+	background-color: rgb(0, 153, 51);
+}
+.card-question{
+	background-color: rgb(0, 102, 153);
+}
+.card-languages{
+	background-color: rgb(0, 51, 102);
+}
+.card-jobs{
+	background-color: rgb(0, 51, 51);
+}
+
+.dropbtn {
+	margin-top: -10px;
+	margin-left: 5px;
+	float: right;
+    color: white;
+    height: 50px;
+    font-size: 14px;
+  
+}
+
+.dropbtn p{
+	font-size: 110%;
+	color: rgb(255,255,255);
+}
+.dropbtn #down{
+	font-size: 25px;
+	
+
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+    float: right;
+    margin-right: 10px;
+}
+.dropdown img{
+	width: 40px;
+	margin-top: 5px;
+	border-radius: 50%;
+	height: 35px;
+	border: 1px solid rgb(255,255,255);
+	
+}
+.drop-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: rgb(255,255,255);
+    min-width: 160px;
+   
+    z-index: 1;
+}
+
+.drop-content a {
+    color: rgba(0,0,0,0.6);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.drop-content a:hover {
+	background-color: rgb(0,128,128);
+	color: rgb(255,255,255);
+}
+
+.dropdown:hover .drop-content {
+    display: block;
+}
+
+.flex-container{
+	margin: 0;
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	
+}
+.flex-item-1{
+	position: fixed;
+	height: 100%;
+	width: 18%;
+}
+.flex-item-2{
+	margin-left: 18%;
+	width: 82%;
+}
+
+#side-nav ul li{
+	padding: 5%;
+}
+#side-nav ul li a{
+	color: rgb(255,255,255);
+	font-size: 100%;
+}
+#side-nav ul li span{
+	color: rgb(255,255,255);
+	width: 30px;
+	font-size: 18px;
+}
+#side-nav ul li:hover{
+	border-right: 5px solid rgb(255,255,255);
+	background-color: rgba(255,255,255,0.1);
+}
+#top-nav{
+
+	height: 50px;
+	background-color: rgb(0, 102, 102);
+}
+.total{
+	font-size: 40px;
+	float: right;
+	margin-top: -8px;
+	color: rgba(255,255,255,0.6);
+}

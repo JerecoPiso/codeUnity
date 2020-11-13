@@ -9,6 +9,7 @@ urlpatterns = [
 	  url(r'^$', views.index, name='index'),
 	  url(r'^codeunity/', include('blog.urls')),
 	  url(r'^codeunity/user/', include('blog.admin_urls')),
+	  url(r'^codeunity/dashboard/', include('blog.dashboard_urls')),
       url('admin/', admin.site.urls),
 ]
 

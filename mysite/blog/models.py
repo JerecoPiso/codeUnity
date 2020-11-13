@@ -49,4 +49,14 @@ class Questions(models.Model):
 
 	def __str__(self):
 		return self.question + " " + self.code + " " + self.language + " " + self.likes + " " + self.category
-		
+
+class Jobs(models.Model):
+	company_name = models.CharField(max_length=255)
+	poster_id = models.IntegerField()
+	job_description = models.TextField()
+	location = models.TextField()
+	skills_needed = models.CharField(max_length=500)
+	job_situation = models.CharField(max_length=155)
+
+	def __str__(self):
+		return self.company_name + " " + self.poster_id + " " + self.job_description + " " + self.location + " " + self.skills_needed + " " + self.job_situation
