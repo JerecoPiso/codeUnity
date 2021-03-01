@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from pathlib import Path
 import os
@@ -106,7 +106,7 @@ def uploadProject(request):
                 for chunk in file.chunks():          
                     storage.write(chunk)
                 storage.close()
-            project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'])
+            project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], language="PHP", views = 0)
             project.save()       
             return HttpResponse("Uploaded successfully")
       
@@ -127,3 +127,7 @@ def logout(request):
 def settings(request):
     request.session['title'] = "Settings"
     return render(request, 'html/user_pages/settings.html')
+
+def getProject(request):
+    projects = Projects.objects.filter(uploader_id__exact=request.session['id']).values()
+    return JsonResponse(list(projects), safe=False)

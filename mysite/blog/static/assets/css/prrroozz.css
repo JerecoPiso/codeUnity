@@ -51,6 +51,7 @@
 		display: none;
 		width: auto;
 		padding: 5% 8% 0% 5%;
+		margin-top: -4%;
 
 	}
 	#projects ul{
@@ -60,7 +61,7 @@
 
 	}
 	#projects ul li{
-		padding: 5% 4% 5% 0%;
+		/*padding: 5% 2% 5% 0%;*/
 		font-size: 120%;
 
 	}

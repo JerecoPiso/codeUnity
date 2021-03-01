@@ -14,16 +14,13 @@
 				<button class="btn-home" onclick="home()"> <span class="fa fa-home"></span> Home</button>
 				<div class="row clear-float">
 				<!-- 	-->
-					<div class="col l5 s12 m12 xl5">
+					<div class="col l5 s12 m12 xl5"  id="projects">
 					
-							<p class="my-projects">Uploaded Projects ({{count}})<!--  <span>20</span> --> </p>
+						<p class="my-projects">Uploaded Projects ({{count}})<!--  <span>20</span> --> </p>
 					
-						{% for project in myproject %}
-
-						<div class="uploaded-project">
-							<a href="project_files/{{ project.project_name }}" style="">{{ project.project_name }}</a >
-						</div>
-						{% endfor %}
+						<li class="uploaded-project" v-for="p in project">
+							<a v-bind:href="url+p.project_name">[p.project_name]</a >
+						</li>
 					</div>
 					<div class="col l7 s12 m12 xl7">
 						<div id="files" >

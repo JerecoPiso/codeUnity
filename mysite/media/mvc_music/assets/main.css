@@ -1,0 +1,168 @@
+header{
+	/*background-color:  #3CB371;*/
+	background-color: 	#DCDCDC;
+	text-align: center;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	font-size: 180%;
+	letter-spacing: 2px;
+	font-weight: bolder;
+	margin: 0;
+	text-transform: uppercase;
+}
+img{
+	border-radius: 50%;
+	width: 7%;
+
+}
+th, td{
+	color: black;
+}
+
+table{
+	border: 1px solid #778899;
+	
+	margin: 0;
+}
+.btn-add{
+	width: 100%;
+	border: none;
+	padding: 10px;
+	margin-top: 10px;
+	margin-right: 0;
+	color: white;
+}
+
+.add-song-btn{
+	background-color: 	#1E90FF;
+}
+.add-artist-btn{
+	background-color: #3CB371;
+	color: white;
+}
+.add-album-btn{
+	background-color: 		#2F4F4F;
+}
+.form-add-song{
+	position: absolute;
+	background-color: #1E90FF;
+	width: 90.7%;
+	padding: 3%;
+	display: none;
+}
+.form-add-artist{
+	position: absolute;
+	background-color: #3CB371;
+	width: 90.7%;
+	padding: 3%;
+	display: none;
+}
+.form-add-album{
+	position: absolute;
+	background-color: #2F4F4F;
+	width: 90.7%;
+	padding: 3%;
+	display: none;
+}
+.form-add-genre{
+	position: absolute;
+	background-color: #2F4F4F;
+	width: 90.7%;
+	padding: 3%;
+	display: none;
+}
+.tables-dropdown{
+	background-color: #008080;
+}
+a{
+	letter-spacing: 2px;
+}
+.dropdown-table{
+	position: absolute;
+	background-color: 	#008080;
+	width: 90.7%;
+	padding: 3%;
+	display: none;
+}
+label{
+	margin-top: 1%;
+	color: white;
+}
+.add{
+	width: 100%;
+	border: none;
+	margin-top: 3%;
+	padding: 7px;
+	text-transform: uppercase;
+}
+.see-album{
+	background-color: 	#1E90FF;
+	border: none;
+	padding: 6px;
+}
+.delete-modal{
+	border: 1px solid red;
+	width: 70%;
+	margin-top: 40%;
+	margin-left: 15%;
+}
+.yes-delete{
+	border: none;
+	width: 20%;
+	background-color: rgb(0,0,220);
+	color: rgb(255,255,255);
+	padding: 3px;
+}
+.no{
+	margin-left: 30%;
+	border: none;
+	width: 20%;
+	background-color: rgb(200,0,0);
+	color: rgb(255,255,255);
+	padding: 3px;
+}
+.modal-see-album{
+	background-color:  #3CB371;
+}
+#update-song{
+	border: 1px solid white;
+	background-color: green;
+	color: white;
+	letter-spacing: 2px;
+}
+#myInput{
+		width: 30%;
+		padding-left: 0.7%;
+	}
+	.logo{
+		width: 10%;
+		border-radius: 50%;
+}
+.dropdown-menu{
+	max-height: 400px;
+	overflow: auto;
+}
+.no-result{
+	width: 40%;
+	text-align: center;
+	color: red;
+	margin-left: 30%;
+	margin-top: 40%;
+	border: 1px solid red;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+.artist-search{
+	width: 70%;
+	margin-left: 20%;
+	background-color: #3CB371;
+	max-height: 600px;
+	overflow: auto;
+}
+.artist-search > li{
+	background-color: #3CB371;
+}
+.add-genre-btn{
+	background-color: 	#5F9EA0;
+
+}

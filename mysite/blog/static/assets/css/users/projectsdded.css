@@ -48,9 +48,9 @@
 	text-align: center;
 	border-radius: 0.5rem;
 	margin-top: 2%;
-	padding-top: 3%;
+	padding-top: 3.5%;
 	margin-bottom: 3%;
-
+	list-style-type: none;
 }
 .uploaded-project a{
 	font-size: 120%;

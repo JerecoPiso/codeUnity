@@ -9,7 +9,6 @@ urlpatterns = [
      url(r'^download/(?P<folder>.+)$', views.download, name="Download Project"),
      url(r'^verify', views.verify, name="Verify"),
      url(r'^projects', views.projects, name="Projects"),
-     url(r'^jobs', views.jobs, name="Jobs"),
      url(r'^questions', views.questions, name="Questions"),
      url(r'^verified', views.verified, name="Verified"),
      url(r'^userLogin', views.userLogin, name="User Login")

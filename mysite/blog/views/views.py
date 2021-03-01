@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from blog.models import User, Developers, Projects, Questions
+from blog.models import User, Developers, Projects, Questions, Language
 from django.core.files.storage import FileSystemStorage
 import os, datetime, json, zipfile, tempfile, mimetypes
 from django.conf import settings
@@ -9,7 +9,6 @@ import io, smtplib, ssl
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import Paginator
 import random
-
 rootDir = ""
 message = "www"
 resp = ""
@@ -63,10 +62,10 @@ def getfilenames(folder):
 
 def index(request):
   request.session['title'] = "Home"
-  # contact_list = Developers.objects.all()
-  # paginator = Paginator(contact_list, 5)
-  # page_number = request.GET.get('page')
-  # page_obj = paginator.get_page(page_number)
+  contact_list = Developers.objects.all()
+  paginator = Paginator(contact_list, 5)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
   total_devs = Developers.objects.all().count()
   if (total_devs / 1000) >= 1:
     devs = str(1000*(total_devs/1000))+"K+"
@@ -88,8 +87,8 @@ def index(request):
   request.session.title = "Code Unity"
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   context = {}
-  # context['page_obj'] = page_obj
-  # context['contact'] = contact_list
+  context['page_obj'] = page_obj
+  context['contact'] = contact_list
   context['apps'] = apps
   context['total_devs'] = devs.replace(".0", "")
   context['total_projects'] = proj
@@ -134,8 +133,9 @@ def verified(request):
 
 def projects(request):
   project = Projects.objects.all()
+  language = Language.objects.all()
   request.session['title'] = "Projects"
-  return render(request, 'html/projects.html', {'projects': project})
+  return render(request, 'html/projects.html', {'projects': project, 'languages': language})
 
 def questions(request):
   myquestions = Questions.objects.all()
@@ -231,6 +231,3 @@ def signup(request):
      request.session['title'] = "Signup"
      return render(request, "html/signup.html")
 
-def jobs(request):
-     request.session['title'] = "Jobs"
-     return render(request, "html/jobs.html")

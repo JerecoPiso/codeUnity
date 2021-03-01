@@ -9,15 +9,15 @@
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/indexffedes.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/iiindeee.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questions.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionstt.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prrr.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prrroozz.css' %}">
 	{% endif %}
 </head>
 <body>
@@ -34,6 +34,7 @@
 <script type="text/javascript" src="{% static 'assets/js/materialize.js' %}"></script>
 
 <script type="text/javascript">
+
 var signup = new Vue({
 	delimiters: ['[', ']'],
 	el: "#signup",
@@ -111,6 +112,18 @@ var signup = new Vue({
 	 	$(this).hide()
 	 	
 	})
+	$('.showSearch').click(function(){
+	 		
+			 $('.search-section').slideDown()
+			 
+			 
+		})
+		$('.x').click(function(){
+	 		
+			 $('.search-section').slideUp()
+			 
+			 
+		})
 	$('#close').click(function(){
 	 		
 	 	$('#top-nav').css({'width': '0'})

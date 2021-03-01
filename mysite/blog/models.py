@@ -35,9 +35,10 @@ class Projects(models.Model):
 	downloads = models.IntegerField(blank=True)
 	language = models.CharField(max_length=100,blank=True)
 	about = models.TextField(blank=True)
+	views = models.IntegerField(blank=True)
 
 	def __str__(self):
-		return self.project_name + " " + self.uploader_id + " " + self.downloads + " " + self.language + " " + self.category + " " + self.about
+		return self.project_name + " " + self.uploader_id + " " + self.downloads + " " + self.language + " " + self.about + " " + self.views
 
 class Questions(models.Model):
 	question = models.CharField(max_length=355)
@@ -46,9 +47,11 @@ class Questions(models.Model):
 	language = models.CharField(max_length=155)
 	likes = models.IntegerField()
 	category = models.CharField(max_length=255)
+	comments = models.IntegerField(blank=True)
+	
 
 	def __str__(self):
-		return self.question + " " + self.code + " " + self.language + " " + self.likes + " " + self.category
+		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.likes + " " + self.category + " " + self.comments
 
 class Jobs(models.Model):
 	company_name = models.CharField(max_length=255)
@@ -60,3 +63,10 @@ class Jobs(models.Model):
 
 	def __str__(self):
 		return self.company_name + " " + self.poster_id + " " + self.job_description + " " + self.location + " " + self.skills_needed + " " + self.job_situation
+
+class Language(models.Model):
+	language = models.CharField(max_length=255)
+	category = models.CharField(max_length=50)
+
+	def __str__(self):
+		return self.language + " " + self.category

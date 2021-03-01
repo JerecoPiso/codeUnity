@@ -1,0 +1,68 @@
+{% extends 'html/dashboard/base.html' %}
+
+{% block body %}
+	
+	<div class="row mt-1" id="projects-dash">
+			<h5 class="manage"><span class="fa fa-folder"></span> <span id="total-project">| 2000 Projects |</span></h5>
+
+			<div class="col l12 s12 m12 xl12 mt-3" id="table-div">
+				<div class="row" style="margin-left: -12px;margin-bottom: -3%;margin-right: -12px;">
+                    <div class="col l8 s12" >
+						
+						<select class="browser-default" id="opt">
+							<option value="" disabled selected>Filter by Language</option>
+							<option v-for="lang in languages">[lang.language]</option>
+						
+						</select>
+        
+                    </div>
+                    <div class="col l4 s12" style="">
+                      
+					
+				<input type="text" id="search-project" placeholder="Search project ..." >
+					
+			
+                    </div>
+                </div>
+				
+
+				<table class="bordered mt-1" id="table">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Project Name</th>
+							<th>Downloads</th>
+							<th>Language</th>
+							<th>Developer</th>
+							<th>Action</th>
+						
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="project in toShowProjects">
+							<td>[project.id]</td>
+							<td>[project.project_name]</td>
+							<td>[project.downloads]</td>
+							<td>[project.language]</td>
+							<td>H</td>
+							<td>H</td>
+							
+						</tr>
+						
+					</tbody>
+
+				</table>
+				<b class="show">Show</b>
+					<select class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
+						<option value="1">25</option>
+						<option value="2">50</option>
+						<option value="3">100</option>
+					</select>
+					<b class="entries" style="" >Entries 
+					
+				</b>
+			</div>
+	</div>
+ 
+{% endblock %}

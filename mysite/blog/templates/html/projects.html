@@ -10,25 +10,9 @@
 					 <button id="close-show">&times;</button>
 					 <p class="languages">Languages</p> 
 					<ul>
-						<li> <a href="">NodeJS</a> </li>
-						<li> <a href="">Laravel</a> </li>
-						<li> <a href="">VueJS</a> </li>
-						<li> <a href="">ReactJS</a> </li>
-						<li> <a href="">Angular</a> </li>
-						<li> <a href="">Ionic</a> </li>
-						<li> <a href="">Python</a> </li>
-						<li> <a href="">Java</a> </li>
-		     			<li> <a href="">PHP</a> </li>
-						<li> <a href="">ExpressJS</a> </li>
-						<li> <a href="">Django</a> </li>
-						<li> <a href="">Flask</a> </li>
-						<li> <a href="">Codeigniter</a> </li>
-						<li> <a href="">Flask</a> </li>
-						<li> <a href="">Codeigniter</a> </li>
-						<li> <a href="">Flask</a> </li>
-						<li> <a href="">Codeigniter</a> </li>
-						<li> <a href="">Flask</a> </li>
-						<li> <a href="">Codeigniter</a> </li>
+						{% for lang in languages %}
+						<li> <a href="">{{lang.language}}</a> </li>
+						{% endfor %}
 					</ul>
 				</div>
 				<div class="col l7 m9 s12 xl7">

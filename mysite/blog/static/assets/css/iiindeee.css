@@ -78,7 +78,7 @@
 		display: none;
 	}
 	.total-apps{
-		box-shadow: 0 0 10px -2px rgb(102, 153, 153);
+		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
 		border-radius: 0.5rem;
 		width: 90%;
 		margin: auto;
@@ -90,7 +90,7 @@
 	}
 
 	.total-devs{
-		box-shadow: 0 0 10px -2px rgb(102, 153, 153);
+		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
 		width: 90%;
 		border-radius: 0.5rem;
 		height: 170px;
@@ -102,7 +102,7 @@
 	}
 
 	.total-jobs{
-		box-shadow: 0 0 10px -2px rgb(102, 153, 153);
+		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
 		width: 90%;
 		border-radius: 0.5rem;
 		height: 170px;
@@ -117,25 +117,25 @@
 		font-size: 80px;
 		margin-left: -10%;
 		margin-top: -8%;
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 	}
 	.total-apps .back-span{
 		position: absolute;
 		font-size: 80px;
 		margin-left: -8%;
 		margin-top: -8%;
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 	}
 	 .total-jobs .back-span{
 		position: absolute;
 		font-size: 80px;
 		margin-left: -9%;
 		margin-top: -8%;
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 	}
 
 	.total-devs p, .total-apps p, .total-jobs p{
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 		font-size: 300%;
 		font-weight: bold;
 		padding-top: 15%;
@@ -226,7 +226,7 @@
 	    opacity: 1;
 	}
 	.total-apps{
-		box-shadow: 0 0 10px -2px rgb(102, 153, 153);
+		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
 		border-radius: 0.5rem;
 		width: 90%;
 		margin: auto;
@@ -238,7 +238,7 @@
 	}
 
 	.total-devs{
-		box-shadow: 0 0 10px -2px rgb(102, 153, 153);
+		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
 		width: 90%;
 		border-radius: 0.5rem;
 		height: 170px;
@@ -250,7 +250,7 @@
 	}
 
 	.total-jobs{
-		box-shadow: 0 0 10px -2px rgb(102, 153, 153);
+		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
 		width: 90%;
 		border-radius: 0.5rem;
 		height: 170px;
@@ -265,24 +265,24 @@
 		font-size: 80px;
 		margin-left: -6.8%;
 		margin-top: -5%;
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 	}
 	.total-apps .back-span{
 		position: absolute;
 		font-size: 80px;
 		margin-left: -5%;
 		margin-top: -5%;
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 	}
 	 .total-jobs .back-span{
 		position: absolute;
 		font-size: 80px;
 		margin-left: -6%;
 		margin-top: -5%;
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 	}
 	.total-devs p, .total-apps p, .total-jobs p{
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 		font-size: 300%;
 		font-weight: bold;
 		padding-top: 14%;
@@ -404,10 +404,10 @@
 		font-size: 100px;
 		margin-left: -6%;
 		margin-top: -5%;
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 	}
 	.total-devs p, .total-apps p, .total-jobs p{
-		color: rgb(0, 51, 102);
+		color: rgb(0, 128, 128);
 		font-size: 300%;
 		font-weight: bold;
 		padding-top: 18%;
@@ -799,3 +799,90 @@
 	
 	
 }
+
+
+.search-section{
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+	top: 0;
+	height: auto;
+	display: none;
+	
+	background-color: rgb(0, 128, 128);
+}
+#job-search-homes{
+	background-color: rgb(0, 128, 128);
+	padding-right: 15%;
+	padding-left: 15%;
+
+}
+#job-search-homes input{
+	float: left;
+	height: 45px;
+	width: 68%;
+	/* margin-top: 5%; */
+	
+	padding-left: 2%;
+	/* border-top-left-radius: 0.5rem;
+	border-bottom-left-radius: 0.5rem; */
+	border: 1px solid rgb(255, 2525, 255);
+	background-color: rgb(255,255,255);
+
+}
+#job-search-homes .search-btn{
+	width: 60px;
+	/* margin-top: 5%; */
+	height: 47px;
+	
+	background-color: rgb(255,255,255);
+	border: none;
+	float: left;
+}
+#job-search-homes .search-btn span:hover{
+	font-size: 30px;
+	transition: 1s;
+	transform: scale(1,1);
+}
+#job-search-homes .search-btn span{
+	font-size: 25px;
+	opacity: 0.4
+	/* margin-left: 55%; */
+}
+#job-search-homes div{
+	clear: both;
+}
+#search-job-cat{
+	display: block;
+	width: 130px;
+	/* margin-top: 5%; */
+	border-radius: 0rem;
+	height: 47px;
+}
+.x{
+	float: right;
+	clear: both;
+	border: none;
+	background-color: transparent;
+	font-size: 40px;
+	margin-top: -1%;
+	margin-bottom: -1.5%;
+	color: rgb(255, 255, 255);
+}
+.question-area{
+	background-color: rgb(71, 107, 107);
+	margin-top: -1.5%;
+	padding: 2%;
+}
+.br-white{
+	border-right: 1px solid rgb(255, 255, 255);
+}
+.box{
+	box-shadow: 0 0 10px -2px rgb(255, 255, 255);
+}
+/* #totalJobs{
+	background-color: rgb(0, 102, 102);
+}
+#totalJobs p{
+	
+} */

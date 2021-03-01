@@ -2,22 +2,154 @@
 <html>
 <head>
 	{% load static %}
-	<title></title>
+	<title>{{ request.session.title }}</title>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/index.css' %}">
+	{% if request.session.title == 'Home' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboard.css' %}">
+	{% endif %}
+	{% if request.session.title == 'Projects' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/pro.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboard.css' %}">
+	{% endif %}
+	{% if request.session.title == 'Language' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/lang.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboard.css' %}">
+	{% endif %}
+	{% if request.session.title == 'Questions' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/questionstz.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboard.css' %}">
+	{% endif %}
+
 </head>
 <body>
 
-	{% block body %}
+	<div class="flex-container">
+		<div class="flex-item-1 bg-color" id="side-nav">
+			<div class="admin-panel">
+			<p>Admin Panel</p>
+			<img src="/media/dp.jpg">
+			<p id="user-name">Jereco James Piso</p>
+			</div>
+			 <ul>
+			 	<li><span class="fa fa-home"></span><a href="/codeunity/dashboard">Home</a></li>
+			 	<li><span class="fa fa-folder"></span><a href="projects">Projects</a></li>
+			 	<li><span class="fa fa-language"></span><a href="languages">Languages</a></li>
+			 	<li><span class="fa fa-handshake"></span><a href="">Jobs</a></li>
+			 	<li><span class="fa fa-question"></span><a href="questions">Questions</a></li>			 	
+			 </ul>
+		</div>
+
+		<div class="flex-item-2">
+
+			<div id="top-nav">
+				<button id="show-side-nav"><span class="fa fa-bars"></span></button>
+				<div class="dropdown">
+					<img src="/media/dp.jpg">
+				  <div class="dropbtn"><p>Jereco James Piso <span id="down" class="fa fa-sort-down"></span></p></div>
+				  <div class="drop-content">
+				    <a href="#">Account Settings</a>
+				    <a href="#">Logout</a>
+				  </div>
+				</div>
+			</div>
+
+			{% block body %}
 
 
 
-	{% endblock %}
+			{% endblock %}
+			
+		</div>
+	</div>
 
+<script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>	
+<script type="text/javascript"> 
+ var projects = new Vue({
+ 	 delimiters: ['[', ']'],
+	 el: "#projects-dash",
+	 data:{
+		languages: [],
+		toShowProjects: []
+	 },
+	 mounted: function(){
+		 
+		 this.getLanguages();
+		 this.getProjects();
+	 },
+	 methods:{
+		getLanguages: function(){
+			axios.get('getLanguages').then(function(response){
+				if(response.data == "Failed"){
+					alert("Unable to retrieve Languages!")
+				}else{
+					projects.languages = response.data
+				}
+			})
+		},
+		getProjects: function(){
+			axios.get('getProjects').then(function(response){
+				if(response.data == "Failed"){
+					alert("Unable to retrieve Projects!")
+				}else{
+					
+					projects.toShowProjects = response.data
+				}
+			})
+		},
+		
+	 }
+ })
+ var languages = new Vue({
+	 delimiters: ['[', ']'],
+	 el: "#languageForm",
+	 data:{
+		language: {category: '', lang: '', id: ''},
+		toShowLanguages: []
+	 },
+	 mounted: function(){
+		this.getLanguages()
+	 },
+	 methods:{
+		addLanguage: function(){
+			let data = new FormData()
+			data.append("category", languages.language.category)
+			data.append("language", languages.language.lang)
+			axios.post("addLanguage", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+
+				alert(response.data)
+				languages.getLanguages()
+			})
+		},
+		deleteLanguage: function(){
+			if (confirm("Are you sure you want to delete this data?") == true) {
+				let data = new FormData()
+				data.append("id", languages.language.id)
+	
+				axios.post("deleteLanguage", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+
+					alert(response.data)
+					languages.getLanguages()
+					
+				})
+			} 
+		},
+		getLanguages: function(){
+			axios.get('getLanguages').then(function(response){
+				if(response.data == "Failed"){
+					alert("Unable to retrieve Languages!")
+				}else{
+					languages.toShowLanguages = response.data
+				}
+			})
+		}
+	 }
+ })
+</script>
 </body>
 </html>

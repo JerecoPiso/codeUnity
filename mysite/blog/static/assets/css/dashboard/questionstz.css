@@ -1,0 +1,74 @@
+.box-head{
+	height: 30px;
+	background-color: rgb(204, 204, 204)
+}
+.box-head span{
+	float: right;
+	margin-right: 10px;
+	margin-top: -8px;
+	font-size: 30px;
+	cursor: help;
+	color: rgb(230, 0, 0)
+}
+.box-head p{
+	float: left;
+	margin-top: 0.8%;
+	margin-left: 1%;
+	font-weight: bold;
+}
+.clearfloat{
+	clear: both;
+}
+
+.manage{
+	padding: 1%;
+	color: rgb(77, 77, 77);
+	margin-left: 1%;
+	background-color: rgb(230, 230, 230);
+	margin-right: 1%;
+	border-radius: 0.2rem
+}
+.manage #total-project{
+	float: right;
+	font-size: 70%;
+	background-color: rgb(255,0,0);
+	padding: 0 1.5% 0 1.5%;
+	color: rgb(255,255,255);
+	border-radius: 1rem;
+}
+.question-category{
+	background-color: rgb(230, 230, 230);
+	padding: 1%;
+}
+.question-category form{
+	padding: 2% 3% 2% 3%;
+}
+.mt-3{
+	margin-top: 3%;
+}
+#opt{
+	width: 250px;
+	float: left;
+
+}
+.save-btn{
+	border: none;
+	padding: 1%;
+	background-color: rgb(0, 179, 134);
+	color: rgb(255,255,255);
+	width: 60px;
+	margin-left: 87%;
+}
+#search-question{
+	border: 1px solid rgb(92, 138, 138);
+	color: rgb(0,0,0);
+	padding-left: 1%;
+	border-radius: 0.5rem;
+	float: right;
+	width: 30%;
+
+}
+
+::placeholder{
+	color: rgb(92, 138, 138);
+}

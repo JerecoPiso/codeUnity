@@ -1,0 +1,74 @@
+{% extends 'html/dashboard/base.html' %}
+
+{% block body %}
+	
+	<div class="row mt-1" id="languageForm">
+			<h5 class="manage"><span class="fa fa-language"></span> <span id="total-project">| 2000 Projects |</span></h5>
+
+			<div class="col l12 s12 m12 xl12 mt-3" id="table-div">
+                
+                <div class="row" style="margin-left: -12px;margin-bottom: -3%;margin-right: -12px;">
+                    <div class="col l8 s12" >
+						<form @submit.prevent="addLanguage()">
+							{% csrf_token %}
+							<select id="language-cat" v-model="language.category" required>
+								<option value="" disabled selected>Language Specialization</option>
+								<option>Front-End</option>
+								<option>Back-End</option>
+								<option>Android Development</option>
+								<option>Desktop</option>
+								<option>iOS Development</option>
+							</select> 
+							<input type="text" id="add-inp" placeholder="Enter language ..." v-model="language.lang" required> 
+							<button type="submit" class="btn-add-language">Add <span class="fa fa-plus"></span></button>
+						</form>
+					
+        
+                    </div>
+                    <div class="col l4 s12" style="">
+                        <input type="text" id="search-language" placeholder="Search language ..." >
+					
+                    </div>
+                </div>
+               
+			
+			
+				<table class="bordered" id="table">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Language</th>
+							<th>Category</th>
+							<th>Action</th>
+						
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="lang in toShowLanguages">
+							<td>[lang.id]</td>
+							<td>[lang.language]</td>
+							<td>[lang.category]</td>
+							<td style="max-width: 50px">
+								<button class="btn-edit"> <span class="fa fa-edit"></span> Edit</button>
+								<button class="btn-delete" @click="language.id = lang.id;deleteLanguage()"> <span class="fa fa-trash"></span> Delete</button>
+							</td>
+							
+						</tr>
+					
+					</tbody>
+
+				</table>
+				<b class="show">Show</b>
+					<select class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
+						<option value="1">25</option>
+						<option value="2">50</option>
+						<option value="3">100</option>
+					</select>
+					<b class="entries" style="" >Entries 
+					
+				</b>
+			</div>
+	</div>
+ 
+{% endblock %}

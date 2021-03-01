@@ -11,5 +11,6 @@ urlpatterns = [
      url(r'^settings', user_views.settings, name='Settings'),
      url(r'^readFile', user_views.readFile, name='Read File'),
      url(r'^askQuestion', user_views.askQuestion, name='Read File'),
+     url(r'^getProjects', user_views.getProject, name='Read File'),
      url(r'^project_files/(?P<folder>.+)$', user_views.project_files, name='Project Files')
 ]
