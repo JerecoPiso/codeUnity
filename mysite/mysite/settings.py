@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'i)4t9z5rp_&n)v6%c_(s8wv1nh84m7d6y_^hpyb-xun+0)+71u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['codeunity.herokuapp.com']
 
@@ -35,7 +35,7 @@ ALLOWED_HOSTS = ['codeunity.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
-    # 'blog',
+    'blog',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
