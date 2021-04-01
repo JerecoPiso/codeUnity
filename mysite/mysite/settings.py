@@ -34,7 +34,7 @@ ALLOWED_HOSTS = ["codeunity.herokuapp.com"]
 # Application definition
 
 INSTALLED_APPS = [
-    'blog',
+    # 'blog',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
