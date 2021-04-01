@@ -9,7 +9,7 @@
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/iiindeee.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/iiindeeexxzed.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
@@ -17,7 +17,13 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionstt.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prrroozz.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prrroozzeded.css' %}">
+	{% endif %}
+	{% if request.session.title == 'Developers' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dev.css' %}">
+	{% endif %}
+	{% if request.session.title == 'viewProject' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projectt.css' %}">
 	{% endif %}
 </head>
 <body>

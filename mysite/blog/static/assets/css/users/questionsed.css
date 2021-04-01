@@ -1,0 +1,102 @@
+#ask-btn{
+	width: 100%;
+	border: none;
+	padding: 2%;
+	background-color: rgb(0, 128, 128);
+	color: rgb(255,255,255);
+	border-radius: 0.4rem;
+	margin-top: 2%;
+}
+#ask-question{
+	background-color: rgb(255,255,255);
+	margin-left: 1%;
+	margin-top: 2%;
+	/* background-color: rgb(242, 242, 242); */
+	padding: 1% 5% 5% 5%;
+	border-radius: 0.7rem;
+	border: 1px solid rgb(204, 204, 204);
+	margin-right: 1.5%;
+}
+#ask-question p{
+	margin: 1% 2% 1% 0%;
+	font-size: 150%;
+	color: rgb(0, 128, 128);
+
+}
+#ask-question label{
+	font-size: 100%;
+}
+#ask-question form #select{
+	border: 1px solid rgb(0, 128, 128);
+	border-radius: 0.4rem;
+}
+body{
+	background-color: rgb(242, 242, 242);;
+}
+#btn-remove, #btn-comments{
+	
+	width: 30%;
+	border: none;
+	border-radius: 0.5rem;
+	padding: 2%;
+	color:  rgb(255,255,255);
+	font-size: 80%;
+}
+#btn-comments{
+	background-color: rgb(0, 179, 89);
+}
+#btn-remove{
+	background-color: rgb(230, 0, 0);
+}
+#btn-likes span, #btn-comments span{
+	font-size: 130%;
+}
+.date-asked{
+	color: rgb(204, 204, 204);
+	font-size: 80%;
+}
+#forms form input{
+	width: 85%;
+}
+.question-ask li{
+	padding: 4%;
+	font-size: 120%;
+}
+.question-info{
+	margin-top: 3%;
+}
+#question-ask{
+	max-height: 550px;
+	overflow: auto;
+}
+#set-to-answered{
+	border: none;
+	background-color: rgb(0, 153, 153);
+	color: rgb(255,255,255);
+	border-radius: 0.5rem;
+	padding: 2%;
+	font-size: 80%;
+	width: 35%;
+}
+textarea{
+	border: 1px solid rgb(0, 128, 128);
+	border-radius: 0.4rem;
+	height: 50px;	
+}
+.questions-asked-p{
+	color: rgb(0, 128, 128);
+	font-size: 150%;
+	padding: 1.7%;
+	margin: 2% 0% 1.5% 0%;
+	border-radius: 0.3rem;
+	border: 1px solid rgb(242, 242, 242);
+	text-align: center;
+	font-family: sans-serif;
+	background-color: rgb(255, 255, 255);
+
+}
+/*.questions-asked-p:hover{
+	background-color:  rgb(0, 128, 128);
+	color: rgb(255,255,255);
+	transition: 0.5s;
+}*/

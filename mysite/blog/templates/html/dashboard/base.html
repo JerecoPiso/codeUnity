@@ -10,19 +10,19 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
 	{% if request.session.title == 'Home' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboard.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/pro.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboard.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Language' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/lang.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboard.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/lanng.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/questionstz.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboard.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/questionstzzzez.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddd.css' %}">
 	{% endif %}
 
 </head>
@@ -39,9 +39,9 @@
 			 	<li><span class="fa fa-home"></span><a href="/codeunity/dashboard">Home</a></li>
 			 	<li><span class="fa fa-folder"></span><a href="projects">Projects</a></li>
 			 	<li><span class="fa fa-language"></span><a href="languages">Languages</a></li>
-			 	<li><span class="fa fa-handshake"></span><a href="">Jobs</a></li>
-			 	<li><span class="fa fa-question"></span><a href="questions">Questions</a></li>			 	
-			 </ul>
+				 <li><span class="fa fa-question"></span><a href="questions">Questions</a></li>
+				 <li><span class="fa fa-users"></span><a href="questions">Developers</a></li>			 	
+			 </ul>	
 		</div>
 
 		<div class="flex-item-2">
@@ -70,6 +70,87 @@
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>	
 <script type="text/javascript"> 
+ var questions = new Vue({
+	 delimiters: ['[', ']'],
+	 el: "#questions",
+	 data:{
+		 question_cat: [],
+		 category: '',
+		 toShowLanguages: [],
+		 id: '',
+		 newCategory: '',
+		 allQuestions: []
+	 },
+	 mounted: function(){
+		this.getCategories()
+		this.getLanguages()
+		this.getQuestions()
+	 },
+	 methods:{
+		addCategory: function(){
+			let data = new FormData()
+			data.append("category", questions.category)
+			axios.post("addCategory", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+				if(response.data == "Question Category added successfuly"){
+					questions.getCategories()
+					questions.getCategories()
+					questions.category = ""
+					alert(response.data)
+				}
+				
+			})
+		},
+		deleteQuestionCat: function(){
+			if (confirm("Are you sure you want to delete this data?") == true) {
+				let data = new FormData()
+				data.append("id", questions.id)
+	
+				axios.post("deleteQuestionCategory", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+
+					alert(response.data)
+					questions.getCategories()
+					
+				})
+			} 
+		},
+		editQuestionCat: function(){
+			var newCat = prompt("Enter New Question Category", questions.newCategory)
+			if(newCat != "" && newCat != null){			
+					let data = new FormData()
+					data.append("id", questions.id)
+					data.append("category", newCat)
+					axios.post("editQuestionCategory", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+						alert(response.data)
+						questions.getCategories()
+					})			
+			}
+			
+		},
+		getCategories: function(){
+			 axios.get("getCategory").then(function(response){
+				questions.question_cat = response.data
+			 })
+		 },
+		 getQuestions: function(){
+			axios.get("getQuestions").then(function(response){
+				questions.allQuestions = response.data
+				
+				
+			})
+		 },
+		 getLanguages: function(){
+			axios.get('getLanguages').then(function(response){
+				
+				if(response.data == "Failed"){
+					alert("Unable to retrieve Languages!")
+				}else{
+				
+					questions.toShowLanguages = response.data
+				}
+			})
+		}
+	 }
+ })
  var projects = new Vue({
  	 delimiters: ['[', ']'],
 	 el: "#projects-dash",

@@ -2,67 +2,90 @@
 
 {% block body %}
 	
-	<div class="row mt-1">
+	<div class="row mt-1" id="questions">
 			<h5 class="manage"><span class="fa fa-question"></span> <span id="total-project">| 2000 Questions |</span></h5>
 
 
 			<div class="col l6 s12 m12 xl6">
-				<div class="question-category">
+				<div class="question-category mt-2">
 					<div class="box-head">
 						<p>Add Question Category</p><span>&times;</span>
 					</div>
 					
-						<form  class="clearfloat">
+						<form class="clearfloat"  @submit.prevent="addCategory()">
+							{% csrf_token %}
 							<label>Question Category</label>
-							<input type="text" name="" placeholder="Enter question category . . .">
-							<button class="save-btn">Save</button>
+							<input type="text" v-model="category" placeholder="Enter question category . . ." required>
+							<button type="submit" class="save-btn">Save</button>
 						</form>
 					
 				</div>			
 			</div>
 			
-				<div class="col l12 s12 m12 xl12 mt-3" id="table-div">
-			
-				<select class="browser-default" id="opt">
-					<option value="" disabled selected>Filter by Language</option>
-					<option value="1">Option 1</option>
-					<option value="2">Option 2</option>
-					<option value="3">Option 3</option>
-				</select>
+			<div class="col l6 s12 m12 xl6" style="max-height: 300px;overflow: auto;">
+				<table  class="bordered mt-2" id="table" >
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Question Category</th>
+							<th>Action</th>
+						
+				
+						</tr>
+					</thead>
+					<tbody >
+						<tr v-for="cat in question_cat">
+							<td>[cat.id]</td>
+							<td>[cat.category]</td>
+							<td style="max-width: 100px">
+								<button class="btn-edit" @click="newCategory = cat.category;id = cat.id; editQuestionCat()"> <span class="fa fa-edit"></span></button>
+								<button class="btn-delete" @click="id = cat.id;deleteQuestionCat()"> <span class="fa fa-trash"></span></button>
+							</td>
+						</tr>
+						
+					</tbody>
 
-				<input type="text" id="search-question" placeholder="Search question ..." >
+				</table>
+			</div>
+			<div class="col l12 s12 m12 xl12 mt-3" id="table-div">
+				<div class="row" style="margin-left: -12px;margin-bottom: -3%;margin-right: -12px;">
+                    <div class="col l8 s12" >
+						
+						<select class="browser-default" id="opt">
+							<option value="" disabled selected>Filter by Language</option>
+							<option v-for="lang in toShowLanguages">[lang.language]</option>
+						
+						</select>
+        
+                    </div>
+                    <div class="col l4 s12">
+                      
+					
+				<input type="text" id="search-question" placeholder="Search project ..." >
 					
 			
+                    </div>
+                </div>
+				
+
 				<table class="bordered mt-1" id="table">
 					<thead>
 						<tr>
 							<th>Id</th>
 							<th>Question</th>
-							<th>Asker</th>
-							<th>Category</th>
-							<th>Likes</th>
-							
+							<th>Language</th>
+						
+				
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>H</td>
-							<td>H</td>
-							<td>H</td>
-							<td>H</td>
-							<td>H</td>
+					 <tr v-for="ques in allQuestions">
+							<td>[ques.id]</td>
+							<td>[ques.question]</td>
+							<td>[ques.language]</td>
+							
+						</tr> 
 						
-							
-						</tr>
-						<tr>
-							<td>H</td>
-							<td>H</td>
-							<td>H</td>
-							<td>H</td>
-							<td>H</td>
-							
-							
-						</tr>
 					</tbody>
 
 				</table>
@@ -72,7 +95,7 @@
 						<option value="2">50</option>
 						<option value="3">100</option>
 					</select>
-					<b class="entries" >Entries 
+					<b class="entries">Entries 
 					
 				</b>
 			</div>

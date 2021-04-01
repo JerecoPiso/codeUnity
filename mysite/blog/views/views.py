@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from blog.models import User, Developers, Projects, Questions, Language
+from blog.models import User, Developers, Projects, Questions, Language, Question_Category
 from django.core.files.storage import FileSystemStorage
 import os, datetime, json, zipfile, tempfile, mimetypes
 from django.conf import settings
@@ -62,10 +62,6 @@ def getfilenames(folder):
 
 def index(request):
   request.session['title'] = "Home"
-  contact_list = Developers.objects.all()
-  paginator = Paginator(contact_list, 5)
-  page_number = request.GET.get('page')
-  page_obj = paginator.get_page(page_number)
   total_devs = Developers.objects.all().count()
   if (total_devs / 1000) >= 1:
     devs = str(1000*(total_devs/1000))+"K+"
@@ -87,8 +83,6 @@ def index(request):
   request.session.title = "Code Unity"
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   context = {}
-  context['page_obj'] = page_obj
-  context['contact'] = contact_list
   context['apps'] = apps
   context['total_devs'] = devs.replace(".0", "")
   context['total_projects'] = proj
@@ -134,13 +128,24 @@ def verified(request):
 def projects(request):
   project = Projects.objects.all()
   language = Language.objects.all()
+  apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
+  newest_apps = Projects.objects.order_by('-id')[:10]
+  paginator = Paginator(project, 10)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
-  return render(request, 'html/projects.html', {'projects': project, 'languages': language})
+  return render(request, 'html/projects.html', {'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
 def questions(request):
-  myquestions = Questions.objects.all()
+  languages = Language.objects.all()
+  question_cat = Question_Category.objects.all()  
+  questions = Questions.objects.all()
+  paginator = Paginator(questions, 5)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  total_questions = Questions.objects.all().count()
   request.session['title'] = "Questions"
-  return render(request, 'html/forum.html', {'myquestions': myquestions})
+  return render(request, 'html/forum.html', {'question_cat': question_cat, 'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj, 'languages': languages})
 
 def userLogin(request):
     msg = ""
@@ -231,3 +236,11 @@ def signup(request):
      request.session['title'] = "Signup"
      return render(request, "html/signup.html")
 
+def developers(request):
+     request.session['title'] = "Developers"
+     return render(request, 'html/developers.html')
+
+def viewProject(request, id):
+      request.session['title'] = "viewProject"
+      project = Projects.objects.get(id=id)
+      return render(request, "html/view_project.html", {'project': project})

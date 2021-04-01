@@ -10,45 +10,81 @@
 			</div>
 			<div class="flex-item2">
 				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
-				<button class="btn-back" onclick="back()"> <span class="fa fa-arrow-left"></span> Back</button>
-				<button class="btn-home" onclick="home()"> <span class="fa fa-home"></span> Home</button>
+			
+				
+				<!-- <div >
+				
+					<button class="btn-back" onclick="back()"> <span class="fa fa-arrow-left"></span> Back</button>
+				</div> -->
 				<div class="row clear-float">
 				<!-- 	-->
-					<div class="col l5 s12 m12 xl5"  id="projects">
-					
-						<p class="my-projects">Uploaded Projects ({{count}})<!--  <span>20</span> --> </p>
-					
-						<li class="uploaded-project" v-for="p in project">
-							<a v-bind:href="url+p.project_name">[p.project_name]</a >
-						</li>
-					</div>
-					<div class="col l7 s12 m12 xl7">
-						<div id="files" >
-						 <p>Upload a Project</p>
-						 <form  @submit.prevent="file()">
-					        {% csrf_token %}
-					       	<div>
-					       		<label>Folder</label><br>
-					       		<input type='file' webkitdirectory ref="file" @change="handleFileUpload()" ><br> 
-					       		<label>About</label>
-					       		<textarea v-model="about" id="about"></textarea>
-					       		<label>Language(Optional)</label>
-								 <select class="browser-default" id="select">
-								    <option value="" disabled selected>Select Language</option>
-								    <option>Option 1</option>
-								    <option>Option 2</option>
-								    <option>Option 3</option>
-								  </select>
-					       	</div>
+					<div class="col l12 s12 m12 xl12" id="projects" >
+						<!-- <div>
+							<p class="my-projects">Uploaded Projects ({{count}})</p>					
+							<li class="uploaded-project" v-for="p in project">
+								<a v-bind:href="url+p.project_name">[p.project_name]</a >
+									
+							</li>
+							
+
+						</div> -->
 						
-							<button  type="submit" id="upload-btn">Upload <span class="fa fa-upload"></span> </button>
-
-						 </form>
-
-					</div> 
-					</div>
-				</div>
+						<div style="min-width: 100%;">
+							<p class="my-projects">Uploaded Projects ({{count}})</p>
+							<table class="striped responsive-table" >
+								<thead>
+								  <tr>
+									  <th>Project Name</th>
+									  <th>Language</th>
+									  <th>No. of Downloads</th>
+									  <th>About</th>
+									  <th>Views</th>
+									  <th>Action</th>
+								  </tr>
+								</thead>
+						
+								<tbody>
+								  <tr v-for="p in project">
+									<td>[p.project_name]</td>
+									<td>[p.language]</td>
+									<td>[p.downloads]</td>
+									<td></td>
+									<td>[p.views]</td>
+									<td><button>Edit</button><button>Delete</button></td>
+								  </tr>
+								 
+								</tbody>
+							  </table>
+						</div>
 				
+								
+						
+					</div>
+					
+				</div>
+				<div id="files" >
+					<p>Upload a Project</p>
+					<form  @submit.prevent="file()">
+					   {% csrf_token %}
+						  <div>
+							  <label>Folder</label><br>
+							  <input type='file' webkitdirectory ref="file" @change="handleFileUpload()" ><br> 
+							  <label>About</label>
+							  <textarea  id="about" style="max-width: 100%;"></textarea>
+							  <label>Language(Optional)</label>
+							<select class="browser-default" id="select" v-model="language">
+							   <!-- <option value="" disabled selected>Select Language</option> -->
+							   <option v-for="lang in languages">[ lang.language ]</option>
+							   <!-- <option>Option 2</option>
+							   <option>Option 3</option> -->
+							 </select>
+						  </div>
+				   
+					   <button  type="submit" id="upload-btn">Upload <span class="fa fa-upload"></span> </button>
+
+					</form>
+
+					 </div> 
 				
 			</div>
 			<!-- class sflex-item2 end -->

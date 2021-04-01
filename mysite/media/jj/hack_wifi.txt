@@ -1,0 +1,137 @@
+Steps to Hack Wifi password using cmd :
+1: Open command prompt by going to start and click on run command or enter windows+r, then type cmd and hit Enter
+2: In command prompt window, type
+netsh wlan show network mode=bssid
+3: This command will show all the available WiFi network in your area
+4: This is the last step. Just type :
+netsh wlan connect name=(wifi name )
+netsh wlan connect name= e.g Myname Sata1
+and you will be connected to that WiFi network.
+5: To disconnect it, type
+netsh wlan disconnect
+Sources:Tech-Files: Mobiles, Troubleshooting, Tech news
+How to hack a wifi password?
+1st: open COMMAND PROMPT
+2nd: type WMIC
+3rd: type QUIT
+4th: type NETSH WLAN SHOW PROFILES
+5th: choose a wifi server name
+6th:type NETSH WLAN SHOW PROFILES wifi name
+7th:type NETSH WLAN SHOW PROFILES wifi name key=clear
+
+Steps to Hack Wifi password using cmd:
+1: Open command prompt by going to start and click on run command or enter windows+r, then type cmd and hit Enter
+2: In command prompt window, type
+netsh wlan show network mode=bssid
+
+
+
+            
+hack wifi password using cmd
+3: This command will show all the available WiFi network in your area
+4: This is the last step. Just type:
+    netsh wlan connect name=(wifi name )
+     netsh wlan connect name=Mynet Sata1
+and you will be connected to that WiFi network.
+5: To disconnect it, type
+netsh wlan disconnect
+There are many other methods for exploiting a wifi to get its password. You can check them here. Also, note that these tutorials are for educational purpose only. To download WiFi hacking softwares, head to the download section.
+
+Tr5 Steps Wifi Hacking  Cracking WPA2 Password:
+
+1. Open our terminal (CTRL+ALT+T) and type airmon-ng (view tips and tricks how to create keyboard shortcut on kali linux)
+
+
+this command will lists our wireless card that attached with our system.
+
+2. The next step we need to stop our wireless monitor mode by running airmon-ng stop wlan0
+
+
+3. Now we ready to capture the wireless traffic around us. By running airodump-ng wlan0 our wireless interface will start capturing the data.
+
+
+From the picture above, we can see many available access point with all the information. In the green box is our victim access point which is my own access point
+
+Information:
+
+BSSID (Basic Service Set Identification): the MAC address of access point
+
+PWR: Signal level reported by the card.
+
+Beacons: Number of announcements packets sent by the AP
+
+#Data: Number of captured data packets (if WEP, unique IV count), including data broadcast packets.
+
+#/s: Number of data packets per second measure over the last 10 seconds.
+
+CH: Channel number (taken from beacon packets).
+
+MB: Maximum speed supported by the AP. If MB = 11, it's 802.11b, if MB = 22 it's 802.11b+ and higher rates are 802.11g.
+
+ENC: Encryption algorithm in use.
+
+CIPHER: The cipher detected. TKIP is typically used with WPA and CCMP is typically used with WPA2.
+
+AUTH: The authentication protocol used.
+
+ESSID: Shows the wireless network name. The so-called SSID, which can be empty if SSID hiding is activated.
+
+4. From the step 3 above, we can find access point with encryption algorithm WPA2 and note the AP channel number. Now we will find out whether target AP has WPS enabled or not.
+
+wash -i wlan0 -c 8 -C -s
+
+
+if the WPS Locked status is No, then we ready to crack and move to step 5.
+
+5. The last step is cracking the WPA2 password using reaver.
+
+reaver -i <your_interface> -b <wi-fi victim MAC address> fail-wait=360
+
+Because we already get the information from step 3 above, so my command look like this:
+
+reaver -i wlan0 -b E0:05:C5:5A:26:94 fail-wait=360
+
+
+it took about 5 hours to crack 19 characters WPA2 password (vishnuvalentino.com) from my Kali virtualBox, but it depend with our hardware and wireless card.
+
+
+ANDLYS WAY TO HACK WIFI
+Steps to Hack Wifi password using cmd :
+1: Open command prompt by going to start and click on run command or enter windows+r, then type cmd and hit Enter
+2: In command prompt window, type
+netsh wlan show network mode=bssid
+3: This command will show all the available WiFi network in your area
+4: This is the last step. Just type :
+   netsh wlan connect name=(wifi name )
+   netsh wlan connect name=Mynet Sata1
+and you will be connected to that WiFi network.
+5: To disconnect it, type
+    netsh wlan disconnect
+
+
+
+Related Topics
+Wireless networking Local area networks IEEE 802.11 Computer network security Netsh Cryptographic protocols Wireless LAN Wi-Fi Service set Wireless network
+
+More Free Essays Like This
+Survey Of Wireless Computing School Of Computer Science Florida Intern
+History Of The Internet
+Wireless Communications
+Survey Of Wireless Computing
+The Evolution Of Apple - January 1976 To May 1995
+Apple
+Wireless Technology
+Telecommunications & Networking Report
+Sun Microsystems, Inc.
+Cable Modems: Cable Tv Meets The Internet
+Hewlettpackard Strategy
+Internet
+Hewlett-Packard Strategy
+Cisco
+Convergence
+Wireless Technology
+Fcc E911
+At&T, Ncr, And Lucent Technologies
+moneyyyyyyyyyyyyyyy
+Enterprise Growth Plan Project
+Technician Qualities

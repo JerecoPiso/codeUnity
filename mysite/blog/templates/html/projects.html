@@ -22,9 +22,9 @@
 					<div class="projects-div clear-float">
 						{% for project in projects %}
 						<div class="project-box">
-							<a href="project/{{project.id}}" class="app-title">{{ project.project_name }}</a>
+							<a href="viewProject/{{project.id}}" class="app-title">{{ project.project_name }}</a>
 							<div class="about-project">
-								{{ project.about }}
+								{{ project.about|safe }}
 							</div>
 							
 								<div class="project-info-btn">
@@ -32,23 +32,46 @@
 									<button>20 Views</button>
 								</div>
 								
-								<a href="download/{{ project.project_name }}" class="download-app"> <span class="fa fa-download"></span></a>
-								
-							
-								
+								<a href="download/{{ project.project_name }}" class="download-app"> <span class="fa fa-download"></span></a>								
 						</div>
 						{% endfor %}
+						<div class="pagination">
+							<span class="step-links">
+								{% if page_obj.has_previous %}
+									<a href="?page=1" style="font-size: 20px;margin-right: 10px;">&laquo; 1</a>
+									<a href="?page={{ page_obj.previous_page_number }}" style="font-size: 20px;margin-right: 20px">Prev</a>
+								{% endif %}
+						
+							
+								{% if page_obj.has_next %}
+						
+									<a href="?page={{ page_obj.next_page_number }}" style="font-size: 20px;margin-right: 10px">Next</a>
+									<a href="?page={{ page_obj.paginator.num_pages }}" style="font-size: 20px"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
+								{% endif %}
+								<span class="current" style="font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
+									Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+								</span>
+						
+							</span>
+						</div>  
+					
 					</div>
-
+					
             
 				</div>
 				<div class="col l3 m12 s12 xl3">
 
 					<p class="trends">Popular Projects</p>
 					<ul class="trending-projects">
-						<li><a href="">Loaning System</a></li>
-						<li><a href="">Real Time Chat App</a></li>
-						<li><a href="">E-Commerce</a></li>
+						{% for app in apps %}
+						<li><a href="viewProject/{{app.id}}">{{app.project_name}}</a></li>
+						{% endfor %}
+					</ul>
+					<p class="trends">Newest Projects</p>
+					<ul class="trending-projects">
+						{% for app in new_apps %}
+						<li><a href="viewProject/{{app.id}}">{{app.project_name}}</a></li>
+						{% endfor %}
 					</ul>
 				</div>
 			</div>

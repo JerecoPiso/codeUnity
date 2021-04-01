@@ -35,6 +35,7 @@ class Projects(models.Model):
 	downloads = models.IntegerField(blank=True)
 	language = models.CharField(max_length=100,blank=True)
 	about = models.TextField(blank=True)
+	# about = models.TextField(blank=True)
 	views = models.IntegerField(blank=True)
 
 	def __str__(self):
@@ -47,7 +48,7 @@ class Questions(models.Model):
 	language = models.CharField(max_length=155)
 	likes = models.IntegerField()
 	category = models.CharField(max_length=255)
-	comments = models.IntegerField(blank=True)
+	comments = models.IntegerField(null=True)
 	
 
 	def __str__(self):
@@ -70,3 +71,9 @@ class Language(models.Model):
 
 	def __str__(self):
 		return self.language + " " + self.category
+
+class Question_Category(models.Model):
+	category = models.CharField(max_length=50)
+
+	def __str__(self):
+		return self.category

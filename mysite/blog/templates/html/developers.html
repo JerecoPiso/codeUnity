@@ -1,0 +1,86 @@
+{% extends 'html/templates/base.html' %}
+
+
+{% block main_page %}
+	
+	{% include 'html/templates/header.html' %}
+    
+        <div class="row">
+            <div class="col l9 m8 s12">
+                <input type="" id="search-div" placeholder="Search developer's expertise . . .">
+
+                <div class="row" style="clear: both;">
+                    <div class="col l4">
+                        <div class="card">
+                            <div class="card-image">
+                              <img src="/media/it2.jpg" height="200px">
+                              <span class="card-title dev-name">{{ dev.uname }}</span>
+                            </div>
+                            <div class="card-content">
+                              <p>Sanaol Bina Bio</p>
+                            </div>
+                            <div class="card-action">
+                              <!-- <a href="#">See uploads...</a> -->
+                            </div>
+                       </div>
+                    </div>
+                    <div class="col l4">
+                        <div class="card">
+                            <div class="card-image">
+                              <img src="/media/it2.jpg" height="200px">
+                              <span class="card-title dev-name">{{ dev.uname }}</span>
+                            </div>
+                            <div class="card-content">
+                              <p>Sanaol Bina Bio</p>
+                            </div>
+                            <div class="card-action">
+                              <!-- <a href="#">See uploads...</a> -->
+                            </div>
+                       </div>
+                    </div>
+                    <div class="col l4">
+                        <div class="card">
+                            <div class="card-image">
+                              <img src="/media/it2.jpg" height="200px">
+                              <span class="card-title dev-name">dsd</span>
+                            </div>
+                            <div class="card-content">
+                              <p>Sanaol Bina Bio</p>
+                            </div>
+                            <div class="card-action">
+                              <!-- <a href="#">See uploads...</a> -->
+                            </div>
+                       </div>
+                    </div>
+                    <div class="col l4">
+                        <div class="card">
+                            <div class="card-image">
+                              <img src="/media/it2.jpg" height="200px">
+                              <span class="card-title dev-name">dsd</span>
+                            </div>
+                            <div class="card-content">
+                              <p>Sanaol Bina Bio</p>
+                            </div>
+                            <div class="card-action">
+                              <!-- <a href="#">See uploads...</a> -->
+                            </div>
+                       </div>
+                    </div>
+                    
+        
+                </div>
+              
+            </div>
+
+            <div class="col l3 s12 m4">
+                <p class="total-developers">20, 000 Developers</p>
+                <p class="filter-by">Developers Category :</p>
+                <div class="categories">
+                    <a href="">Backend</a>
+                </div>
+            </div>
+        </div>
+
+	{% include 'html/templates/footer.html' %} 
+
+{% endblock %}

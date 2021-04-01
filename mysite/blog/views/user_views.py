@@ -8,11 +8,16 @@ from django.conf import settings
 rootDir = ""
 
 def askQuestion(request):
-    if request.method == "POST":
-        ask = Questions(question=request.POST['question'], likes=0, asker_id=request.session['id'], code=request.POST['code'], language=request.POST['language'])
-        ask.save()
-        return HttpResponse('Added')
-    return HttpResponse("Failed")
+    try:
+
+        if request.method == "POST":
+            ask = Questions(question=request.POST['question'], likes=0, asker_id=request.session['id'], code=request.POST['code'], language=request.POST['language'])
+            ask.save()
+            return HttpResponse('Added')
+
+    except:
+        
+        return HttpResponse("Failed")
 
 def index(request):
     request.session['title'] = "Home"
@@ -84,6 +89,24 @@ def questions(request):
     myquestion = Questions.objects.all()
     return render(request, 'html/user_pages/questions.html', {'myquestions': myquestion, 'total_question': total_question})
 
+def getQuestions(request):
+    try:
+        ques = Questions.objects.filter(asker_id__exact=request.session['id']).values()
+        return JsonResponse(list(ques), safe=False)
+
+    except:
+
+        return HttpResponse("Failed")
+
+def deleteQuestion(request):
+    try:
+        ques = Questions.objects.get(id=request.POST['id'])
+        ques.delete()
+        return HttpResponse("Deleted successfully")
+    
+    except:
+        return HttpResponse("An error has occurred!")
+
 # uploading project
 def uploadProject(request):
     if request.method == 'POST':
@@ -106,7 +129,7 @@ def uploadProject(request):
                 for chunk in file.chunks():          
                     storage.write(chunk)
                 storage.close()
-            project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], language="PHP", views = 0)
+            project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], language=request.POST['language'], views = 0)
             project.save()       
             return HttpResponse("Uploaded successfully")
       

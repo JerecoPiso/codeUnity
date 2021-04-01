@@ -13,10 +13,10 @@
 						 <!--  <label  class="filter-by">Search by:</label> -->
 
 						  <select class="browser-default">
-						    <option value="" disabled selected>Search by Language</option>
-						    <option value="1">Option 1</option>
-						    <option value="2">Option 2</option>
-						    <option value="3">Option 3</option>
+							<option value="" disabled selected>Search by Language</option>
+							{% for lang in languages %}
+							<option>{{lang.language}}</option>
+							{% endfor %}
 						  </select>
 					</form>
 				</div>
@@ -29,7 +29,7 @@
 			</div>
 			<!-- <strong>Questions</strong> -->
 			<ul class="questions-box">
-				{% for question in myquestions %}
+				{% for question in questions %}
 				<li class="question">
 					<a href="">{{ question.question }}</a> <br>
 					<cite style="">by: Jereco James Piso <i>(2 weeks ago)</i></cite>
@@ -42,19 +42,43 @@
 				{% endfor %}
 			
 			</ul>
+			<div class="pagination">
+				<span class="step-links">
+					{% if page_obj.has_previous %}
+						<a href="?page=1" style="font-size: 20px;margin-right: 10px;">&laquo; 1</a>
+						<a href="?page={{ page_obj.previous_page_number }}" style="font-size: 20px;margin-right: 20px">Prev</a>
+					{% endif %}
+			
+				
+					{% if page_obj.has_next %}
+			
+						<a href="?page={{ page_obj.next_page_number }}" style="font-size: 20px;margin-right: 10px">Next</a>
+						<a href="?page={{ page_obj.paginator.num_pages }}" style="font-size: 20px"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
+					{% endif %}
+					<span class="current" style="font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
+						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+					</span>
+			
+				</span>
+			</div>  
 			
 		</div>
 		<div class="col s12 m12 xl4 l4">
 			<div class="questions-total">
-				20,343 Questions
+				{% if total_questions > 1 %}
+						{{total_questions}} Questions
+				{% else %}
+
+						{{total_questions}} Question
+
+				{% endif %}
 			</div>
 			<p class="question-categories">Question Categories:</p>
 				<ul class="categories">
-					<a href="">Desktop</a>
-					<a href="">Android</a>
-					<a href="">IOS</a>
-					<a href="">Front-End</a>
-					<a href="">Back-End</a>
+					{% for cat in question_cat %}
+					<a href="">{{cat.category}}</a>
+				
+					{% endfor %}
 				</ul>
 			<p class="filter-p">Filter:</p>
 			<div class="questions-btn">
@@ -62,7 +86,6 @@
 				<button>Latest</button>
 				<button>Answered Questions</button>
 				<button>Most Viewed</button>
-				<button>Top</button>
 
 			</div>
 		</div> 
