@@ -18,16 +18,16 @@ class User(models.Model):
 class Developers(models.Model):
 	email = models.CharField(max_length=50)
 	password = models.CharField(max_length=40)
-	photo = models.FileField(upload_to="media/")
+	# photo = models.FileField(upload_to="media/")
 	uname = models.CharField(max_length=255, blank=True)
 
 
 	def __str__(self):
-		return self.email + " " + self.password + " " + self.photo + " " + self.uname
+		return self.email + " " + self.password + " " + self.uname
 
-	def delete(self, *args, **kwargs):
-		self.photo.delete()
-		super().delete(*args,**kwargs)
+	# def delete(self, *args, **kwargs):
+	# 	self.photo.delete()
+	# 	super().delete(*args,**kwargs)
 
 class Jobs(models.Model):
 	company_name = models.CharField(max_length=255)

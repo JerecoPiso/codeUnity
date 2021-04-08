@@ -107,7 +107,7 @@ def verified(request):
   else:
     # saved new user's info to the db if the verification code match
     hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
-    user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo='haha', uname = request.session.get('reg_username'))
+    user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, uname = request.session.get('reg_username'))
     user.save()
     # save session for the users panel
     request.session['id'] = user.id
@@ -210,8 +210,8 @@ def register(request):
                                smtp_server = "smtp.gmail.com"
                                sender_email = "jamesjerecopiso@gmail.com"  # sites email
                                receiver_email = request.POST['email']  # receivers email
-                               password = "prograpper20"
-
+                               password = "PHPprogrammer20"
+                              
                                message = 'Subject: {}\n\n{}'.format("Verify Account", "Verification code : " + code)
                                context = ssl.create_default_context()
                                with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
