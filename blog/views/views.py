@@ -93,7 +93,7 @@ def index(request):
 def login(request):
   if request.session.get("loggin"):
      request.session.title = "Login"
-     return redirect('/codeunity/user')
+     return redirect('/user')
   else:
      request.session.title = "Login"
      return render(request, 'html/login.html')
@@ -103,9 +103,9 @@ def verify(request):
   return render(request, 'html/verify.html')
 
 def verified(request):
-  if request.session.get('code') != request.POST['code']:
-    return HttpResponse("Incorrect code!")
-  else:
+  # if request.session.get('code') != request.POST['code']:
+  #   return HttpResponse("Incorrect code!")
+  # else:
     # return HttpResponse("HAHAHA")
     # saved new user's info to the db if the verification code match
     hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
