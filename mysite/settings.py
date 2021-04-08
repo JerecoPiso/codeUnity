@@ -29,7 +29,13 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = 'i)4t9z5rp_&n)v6%c_(s8wv1nh84m7d6y_^hpyb-xun+0)+71u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+if 'DYNO' in os.environ:
+    DEBUG = False
+    DATABASE_URL = 'postgresql://<postgresql-flat-21689>'
+else:
+     DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+     DEBUG = True
 
 ALLOWED_HOSTS = ["codeunity.herokuapp.com"]
 
@@ -41,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'django.contrib.sessions',  
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
@@ -94,10 +100,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 #     DATABASE_URL = 'postgresql://<postgresql>'
 # else:
 #     DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-if 'DYNO' in os.environ:
-    DATABASE_URL = 'postgresql://<postgresql>'
-else:
-     DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+
 DATABASES = {'default': dj_database_url.config(default=DATABASE_URL)}
 # DATABASES = {}
 # DATABASES['default'] = dj_database_url.config(conn_max_age=600)
