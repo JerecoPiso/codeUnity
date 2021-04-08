@@ -1,12 +1,14 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from pathlib import Path
-import os
+import os, datetime, json
 from blog.models import Projects, Questions
 from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 rootDir = ""
 
+# asking question
 def askQuestion(request):
     try:
 
@@ -18,7 +20,7 @@ def askQuestion(request):
     except:
         
         return HttpResponse("Failed")
-
+# main page of the user
 def index(request):
     request.session['title'] = "Home"
     if request.session.get("loggin"):
@@ -28,25 +30,28 @@ def index(request):
     else:
          return redirect("/codeunity/login")
 
+# projects of the user
 def projects(request):
         request.session['title'] = "Projects"
         count = Projects.objects.filter(uploader_id__exact=request.session['id']).count()
         proj = Projects.objects.filter(uploader_id__exact=request.session['id'])
         return render(request, 'html/user_pages/projects.html', {'myproject':proj, 'count': count})
-# opening the file 
+
+# opening the file from a project
 def readFile(request):
 
     path = request.POST['path']
     temp_path = path.replace(request.POST['fname'], "temporary")
     new_path = temp_path.replace("%", "\\")
     cd = os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'\\'+new_path.replace("temporary", request.POST['fname']))
-    # cwd = cd
+
     os.chdir(cd.replace(request.POST['fname'], ""))
     file = open(request.POST['fname'], "r+")
     ret = file.read()
     file.close()
     os.chdir(os.path.join(Path(__file__).resolve().parent.parent.parent))
     return HttpResponse(str(ret))
+
 # getting the directories and files the users project
 def project_files(request, folder):
     request.session['title'] = folder
@@ -107,6 +112,22 @@ def deleteQuestion(request):
     except:
         return HttpResponse("An error has occurred!")
 
+def deleteProject(request):
+    try:
+        project = Projects.objects.get(id=request.POST['id'])
+        
+        for root, dirs, files in  os.walk(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'\\')+project.project_name, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+        os.rmdir(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'\\')+project.project_name)
+        project.delete()
+        return HttpResponse("Deleted successfully")
+    
+    except:
+        return HttpResponse("An error has occurred!")
+
 # uploading project
 def uploadProject(request):
     if request.method == 'POST':
@@ -119,18 +140,22 @@ def uploadProject(request):
         if not dirlist:
             return HttpResponse( 'files not found')
         else:
- 
+           
             for file in dirlist:
                 position = os.path.join(os.path.abspath(os.path.join(os.getcwd(),'media')),'/'.join(pathlist[dirlist.index(file)].split('/')[:-1]))
-                
                 if not os.path.exists(position):
                     os.makedirs(position)
                 storage = open(position+'/'+file.name, 'wb+')    
                 for chunk in file.chunks():          
                     storage.write(chunk)
                 storage.close()
-            project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], language=request.POST['language'], views = 0)
-            project.save()       
+
+            upload_file = request.FILES['photo']
+            fss = FileSystemStorage()
+            filename = fss.save(upload_file.name, upload_file)
+            upload_file_path = fss.path(filename)
+            project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = upload_file.name, language=request.POST['language'], views = 0)
+            project.save()     
             return HttpResponse("Uploaded successfully")
       
  

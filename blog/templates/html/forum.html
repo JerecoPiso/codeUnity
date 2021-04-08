@@ -31,7 +31,7 @@
 			<ul class="questions-box">
 				{% for question in questions %}
 				<li class="question">
-					<a href="">{{ question.question }}</a> <br>
+					<a href="viewQuestion/{{question.id}}">{{ question.question }}</a> <br>
 					<cite style="">by: Jereco James Piso <i>(2 weeks ago)</i></cite>
 					<div class="infos">
 						<span class="fa fa-comments comments" style=""></span><b class="question-info">  {{ question.likes }}</b> 

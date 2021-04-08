@@ -13,6 +13,7 @@ urlpatterns = [
      url(r'^askQuestion', user_views.askQuestion, name='Read File'),
      url(r'^getProjects', user_views.getProject, name='Read File'),
      url(r'^getQuestions', user_views.getQuestions, name='Read File'),
+     url(r'^deleteProject', user_views.deleteProject, name='Read File'),
      url(r'^deleteQuestion', user_views.deleteQuestion, name='Read File'),
      url(r'^project_files/(?P<folder>.+)$', user_views.project_files, name='Project Files')
 ]

@@ -12,7 +12,7 @@ urlpatterns = [
 	  url(r'^codeunity/dashboard/', include('blog.dashboard_urls')),
       url('admin/', admin.site.urls),
 ]
-
+	
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

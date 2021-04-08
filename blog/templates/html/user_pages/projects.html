@@ -30,7 +30,7 @@
 						</div> -->
 						
 						<div style="min-width: 100%;">
-							<p class="my-projects">Uploaded Projects ({{count}})</p>
+							<p class="my-projects">Uploaded Projects ([count])</p>
 							<table class="striped responsive-table" >
 								<thead>
 								  <tr>
@@ -50,7 +50,7 @@
 									<td>[p.downloads]</td>
 									<td></td>
 									<td>[p.views]</td>
-									<td><button>Edit</button><button>Delete</button></td>
+									<td><button>Edit</button><button @click="id = p.id;deleteProject()">Delete</button></td>
 								  </tr>
 								 
 								</tbody>
@@ -70,11 +70,13 @@
 							  <label>Folder</label><br>
 							  <input type='file' webkitdirectory ref="file" @change="handleFileUpload()" ><br> 
 							  <label>About</label>
-							  <textarea  id="about" style="max-width: 100%;"></textarea>
+							  <textarea  id="about" style="max-width: 100%;overflow: auto;"></textarea>
+							  <label>Photo</label> <br>
+							  <input type='file'  ref="photo" @change="photo()"><br> 
 							  <label>Language(Optional)</label>
 							<select class="browser-default" id="select" v-model="language">
 							   <!-- <option value="" disabled selected>Select Language</option> -->
-							   <option v-for="lang in languages">[ lang.language ]</option>
+							   <option v-for="lang in languages" v-bind:value="lang.id">[ lang.language ]</option>
 							   <!-- <option>Option 2</option>
 							   <option>Option 3</option> -->
 							 </select>

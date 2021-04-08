@@ -12,6 +12,7 @@ urlpatterns = [
      url(r'^questions', views.questions, name="Questions"),
      url(r'^verified', views.verified, name="Verified"),
      url(r'^userLogin', views.userLogin, name="User Login"),
-     url(r'^developers', views.developers, name="User Login"),
-     url(r'^viewProject/(?P<id>.+)$', views.viewProject, name="User Login")
+     url(r'^developers', views.developers, name="Developers"),
+     url(r'^viewProject/(?P<id>.+)$', views.viewProject, name="View Project"),
+     url(r'^viewQuestion/(?P<id>.+)$', views.viewQuestion, name="View Question")
 ]

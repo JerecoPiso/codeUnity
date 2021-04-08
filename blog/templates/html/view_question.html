@@ -1,0 +1,28 @@
+{% extends 'html/templates/base.html' %}
+
+{% block main_page %}
+	{% include 'html/templates/header.html' %}
+			
+			
+    <div class="row" style="padding: 0   1% 1% 1%">
+        <div class="col l8 s12 m8">
+            <div class="my-project">
+                <h5 class="project-title">{{question.question}}</h5>
+                <cite>by: Jereco James Piso</cite>
+                
+                <!-- <h5>Code</h5> -->
+                <pre style="word-wrap: break-word;overflow: auto;clear: both">
+                    <code>{{question.code|safe}}</code>
+                </pre>
+                    <!-- <p class="about-project">{{question.about|safe}}</p> -->
+            </div>
+       
+        </div>
+        <div class="col l4 s12 m4">
+
+        </div>
+    </div>
+
+	{% include 'html/templates/footer.html' %}
+
+{% endblock %}

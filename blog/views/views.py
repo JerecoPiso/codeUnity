@@ -130,7 +130,7 @@ def projects(request):
   language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
-  paginator = Paginator(project, 10)
+  paginator = Paginator(project, 4)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
@@ -148,6 +148,7 @@ def questions(request):
   return render(request, 'html/forum.html', {'question_cat': question_cat, 'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj, 'languages': languages})
 
 def userLogin(request):
+    request.session['title'] = "Login"
     msg = ""
 
     if request.POST['email'] != "":
@@ -244,3 +245,8 @@ def viewProject(request, id):
       request.session['title'] = "viewProject"
       project = Projects.objects.get(id=id)
       return render(request, "html/view_project.html", {'project': project})
+
+def viewQuestion(request, id):
+      request.session['title'] = "viewQuestion"
+      question = Questions.objects.get(id=id)
+      return render(request, "html/view_question.html", {'question': question})

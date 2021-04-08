@@ -23,9 +23,20 @@
 						{% for project in projects %}
 						<div class="project-box">
 							<a href="viewProject/{{project.id}}" class="app-title">{{ project.project_name }}</a>
-							<div class="about-project">
-								{{ project.about|safe }}
+							<div class="project-container">
+							 <div class="project-img"><img src="/media/{{project.photo}}" style="border: 1px solid white"></div>
+								 <div  style="margin-left: 10px;">
+									<p style="margin-top: -5px;font-size: 18px;word-wrap: break-word;" >{{ project.about}}</p>
+								</div> 
+								
+									<div style="word-wrap: break-word;clear: both;font-size: 16px;padding: 2% 2% 2% 0;">
+										{{ project.about|safe }}
+									</div>
+					
 							</div>
+							<!-- <div class="about-project">
+								{{ project.about|safe }}
+							</div> -->
 							
 								<div class="project-info-btn">
 									<button >{{project.downloads}} Downloads </button>

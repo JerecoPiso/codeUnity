@@ -26,33 +26,8 @@ class Developers(models.Model):
 		return self.email + " " + self.password + " " + self.photo + " " + self.uname
 
 	def delete(self, *args, **kwargs):
-		self.file.delete()
+		self.photo.delete()
 		super().delete(*args,**kwargs)
-
-class Projects(models.Model):
-	project_name = models.CharField(max_length=255)
-	uploader_id = models.IntegerField()
-	downloads = models.IntegerField(blank=True)
-	language = models.CharField(max_length=100,blank=True)
-	about = models.TextField(blank=True)
-	# about = models.TextField(blank=True)
-	views = models.IntegerField(blank=True)
-
-	def __str__(self):
-		return self.project_name + " " + self.uploader_id + " " + self.downloads + " " + self.language + " " + self.about + " " + self.views
-
-class Questions(models.Model):
-	question = models.CharField(max_length=355)
-	asker_id = models.IntegerField(null=True)
-	code = models.TextField(blank=True)
-	language = models.CharField(max_length=155)
-	likes = models.IntegerField()
-	category = models.CharField(max_length=255)
-	comments = models.IntegerField(null=True)
-	
-
-	def __str__(self):
-		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.likes + " " + self.category + " " + self.comments
 
 class Jobs(models.Model):
 	company_name = models.CharField(max_length=255)
@@ -71,6 +46,39 @@ class Language(models.Model):
 
 	def __str__(self):
 		return self.language + " " + self.category
+
+class Projects(models.Model):
+	project_name = models.CharField(max_length=255)
+	uploader_id = models.IntegerField()
+	downloads = models.IntegerField(blank=True)
+	language = models.CharField(max_length=100,blank=True)
+	# language = models.ForeignKey(Language, on_delete=models.CASCADE)
+	about = models.TextField(blank=True)
+	photo = models.FileField(upload_to="media/", blank=True)
+	views = models.IntegerField(blank=True)
+
+	def __str__(self):
+		return self.project_name + " " + self.uploader_id + " " + self.downloads + " " + self.language + " " + self.about + " " + self.photo + " " + self.views
+
+	def delete(self, *args, **kwargs):
+		self.photo.delete()
+		super().delete(*args,**kwargs)
+
+
+class Questions(models.Model):
+	question = models.CharField(max_length=355)
+	asker_id = models.IntegerField(null=True)
+	code = models.TextField(blank=True)
+	language = models.CharField(max_length=155)
+	# language = models.ForeignKey(Language, on_delete=models.CASCADE)
+	likes = models.IntegerField()
+	category = models.CharField(max_length=255)
+	comments = models.IntegerField(null=True)
+	
+
+	def __str__(self):
+		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.likes + " " + self.category + " " + self.comments
+
 
 class Question_Category(models.Model):
 	category = models.CharField(max_length=50)
