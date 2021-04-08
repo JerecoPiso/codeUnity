@@ -9,6 +9,7 @@ import io, smtplib, ssl
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import Paginator
 import random
+
 rootDir = ""
 message = "www"
 resp = ""
@@ -105,11 +106,11 @@ def verified(request):
   if request.session.get('code') != request.POST['code']:
     return HttpResponse("Incorrect code!")
   else:
-    return HttpResponse("HAHAHA")
+    # return HttpResponse("HAHAHA")
     # saved new user's info to the db if the verification code match
-    # hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
-    # user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, uname = request.session.get('reg_username'))
-    # user.save()
+    hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
+    user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, uname = request.session.get('reg_username'))
+    user.save()
     # save session for the users panel
     # request.session['id'] = user.id
     # request.session['loggin'] = True
