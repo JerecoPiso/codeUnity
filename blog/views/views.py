@@ -103,9 +103,9 @@ def verify(request):
   return render(request, 'html/verify.html')
 
 def verified(request):
-  # if request.session.get('code') != request.POST['code']:
-  #   return HttpResponse("Incorrect code!")
-  # else:
+  if request.session.get('code') != request.POST['code']:
+    return HttpResponse("Incorrect code!")
+  else:
     # return HttpResponse("HAHAHA")
     # saved new user's info to the db if the verification code match
     hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
@@ -116,13 +116,13 @@ def verified(request):
     request.session['loggin'] = True
     request.session['username'] = user.uname
     # del all sessions stored
-    # try:
-    #   del request.session['code']
-    #   del request.session['reg_password']
-    #   del request.session['reg_email']
-    #   del request.session['reg_username']
-    # except:
-    #   pass
+    try:
+      del request.session['code']
+      del request.session['reg_password']
+      del request.session['reg_email']
+      del request.session['reg_username']
+    except:
+      pass
 
     return HttpResponse("Correct")
 
