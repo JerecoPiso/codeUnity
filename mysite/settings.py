@@ -31,7 +31,7 @@ SECRET_KEY = 'i)4t9z5rp_&n)v6%c_(s8wv1nh84m7d6y_^hpyb-xun+0)+71u'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 if 'DYNO' in os.environ:
-    DEBUG = False
+    DEBUG = True
     DATABASE_URL = 'postgresql://<postgresql-flat-21689>'
 else:
      DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
