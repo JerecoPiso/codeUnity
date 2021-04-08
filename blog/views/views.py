@@ -111,7 +111,7 @@ def verified(request):
     hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
     user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, uname = request.session.get('reg_username'))
     user.save()
-    save session for the users panel
+    # save session for the users panel
     request.session['id'] = user.id
     request.session['loggin'] = True
     request.session['username'] = user.uname
