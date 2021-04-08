@@ -68,11 +68,12 @@ var signup = new Vue({
 			verify: function(){
 				let data = verify.toFormData(verify.verifyInfo)
 				axios.post('verified', data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(resp){
-					if(resp.data == "Correct"){
-						window.location.href = "/user"
-					}else{
-						alert(resp.data)
-					}
+					// if(resp.data == "Correct"){
+					// 	window.location.href = "/user"
+					// }else{
+					// 	alert(resp.data)
+					// }
+					alert(resp.data)
 				})
 			},
 			 toFormData: function(obj){
