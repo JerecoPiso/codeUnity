@@ -103,28 +103,36 @@ def verify(request):
   return render(request, 'html/verify.html')
 
 def verified(request):
+  ret_msg = ""
   if request.session.get('code') != request.POST['code']:
-    return HttpResponse("Incorrect code!")
+    ret_msg = "Incorrect code!"
   else:
     # return HttpResponse("HAHAHA")
     # saved new user's info to the db if the verification code match
-    hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
-    user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, uname = request.session.get('reg_username'))
-    user.save()
-    # save session for the users panel
-    request.session['id'] = user.id
-    request.session['loggin'] = True
-    request.session['username'] = user.uname
-    # del all sessions stored
-    try:
-      del request.session['code']
-      del request.session['reg_password']
-      del request.session['reg_email']
-      del request.session['reg_username']
-    except:
-      pass
+    if Developers.objects.filter(email__exact = request.session.get('reg_email')):
+        msg = "Email already exist!"
+    
+    else:
 
-    return HttpResponse("Correct")
+        hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
+        user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, uname = request.session.get('reg_username'))
+        user.save()
+        # save session for the users panel
+        request.session['id'] = user.id
+        request.session['loggin'] = True
+        request.session['username'] = user.uname
+        # del all sessions stored
+        try:
+          del request.session['code']
+          del request.session['reg_password']
+          del request.session['reg_email']
+          del request.session['reg_username']
+        except:
+          pass
+
+        ret_msg = "Correct"
+
+    return HttpResponse(ret_msg)
 
 
 def projects(request):
