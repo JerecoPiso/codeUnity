@@ -166,7 +166,7 @@
 		
 			},
 			getLanguages: function(){
-				axios.get("/codeunity/dashboard/getLanguages").then(function(response){
+				axios.get("/dashboard/getLanguages").then(function(response){
 					if(response.data == "Failed"){
 					alert("Unable to retrieve Languages!")
 				}else{
@@ -234,7 +234,7 @@
 		},
 		methods:{
 			getLanguages: function(){
-				axios.get("/codeunity/dashboard/getLanguages").then(function(response){
+				axios.get("/dashboard/getLanguages").then(function(response){
 					if(response.data == "Failed"){
 					alert("Unable to retrieve Languages!")
 				}else{

@@ -69,7 +69,7 @@ var signup = new Vue({
 				let data = verify.toFormData(verify.verifyInfo)
 				axios.post('verified', data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(resp){
 					if(resp.data == "Correct"){
-						window.location.href = "/codeunity/user"
+						window.location.href = "/user"
 					}else{
 						alert(resp.data)
 					}
@@ -100,7 +100,7 @@ var login = new Vue({
 					
 					if(response.data == "Success"){
 						login.success = "Redirecting . . ."
-						window.location.href = '/codeunity/user'
+						window.location.href = '/user'
 					}else{
 						login.error = response.data
 					}

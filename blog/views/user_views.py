@@ -28,7 +28,7 @@ def index(request):
          question = Questions.objects.filter(asker_id__exact=request.session['id']).count()
          return render(request, 'html/user_pages/index.html', {'project_total': project, 'question_total': question})
     else:
-         return redirect("/codeunity/login")
+         return redirect("/login")
 
 # projects of the user
 def projects(request):
@@ -170,7 +170,7 @@ def logout(request):
     except:
         pass
 
-    return redirect('/codeunity/login')
+    return redirect('/login')
 
 def settings(request):
     request.session['title'] = "Settings"
