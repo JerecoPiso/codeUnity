@@ -114,13 +114,13 @@ def verified(request):
     request.session['loggin'] = True
     request.session['username'] = user.uname
     # del all sessions stored
-    try:
-      del request.session['code']
-      del request.session['reg_password']
-      del request.session['reg_email']
-      del request.session['reg_username']
-    except:
-      pass
+    # try:
+    #   del request.session['code']
+    #   del request.session['reg_password']
+    #   del request.session['reg_email']
+    #   del request.session['reg_username']
+    # except:
+    #   pass
 
     return HttpResponse("Correct")
 
