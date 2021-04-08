@@ -1,13 +1,12 @@
 
 @media(max-width: 600px){
-
 	#bars{
 		color: rgb(255,255,255);
 		float: right;
 		margin-right: 3%;
 		margin-top: 0.5%;
-		font-size: 35px;
-		
+		font-size: 30px;
+		display: block; 
 	}
 	.flex-container{
 
@@ -74,13 +73,22 @@
 }
 
 @media(min-width: 601px) and (max-width: 991px){
-	#bars{
+	#show{
+		position: absolute;
+		z-index: 1;
+		font-size: 50px;
+		margin-left: 2%;
+		padding: 3%;
+		background-color: rgb(0, 128, 128);
+		color: rgb(255,255,255);
+	}
+	 #bars{
 		color: rgb(255,255,255);
 		float: right;
 		margin-right: 3%;
 		margin-top: 0.5%;
 		font-size: 30px;
-		display: none;
+		display: block; 
 	}
 	.flex-container{
 		display: flex;
@@ -88,12 +96,14 @@
 		width: 100%;
 	}
 	.flex-item1{
+		z-index: 1;
+		position: absolute;
 		width: 30%;
-
+		display: none;
 		background-color:  rgb(0, 128, 128);
 	}
 	.flex-item2{
-		width: 70%;
+		width: 100%;
 		
 	}
 	.name{
@@ -111,9 +121,9 @@
 		width: 40px;
 		text-align: center;
 	}
-	#show{
+	/* #show{
 		display: none;
-	}
+	} */
 	.sideNav{
 		list-style-type: none;
 		margin: 2% 0% 0% 0%;

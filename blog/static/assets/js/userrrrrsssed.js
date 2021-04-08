@@ -15,15 +15,16 @@ $(document).ready(function(){
 	$(window).resize(function(){
        	if(document.body.clientWidth > 992){
        		$('.flex-item1').show().css({'width': '20%'})     				
-       	}else if(document.body.clientWidth > 600 && document.body.clientWidth < 992){
-       		$('.flex-item1').show().css({'width': '30%'})     		
+		}else if(document.body.clientWidth > 600 && document.body.clientWidth < 992){
+       		$('.flex-item1').css({'width': '30%'})     		
        	
-       	}else{
-       		$('.flex-item1').css({'width': '50%'})     					
+		}else{
+			   $('.flex-item1').css({'width': '30%'}).hide() 
+			
        	}
    	});
 	$('#show').click(function(){
-		$('.flex-item1').show().css({'width': '50%'})
+		$('.flex-item1').show().css({'width': '40%'})
 	})
 	$('#bars').click(function(){
 		$('.flex-item1').hide()

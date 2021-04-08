@@ -4,10 +4,10 @@
 	{% load static %}
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/usex.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chart.css' %}">
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/p.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/pp.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questionsed.css' %}">
@@ -27,13 +27,22 @@
 	{% endblock %}
 <script src="{% static 'assets/js/jquery.js' %}" type="text/javascript"></script>
 <script src="{% static 'assets/js/chart.js' %}" type="text/javascript"></script>
-<script type="text/javascript" src="{% static 'assets/js/userrrrrsss.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/userrrrrsssed.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/myCharts.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
  <script src="{% static 'assets/js/niceedit.js' %}" type="text/javascript"></script>
 <script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script> 
 <script type="text/javascript">
+$(document).ready(function(){
+
+$('#show').click(function(){
+	$('.flex-item1').show().css({'width': '35%'})
+})
+$('#bars').click(function(){
+	$('.flex-item1').hide()
+})
+})
 	var projects = new Vue({
 		delimiters: ['[', ']'],
 		el: "#projects",
@@ -275,12 +284,12 @@
 
 		}
 	})
-	function back(){
-		window.history.back()
-	}
-	function home(){
-		window.location.href = "/codeunity/user/"
-	}
+	// function back(){
+	// 	window.history.back()
+	// }
+	// function home(){
+	// 	window.location.href = "/codeunity/user/"
+	// }
 </script>
 </body>
 </html>
