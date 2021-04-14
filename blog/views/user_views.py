@@ -127,7 +127,7 @@ def deleteProject(request):
                 os.remove(os.path.join(root, name))
             for name in dirs:
                 os.rmdir(os.path.join(root, name))
-        os.rmdir(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'\\')+project.project_name)
+        os.rmdir(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+project.project_name)
         project.delete()
         return HttpResponse("Deleted successfully")
     
