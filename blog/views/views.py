@@ -92,10 +92,10 @@ def index(request):
 
 def login(request):
   if request.session.get("loggin"):
-     request.session.title = "Login"
+    #  request.session.title = "Login"
      return redirect('/user')
   else:
-     request.session.title = "Login"
+     request.session['title'] = "Login"
      return render(request, 'html/login.html')
 
 def verify(request):
@@ -115,7 +115,7 @@ def verified(request):
     else:
 
         hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
-        user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, uname = request.session.get('reg_username'))
+        user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo = "dep.jpg", uname = request.session.get('reg_username'))
         user.save()
         # save session for the users panel
         request.session['id'] = user.id
@@ -174,6 +174,7 @@ def userLogin(request):
                     request.session['id'] = user.id
                     request.session['loggin'] = True
                     request.session['username'] = user.uname
+                    request.session['photo'] = json.dumps(str(user.photo))
         
 
                     msg = "Success"
@@ -254,6 +255,8 @@ def developers(request):
 def viewProject(request, id):
       request.session['title'] = "viewProject"
       project = Projects.objects.get(id=id)
+      project.views = project.views + 1
+      project.save()
       return render(request, "html/view_project.html", {'project': project})
 
 def viewQuestion(request, id):

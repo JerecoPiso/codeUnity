@@ -11,15 +11,9 @@
 	margin: auto;
 	display: block;
 }
-.admin-panel p{
-	margin-top: -10%;
-	color: rgb(255,255,255);
-	font-size: 200%;
-	letter-spacing: 1px;
-	text-align: center;
-}
+
 .admin-panel #user-name{
-	font-size: 100%;
+	font-size: 20px;
 	margin-top: 5%;
 	text-align: center;
 }
@@ -141,7 +135,7 @@ body{
 }
 #side-nav ul li a{
 	color: rgb(255,255,255);
-	font-size: 100%;
+	font-size: 18px;
 }
 #side-nav ul li span{
 	color: rgb(255,255,255);
@@ -164,15 +158,31 @@ body{
 	color: rgba(255,255,255,0.6);
 }
 @media(max-width: 600px){
-	/*.admin-panel p{
+	#side-nav ul li a{
+		color: rgb(255,255,255);
+		font-size: 20px;
+	}
+	#side-nav ul li span{
+		color: rgb(255,255,255);
+		width: 30px;
+		font-size: 20px;
+	}
+	.close{
+		color: rgb(255, 255, 255);
+		float: right;
+		font-size: 40px;
+		margin-top: -13px;
+		margin-right: 10px;
+	}
+	.admin-panel .ap{
 		display: none;
-	}*/
+	}
 	.flex-item-1{
 		position: absolute;
 		height: 100%;
 		z-index: 1;
 		display: none;
-	/*	width: 18%;*/
+		width: 70%;
 	}
 	.flex-item-2{
 		/*margin-left: 18%;*/
@@ -189,7 +199,73 @@ body{
 		color: rgb(255,255,255);
 	}
 }
-@media(min-width: 601px) and (max-width: 991px){
+@media (min-width: 601px) and (max-width: 800px){
+	#side-nav ul li a{
+		color: rgb(255,255,255);
+		font-size: 20px;
+	}
+	#side-nav ul li span{
+		color: rgb(255,255,255);
+		width: 30px;
+		font-size: 20px;
+	}
+	.close{
+		color: rgb(255, 255, 255);
+		float: right;
+		font-size: 40px;
+		margin-top: -13px;
+		margin-right: 10px;
+	}
+	.admin-panel .ap{
+		display: none;
+	}
+	.flex-item-1{
+		position: absolute;
+		height: 100%;
+		z-index: 1;
+		display: none;
+		width: 30%;
+	}
+	.flex-item-2{
+		/*margin-left: 18%;*/
+		width: 100%;
+	}
+	#show-side-nav{
+		margin-top: 1%;
+		margin-left: 2%;
+		background-color: transparent;
+		border: none;
+	}
+	#show-side-nav span{
+		font-size: 30px;
+		color: rgb(255,255,255);
+	}
+}
+@media(min-width: 801px) and (max-width: 991px){
+	#side-nav ul li a{
+		color: rgb(255,255,255);
+		font-size: 18px;
+	}
+	#side-nav ul li span{
+		color: rgb(255,255,255);
+		width: 30px;
+		font-size: 18px;
+	}
+	.close{
+		/* color: rgb(255, 255, 255);
+		float: right;
+		font-size: 40px;
+		margin-top: -13px;
+		margin-right: 10px; */
+		display: none;
+	}
+	.admin-panel .ap{
+		margin-top: -10%;
+		color: rgb(255,255,255);
+		font-size: 200%;
+		letter-spacing: 1px;
+		text-align: center;
+	}
 	.flex-item-1{
 		position: absolute;
 		height: 100%;
@@ -203,10 +279,35 @@ body{
 }
 
 @media(min-width: 992px) and (max-width: 1999px){
+	#side-nav ul li a{
+		color: rgb(255,255,255);
+		font-size: 16px;
+	}
+	#side-nav ul li span{
+		color: rgb(255,255,255);
+		width: 30px;
+		font-size: 16px;
+	}
+	.close{
+		/* color: rgb(255, 255, 255);
+		float: right;
+		font-size: 40px;
+		margin-top: -13px;
+		margin-right: 10px; */
+		display: none;
+	}
+	.admin-panel .ap{
+		margin-top: -10%;
+		color: rgb(255,255,255);
+		font-size: 200%;
+		letter-spacing: 1px;
+		text-align: center;
+	}
 	.flex-item-1{
 		position: fixed;
 		height: 100%;
 		width: 18%;
+		display: block;
 	}
     .flex-item-2{
 		margin-left: 18%;
@@ -218,10 +319,31 @@ body{
 
 }
 @media(min-width: 1200px){
+	#side-nav ul li a{
+		color: rgb(255,255,255);
+		font-size: 16px;
+	}
+	#side-nav ul li span{
+		color: rgb(255,255,255);
+		width: 30px;
+		font-size: 16px;
+	}
+	.close{
+		/*  */
+		display: none;
+	}
+	.admin-panel .ap{
+		margin-top: -10%;
+		color: rgb(255,255,255);
+		font-size: 200%;
+		letter-spacing: 1px;
+		text-align: center;
+	}
 	.flex-item-1{
 		position: fixed;
 		height: 100%;
 		width: 18%;
+		display: block;
 	}
     .flex-item-2{
 		margin-left: 18%;
@@ -277,4 +399,10 @@ body{
 	padding: 0 1.5% 0 1.5%;
 	color: rgb(255,255,255);
 	border-radius: 1rem;
+}
+#user-name{
+	color: rgb(255, 255, 255)
+}
+.ap{
+	color: rgb(255, 255, 255);
 }

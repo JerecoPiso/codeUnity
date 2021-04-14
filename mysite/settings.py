@@ -31,7 +31,7 @@ SECRET_KEY = 'i)4t9z5rp_&n)v6%c_(s8wv1nh84m7d6y_^hpyb-xun+0)+71u'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 if 'DYNO' in os.environ:
-    DEBUG = True
+    DEBUG = False
     DATABASE_URL = 'postgresql://<postgresql-flat-21689>'
 else:
      DATABASE_URL = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
@@ -147,6 +147,7 @@ USE_L10N = True
 USE_TZ = True
 
 
+# SESSION_COOKIE_AGE = 20
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 

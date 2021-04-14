@@ -21,7 +21,7 @@
 						<ul class="collection question-ask" id="question-ask">
 							
 							<li class="collection-item" v-for="ques in myquestions">[ques.question]<br>
-								<cite class="date-asked">asked: June 12 2020</cite>
+								<cite class="date-asked">asked: [ques.date]</cite>
 								<div class="question-info">
 									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
 									<button id="btn-remove" @click="questionInfo.id = ques.id;deleteQuestion()"> <span class="fa fa-trash"></span> Remove </button>
@@ -50,14 +50,27 @@
 						{% csrf_token %}
 						<p>Ask Question</p>
 						<label>Question</label>
-						<textarea id="question"></textarea>
+						<!-- <textarea id="question"></textarea> -->
+						<input type="text" v-model="questionInfo.question">
 						<label>Code(Optional)</label>
 						<textarea id="code"></textarea>
-						<label>Language(Optional)</label>
-						 <select class="browser-default"  v-model="questionInfo.language">
-							<option value="" disabled selected>Select Language</option>
-							<option v-for="lang in languages">[lang.language]</option>
-						  </select>
+						<div class="row">
+							<div class="col l6 m6 s12">
+								<label>Language(Optional)</label>
+								<select class="browser-default"  v-model="questionInfo.language">
+								   <option value="" disabled selected>Select Language</option>
+								   <option v-for="lang in languages">[lang.language]</option>
+								 </select>
+							</div>
+							<div class="col l6 s12 m6">
+								<label>Question Category(Optional)</label>
+								<select class="browser-default" v-model="questionInfo.category">
+								  <option value="" disabled selected>Select Category</option>
+								  <option v-for="cat in question_cat">[cat.category]</option>
+								</select>
+							</div>
+						</div>
+											 
 						<button type="submit" id="ask-btn">Ask</button>
 					</form>
 					

@@ -50,7 +50,7 @@
 									<td>[p.downloads]</td>
 									<td></td>
 									<td>[p.views]</td>
-									<td><button>Edit</button><button @click="id = p.id;deleteProject()">Delete</button></td>
+									<td style="overflow: auto"><a type="button" class="btn-view" v-bind:href="url+p.project_name"><span class="fa fa-eye"></span></a ><button class="btn-edit"><span class="fa fa-edit"></span></button><button class="btn-delete" @click="id = p.id;deleteProject()"><span class="fa fa-trash"></span></button></td>
 								  </tr>
 								 
 								</tbody>

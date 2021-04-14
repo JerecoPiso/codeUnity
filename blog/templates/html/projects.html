@@ -18,7 +18,7 @@
 				<div class="col l7 m9 s12 xl7">
 				
 					<button id="btn-languages">Languages</button>
-					<input type="text" id="search" placeholder="Search project . . .">		
+					<input type="text" id="search-project" placeholder="Search project . . .">		
 					<div class="projects-div clear-float">
 						{% for project in projects %}
 						<div class="project-box">
@@ -39,8 +39,17 @@
 							</div> -->
 							
 								<div class="project-info-btn">
+									{% if project.downloads > 1%}
 									<button >{{project.downloads}} Downloads </button>
-									<button>20 Views</button>
+									{% else %}
+									<button >{{project.downloads}} Download </button>
+									{% endif %}
+									{% if project.views > 1%}
+									<button>{{project.views}} Views</button>
+									{% else %}
+									<button>{{project.views}} View</button>
+									{% endif %}
+								
 								</div>
 								
 								<a href="download/{{ project.project_name }}" class="download-app"> <span class="fa fa-download"></span></a>								
@@ -59,7 +68,7 @@
 									<a href="?page={{ page_obj.next_page_number }}" style="font-size: 20px;margin-right: 10px">Next</a>
 									<a href="?page={{ page_obj.paginator.num_pages }}" style="font-size: 20px"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
 								{% endif %}
-								<span class="current" style="font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
+								<span class="current" style="color:rgb(92, 138, 138);font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
 									Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
 								</span>
 						

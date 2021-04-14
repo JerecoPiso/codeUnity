@@ -2,7 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from pathlib import Path
 import os, datetime, json
-from blog.models import Projects, Questions
+from blog.models import Projects, Questions, Question_Category, Developers
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
@@ -13,7 +13,10 @@ def askQuestion(request):
     try:
 
         if request.method == "POST":
-            ask = Questions(question=request.POST['question'], likes=0, asker_id=request.session['id'], code=request.POST['code'], language=request.POST['language'])
+            months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec')
+            d = int(datetime.datetime.now().strftime("%d"))
+            datenow =  months[d] + " " + datetime.datetime.now().strftime("%m") + " " + datetime.datetime.now().strftime("%Y")
+            ask = Questions(question=request.POST['question'], likes=0, category = request.POST['category'], asker_id=request.session['id'], date = datenow, code=request.POST['code'], language=request.POST['language'])
             ask.save()
             return HttpResponse('Added')
 
@@ -32,10 +35,13 @@ def index(request):
 
 # projects of the user
 def projects(request):
+    if request.session.get("loggin"):
         request.session['title'] = "Projects"
         count = Projects.objects.filter(uploader_id__exact=request.session['id']).count()
         proj = Projects.objects.filter(uploader_id__exact=request.session['id'])
         return render(request, 'html/user_pages/projects.html', {'myproject':proj, 'count': count})
+    else:
+         return redirect("/login")
 
 # opening the file from a project
 def readFile(request):
@@ -151,15 +157,37 @@ def uploadProject(request):
                 storage.close()
 
             upload_file = request.FILES['photo']
+            # fss = FileSystemStorage()
+            # filename = fss.save(upload_file.name, upload_file)
+            extension = os.path.splitext(upload_file.name)[1]
+            rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
             fss = FileSystemStorage()
-            filename = fss.save(upload_file.name, upload_file)
+            filename = fss.save(rename, upload_file)
             upload_file_path = fss.path(filename)
-            project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = upload_file.name, language=request.POST['language'], views = 0)
+            project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = rename, language=request.POST['language'], views = 0)
             project.save()     
             return HttpResponse("Uploaded successfully")
       
  
     return HttpResponse("An error has occurred!")
+def changeDp(request):
+    if request.method == "POST":
+        upload_file = request.FILES["photo"]
+        extension = os.path.splitext(upload_file.name)[1]
+        rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
+        fss = FileSystemStorage()
+        filename = fss.save(rename, upload_file)
+        upload_file_path = fss.path(filename)
+        dev = Developers.objects.get(id__exact=request.session['id']) 
+        os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'\\')+str(dev.photo))
+        dev.photo = rename
+        dev.save()
+
+        return HttpResponse("Saved")
+    else:
+        return HttpResponse("eRROR")
+
+
 # user logout
 def logout(request):
     try:
@@ -173,9 +201,16 @@ def logout(request):
     return redirect('/login')
 
 def settings(request):
-    request.session['title'] = "Settings"
-    return render(request, 'html/user_pages/settings.html')
+    if request.session.get("loggin"):
+        request.session['title'] = "Settings"
+        return render(request, 'html/user_pages/settings.html')
+    else:
+        return redirect("/login")   
 
 def getProject(request):
     projects = Projects.objects.filter(uploader_id__exact=request.session['id']).values()
     return JsonResponse(list(projects), safe=False)
+
+def getUser(request):
+    user = Developers.objects.filter(id__exact=request.session['id']).values()
+    return JsonResponse(list(user), safe=False)

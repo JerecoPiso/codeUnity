@@ -74,7 +74,7 @@
 		margin-left: 3%;
 		
 	}
-	#search{	
+	#search-project{	
 		width: 70%;
 	}
 	.trends{
@@ -134,7 +134,7 @@
 		margin-left: 3%;
 		color: rgb(0, 128, 128);
 	}
-	#search{	
+	#search-project{	
 		width: 60%;
 	}
 	.trends{
@@ -193,7 +193,7 @@
 		margin-left: 3%;
 		color: rgb(0, 128, 128);
 	}
-	#search{
+	#search-project{
 		
 		width: 60%;
 	}
@@ -251,7 +251,7 @@
 		margin-left: 3%;
 		color: rgb(0, 128, 128);
 	}
-	#search{
+	#search-project{
 		
 		width: 50%;
 	}
@@ -282,7 +282,8 @@
 	margin-bottom: 3px;
 }
 .for-free{
-	color: rgb(92, 138, 138);
+	/* color: rgb(92, 138, 138); */
+	color: rgb(0, 128, 128);
 	text-align: center;
 	border: 2px solid rgb(0, 128, 128);
 	
@@ -332,7 +333,7 @@
 	font-size: 100%;
 	padding: 2%;
 }
-#search{
+#search-project{
 	margin-top: 3%;
 	padding-left: 1%;
 	float: right;
@@ -344,7 +345,7 @@
 
 }
 
-#search:hover{
+#search-project:hover{
 	/* box-shadow: 1px 1px 2px 1px rgb(153, 214, 255); */
 	border: 1px solid rgb(177, 205, 205);
 	width: 5	0%;

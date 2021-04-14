@@ -10,33 +10,37 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
 	{% if request.session.title == 'Home' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddded.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/pro.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddded.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Language' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/lanng.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddded.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/questionstzzzez.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboarddded.css' %}">
 	{% endif %}
 
 </head>
 <body>
+	
 
 	<div class="flex-container">
+		
 		<div class="flex-item-1 bg-color" id="side-nav">
+			<span class="close">&times;</span>
 			<div class="admin-panel">
-			<p>Admin Panel</p>
+			<!-- <p class="ap">Admin Panel</p> -->
 			<img src="/media/dp.jpg">
 			<p id="user-name">Jereco James Piso</p>
 			</div>
 			 <ul>
-			 	<li><span class="fa fa-home"></span><a href="/codeunity/dashboard">Home</a></li>
+
+			 	<li><span class="fa fa-home"></span><a href="/dashboard">Home</a></li>
 			 	<li><span class="fa fa-folder"></span><a href="projects">Projects</a></li>
 			 	<li><span class="fa fa-language"></span><a href="languages">Languages</a></li>
 				 <li><span class="fa fa-question"></span><a href="questions">Questions</a></li>
@@ -69,7 +73,26 @@
 
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>	
+<script type="text/javascript" src="{% static 'assets/js/jquery.js' %}"></script>	
+
 <script type="text/javascript"> 
+$(document).ready(function(){
+	$("#show-side-nav").click(function(){
+		$("#side-nav").show()
+	})
+	$(".close").click(function(){
+		$("#side-nav").hide()
+	})
+
+	$(window).resize(function(){
+       	if(document.body.clientWidth > 991){
+       		$('.flex-item-1').show()
+       		// $('#open').hide() 	
+       	}else{
+			$('.flex-item-1').hide()
+		}
+   	});
+})
  var questions = new Vue({
 	 delimiters: ['[', ']'],
 	 el: "#questions",

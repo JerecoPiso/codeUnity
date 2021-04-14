@@ -18,16 +18,16 @@ class User(models.Model):
 class Developers(models.Model):
 	email = models.CharField(max_length=50)
 	password = models.CharField(max_length=255)
-	# photo = models.FileField(upload_to="media/")
+	photo = models.FileField(upload_to="media/")
 	uname = models.CharField(max_length=255, blank=True)
 
 
 	def __str__(self):
 		return self.email + " " + self.password + " " + self.uname
 
-	# def delete(self, *args, **kwargs):
-	# 	self.photo.delete()
-	# 	super().delete(*args,**kwargs)
+	def delete(self, *args, **kwargs):
+		self.photo.delete()
+		super().delete(*args,**kwargs)
 
 class Jobs(models.Model):
 	company_name = models.CharField(max_length=255)
@@ -71,13 +71,14 @@ class Questions(models.Model):
 	code = models.TextField(blank=True)
 	language = models.CharField(max_length=155)
 	# language = models.ForeignKey(Language, on_delete=models.CASCADE)
+	date = models.CharField(max_length=50)
 	likes = models.IntegerField()
 	category = models.CharField(max_length=255)
 	comments = models.IntegerField(null=True)
 	
 
 	def __str__(self):
-		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.likes + " " + self.category + " " + self.comments
+		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.date + " " + self.likes + " " + self.category + " " + self.comments
 
 
 class Question_Category(models.Model):

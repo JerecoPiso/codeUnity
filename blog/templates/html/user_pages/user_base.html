@@ -4,16 +4,16 @@
 	{% load static %}
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/usex.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/usexxxxx.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chart.css' %}">
 	{% if request.session.title == 'Projects' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/pp.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questionsed.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questionsedd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Settings' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settingsx.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settingsxx.css' %}">
 	{% endif %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/project_files.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}"/>  
@@ -85,11 +85,52 @@ $('#bars').click(function(){
 	var changeDp = new Vue({
 		el: "#user-dp",
 		data:{
-			changeDpModal: false
+			changeDpModal: false,
+			photo: '',
+			mydp: null,
+			src: '/media/'
 		},
-		medthods:{
+		mounted: function(){
+			this.getUser()
+		},
+		methods:{
+			dp: function(){
+				changeDp.photo  = this.$refs.photo.files[0]
+			},
 			changeDp: function(){
-				alert("hehe")
+				let data = new FormData()
+				data.append("photo", changeDp.photo)
+				axios.post('changeDp', data,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
+					// projects.getProjects()
+				 	alert(response.data)
+					 changeDp.getUser()
+					 sideNav.getUser()
+				
+				 })
+			},
+			getUser: function(){
+				 axios.get("getUser").then(function(response){
+					 changeDp.mydp = response.data[0].photo
+				 })
+			}
+		}
+	})
+	var sideNav = new Vue({
+		el: ".sideNav",
+		data:{
+	
+			mydp: null,
+			src: '/media/'
+		},
+		mounted: function(){
+			this.getUser()
+		},
+		methods:{
+	
+			getUser: function(){
+				 axios.get("getUser").then(function(response){
+					sideNav.mydp = response.data[0].photo
+				 })
 			}
 		}
 	})
@@ -127,6 +168,9 @@ $('#bars').click(function(){
 				}else{
 					settings.hint_save = true
 				}
+			},
+			changePassword: function(){
+				alert("hehe")
 			}
 		}
 	})
@@ -134,24 +178,29 @@ $('#bars').click(function(){
 		delimiters: ['[', ']'],
 		el: "#my-questions",
 		data: {
-			questionInfo: {language: '', id: ''},
+			questionInfo: {language: '', id: '', question: '', category: ''},
 			languages: [],
 			myquestions: [],
+			question_cat: [],
 			total_ques: ''
 		},
 		mounted: function(){
 			this.getLanguages()
+			this.getQuestionCat()
 			this.getQuestions()
 		},
 		methods:{
 			askQuestion: function(){
 				let data = new FormData()
-				var ques = new nicEditors.findEditor('question');
+				// var ques = new nicEditors.findEditor('question');
+				// ques.getContent() != "<br>" && 
 				var code = new nicEditors.findEditor('code');
-				if(ques.getContent() != "<br>" && code.getContent() != "<br>"){
-					data.append('question', ques.getContent())
+				if(code.getContent() != "<br>"){
+					// data.append('question', ques.getContent())
+					data.append('question', questions.questionInfo.question)
 					data.append('code', code.getContent())
 					data.append('language', questions.questionInfo.language)
+					data.append('category', questions.questionInfo.category)
 					axios.post("askQuestion", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
 						alert(response.data)
 						questions.getQuestions()
@@ -181,6 +230,15 @@ $('#bars').click(function(){
 				}else{
 				
 					questions.languages = response.data
+				}
+			  })
+			},
+			getQuestionCat: function(){
+				axios.get("/dashboard/getCategory").then(function(response){
+					if(response.data == "Failed"){
+					alert("Unable to retrieve Question Category!")
+				}else{
+					questions.question_cat = response.data
 				}
 			  })
 			},

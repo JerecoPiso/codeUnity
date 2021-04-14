@@ -1,5 +1,7 @@
-/*for devies that has max width of 650*/
-@media screen and (max-width: 650px){
+@media screen and (max-width: 450px){
+	#top-nav .showSearch{
+		display: none;
+	}
 	#open{
 		padding-top: 2%;
 		background-color: transparent;
@@ -51,11 +53,12 @@
 		width: 100%;
 		font-size: 130%;
 		padding: 3.5%;
+		
 		/*display: none;*/
 			
 	}
 	#top-nav li a {
-
+		flex-direction: row-reverse;
 	   /*display: block;*/
 	   color: rgb(255,255,255);
 	   padding: 4px 8px;
@@ -77,72 +80,27 @@
 	.slogan{
 		display: none;
 	}
-	.total-apps{
-		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
+	.total-apps, .total-devs, .total-jobs{
+		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
 		border-radius: 0.5rem;
 		width: 90%;
 		margin: auto;
 		display: block;
-		height: 170px;
+		height: 150px;
 		text-align: center;
 		background-color: rgb(255,255,255);
 		
-	}
-
-	.total-devs{
-		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
-		width: 90%;
-		border-radius: 0.5rem;
-		height: 170px;
-		text-align: center;
-		margin: auto;
-		display: block;
-		background-color: rgb(255,255,255);
-		
-	}
-
-	.total-jobs{
-		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
-		width: 90%;
-		border-radius: 0.5rem;
-		height: 170px;
-		text-align: center;
-		margin: auto;
-		display: block;
-		background-color: rgb(255,255,255);
-		
-	}
-	.total-devs .back-span{
-		position: absolute;
-		font-size: 80px;
-		margin-left: -10%;
-		margin-top: -8%;
-		color: rgb(0, 128, 128);
-	}
-	.total-apps .back-span{
-		position: absolute;
-		font-size: 80px;
-		margin-left: -8%;
-		margin-top: -8%;
-		color: rgb(0, 128, 128);
-	}
-	 .total-jobs .back-span{
-		position: absolute;
-		font-size: 80px;
-		margin-left: -9%;
-		margin-top: -8%;
-		color: rgb(0, 128, 128);
 	}
 
 	.total-devs p, .total-apps p, .total-jobs p{
 		color: rgb(0, 128, 128);
 		font-size: 300%;
 		font-weight: bold;
-		padding-top: 15%;
+		padding-top: 10%;
 		margin-bottom: -3%;
 
 	}
-	#job-search-homes .search-btn{
+	#search .search-btn{
 		width: 60px;
 		/* margin-top: 5%; */
 		height: 47px;
@@ -151,15 +109,267 @@
 		border: none;
 		float: left;
 	}
-	#job-search-homes{
+	#search{
 		background-color: rgb(0, 128, 128);
 		/* padding-right: 10%;
 		padding-left: 10%; */
 	
 	}
-	#search-job-cat{
+	#search-cat{
 		display: block;
-		width: 140px;
+		width: 28%;
+		/* margin-top: 5%; */
+		border-radius: 0rem;
+		height: 47px;
+	}
+
+}
+/*for devies that has max width of 650*/
+@media screen and  (min-width: 451px) and (max-width: 600px){
+	#top-nav .showSearch{
+		display: none;
+	}
+	#open{
+		padding-top: 2%;
+		background-color: transparent;
+		border: none;
+		display: block;
+		color: rgb(255,255,255);
+	}
+	.flex-container{
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: auto;
+		background-color:  rgb(0, 128, 128)
+	}
+	.flex-boxes{
+		width: 100%;
+		height: auto;
+
+	}
+	.footer-links, .contact-us, .about-us{
+		margin-left: 15%;
+	}
+	.img-container #form{
+		width: 60%;
+		position: absolute;
+		top: 10%;
+		left: 20%;
+	    /*color: rgb(255,255,255);*/
+	    background-color: rgb(239, 245, 245);
+	    padding: 5%;
+	    border-radius: 1rem;
+	}
+	#top-nav{
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		background-color: rgb(0, 128, 128);	
+		height: 100%;
+		z-index: 10;
+	    overflow: auto;
+	    width: 0;
+	    position: absolute;
+	  
+	   
+	  /*  top: 0;
+	    position: fixed;*/
+	}
+	#top-nav li{
+		width: 100%;
+		font-size: 130%;
+		padding: 3.5%;
+		
+		/*display: none;*/
+			
+	}
+	#top-nav li a {
+		flex-direction: row-reverse;
+	   /*display: block;*/
+	   color: rgb(255,255,255);
+	   padding: 4px 8px;
+	   text-decoration: none;
+	  
+        float: none;
+	}
+	#site-name{
+		display: none;
+	}
+	#site-nameMobile{
+		/*padding-left: 2%;*/
+		margin-right: 4%;
+		margin-top: 1%;
+		font-size: 200%;
+		float: right;
+		color: rgb(255,255,255)
+	}
+	.slogan{
+		display: none;
+	}
+	.total-apps, .total-devs, .total-jobs{
+		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
+		border-radius: 0.5rem;
+		width: 90%;
+		margin: auto;
+		display: block;
+		height: 150px;
+		text-align: center;
+		background-color: rgb(255,255,255);
+		
+	}
+	.total-devs p, .total-apps p, .total-jobs p{
+		color: rgb(0, 128, 128);
+		font-size: 300%;
+		font-weight: bold;
+		padding-top: 5%;
+		margin-bottom: -3%;
+
+	}
+	#search .search-btn{
+		width: 60px;
+		/* margin-top: 5%; */
+		height: 47px;
+		display: none;
+		background-color: rgb(255,255,255);
+		border: none;
+		float: left;
+	}
+	#search{
+		background-color: rgb(0, 128, 128);
+		/* padding-right: 10%;
+		padding-left: 10%; */
+	
+	}
+	#search-cat{
+		display: block;
+		width: 28%;
+		/* margin-top: 5%; */
+		border-radius: 0rem;
+		height: 47px;
+	}
+
+}
+@media screen and (min-width: 601px) and (max-width: 650px){
+	#top-nav .showSearch{
+		display: none;
+	}
+	#open{
+		padding-top: 2%;
+		background-color: transparent;
+		border: none;
+		display: block;
+		color: rgb(255,255,255);
+	}
+	.flex-container{
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: auto;
+		background-color:  rgb(0, 128, 128)
+	}
+	.flex-boxes{
+		width: 100%;
+		height: auto;
+
+	}
+	.footer-links, .contact-us, .about-us{
+		margin-left: 15%;
+	}
+	.img-container #form{
+		width: 60%;
+		position: absolute;
+		top: 10%;
+		left: 20%;
+	    /*color: rgb(255,255,255);*/
+	    background-color: rgb(239, 245, 245);
+	    padding: 5%;
+	    border-radius: 1rem;
+	}
+	#top-nav{
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		background-color: rgb(0, 128, 128);	
+		height: 100%;
+		z-index: 10;
+	    overflow: auto;
+	    width: 0;
+	    position: absolute;
+	  
+	   
+	  /*  top: 0;
+	    position: fixed;*/
+	}
+	#top-nav li{
+		width: 100%;
+		font-size: 130%;
+		padding: 3.5%;
+		
+		/*display: none;*/
+			
+	}
+	#top-nav li a {
+		flex-direction: row-reverse;
+	   /*display: block;*/
+	   color: rgb(255,255,255);
+	   padding: 4px 8px;
+	   text-decoration: none;
+	  
+        float: none;
+	}
+	#site-name{
+		display: none;
+	}
+	#site-nameMobile{
+		/*padding-left: 2%;*/
+		margin-right: 4%;
+		margin-top: 1%;
+		font-size: 200%;
+		float: right;
+		color: rgb(255,255,255)
+	}
+	.slogan{
+		display: none;
+	}
+	.total-apps, .total-devs, .total-jobs{
+		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
+		border-radius: 0.5rem;
+		width: 90%;
+		margin: auto;
+		display: block;
+		height: 150px;
+		text-align: center;
+		background-color: rgb(255,255,255);
+		
+	}
+
+	.total-devs p, .total-apps p, .total-jobs p{
+		color: rgb(0, 128, 128);
+		font-size: 300%;
+		font-weight: bold;
+		padding-top: 10%;
+		margin-bottom: -3%;
+
+	}
+	#search .search-btn{
+		width: 60px;
+		/* margin-top: 5%; */
+		height: 47px;
+		display: none;
+		background-color: rgb(255,255,255);
+		border: none;
+		float: left;
+	}
+	#search{
+		background-color: rgb(0, 128, 128);
+		/* padding-right: 10%;
+		padding-left: 10%; */
+	
+	}
+	#search-cat{
+		display: block;
+		width: 28%;
 		/* margin-top: 5%; */
 		border-radius: 0rem;
 		height: 47px;
@@ -168,6 +378,7 @@
 }
 
 @media(min-width: 651px) and (max-width: 992px){
+	
 	#open{
 		display: none;
 	}
@@ -247,61 +458,16 @@
 	
 	    opacity: 1;
 	}
-	.total-apps{
-		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
+	.total-apps, .total-devs, .total-jobs{
+		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
 		border-radius: 0.5rem;
 		width: 90%;
 		margin: auto;
 		display: block;
-		height: 170px;
+		height: 150px;
 		text-align: center;
 		background-color: rgb(255,255,255);
 		
-	}
-
-	.total-devs{
-		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
-		width: 90%;
-		border-radius: 0.5rem;
-		height: 170px;
-		text-align: center;
-		margin: auto;
-		display: block;
-		background-color: rgb(255,255,255);
-		
-	}
-
-	.total-jobs{
-		box-shadow: 0 0 10px -2px rgb(0, 128, 128);
-		width: 90%;
-		border-radius: 0.5rem;
-		height: 170px;
-		text-align: center;
-		margin: auto;
-		display: block;
-		background-color: rgb(255,255,255);
-		
-	}
-	.total-devs .back-span{
-		position: absolute;
-		font-size: 80px;
-		margin-left: -6.8%;
-		margin-top: -5%;
-		color: rgb(0, 128, 128);
-	}
-	.total-apps .back-span{
-		position: absolute;
-		font-size: 80px;
-		margin-left: -5%;
-		margin-top: -5%;
-		color: rgb(0, 128, 128);
-	}
-	 .total-jobs .back-span{
-		position: absolute;
-		font-size: 80px;
-		margin-left: -6%;
-		margin-top: -5%;
-		color: rgb(0, 128, 128);
 	}
 	.total-devs p, .total-apps p, .total-jobs p{
 		color: rgb(0, 128, 128);
@@ -311,7 +477,7 @@
 		margin-bottom: -3%;
 
 	}
-	#job-search-homes .search-btn{
+	#search .search-btn{
 		width: 60px;
 		/* margin-top: 5%; */
 		height: 47px;
@@ -320,13 +486,13 @@
 		border: none;
 		float: left;
 	}
-	#job-search-homes{
+	#search{
 		background-color: rgb(0, 128, 128);
 		padding-right: 5%;
 		padding-left: 5%;
 	
 	}
-	#search-job-cat{
+	#search-cat{
 		display: block;
 		width: 25%;
 		/* margin-top: 5%; */
@@ -407,57 +573,26 @@
 	
 	    opacity: 1;
 	}
-	.total-apps{
-		box-shadow: 0 0 10px -2px rgb(102, 153, 153);
+	.total-apps, .total-devs, .total-jobs{
+		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
 		border-radius: 0.5rem;
 		width: 90%;
 		margin: auto;
 		display: block;
-		height: 170px;
+		height: 150px;
 		text-align: center;
 		background-color: rgb(255,255,255);
 		
-	}
-
-	.total-devs{
-		box-shadow: 0 0 10px -2px rgb(102, 153, 153);
-		width: 90%;
-		border-radius: 0.5rem;
-		height: 170px;
-		text-align: center;
-		margin: auto;
-		display: block;
-		background-color: rgb(255,255,255);
-		
-	}
-
-	.total-jobs{
-		box-shadow: 0 0 10px -2px rgb(102, 153, 153);
-		width: 90%;
-		border-radius: 0.5rem;
-		height: 170px;
-		text-align: center;
-		margin: auto;
-		display: block;
-		background-color: rgb(255,255,255);
-		
-	}
-	.total-devs .back-span, .total-apps .back-span,  .total-jobs .back-span{
-		position: absolute;
-		font-size: 100px;
-		margin-left: -6%;
-		margin-top: -5%;
-		color: rgb(0, 128, 128);
 	}
 	.total-devs p, .total-apps p, .total-jobs p{
 		color: rgb(0, 128, 128);
 		font-size: 300%;
 		font-weight: bold;
-		padding-top: 18%;
+		padding-top: 10%;
 		margin-bottom: -3%;
 
 	}
-	#job-search-homes .search-btn{
+	#search .search-btn{
 		width: 60px;
 		/* margin-top: 5%; */
 		height: 47px;
@@ -466,13 +601,13 @@
 		border: none;
 		float: left;
 	}
-	#job-search-homes{
+	#search{
 		background-color: rgb(0, 128, 128);
 		padding-right: 10%;
 		padding-left: 10%;
 	
 	}
-	#search-job-cat{
+	#search-cat{
 		display: block;
 		width: 20%;
 		/* margin-top: 5%; */
@@ -559,70 +694,27 @@
 	
 	    opacity: 1;
 	}
-	.total-apps{
+	.total-apps, .total-devs, .total-jobs{
 		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
 		border-radius: 0.5rem;
 		width: 90%;
 		margin: auto;
 		display: block;
-		height: 170px;
+		height: 150px;
 		text-align: center;
 		background-color: rgb(255,255,255);
 		
-	}
-
-	.total-devs{
-		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
-		width: 90%;
-		border-radius: 0.5rem;
-		height: 170px;
-		text-align: center;
-		margin: auto;
-		display: block;
-		background-color: rgb(255,255,255);
-		
-	}
-
-	.total-jobs{
-		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
-		width: 90%;
-		border-radius: 0.5rem;
-		height: 170px;
-		text-align: center;
-		margin: auto;
-		display: block;
-		background-color: rgb(255,255,255);
-	}
-	.total-devs .back-span{
-		position: absolute;
-		font-size: 120px;
-		margin-left: -6%;
-		margin-top: -5%;
-		color: rgb(0, 128, 128);
-	}
-	.total-jobs .back-span{
-		position: absolute;
-		font-size: 120px;
-		margin-left: -4%;
-		margin-top: -5%;
-		color: rgb(0, 128, 128);
-	}
-	.total-apps .back-span{
-		position: absolute;
-		font-size: 120px;
-		margin-left: -5%;
-		margin-top: -5%;
-		color: rgb(0, 128, 128);
 	}
 	.total-devs p, .total-apps p, .total-jobs p{
 		color: rgb(0, 128, 128);
-		font-size: 300%;
+		font-size: 50px;
 		font-weight: bold;
-		padding-top: 15%;
+		padding-top: 5%;
 		margin-bottom: -3%;
 
 	}
-	#job-search-homes .search-btn{
+	
+	#search .search-btn{
 		width: 60px;
 		/* margin-top: 5%; */
 		height: 47px;
@@ -631,13 +723,13 @@
 		border: none;
 		float: left;
 	}
-	#job-search-homes{
+	#search{
 		background-color: rgb(0, 128, 128);
 		padding-right: 10%;
 		padding-left: 10%;
 	
 	}
-	#search-job-cat{
+	#search-cat{
 		display: block;
 		width: 18%;
 		/* margin-top: 5%; */
@@ -654,8 +746,8 @@
 }
 .boxes{
 	background-color: rgba(230, 230, 230, 0.4);
-	padding: 5%;
-	margin-top: -1%;
+	padding: 3%;
+	/* margin-top: -1%; */
 }
 .icon{
 	font-size: 80px;
@@ -799,8 +891,8 @@
 .mt{
 	margin-top: 0.1%;
 }
-.mt-20{
-	margin-top: 20%;
+.mt-30{
+	margin-top: 30px;
 }
 .mt-5{
 	margin-top: 5%;
@@ -828,15 +920,22 @@
 .right{
 	float: right;
 }
-#slogan-2{
-	color: rgba(0,0,0,0.7);
-	margin: -3% 0% 3% 0%;
-	font-size: 100%;
+.slogan-2{
+	color: rgb(0,0,0);
+	padding-top: 2%;
+	margin-top: -5px;
 	text-align: center;
-	font-size: 350%;
-	/*color: rgb(0,128,128);*/
+	font-size: 35px;
+	background-color:  rgba(230, 230, 230, 0.4);
 	letter-spacing: 2px;
 	font-family: sans-serif;
+}
+.slogan-2 span{
+	font-size: 15px;
+	font-weight: bold;
+	opacity: 0.7;
+	color: rgb(77, 77, 77);
+
 }
 .success{
 	background-color: #00b8d4;
@@ -906,7 +1005,7 @@
 	background-color: rgb(0, 128, 128);
 }
 
-#job-search-homes input{
+#search input{
 	float: left;
 	height: 45px;
 	width: 68%;
@@ -920,17 +1019,17 @@
 
 }
 
-#job-search-homes .search-btn span:hover{
+#search .search-btn span:hover{
 	font-size: 30px;
 	transition: 1s;
 	transform: scale(1,1);
 }
-#job-search-homes .search-btn span{
+#search .search-btn span{
 	font-size: 25px;
 	opacity: 0.4
 	/* margin-left: 55%; */
 }
-#job-search-homes div{
+#search div{
 	clear: both;
 }
 

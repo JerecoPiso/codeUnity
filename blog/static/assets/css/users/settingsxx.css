@@ -93,7 +93,7 @@ body{
 	font-size: 100%;
 }
 
-#forms form input{
+#forms div input{
 	width: 83%;
 }
 #user-dp, #security-info, #other-info{
@@ -142,7 +142,7 @@ body{
 	color: rgb(255,255,255);
 	font-size: 100%;
 }
-#security-info form input{
+#security-info div input{
 	height: 35px;
 }
 #security-info #forms{
@@ -152,9 +152,9 @@ body{
 #other-info form{
 	margin: 0% 4% 10% 4%;
 }
-#security-info #forms form input{
+#security-info #forms div input{
 	height: 35px;
 }
-#security-info #forms form label{
+#security-info #forms div label{
 	font-size: 100%;
 }
