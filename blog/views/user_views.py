@@ -179,7 +179,7 @@ def changeDp(request):
         filename = fss.save(rename, upload_file)
         upload_file_path = fss.path(filename)
         dev = Developers.objects.get(id__exact=request.session['id']) 
-        os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'\\')+str(dev.photo))
+        # os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'\\')+str(dev.photo))
         dev.photo = rename
         dev.save()
 
