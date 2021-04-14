@@ -23,7 +23,7 @@ class Developers(models.Model):
 
 
 	def __str__(self):
-		return self.email + " " + self.password + " " + self.uname
+		return self.email + " " + self.password + " " + self.photo + " " + self.uname
 
 	def delete(self, *args, **kwargs):
 		self.photo.delete()
