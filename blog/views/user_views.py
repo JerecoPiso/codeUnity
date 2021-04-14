@@ -132,7 +132,7 @@ def deleteProject(request):
         return HttpResponse("Deleted successfully")
     
     except:
-        return HttpResponse("An error has occurred!"+str(os.rmdir(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'\\'))))
+        return HttpResponse("An error has occurred!"+str(os.rmdir(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/'))))
 
 # uploading project
 def uploadProject(request):
