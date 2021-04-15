@@ -122,13 +122,19 @@ def deleteProject(request):
     try:
         project = Projects.objects.get(id=request.POST['id'])
         
-        for root, dirs, files in  os.walk(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+project.project_name, topdown=False):
-            for name in files:
-                os.remove(os.path.join(root, name))
-            for name in dirs:
-                os.rmdir(os.path.join(root, name))
-        os.rmdir(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+project.project_name)
-        project.delete()
+        if os.path.exists(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+project.project_name):
+
+            for root, dirs, files in  os.walk(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+project.project_name, topdown=False):
+                for name in files:
+                    os.remove(os.path.join(root, name))
+                for name in dirs:
+                    os.rmdir(os.path.join(root, name))
+            os.rmdir(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+project.project_name)
+            project.delete()
+
+        else:
+            return HttpResponse("Path didn't exists!")
+
         return HttpResponse("Deleted successfully")
     
     except:
