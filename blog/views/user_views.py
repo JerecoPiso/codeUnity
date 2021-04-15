@@ -178,16 +178,22 @@ def uploadProject(request):
     return HttpResponse("An error has occurred!")
 def changeDp(request):
     if request.method == "POST":
-        upload_file = request.FILES["photo"]
-        extension = os.path.splitext(upload_file.name)[1]
-        rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
-        fss = FileSystemStorage()
-        filename = fss.save(rename, upload_file)
-        upload_file_path = fss.path(filename)
         dev = Developers.objects.get(id__exact=request.session['id']) 
-        # os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(dev.photo))
-        dev.photo = rename
-        dev.save()
+        if os.path.exists(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(dev.photo)):
+
+            upload_file = request.FILES["photo"]
+            extension = os.path.splitext(upload_file.name)[1]
+            rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
+            fss = FileSystemStorage()
+            filename = fss.save(rename, upload_file)
+            upload_file_path = fss.path(filename)
+            os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(dev.photo))
+            dev.photo = rename
+            dev.save()
+
+        else:
+
+            return HttpResponse("Path did'nt exists!")
 
         return HttpResponse("Saved")
     else:
