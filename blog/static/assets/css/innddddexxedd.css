@@ -80,26 +80,7 @@
 	.slogan{
 		display: none;
 	}
-	.total-apps, .total-devs, .total-jobs{
-		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
-		border-radius: 0.5rem;
-		width: 90%;
-		margin: auto;
-		display: block;
-		height: 150px;
-		text-align: center;
-		background-color: rgb(255,255,255);
-		
-	}
 
-	.total-devs p, .total-apps p, .total-jobs p{
-		color: rgb(0, 128, 128);
-		font-size: 300%;
-		font-weight: bold;
-		padding-top: 10%;
-		margin-bottom: -3%;
-
-	}
 	#search .search-btn{
 		width: 60px;
 		/* margin-top: 5%; */
@@ -207,25 +188,7 @@
 	.slogan{
 		display: none;
 	}
-	.total-apps, .total-devs, .total-jobs{
-		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
-		border-radius: 0.5rem;
-		width: 90%;
-		margin: auto;
-		display: block;
-		height: 150px;
-		text-align: center;
-		background-color: rgb(255,255,255);
-		
-	}
-	.total-devs p, .total-apps p, .total-jobs p{
-		color: rgb(0, 128, 128);
-		font-size: 300%;
-		font-weight: bold;
-		padding-top: 5%;
-		margin-bottom: -3%;
 
-	}
 	#search .search-btn{
 		width: 60px;
 		/* margin-top: 5%; */
@@ -332,26 +295,7 @@
 	.slogan{
 		display: none;
 	}
-	.total-apps, .total-devs, .total-jobs{
-		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
-		border-radius: 0.5rem;
-		width: 90%;
-		margin: auto;
-		display: block;
-		height: 150px;
-		text-align: center;
-		background-color: rgb(255,255,255);
-		
-	}
-
-	.total-devs p, .total-apps p, .total-jobs p{
-		color: rgb(0, 128, 128);
-		font-size: 300%;
-		font-weight: bold;
-		padding-top: 10%;
-		margin-bottom: -3%;
-
-	}
+	
 	#search .search-btn{
 		width: 60px;
 		/* margin-top: 5%; */
@@ -458,25 +402,7 @@
 	
 	    opacity: 1;
 	}
-	.total-apps, .total-devs, .total-jobs{
-		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
-		border-radius: 0.5rem;
-		width: 90%;
-		margin: auto;
-		display: block;
-		height: 150px;
-		text-align: center;
-		background-color: rgb(255,255,255);
-		
-	}
-	.total-devs p, .total-apps p, .total-jobs p{
-		color: rgb(0, 128, 128);
-		font-size: 300%;
-		font-weight: bold;
-		padding-top: 14%;
-		margin-bottom: -3%;
-
-	}
+	
 	#search .search-btn{
 		width: 60px;
 		/* margin-top: 5%; */
@@ -573,25 +499,7 @@
 	
 	    opacity: 1;
 	}
-	.total-apps, .total-devs, .total-jobs{
-		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
-		border-radius: 0.5rem;
-		width: 90%;
-		margin: auto;
-		display: block;
-		height: 150px;
-		text-align: center;
-		background-color: rgb(255,255,255);
-		
-	}
-	.total-devs p, .total-apps p, .total-jobs p{
-		color: rgb(0, 128, 128);
-		font-size: 300%;
-		font-weight: bold;
-		padding-top: 10%;
-		margin-bottom: -3%;
 
-	}
 	#search .search-btn{
 		width: 60px;
 		/* margin-top: 5%; */
@@ -694,25 +602,7 @@
 	
 	    opacity: 1;
 	}
-	.total-apps, .total-devs, .total-jobs{
-		box-shadow: 0 0 10px -2px rgb(0, 77, 77);
-		border-radius: 0.5rem;
-		width: 90%;
-		margin: auto;
-		display: block;
-		height: 150px;
-		text-align: center;
-		background-color: rgb(255,255,255);
-		
-	}
-	.total-devs p, .total-apps p, .total-jobs p{
-		color: rgb(0, 128, 128);
-		font-size: 50px;
-		font-weight: bold;
-		padding-top: 5%;
-		margin-bottom: -3%;
 
-	}
 	
 	#search .search-btn{
 		width: 60px;
@@ -787,34 +677,6 @@
 	color: rgb(255,255,255);
 	margin-left: 15%;
 	font-size: 300%;
-}
-#collection, #top-languages-collection{
-	padding: 2%;
-}
-#collection li a:first-child{
-	margin-top: 2px;
-	margin-left: 30px;
-	width: 30px;
-	padding: 1% 6% 1% 2%;
-}
-.collection li:hover{
-	background-color: rgb(0, 128, 128);
-	color: rgb(255,255,255);
-
-}
-.collection li:hover a{
-	background-color:  rgb(0, 128, 128);
-	border: none;
-	border: 1px solid rgb(255,255,255);
-}
-.collection li a{
-	color: white;
-	background-color:  rgb(0, 128, 128);
-	border: none;
-	margin-left: 5%;
-	padding: 0.3% 3% 0.3% 3%;
-
-	
 }
 .developers, .top-downloads, .jobs{
 	text-align: center;
@@ -926,7 +788,6 @@
 	margin-top: -5px;
 	text-align: center;
 	font-size: 35px;
-	background-color:  rgba(230, 230, 230, 0.4);
 	letter-spacing: 2px;
 	font-family: sans-serif;
 }
@@ -947,51 +808,13 @@
 #top-nav li a span{
 	font-size: 18px;
 }
-.tops{
-	padding: 0% 7% 0% 7%;
-
-}
 .tops:first-child{
 	padding: 0% 5% 5% 2%
-}
-.total-apps:hover, .total-jobs:hover, .total-devs:hover{
-	background-color: rgb(0, 128, 128);
-}
-.total-apps:hover p, .total-apps:hover strong, .total-devs:hover p, .total-devs:hover strong,.total-jobs:hover p, .total-jobs:hover strong{
-	color: rgb(255, 255, 255);
-}
-.total-devs:hover span, .total-jobs:hover span{
-	color: rgb(255, 255, 255);
-	background-color: rgb(0,128,128);
-	border-top-left-radius: 1.5rem;
-	border-top-right-radius: 1.5rem;
-
-
-}
-.total-apps:hover span{
-	color: rgb(255, 255, 255);
-	background-color: rgb(0,128,128);
-	border-top-left-radius: 1.5rem;
-	border-top-right-radius: 1.5rem;
-	padding-right: 0.2%;
-	padding-left: 0.2%;
-
-}
-.total-devs strong, .total-apps strong,  .total-jobs strong{
-	font-size: 130%;
-	font-weight: bold;
-	color: rgb(0, 128, 128);
 }
 ::-webkit-scrollbar{
 	display: none
 }
-.total-apps, .total-devs, .total-jobs{
-	border-bottom: 7px solid rgb(0,128,128);
-	border-right: 5px solid rgb(0,128,128);
-	border-left: 5px solid rgb(0,128,128);
-	
-	
-}
+
 
 
 .search-section{
@@ -1047,10 +870,53 @@
 .br-white{
 	border-right: 1px solid rgb(255, 255, 255);
 }
-
-/* #totalJobs{
-	background-color: rgb(0, 102, 102);
-}
-#totalJobs p{
+.card-logos{
+	/* width: 150px; */
 	
-} */
+	margin: auto;
+	display: block;
+}
+.upload-download{
+	width: 90px;
+}
+.find-dev{
+	height: 80px;
+}
+.qa{
+	height: 90px;
+}
+.card-desc{
+	/* font-weight: bold; */
+	margin-top: 10px;
+	font-size: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+	opacity: 0.8;
+}
+.card-min-height{
+	min-height: 310px;
+}
+.totals{
+	text-align: center;
+	font-size: 25px;
+}
+.total-desc{
+	text-align: center;
+	font-size: 25px;
+	margin-top: -25px;
+	color: rgb(0, 128, 128);
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+.totals-portion{
+	padding-left: 15%;padding-right: 15%;
+
+}
+.bg-color{
+	background-color: rgba(230, 230, 230, 0.4);
+}
+.cards-row{
+	margin-top: 2%;
+	padding-left: 5%;
+	padding-right: 5%;
+}

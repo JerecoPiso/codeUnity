@@ -54,23 +54,20 @@
 						<input type="text" v-model="questionInfo.question">
 						<label>Code(Optional)</label>
 						<textarea id="code"></textarea>
-						<div class="row">
-							<div class="col l6 m6 s12">
+						
 								<label>Language(Optional)</label>
 								<select class="browser-default"  v-model="questionInfo.language">
 								   <option value="" disabled selected>Select Language</option>
 								   <option v-for="lang in languages">[lang.language]</option>
 								 </select>
-							</div>
-							<div class="col l6 s12 m6">
+						
 								<label>Question Category(Optional)</label>
 								<select class="browser-default" v-model="questionInfo.category">
 								  <option value="" disabled selected>Select Category</option>
 								  <option v-for="cat in question_cat">[cat.category]</option>
 								</select>
-							</div>
-						</div>
-											 
+							
+											 <br>
 						<button type="submit" id="ask-btn">Ask</button>
 					</form>
 					

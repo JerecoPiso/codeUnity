@@ -91,7 +91,7 @@ var login = new Vue({
 		data: {
 			loginInfo: {email: '', password: ''},
 			error: '',
-			success: ''
+			status: 'Login'
 		},
 		methods:{
 			loginUser: function(){
@@ -99,7 +99,8 @@ var login = new Vue({
 				axios.post('userLogin', fd , {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
 					
 					if(response.data == "Success"){
-						login.success = "Redirecting . . ."
+						$("#btn-login").css({'opacity': '0.6'})
+						login.status = "Redirecting . . ."
 						window.location.href = '/user'
 					}else{
 						login.error = response.data

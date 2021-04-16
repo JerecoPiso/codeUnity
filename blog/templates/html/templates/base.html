@@ -10,7 +10,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innddddex.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innddddexxedd.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
@@ -21,7 +21,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectsseddded.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Developers' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dev.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/deve.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewProject' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projectted.css' %}">
@@ -53,7 +53,8 @@ var signup = new Vue({
 	data:{
 		signupInfo: {username: '', email: '', password: '', password2: ''},
 		error: '',
-		success: ''
+		success: '',
+		status: 'Signup'
 	},
 	mounted: function(){
 		// alert($('input[name=csrfmiddlewaretoken]').val())
@@ -72,7 +73,8 @@ var signup = new Vue({
 						if(response.data != "Success"){
 							signup.error = response.data;
 						}else{
-							
+							$(".btn-signup").css({'opacity': '0.6'})
+							signup.status = "Redirecting"
 							window.location.href = "verify"
 							
 						}
@@ -164,6 +166,9 @@ var signup = new Vue({
 	})
 	
 	})
+	
+  
+
 </script>
 </body>
 </html>

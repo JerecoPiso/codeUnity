@@ -8,7 +8,7 @@ from django.contrib import messages
 import io, smtplib, ssl
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import Paginator
-import random
+import random, time
 
 rootDir = ""
 message = "www"
@@ -62,6 +62,8 @@ def getfilenames(folder):
     return list(fileSet)
 
 def index(request):
+ 
+  # del request.session['session_ok']
   request.session['title'] = "Home"
   total_devs = Developers.objects.all().count()
   if (total_devs / 1000) >= 1:
@@ -99,8 +101,14 @@ def login(request):
      return render(request, 'html/login.html')
 
 def verify(request):
+ 
   request.session.title = "Verify Account"
-  return render(request, 'html/verify.html')
+ 
+  if request.session.get("session_ok"):
+    return render(request, 'html/verify.html')
+  
+  else:
+    return redirect('/')
 
 def verified(request):
   ret_msg = ""
@@ -127,6 +135,7 @@ def verified(request):
           del request.session['reg_password']
           del request.session['reg_email']
           del request.session['reg_username']
+          del request.session['session_ok']
         except:
           pass
 
@@ -155,7 +164,7 @@ def questions(request):
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
   request.session['title'] = "Questions"
-  return render(request, 'html/forum.html', {'question_cat': question_cat, 'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj, 'languages': languages})
+  return render(request, 'html/questions.html', {'question_cat': question_cat, 'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj, 'languages': languages})
 
 def userLogin(request):
     request.session['title'] = "Login"
@@ -217,6 +226,8 @@ def register(request):
                                request.session['reg_photo'] = "haha"
                                request.session['reg_username'] = request.POST['username']
                                request.session['code'] = code
+                               request.session['session_ok'] = True
+                               request.session.set_expiry(300)
                                port = 465  # For SSL
                                smtp_server = "smtp.gmail.com"
                                sender_email = "jamesjerecopiso@gmail.com"  # sites email

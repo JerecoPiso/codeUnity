@@ -14,8 +14,9 @@ def askQuestion(request):
 
         if request.method == "POST":
             months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec')
-            d = int(datetime.datetime.now().strftime("%d"))
-            datenow =  months[d] + " " + datetime.datetime.now().strftime("%m") + " " + datetime.datetime.now().strftime("%Y")
+            d = int(datetime.datetime.now().strftime("%m"))
+            
+            datenow =  months[d - 1] + " " + datetime.datetime.now().strftime("%d") + " " + datetime.datetime.now().strftime("%Y")
             ask = Questions(question=request.POST['question'], likes=0, category = request.POST['category'], asker_id=request.session['id'], date = datenow, code=request.POST['code'], language=request.POST['language'])
             ask.save()
             return HttpResponse('Added')
@@ -142,13 +143,14 @@ def deleteProject(request):
 
 # uploading project
 def uploadProject(request):
+    folderSize = 0
     if request.method == 'POST':
         
         dir=request.FILES
         dirlist=dir.getlist('files')
 
         pathlist=request.POST.getlist('paths')
-        # print(pathlist[0].find('/'))
+        
         if not dirlist:
             return HttpResponse( 'files not found')
         else:
@@ -157,22 +159,30 @@ def uploadProject(request):
                 position = os.path.join(os.path.abspath(os.path.join(os.getcwd(),'media')),'/'.join(pathlist[dirlist.index(file)].split('/')[:-1]))
                 if not os.path.exists(position):
                     os.makedirs(position)
+                   
                 storage = open(position+'/'+file.name, 'wb+')    
                 for chunk in file.chunks():          
                     storage.write(chunk)
+               
                 storage.close()
+              
+            for root, dirs, files in  os.walk(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+request.POST['project_name'], topdown=False):
+                for name in files:
+                    folderSize = int(os.path.getsize(os.path.join(root, name))) + folderSize
+              
 
-            upload_file = request.FILES['photo']
-            # fss = FileSystemStorage()
-            # filename = fss.save(upload_file.name, upload_file)
-            extension = os.path.splitext(upload_file.name)[1]
-            rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
-            fss = FileSystemStorage()
-            filename = fss.save(rename, upload_file)
-            upload_file_path = fss.path(filename)
-            project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = rename, language=request.POST['language'], views = 0)
-            project.save()     
-            return HttpResponse("Uploaded successfully")
+            if folderSize > 10457600:
+                return HttpResponse("File size must not be greater than 10MB!!")
+            else:
+                upload_file = request.FILES['photo']  
+                extension = os.path.splitext(upload_file.name)[1]
+                rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
+                fss = FileSystemStorage()
+                filename = fss.save(rename, upload_file)
+                upload_file_path = fss.path(filename)
+                project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = rename, language=request.POST['language'], views = 0)
+                project.save()     
+                return HttpResponse("Uploaded successfully")
       
  
     return HttpResponse("An error has occurred!")

@@ -27,7 +27,7 @@
 }
 .dev-name{
     color: rgb(255,255,255);
-  
+    padding: -2%;
 }
 .filter-by{
     color: rgb(0,128,128);
@@ -45,4 +45,19 @@
 	border-radius: 2rem;
 	margin: 2% 2% 0% 0%;
 	
+}
+.card .card-img img{
+    height: 150px;
+}
+.card-name{
+    /* text-align: center; */
+    color: rgb(0, 128, 128);
+    padding: 10px
+}
+.card-footer{
+    padding: 8px;
+    border-top: 1px solid rgba(230, 230, 230, 0.8);
+}
+.card-footer a{
+    opacity: 0.7;
 }
