@@ -1,6 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from blog.models import User, Developers, Projects, Questions, Language, Question_Category
+from blog.models import User, Developers, Projects, Questions, Language, Question_Category, Comments, Replies
 from django.core.files.storage import FileSystemStorage
 import os, datetime, json, zipfile, tempfile, mimetypes
 from django.conf import settings
@@ -9,10 +9,12 @@ import io, smtplib, ssl
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import Paginator
 import random, time
+from django.db.models import Count
+from django.db import connection
 
-rootDir = ""
-message = "www"
-resp = ""
+# rootDir = ""
+# message = "www"
+# resp = ""
 # download folder in a zip format
 def download(request, folder):
     
@@ -146,7 +148,9 @@ def verified(request):
 
 def projects(request):
   project = Projects.objects.all()
-  language = Language.objects.all()
+  language = Projects.objects.values(
+    'language'
+    ).annotate(language_count=Count('language')).filter(language_count__gt=0)
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
   paginator = Paginator(project, 4)
@@ -154,6 +158,19 @@ def projects(request):
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
   return render(request, 'html/projects.html', {'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
+
+def filterProjects(request, toSearch):
+  project = Projects.objects.filter(language__contains=toSearch)
+  language = Projects.objects.values(
+    'language'
+    ).annotate(language_count=Count('language')).filter(language_count__gt=0)
+  apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
+  newest_apps = Projects.objects.order_by('-id')[:10]
+  paginator = Paginator(project, 4)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  request.session['title'] = "Projects"
+  return render(request, 'html/filterProjects.html', {'toSearch': toSearch, 'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
 def questions(request):
   languages = Language.objects.all()
@@ -273,4 +290,65 @@ def viewProject(request, id):
 def viewQuestion(request, id):
       request.session['title'] = "viewQuestion"
       question = Questions.objects.get(id=id)
-      return render(request, "html/view_question.html", {'question': question})
+      return render(request, "html/view_question.html", {'question': question, 'post_id': id})
+
+def addComment(request):
+   
+      if request.method == "POST":
+        try:
+            comment = Comments(commentor = request.POST['commentor_id'], post_id = request.POST['post_id'], comment = request.POST['comment'], date = request.POST['date'], answer = request.POST['answer'])
+            comment.save()
+            return HttpResponse("Commented succesfully.")
+        
+        except:
+
+            return HttpResponse("An error has occurred!")
+      
+      else:
+
+        return HttpResponse("Request method should be POST!")
+
+# saved reply
+def reply(request):
+     reply = Replies(commentor = request.POST['commentor_id'], post_id = request.POST['post_id'], comment_id = request.POST['comment_id'], reply = request.POST['reply'])
+     reply.save()
+     return HttpResponse("Replied successfully")
+
+# get comments
+def getCom(request):
+     with connection.cursor() as cursor:
+       try:
+          cursor.execute("SELECT blog_Comments.id, blog_Comments.commentor, blog_Comments.post_id, blog_Comments.comment, blog_Comments.date, blog_Comments.answer, blog_Developers.photo,  blog_Developers.uname  FROM blog_Comments LEFT JOIN blog_Developers ON blog_Comments.commentor = blog_Developers.id WHERE blog_Comments.post_id = "+request.POST['question_id'])
+          return JsonResponse(list(dictfetchall(cursor)), safe=False)
+       finally:
+          cursor.close()
+
+# get replies
+def getReply(request):
+    with connection.cursor() as cursor:
+        try:
+          cursor.execute("SELECT * FROM blog_Replies WHERE blog_Replies.post_id = "+request.POST['question_id'])
+          return JsonResponse(list(dictfetchall(cursor)), safe=False)
+        finally:
+          cursor.close()
+
+def deleteReply(request):
+    reply = Replies.objects.get(id=request.POST['id'])
+    reply.delete()
+    return HttpResponse("Reply deleted successfully")
+# set the raw query result to  dict
+def dictfetchall(cursor):
+      columns = [col[0] for col in cursor.description]
+      return [
+          dict(zip(columns, row))
+          for row in cursor.fetchall()
+      ]
+
+# delete comment
+def deleteComment(request):
+    reply = Replies.objects.filter(comment_id=request.POST['id'])
+    reply.delete()
+    comment = Comments.objects.get(id=request.POST['id'])
+    comment.delete()
+   
+    return HttpResponse("Comment deleted successfully")

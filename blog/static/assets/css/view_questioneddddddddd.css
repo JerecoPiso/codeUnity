@@ -1,0 +1,276 @@
+.about-project{
+    font-size: 16px;
+}
+.app-img{
+    width: 100%;
+    margin-top: 5px;
+    height: 400px;
+}
+.btn-reply{
+    margin-left: 50px;
+    border: none;
+    color: rgb(0, 153, 255);
+    background-color: transparent;
+}
+
+.btn-delete{
+    margin-left: 10px;
+    color: rgb(0, 153, 255);
+    border: none;
+    background-color: transparent;
+}
+cite{
+    color: rgb(92, 138, 138);
+    margin-bottom: 3px;
+}
+.comments{
+    /* background-color: rgba(93, 213, 213,0.5); */
+    padding: 2%;
+    margin-top: -20px
+}
+.comment{
+    /* margin-left: 50px;
+    margin-top: -10px;
+    font-size: 16px;
+    word-break: keep-all;
+     */
+    /* border: 2px solid red; */
+     margin-left: 50px;
+     box-sizing: border-box;
+        
+     margin-top: -10px;
+     /* max-height: 7em; */
+     overflow: hidden;
+    /* line-height: 25px; */
+
+     margin-right: 50px;
+   
+    
+}
+/* .read-more{
+    margin-left: 85%;
+    margin-top: -20px;
+    color: rgb(0, 153, 255);
+   
+} */
+.comment:hover {
+    overflow: visible;
+  }
+.commentor-dp{
+    width: 40px;
+    float: left;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.commentor-name{
+    color: rgb(0, 153, 255);
+    font-size: 18px;
+    margin-bottom: 10px;
+  /* padding-top: 1px;
+  font-size: 16px;
+  color: rgb(92, 138, 138); */
+}
+.sec-comments{
+    margin-left: 50px;
+   
+}
+.project-title{
+    color: rgb(0, 153, 255);
+}
+
+.question-code{
+	max-height: 350px;
+    /* overflow: auto; */
+
+    border: 2px solid rgb(194, 214, 214);
+  
+}
+.question-code::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+
+  }
+ body{
+     background-color: rgba(230, 230, 230,0.5);
+ }
+.question-box{
+    border-right: 2px solid rgb(194, 214, 214);
+    border-left: 2px solid rgb(194, 214, 214);
+    margin: 0 5% 0 5%;
+    padding: 1% 2% 4% 2%;
+    background-color: rgb(255, 255, 255);
+}
+.MyModal{
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 104%;;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    /* display: none; */
+}
+.ModalDialog{
+    background-color: rgb(255,255,255);
+    height: auto;
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 15%;
+    border-radius: 0.5rem;
+    
+}
+.ModalHeaderAlert{
+    padding: 10px;
+    border-bottom: 1px solid rgb(230, 230, 230);
+   height: auto;
+}
+.ModalHeader{
+    padding: 1px;
+    border-bottom: 1px solid rgb(230, 230, 230);
+   height: 50px;
+}
+.ModalHeader button{
+    background-color: transparent;
+    font-size: 30px;
+    float: right;
+    border: none;
+    color: rgb(255,0,0);
+}
+.ModalContent{
+    margin: 20px 20px 0 20px;
+}
+.ModalContent p{
+
+    padding: 0 5% 0 5%;
+    text-align: center;
+    font-size: 20px;
+}
+.ModalFooter{
+    
+    padding: 5px 10px 60px 10px;
+  
+}
+.ModalFooter button{
+    margin-right: 10px;
+
+    float: right;
+    color: rgb(255,255,255);
+    border: none;
+   
+
+    padding: 10px 25px 10px 25px;
+    border-radius: 0.3rem
+}
+
+.btn-post{
+	background-color: rgb(0, 102, 204); 
+}
+#comment-txt{
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid rgba(102, 153, 153,0.5);
+    width: 100%;
+    padding: 5px;
+    height: 100px;
+    overflow: auto;
+
+}
+#comment-txt:focus{
+    border: 2px solid red;
+}
+.comment-area{
+    /* border: 2px solid red; */
+    width: 100%;
+   
+    margin-top: 20px;
+}
+.comment-area img{
+    width: 10%;
+    float: left;
+    height: 45px;
+    /* border-radius: 50%; */
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+   
+}
+.comment-area textarea{
+    background-color: rgba(230, 230, 230,0.5);;
+    width: 100%;
+    padding: 10px;
+    height: 100px;
+    border: 1px solid rgb(172, 152, 152)
+
+}
+.comment-area button{
+    float: right;
+}
+.comment-area textarea::placeholder{
+
+    color: rgba(0, 153, 255,0.6);
+}
+.btn-comment{
+    background-color: rgb(0, 102, 204); 
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 10px 15px 10px 15px;
+    font-size: 16px;
+    border-radius: 0.2rem;
+}
+.btn-put-code{
+    background-color: rgb(92, 138, 138); 
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 10px 15px 10px 15px;
+    font-size: 16px;
+    margin-right: 10px;
+    border-radius: 0.2rem;
+}
+::-webkit-resizer{
+    display: none;
+}
+.note{
+    clear: both;
+    margin-top: 50px;
+    font-style: italic;
+}
+.flash-msg{
+    position: fixed;
+    /* top: 5%; */
+    width: auto;
+    padding: 10px;
+    text-align: center;
+    /* color: rgb(255, 255, 255); */
+    font-size: 16px;
+    border: 2px solid rgb(0,128,128);
+    letter-spacing: 1px;
+    font-weight: bold;
+    left: 10px;
+    bottom: 5%;
+    font-family:  Times, 'Times New Roman', serif;
+    background-color: rgb(255,255,255);
+}
+.reply-dp{
+  float:left;width: 40px;height: 35px;border-radius: 50%;margin-left: 10px;margin-top: 5px
+}
+.reply-name{
+    margin-top:9px;width: 200px;float:left;margin-left: 5px;font-size: 18px;
+    font-family: Tahoma, sans-serif;
+}
+.btn-ok{
+	background-color: rgb(0, 102, 204);
+}
+.btn-cancel{
+	background-color: rgb(255,0,0);
+}
+.ModalHeaderAlert span{
+		font-size: 50px;
+		margin-left: 48%;
+        color: rgb(255,0,0)
+}

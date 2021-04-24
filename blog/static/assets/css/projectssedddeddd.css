@@ -312,12 +312,19 @@
 }
 #projects ul{
 	max-height: 500px;
-	border: 1px solid rgba(92, 138, 138,0.2);
 	overflow: auto;
+	border: 1px solid rgba(92, 138, 138,0.2);
+
 }
+
 #projects ul::-webkit-scrollbar{
-	display: block;
+	display: block; 
+	background: #888; 
+	width: 5px;
+    height: 1px;
 }
+
+
 .projects-div .app-title:hover{
 	border-bottom: 2px solid rgb(0, 153, 255);
 }
@@ -337,7 +344,7 @@
 	margin-top: 3%;
 	padding-left: 1%;
 	float: right;
-	/*width: 30%;*/
+
 	height: 33px;
 	border: 1px solid rgb(217, 217, 217);
 	border-radius: 2rem;

@@ -12,15 +12,20 @@
 					 <button id="close-show">&times;</button>
 					 <p class="languages">Languages</p> 
 					<ul>
-						{% for lang in languages %}
-						<li> <a href="/filterProjects/{{lang.language}}">{{lang.language}}</a> </li>
+                        {% for lang in languages %}
+                        {% if lang.language != toSearch %}
+                        <li> <a href="/filterProjects/{{lang.language}}">{{lang.language}}</a> </li>
+                        {% endif %}
 						{% endfor %}
 					</ul>
 				</div>
 				<div class="col l7 m9 s12 xl7">
 				
 					<button id="btn-languages">Languages</button>
-					<input type="text" id="search-project" placeholder="Search project . . .">		
+					<div>
+						<input type="text" id="search-project" placeholder="Search project . . ." class="dropbtn">
+						
+					</div>
 					<div class="projects-div clear-float">
 						{% for project in projects %}
 						<div class="project-box">
@@ -28,9 +33,7 @@
 							<div class="project-container">
 							 <div class="project-img"><img src="/media/{{project.photo}}" style="border: 1px solid white"></div>
 								 <div  style="margin-left: 10px;">
-									<!-- {% spaceless %} -->
-									<p style="margin-top: -5px;font-size: 18px;word-wrap: break-word;" >{{ project.about|safe|linebreaks }}</p>
-									<!-- {% endspaceless%} -->
+									<p style="margin-top: -5px;font-size: 18px;word-wrap: break-word;" >{{ project.about|safe }}</p>
 								</div> 
 								
 							</div>

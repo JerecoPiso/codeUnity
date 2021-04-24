@@ -2,17 +2,17 @@
 
 {% block main_page %}
 	{% include 'html/templates/header.html' %}
-			
-		<div class="row" style="padding: 0   1% 1% 1%">
+
+		<div class="row project-box" id="viewQuestion">
             <div class="col l8 s12 m8">
                 <div class="my-project">
                     <h5 class="project-title">{{project.project_name}}</h5>
                     <cite>by: Jereco James Piso</cite>
                     <img class="app-img" src="/media/slider.jpg" style="">
-                    <h5>About</h5>
+                  
                     <p class="about-project">{{project.about|safe}}</p>
                 </div>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum architecto, adipisci earum cupiditate, unde eos corporis dolores nisi optio qui explicabo! Sapiente, delectus provident. Omnis odit sed aliquam consequatur distinctio?</p>
+                <!-- <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum architecto, adipisci earum cupiditate, unde eos corporis dolores nisi optio qui explicabo! Sapiente, delectus provident. Omnis odit sed aliquam consequatur distinctio?</p> -->
             </div>
             <div class="col l4 s12 m4">
 

@@ -249,7 +249,9 @@ $(document).ready(function(){
 				if(response.data == "Failed"){
 					alert("Unable to retrieve Languages!")
 				}else{
+					console.log(response.data)
 					languages.toShowLanguages = response.data
+						// alert(languages.toShowLanguages.length)
 				}
 			})
 		}

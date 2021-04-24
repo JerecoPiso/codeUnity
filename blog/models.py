@@ -29,16 +29,25 @@ class Developers(models.Model):
 		self.photo.delete()
 		super().delete(*args,**kwargs)
 
-class Jobs(models.Model):
-	company_name = models.CharField(max_length=255)
-	poster_id = models.IntegerField()
-	job_description = models.TextField()
-	location = models.TextField()
-	skills_needed = models.CharField(max_length=500)
-	job_situation = models.CharField(max_length=155)
+
+class Comments(models.Model):
+	commentor = models.IntegerField()
+	post_id = models.IntegerField()
+	comment = models.TextField(blank=True)
+	date = models.CharField(max_length=50)
+	answer = models.TextField(blank=True)
 
 	def __str__(self):
-		return self.company_name + " " + self.poster_id + " " + self.job_description + " " + self.location + " " + self.skills_needed + " " + self.job_situation
+		return str(self.commentor) + " " + str(self.post_id) + " " +  self.comment + " " + self.date + " " + self.answer
+
+class Replies(models.Model):
+	commentor = models.IntegerField()
+	post_id = models.IntegerField()
+	comment_id = models.IntegerField()
+	reply = models.TextField(blank=False)
+
+	def __str__(self):
+		return self.commentor + " " + self.post_id + " " + self.comment_id + " " + self.reply
 
 class Language(models.Model):
 	language = models.CharField(max_length=255)

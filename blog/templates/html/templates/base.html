@@ -9,8 +9,9 @@
 	<title>{{request.session.title}}</title>
 
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innddddexxedd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innddddexxeddd.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
@@ -18,16 +19,17 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionstt.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectsseddded.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectssedddeddd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Developers' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/deve.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewProject' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projectted.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projecttedd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewQuestion' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projectted.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_questioneddddddddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">
 	{% endif %}
 </head>
 <body>
@@ -40,13 +42,183 @@
 <script type="text/javascript" src="{% static 'assets/js/jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
+{% if request.session.title == 'viewQuestion' %}
+<script type="text/javascript" src="{% static 'assets/js/prism.js' %}"></script>
 
-
+{% endif %}
+<script type="text/javascript" src="{% static 'assets/js/moment.js' %}"></script>
 <!-- <script type="text/javascript" src="{% static 'assets/js/indx.js' %}"></script> -->
-<script type="text/javascript" src="{% static 'assets/js/materialize.js' %}"></script>
-
+<!-- <script type="text/javascript" src="{% static 'assets/js/materialize.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'assets/js/date_componented.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
 <script type="text/javascript">
+var dd = new Array("Saab", "Volvo", "BMW");
+  var comments = new Vue({
+	  delimiters: ['[', ']'],
+	  el: "#comment-section",
+	  data:{
+		// comment
+		comment: '',
+		// text area for the code
+		editor: false,
+		commentInfo: [],
+		replies: [],
+		// comment id
+		comId: '',
+		// post id
+		postId: '',
+		flashMsg: '',
+		// used to hide and show the reply popup box
+		replyModal: false,
+		replyInfo: {question_id: '', comment_id: '', commentor_id: '', reply: ''},
+		// reply id
+		replyId: '',
+		// question id
+		qID: '',
+		// the modal 
+		popUpAlert: false,
+		// what action to perform in the modal 
+		actionToPerform: '',
+		// extension for the message in the modal content on which data will be deleted
+		promptMsgExtension: ''
+		
+	
+	  },
+	  mounted: function(){	
+		// alert($("#post-id").val())
+		this.qID = $("#post-id").val()
+		// this.getComments($("#post-id").val())
+		// this.getReplies($("#post-id").val())
+	  },
+	  methods:{
+		  	// adding reply
+		  secComment: function(){
+			 let data = new FormData()
+			 data.append("post_id", comments.replyInfo.question_id)
+			 data.append('comment_id', comments.replyInfo.comment_id)
+			 data.append('commentor_id', comments.replyInfo.commentor_id)
+			 data.append('reply', comments.replyInfo.reply)
+			 axios.post("/reply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+				comments.flashMsg = response.data
+				comments.replyInfo.reply = ""
+				comments.replyModal = false
+				comments.getComments(comments.qID)
+				comments.getReplies(comments.qID)
+				setTimeout(function(){
+					comments.flashMsg = ""
+				}, 5000)
+			 })
+		
+		  },
+		  	// adding comment
+		  addComment: function(commentor_id, post_id){
+			  
+			  var code = $("#summernote").summernote('code')
+			  var now = moment().year()+"-"+(moment().month()+1)+"-"+moment().date()+" "+moment().hour()+":"+moment().minutes()+":"+moment().seconds() 
+				// alert(val)
+			    let data = new FormData()
+				data.append("comment", comments.comment)
+				data.append("commentor_id", commentor_id)
+				data.append("date", now) 
+				data.append("post_id", post_id) 
+			  if(code != "<p><br></p>"){
+				
+				data.append("answer", code)
+			  }else{
+				data.append("answer", "")
+			  }
 
+			  axios.post("/addComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+				
+				comments.comment = ""
+				comments.flashMsg = response.data
+				comments.getComments(post_id)
+				comments.getReplies(comments.qID)
+				setTimeout(function(){
+					comments.flashMsg = ""
+				}, 5000)
+				
+			  })
+			
+		  },
+		  	// deleting comment
+		  deleteComment: function(post_id){
+			let data = new FormData()
+			
+			data.append("id", comments.comId)
+		
+			axios.post("/deleteComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+				comments.flashMsg = response.data
+				comments.getComments(post_id)
+				comments.getReplies(comments.qID)
+				setTimeout(function(){
+					comments.flashMsg = ""
+				}, 5000)
+			  })
+		  },
+		  	// deleting reply
+		  deleteReply: function(){
+			let data = new FormData()
+			
+			data.append("id", comments.replyId)
+			axios.post("/deleteReply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+				comments.flashMsg = response.data
+				comments.getComments(comments.qID)
+				comments.getReplies(comments.qID)
+				setTimeout(function(){
+					comments.flashMsg = ""
+				}, 5000)
+			   })
+		  },
+		  	// getting comments
+		  getComments: function(id){
+			  let data = new FormData()
+			  data.append("question_id", id)
+			axios.post("/getComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+				comments.commentInfo = response.data
+			  })
+		  },
+		  	// getting replies
+		  getReplies: function(id){
+			  let data = new FormData()
+			  data.append("question_id", id)
+			  
+			axios.post("/getReply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+				comments.replies = response.data
+			
+			  })
+		  },
+		  	// what delete function will be executed
+		  toDelete: function(){
+				if(comments.actionToPerform == "deleteComment"){
+					comments.deleteComment(comments.postId)
+					
+				}else{
+					comments.deleteReply()
+				}
+				setTimeout(function(){
+					comments.popUpAlert = false
+				}, 800)
+		  },
+		 
+	  }
+  })
+  $('.btn-put-code').click(function(){
+	  if($(this).text() != "Close"){
+		$('.summernote').slideToggle()
+		$(this).text("Close")
+	  }else{
+		$('.summernote').slideToggle()
+		$(this).text("Put Code")
+	  }
+	 
+  })
+  $('#summernote').summernote({
+        tabsize: 1,
+		maxHeight: 120,
+		
+       
+      });
 var signup = new Vue({
 	delimiters: ['[', ']'],
 	el: "#signup",
@@ -55,9 +227,6 @@ var signup = new Vue({
 		error: '',
 		success: '',
 		status: 'Signup'
-	},
-	mounted: function(){
-		// alert($('input[name=csrfmiddlewaretoken]').val())
 	},
 	methods: {
 		register: function(){

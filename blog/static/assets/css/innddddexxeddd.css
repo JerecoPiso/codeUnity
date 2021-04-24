@@ -811,12 +811,9 @@
 .tops:first-child{
 	padding: 0% 5% 5% 2%
 }
-::-webkit-scrollbar{
-	display: none
+body::-webkit-scrollbar{
+	display: none;
 }
-
-
-
 .search-section{
 	position: absolute;
 	width: 100%;

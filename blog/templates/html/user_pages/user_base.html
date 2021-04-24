@@ -5,7 +5,9 @@
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/usexxxxxxxxx.css' %}">
+	{% if request.session.title == 'Home' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chart.css' %}">
+	{% endif %}
 	{% if request.session.title == 'Projects' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/pppp.css' %}">
 	{% endif %}
@@ -13,7 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questionsedd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Settings' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settingsxx.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settingsxxxx.css' %}">
 	{% endif %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/project_files.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}"/>  
@@ -324,6 +326,8 @@ $(document).ready(function(){
 				if(max_size > 10457600){
 					folderUpload.fileLimit = true
 					folderUpload.modalErr = true
+				}else{
+					folderUpload.fileLimit = false
 				}
 			
 				

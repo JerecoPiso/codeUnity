@@ -13,10 +13,10 @@ def askQuestion(request):
     try:
 
         if request.method == "POST":
-            months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec')
-            d = int(datetime.datetime.now().strftime("%m"))
+            # months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec')
+            # d = int(datetime.datetime.now().strftime("%m"))
             
-            datenow =  months[d - 1] + " " + datetime.datetime.now().strftime("%d") + " " + datetime.datetime.now().strftime("%Y")
+            datenow =  datetime.datetime.now().strftime("%Y") + "-" + datetime.datetime.now().strftime("%m") + "-"+ datetime.datetime.now().strftime("%d") + " " + datetime.datetime.now().strftime("%H")+ ":" + datetime.datetime.now().strftime("%M")+ ":" + datetime.datetime.now().strftime("%S")
             ask = Questions(question=request.POST['question'], likes=0, category = request.POST['category'], asker_id=request.session['id'], date = datenow, code=request.POST['code'], language=request.POST['language'])
             ask.save()
             return HttpResponse('Added')
@@ -236,3 +236,4 @@ def getProject(request):
 def getUser(request):
     user = Developers.objects.filter(id__exact=request.session['id']).values()
     return JsonResponse(list(user), safe=False)
+

@@ -28,11 +28,11 @@
 
 			</div>
 			<!-- <strong>Questions</strong> -->
-			<ul class="questions-box">
+			<ul class="questions-box time-counter">
 				{% for question in questions %}
 				<li class="question">
 					<a href="viewQuestion/{{question.id}}">{{ question.question }}</a> <br>
-					<cite style="">by: Jereco James Piso <i>(2 weeks ago)</i></cite>
+					<cite>by: Jereco James Piso <i style="font-size: 7px;"><date-posted posted="{{question.date}}"></date-posted></i></cite>
 					<div class="infos">
 						<span class="fa fa-comments comments" style=""></span><b class="question-info">  {{ question.likes }}</b> 
 							<b class="question-info"><span class="fa fa-thumbs-up likes" style=""></span> {{ question.likes }}</b>
