@@ -1,30 +1,109 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.conf import settings
-from blog.models import Language, Projects, Question_Category, Questions
-
+from blog.models import Language, Projects, Question_Category, Questions, User, Frameworks
+from django.contrib.auth.hashers import make_password, check_password
+from django.db import connection
 # PAGES
 def index(request):
 	request.session['title'] = "Home"
-	return render(request, 'html/dashboard/index.html')
+	if request.session.get('admin_id'):
+		return redirect('/dashboard/home')
+	
+	else:
+		return render(request, 'html/dashboard/admin_login.html')
+
+def home(request):
+	request.session['title'] = "Main"
+	if request.session.get('admin_id'):
+		return render(request, 'html/dashboard/index.html')
+	
+	else:
+		return redirect("/dashboard")
+	
+
+def logout(request):
+	del request.session['admin_id']
+	del request.session['admin_name']
+
+	return redirect('/dashboard')
 
 def projects(request):
 	request.session['title'] = "Projects"
-	return render(request, 'html/dashboard/projects.html')
+	if request.session.get('admin_id'):
+		return render(request, 'html/dashboard/projects.html')
+	
+	else:
+		return redirect("/dashboard")
 
 def questions(request):
 	request.session['title'] = "Questions"
-	return render(request, 'html/dashboard/questions.html')
+	if request.session.get('admin_id'):
+		return render(request, 'html/dashboard/questions.html')
+	
+	else:
+		return redirect("/dashboard")
 
 def languages(request):
 	request.session['title'] = "Language"
-	return render(request, 'html/dashboard/languages.html')
+	if request.session.get('admin_id'):
+		return render(request, 'html/dashboard/languages.html')
+	
+	else:
+		return redirect("/dashboard")
+
+def signup(request):
+	# request.session['title'] = "Signup"
+	if request.method == "POST":
+		if request.POST['username'] != "" and request.POST['pass'] != "" and request.POST['pass2'] != "":
+
+			if request.POST['pass'] == request.POST['pass2']:
+				hashed_pwd = make_password(request.POST['pass'], salt=None, hasher='default')
+				admin = User(username = request.POST['username'], password = hashed_pwd)
+				admin.save()
+				return HttpResponse("Sign up successfully")
+		
+			else:
+				return HttpResponse("Password didn't matched!")
+
+		else:
+			return HttpResponse("All fields must be filled up!")	
+		
+	else:
+		return HttpResponse("Method request should be POST!")
+
+
+def login(request):
+	if request.method == "POST":
+		if request.POST['username'] != "" and request.POST['password'] != "":
+		
+				check_username = User.objects.filter(username__exact=request.POST['username'])
+				if check_username:
+					user = User.objects.get(username__exact = request.POST['username'])
+
+					if check_password(request.POST['password'], user.password):
+						request.session['admin_id'] = user.id
+						request.session['admin_name'] = user.username
+
+						return HttpResponse("Login")
+					
+					else:
+						return HttpResponse("Incorrect Password")
+				
+				else:
+					return HttpResponse("Username not exist!")
+		else:
+			return HttpResponse("All fields must be  filled  up!")
+	
+
+	else:
+		return HttpResponse("Method request should be POST!")
 
 # creating datas
 def addLanguage(request):
 	try:
 		if request.POST['language'] != "" and request.POST['category'] != "":
-			if Language.objects.filter(language__exact=request.POST['language']):
+			if Language.objects.filter(language=request.POST['language']):
 
 				return HttpResponse("Language already exist!")
 
@@ -39,6 +118,23 @@ def addLanguage(request):
 	except:
 		return HttpResponse("An error has occured!")
 
+def addFramework(request):
+	try:
+		if request.POST['framework'] != "" and request.POST['language_id'] != "":
+			if Frameworks.objects.filter(framework=request.POST['framework']):
+
+				return HttpResponse("Framework already exist!")
+
+			else:
+				frame = Frameworks(framework = request.POST['framework'], language_id = request.POST['language_id'])
+				frame.save()
+				return HttpResponse("Framework added successfuly")
+
+		else:
+			return HttpResponse("All fields must be filled up!")
+
+	except:
+		return HttpResponse("An error has occured!")
 # creating datas
 def addCategory(request):
 	try:
@@ -68,6 +164,16 @@ def deleteLanguage(request):
 
 		return HttpResponse("An error has occured!")
 
+# deleting datas
+def deleteFramework(request):
+	try:
+		frame = Frameworks.objects.get(id=request.POST['id'])
+		frame.delete()
+		return HttpResponse("Deleted successfuly")
+
+	except:
+
+		return HttpResponse("An error has occured!")
 # deleting datas
 def deleteQuestionCategory(request):
 	try:
@@ -104,6 +210,22 @@ def getLanguages(request):
 		
 	except:
 		return HttpResponse("Failed")	
+
+def getFrameworks(request):
+	with connection.cursor() as cursor:
+			try:
+				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.framework, blog_Language.language FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
+				# framework = Frameworks.objects.all().values()
+				return JsonResponse(list(dictfetchall(cursor)), safe=False)
+			finally:
+				cursor.close()
+	
+def dictfetchall(cursor):
+      columns = [col[0] for col in cursor.description]
+      return [
+          dict(zip(columns, row))
+          for row in cursor.fetchall()
+      ]
 
 # getting datas
 def getQuestions(request):

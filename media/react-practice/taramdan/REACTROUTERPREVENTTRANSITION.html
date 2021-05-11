@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+
+<div id="root"> 
+	
+</div>
+<script type="text/javascript" src="react.js"></script>
+<script type="text/javascript" src="react-dom.js"></script>
+
+<!-- 
+<script type="text/javascript" src="react-router.js"></script> -->
+
+<script type="text/javascript" src="react-router-dom.js"></script>
+
+<script type="text/javascript" src="babel.js"></script>
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.js.map"></script> -->
+
+<!-- <script type="text/javascript" src="react-router-dom.js"></script> -->
+<script  type="text/babel">
+
+
+const Router = ReactRouterDOM.HashRouter;
+const Switch = ReactRouterDOM.Switch;
+const Route = ReactRouterDOM.Route;
+const Link = ReactRouterDOM.Link;
+const Redirect =  ReactRouterDOM.Redirect;
+const Prompt =  ReactRouterDOM.Prompt;
+var App = props => (
+	  <Router>
+      <ul>
+        <li>
+          <Link to="/">Form</Link>
+        </li>
+        <li>
+          <Link to="/one">One</Link>
+        </li>
+        <li>
+          <Link to="/two">Two</Link>
+        </li>
+      </ul>
+
+      <Switch>
+        <Route path="/" exact children={<BlockingForm />} />
+        <Route path="/one" children={<h3>One</h3>} />
+        <Route path="/two" children={<h3>Two</h3>} />
+      </Switch>
+    </Router>
+   
+)
+  
+
+
+function BlockingForm() {
+  let [isBlocking, setIsBlocking] = React.useState(false);
+
+  return (
+    <form
+      onSubmit={event => {
+        event.preventDefault();
+        event.target.reset();
+        setIsBlocking(false);
+      }}
+    >
+      <Prompt
+        when={isBlocking}
+        message={location =>
+          `Are you sure you want to go to ${location.pathname}`
+        }
+      />
+
+      <p>
+        Blocking?{" "}
+        {isBlocking ? "Yes, click a link or the back button" : "Nope"}
+      </p>
+
+      <p>
+        <input
+          size="50"
+          placeholder="type something to block transitions"
+          onChange={event => {
+            setIsBlocking(event.target.value.length > 0);
+          }}
+        />
+      </p>
+
+      <p>
+        <button>Submit to stop blocking</button>
+      </p>
+    </form>
+  );
+}
+
+
+
+	ReactDOM.render(<App />, document.getElementById("root"));
+</script>
+</body>
+</html>

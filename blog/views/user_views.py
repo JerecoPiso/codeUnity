@@ -2,7 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from pathlib import Path
 import os, datetime, json
-from blog.models import Projects, Questions, Question_Category, Developers
+from blog.models import Projects, Questions, Question_Category, Developers, Replies, Comments
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
@@ -17,9 +17,9 @@ def askQuestion(request):
             # d = int(datetime.datetime.now().strftime("%m"))
             
             datenow =  datetime.datetime.now().strftime("%Y") + "-" + datetime.datetime.now().strftime("%m") + "-"+ datetime.datetime.now().strftime("%d") + " " + datetime.datetime.now().strftime("%H")+ ":" + datetime.datetime.now().strftime("%M")+ ":" + datetime.datetime.now().strftime("%S")
-            ask = Questions(question=request.POST['question'], likes=0, category = request.POST['category'], asker_id=request.session['id'], date = datenow, code=request.POST['code'], language=request.POST['language'])
+            ask = Questions(question=request.POST['question'], likes=0, category = request.POST['category'], asker_id=request.session['id'], date = datenow, code=request.POST['code'], language=request.POST['language'], comments = 0)
             ask.save()
-            return HttpResponse('Added')
+            return HttpResponse('Asked successfully')
 
     except:
         
@@ -32,7 +32,7 @@ def index(request):
          question = Questions.objects.filter(asker_id__exact=request.session['id']).count()
          return render(request, 'html/user_pages/index.html', {'project_total': project, 'question_total': question})
     else:
-         return redirect("/login")
+         return redirect("/login/user")
 
 # projects of the user
 def projects(request):
@@ -42,7 +42,7 @@ def projects(request):
         proj = Projects.objects.filter(uploader_id__exact=request.session['id'])
         return render(request, 'html/user_pages/projects.html', {'myproject':proj, 'count': count})
     else:
-         return redirect("/login")
+         return redirect("/login/user")
 
 # opening the file from a project
 def readFile(request):
@@ -96,10 +96,14 @@ def project_files(request, folder):
     return render(request, 'html/user_pages/project_files.html', context)
 
 def questions(request):
-    request.session['title'] = "Questions"
-    total_question = Questions.objects.filter(asker_id__exact=request.session['id']).count()
-    myquestion = Questions.objects.all()
-    return render(request, 'html/user_pages/questions.html', {'myquestions': myquestion, 'total_question': total_question})
+    if request.session.get("loggin"):
+        request.session['title'] = "Questions"
+        total_question = Questions.objects.filter(asker_id__exact=request.session['id']).count()
+        myquestion = Questions.objects.all()
+        return render(request, 'html/user_pages/questions.html', {'myquestions': myquestion, 'total_question': total_question})
+    else:
+        return redirect("/login/user")    
+  
 
 def getQuestions(request):
     try:
@@ -180,7 +184,7 @@ def uploadProject(request):
                 fss = FileSystemStorage()
                 filename = fss.save(rename, upload_file)
                 upload_file_path = fss.path(filename)
-                project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = rename, language=request.POST['language'], views = 0)
+                project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = rename, language=request.POST['language'], views = 0, more = request.POST['more'])
                 project.save()     
                 return HttpResponse("Uploaded successfully")
       
@@ -220,14 +224,14 @@ def logout(request):
     except:
         pass
 
-    return redirect('/login')
+    return redirect('/login/user')
 
 def settings(request):
     if request.session.get("loggin"):
         request.session['title'] = "Settings"
         return render(request, 'html/user_pages/settings.html')
     else:
-        return redirect("/login")   
+        return redirect("/login/user")   
 
 def getProject(request):
     projects = Projects.objects.filter(uploader_id__exact=request.session['id']).values()

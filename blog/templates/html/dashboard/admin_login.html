@@ -1,0 +1,42 @@
+{% extends 'html/templates/admin_login_base.html' %}
+
+{% block admin_login %}
+
+<div class="form" id="admin">
+    <form @submit.prevent="login()"  id="login-form" v-if="loginFormStatus">
+        {% csrf_token %}
+    
+        <img class="login-logo" src="/media/images.png">
+        <div>
+            
+            <label>Username</label>
+            <input type="text" class="login-input"required v-model="loginInfo.username">
+            <label>Password</label>
+            <input type="password" required v-model="loginInfo.password">
+            <button type="submit" id="btn-login">[loginBtnStatus]</button>
+            <p class="center-align error" v-if="error.loginErr">[error.loginErr]</p>
+            <a  href="javascript:void(0)" @click="loginFormStatus = false">Signup</a>
+            <a href="" class="right" id="forgot-password">Forgot password?</a>
+        </div>				
+    </form>
+    <form  @submit.prevent="signup()" id="signup-form" v-if="!loginFormStatus">
+        {% csrf_token %}
+    
+        <img class="login-logo" src="/media/images.png">
+        <div>
+            
+            <label>Username</label>
+            <input type="text" class="login-input" required v-model="signupInfo.username">
+            <label>Password</label>
+            <input type="password" required v-model="signupInfo.pass">
+            <label>Re-type Password</label>
+            <input type="password" required v-model="signupInfo.pass2">
+            <button type="submit" id="btn-signup">[signupBtnStatus]</button>
+            <p class="center-align error" v-if="error.signupErr">[error.signupErr]</p>
+            <a href="javascript:void(0)" @click="loginFormStatus = true">Login</a>
+          
+        </div>				
+    </form>
+</div>
+
+{% endblock %}

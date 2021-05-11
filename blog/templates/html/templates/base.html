@@ -4,34 +4,60 @@
 	 {% load static %}
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<link rel="shortcut icon" href="/media/page_logo.png">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>{{request.session.title}}</title>
 
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innddddexxeddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innddddexxeddddddddddd.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionstt.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionstttttttttttttt.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectssedddeddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/pe.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Developers' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/deve.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developp.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewProject' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projecttedd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projectteddd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewQuestion' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_questioneddddddddd.css' %}">
+	<!-- <link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-editor.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-tomorrow.css' %}"> -->
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prismm.css' %}">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_questionedddddddddddddd.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">
 	{% endif %}
 </head>
+<style>
+	.height-200{
+	  height: 200px  
+	}
+	
+	.my-editor {
+	  /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+	  background: #2d2d2d;
+	  color: #ccc;
+  
+	  /* you must provide font-family font-size line-height. Example:*/
+	  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+	  font-size: 14px;
+	  line-height: 1.5;
+	  padding: 5px;
+	}
+  
+	/* optional class for removing the outline */
+	.prism-editor__textarea:focus {
+	  outline: none;
+	}
+	
+  </style>
 <body>
 
 	{% block main_page %}
@@ -44,29 +70,75 @@
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
 {% if request.session.title == 'viewQuestion' %}
 <script type="text/javascript" src="{% static 'assets/js/prism.js' %}"></script>
-
+<!-- <script type="text/javascript" src="{% static 'assets/js/vue-prism-editor.js' %}"></script> -->
 {% endif %}
-<script type="text/javascript" src="{% static 'assets/js/moment.js' %}"></script>
-<!-- <script type="text/javascript" src="{% static 'assets/js/indx.js' %}"></script> -->
-<!-- <script type="text/javascript" src="{% static 'assets/js/materialize.js' %}"></script> -->
-<script type="text/javascript" src="{% static 'assets/js/date_componented.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/moment.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/date_componented.js' %}"></script>
+
 <script type="text/javascript">
-var dd = new Array("Saab", "Volvo", "BMW");
+var vue_prism_component = {
+		delimiters: ['[', ']'],
+		props: {
+			code: String,
+			language: String,
+			lang: String
+		},	
+		template: '<pre style="max-height: 500px;overflow: auto" :class="language + lang"><code v-html="code"></code></pre>'
+	}
+	new Vue({
+		delimiters: ['[', ']'],
+		el: "#app",
+		components: {
+			
+			'vue-prism':  vue_prism_component
+	
+		},
+		
+	})
+	
+	new Vue({
+		el:".projects-box",
+		data:{
+			searchValue: ''
+		},
+		methods: {
+			searchProjects: function(){
+				let data = new FormData()
+				data.append('search', this.searchValue)
+				// axios.post('/projects/'+this.searchValue, data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+					
+				// })
+				if(this.searchValue != ""){
+					window.location.href="/projects/search/"+this.searchValue
+				}
+			
+			}
+		}
+	})
+	
   var comments = new Vue({
 	  delimiters: ['[', ']'],
 	  el: "#comment-section",
+	  components: {
+			
+		'vue-prism':  vue_prism_component
+
+	  },
 	  data:{
+		code: "<p></p>",
+		commentInfo: [],
+	
 		// comment
 		comment: '',
 		// text area for the code
 		editor: false,
-		commentInfo: [],
+		
 		replies: [],
 		// comment id
 		comId: '',
 		// post id
-		postId: '',
+		srcImg: '/media/',
 		flashMsg: '',
 		// used to hide and show the reply popup box
 		replyModal: false,
@@ -80,17 +152,23 @@ var dd = new Array("Saab", "Volvo", "BMW");
 		// what action to perform in the modal 
 		actionToPerform: '',
 		// extension for the message in the modal content on which data will be deleted
-		promptMsgExtension: ''
+		promptMsgExtension: '',
+		btnDisable: true,
+		questionId: '',
+		ctr: 0
 		
 	
 	  },
-	  mounted: function(){	
-		// alert($("#post-id").val())
+	  mounted: function(){
 		this.qID = $("#post-id").val()
-		// this.getComments($("#post-id").val())
-		// this.getReplies($("#post-id").val())
+		this.getComments($("#post-id").val())
+		this.getReplies($("#post-id").val())
 	  },
 	  methods:{
+		highlighter(code) {
+      	
+		  return Prism.highlight(code, Prism.languages.js, 'js');
+		},
 		  	// adding reply
 		  secComment: function(){
 			 let data = new FormData()
@@ -111,14 +189,16 @@ var dd = new Array("Saab", "Volvo", "BMW");
 		
 		  },
 		  	// adding comment
-		  addComment: function(commentor_id, post_id){
+		  addComment: function(post_id){
 			  
 			  var code = $("#summernote").summernote('code')
 			  var now = moment().year()+"-"+(moment().month()+1)+"-"+moment().date()+" "+moment().hour()+":"+moment().minutes()+":"+moment().seconds() 
 				// alert(val)
 			    let data = new FormData()
 				data.append("comment", comments.comment)
-				data.append("commentor_id", commentor_id)
+				// alert(code)
+				// var dom = new DOMParser()
+				// var doc = dom.parseFromString(code, 'html')
 				data.append("date", now) 
 				data.append("post_id", post_id) 
 			  if(code != "<p><br></p>"){
@@ -147,9 +227,13 @@ var dd = new Array("Saab", "Volvo", "BMW");
 			
 			data.append("id", comments.comId)
 		
+			data.append("post_id", comments.questionId)
+			
+		
 			axios.post("/deleteComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
 				comments.flashMsg = response.data
 				comments.getComments(post_id)
+			
 				comments.getReplies(comments.qID)
 				setTimeout(function(){
 					comments.flashMsg = ""
@@ -161,7 +245,10 @@ var dd = new Array("Saab", "Volvo", "BMW");
 			let data = new FormData()
 			
 			data.append("id", comments.replyId)
+			
+			data.append("post_id", comments.questionId)
 			axios.post("/deleteReply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+				
 				comments.flashMsg = response.data
 				comments.getComments(comments.qID)
 				comments.getReplies(comments.qID)
@@ -175,7 +262,10 @@ var dd = new Array("Saab", "Volvo", "BMW");
 			  let data = new FormData()
 			  data.append("question_id", id)
 			axios.post("/getComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+				
 				comments.commentInfo = response.data
+		
+				
 			  })
 		  },
 		  	// getting replies
@@ -184,14 +274,15 @@ var dd = new Array("Saab", "Volvo", "BMW");
 			  data.append("question_id", id)
 			  
 			axios.post("/getReply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-				comments.replies = response.data
+			
+				 comments.replies = response.data
 			
 			  })
 		  },
 		  	// what delete function will be executed
 		  toDelete: function(){
 				if(comments.actionToPerform == "deleteComment"){
-					comments.deleteComment(comments.postId)
+					comments.deleteComment(comments.questionId)
 					
 				}else{
 					comments.deleteReply()
@@ -218,60 +309,167 @@ var dd = new Array("Saab", "Volvo", "BMW");
 		maxHeight: 120,
 		
        
-      });
+});
 var signup = new Vue({
 	delimiters: ['[', ']'],
 	el: "#signup",
 	data:{
 		signupInfo: {username: '', email: '', password: '', password2: ''},
 		error: '',
-		success: '',
-		status: 'Signup'
+		// success: '',
+		// status: 'Signup'
+		btnDisable: '',
+		stringOnly: /^[a-zA-Z ]+$/,
+		numbersOnly: /^[0-9]+$/
+	},
+	mounted: function(){
+		this.btnDisable = true
+		$('.btn-signup').css({'opacity': '0.7'})
 	},
 	methods: {
-		register: function(){
-			if((signup.signupInfo.email && signup.signupInfo.password && signup.signupInfo.password2) != ""){
-				if(signup.signupInfo.password.length < 7){
-					signup.error = "Password must contain at least 8 characters!";
-				}else if(signup.signupInfo.password != signup.signupInfo.password2){
-					signup.error = "Password didn't matched!";
-				}else{
-
-					var data = signup.toFormData(signup.signupInfo);
-					axios.post("register", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-						if(response.data != "Success"){
-							signup.error = response.data;
-						}else{
-							$(".btn-signup").css({'opacity': '0.6'})
-							signup.status = "Redirecting"
-							window.location.href = "verify"
-							
-						}
-						
-					})
-				}	
-				
+		usernameMonitor: function(event){
+			const key = event.key
+			
+			if(!key.toString().match(signup.stringOnly)){
+				newname = this.signupInfo.username
+				this.signupInfo.username = newname.substr(0,newname.length-1)
 			}else{
-			 		signup.error =	"All fields must be filled up!";
+				this.passwordChecker()
 			}
 			
-			setTimeout(function(){
-							signup.error = "";
-							
-						}, 5000)
 
 		},
+		emailMonitor: function(event){
+			
+			this.passwordChecker()
+			
 
-		 toFormData: function(obj){
-            var form_data = new FormData();
-            for(var key in obj){
-                form_data.append(key, obj[key]);
-            }
-            return form_data;
-      },
+		},
+		passwordMonitor: function(event){
+			
+			if(signup.signupInfo.password.length < 8){
+				
+				this.error = "Password must contain at least 8 characters!"
+			
+				
+			}else if(this.signupInfo.password.match(signup.numbersOnly) || this.signupInfo.password.match(signup.stringOnly) ){
+		
+				this.error = "Password must contain letters and numbers!"
+
+			}else{
+				this.error = ""
+				if(!this.signupInfo.password != "" && this.signupInfo.password2 == ""){
+
+					if((signup.signupInfo.email && signup.signupInfo.password && signup.signupInfo.username && signup.signupInfo.password2) != ""){			
+						this.btnDisable = false
+						$(".btn-signup").css({'opacity': '1'})
+					}
+						this.error = ""
+						
+				}
+				
+			}
+			if(event.key == " "){
+				newpass = this.signupInfo.password
+				this.signupInfo.password = newpass.substr(0,newpass.length-1)
+				this.error = "Password must not contain a whitespace!"
+			
+			}
+		},
+		password2Monitor: function(event){
+				if(this.signupInfo.password != ""){
+
+					if(this.signupInfo.password2 != ""){
+
+						this.passwordChecker()
+
+					}
+
+				}else{
+					this.error = "Password must not be empty!"
+				}
+				
+		},
+		passwordChecker: function(){
+			if(this.signupInfo.password == this.signupInfo.password2){
+							if((signup.signupInfo.email && signup.signupInfo.password && signup.signupInfo.username && signup.signupInfo.password2) != ""){			
+								this.btnDisable = false
+								$(".btn-signup").css({'opacity': '1'})
+							}
+							this.error = ""
+						}else{
+							this.error = "Pasword didn't matched!"
+						}
+		}
+	
 	}
 })
  $(document).ready(function(){
+	// $(".MyModal").css({'display': 'none'})
+		// $(".btn-delete").click(function(){
+		//  	$("#ModalDelete").fadeToggle()
+		// })
+		// $(".btn-delete").click(function(){
+		//  	$("#ModalDelete").fadeToggle()
+		// })
+		// $(".btn-reply").click(function(){
+		//  	$("#ModalReply").fadeToggle()
+		// })
+		// $("#closeModalReply").click(function(){
+		//  	$("#ModalReply").fadeToggle()
+		// })
+	// $(".lang").click(function(){
+	// 	$("#languages li").each(function(){
+	// 		if($(this).hasClass("act")){
+			
+	// 			$(this).children("ul").slideUp()
+				
+	// 		}
+	// 	})
+	// 	if(!$(this).hasClass("act")){
+
+	// 		// $(this).css({"border-top": '0.3px solid rgba(179, 179, 179,0.5)', "border-bottom": '0.3px solid rgba(179, 179, 179,0.5)', "border-right": '5px solid rgb(255, 255, 255)'})
+	// 		$(this).addClass("act")
+	// 		$(this).children("ul").slideDown()
+	// 	}else{
+			
+	// 		$(this).removeClass("act")
+	// 		// $(this).css({"border": 'none'})
+	// 	}
+	
+	
+	// })
+	$('#ask-btn').click(function(){
+		$('.LoginModal').slideToggle()
+	})
+	$('.closeModal').click(function(){
+		$('.LoginModal').slideToggle()
+	})
+	$(".lang").hover(function(){
+
+		$(this).find("span").show()
+
+		$("#languages li").each(function(){
+			if($(this).hasClass("show-chevron")){
+				
+				$(this).find("span").hide()
+			}
+		})
+		if(!$(this).hasClass("show-chevron")){
+			
+			$(this).addClass("show-chevron")
+			$(this).find("span").show()
+		}else{
+			
+			$(this).removeClass("show-chevron")			
+		}	
+	})
+	
+	
+
+
+
+
 
 	$(window).resize(function(){
        	if(document.body.clientWidth > 651){
@@ -282,16 +480,16 @@ var signup = new Vue({
        		$('#open').show() 	
        	}
 
-       	if(document.body.clientWidth > 600){
-       		$('#projects').show()
+       	if(document.body.clientWidth > 600 && document.body.clientWidth > 800){
+			$('.languages-box').show()
        	}else{
-       		$('#projects').hide()
+			$('.languages-box').hide()
        	}
    	});
 
 	$('#open').click(function(){
 	 		
-	 	$('#top-nav').css({'width': '50%'})
+	 	$('#top-nav').css({'width': '45%'})
 	 	$(this).hide()
 	 	
 	})
@@ -315,22 +513,22 @@ var signup = new Vue({
 	})
 
 
- 	$('#search-question input').focus(function(){
- 		$(this).css({'box-shadow': '1px 1px 2px 1px rgb(153, 214, 255)'})
- 	})
- 	$('#search-question input').mouseout(function(){
- 		$(this).css({'box-shadow': '0px 0px 0px 0px'})
- 	})
+ 	// $('#search-question input').focus(function(){
+ 	// 	$(this).css({'box-shadow': '1px 1px 2px 1px rgb(153, 214, 255)'})
+ 	// })
+ 	// $('#search-question input').mouseout(function(){
+ 	// 	$(this).css({'box-shadow': '0px 0px 0px 0px'})
+ 	// })
   	
   	$('#btn-languages').click(function(){
 	 		
-	 	$('#projects').show()
+	 	$('.languages-box').show()
 	 	
 	 	
 	})
 	$('#close-show').click(function(){
 	 		
-	 	$('#projects').hide()
+		$('.languages-box').hide()
 	 	
 	})
 	

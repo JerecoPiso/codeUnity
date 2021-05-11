@@ -3,16 +3,23 @@ from .views import views
 
 urlpatterns = [
      url(r'^$', views.index, name='index'),
-     url(r'^login', views.login, name="Login"),
-     url(r'^signup', views.signup, name="Signup"),
+     # url(r'^login', views.login, name="Login"),
+     # url(r'^signup', views.signup, name="Signup"),
+     url(r'^signup/(?P<redirectTo>.+)$', views.signup, name="Signup"),
      url(r'^register', views.register, name="Register"),
      url(r'^download/(?P<folder>.+)$', views.download, name="Download Project"),
      url(r'^verify', views.verify, name="Verify"),
+     url(r'^projects/language/(?P<toSearch>.+)$', views.filterProjects, name="Filter Projects"),
+     url(r'^projects/search/(?P<toSearch>.+)$', views.searchProject, name="Projects"),
      url(r'^projects', views.projects, name="Projects"),
-     url(r'^filterProjects/(?P<toSearch>.+)$', views.filterProjects, name="Filter Projects"),
+     url(r'^logout/(?P<questionId>.+)$', views.logout, name="Projects"),
+    
+     
      url(r'^questions', views.questions, name="Questions"),
+     url(r'^login/(?P<redirectTo>.+)$', views.login, name="Questions"),
+     url(r'^userLogin/(?P<redirectTo>.+)$', views.userLogin, name="Questions"),
      url(r'^verified', views.verified, name="Verified"),
-     url(r'^userLogin', views.userLogin, name="User Login"),
+     # url(r'^userLogin', views.userLogin, name="User Login"),
      url(r'^developers', views.developers, name="Developers"),
      url(r'^addComment', views.addComment, name="Add Comment"),
      url(r'^getComment', views.getCom, name="Get Comments"),

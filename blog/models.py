@@ -6,11 +6,11 @@ from django.db import models
 class User(models.Model):
     username = models.CharField(max_length=40)
     password = models.CharField(max_length=255)
-    file = models.FileField(upload_to='media/')
+    file = models.FileField(upload_to='media/', blank=True)
 
     def __str__(self):
         return self.username + " " + self.password + " " + self.file.name
-
+	
     def delete(self,*args,**kwargs):
         self.file.delete()
         super().delete(*args,**kwargs)
@@ -55,7 +55,13 @@ class Language(models.Model):
 
 	def __str__(self):
 		return self.language + " " + self.category
+class Frameworks(models.Model):
+	language_id = models.IntegerField(blank=False)
+	framework = models.CharField(max_length=255)
 
+	def __str__(self):
+		return self.language_id + " " + self.framework
+		
 class Projects(models.Model):
 	project_name = models.CharField(max_length=255)
 	uploader_id = models.IntegerField()
@@ -65,9 +71,10 @@ class Projects(models.Model):
 	about = models.TextField(blank=True)
 	photo = models.FileField(upload_to="media/", blank=True)
 	views = models.IntegerField(blank=True)
+	more = models.TextField(blank=True)
 
 	def __str__(self):
-		return self.project_name + " " + self.uploader_id + " " + self.downloads + " " + self.language + " " + self.about + " " + self.photo + " " + self.views
+		return self.project_name + " " + self.uploader_id + " " + self.downloads + " " + self.language + " " + self.about + " " + self.photo + " " + self.views + " " + self.more
 
 	def delete(self, *args, **kwargs):
 		self.photo.delete()
@@ -83,13 +90,19 @@ class Questions(models.Model):
 	date = models.CharField(max_length=50)
 	likes = models.IntegerField()
 	category = models.CharField(max_length=255)
-	comments = models.IntegerField(null=True)
+	comments = models.IntegerField()
 	
 
 	def __str__(self):
 		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.date + " " + self.likes + " " + self.category + " " + self.comments
 
+class QuestionTags(models.Model):
+	question_id = models.IntegerField()
+	tag = models.CharField(max_length=100, blank=False)
 
+	def __str__(self):
+		return self.question_id + " " + self.tag
+		
 class Question_Category(models.Model):
 	category = models.CharField(max_length=50)
 

@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from blog.models import User, Developers, Projects, Questions, Language, Question_Category, Comments, Replies
+from blog.models import Frameworks, User, Developers, Projects, Questions, Language, Question_Category, Comments, Replies
 from django.core.files.storage import FileSystemStorage
 import os, datetime, json, zipfile, tempfile, mimetypes
 from django.conf import settings
@@ -64,8 +64,9 @@ def getfilenames(folder):
     return list(fileSet)
 
 def index(request):
- 
-  # del request.session['session_ok']
+  if request.session.get('redirectTo'):
+    del request.session['redirectTo']
+  
   request.session['title'] = "Home"
   total_devs = Developers.objects.all().count()
   if (total_devs / 1000) >= 1:
@@ -92,15 +93,16 @@ def index(request):
   context['total_devs'] = devs.replace(".0", "")
   context['total_projects'] = proj
   context['developers'] = developers
+  
   return render(request, 'html/index.html', context)
 
-def login(request):
-  if request.session.get("loggin"):
-    #  request.session.title = "Login"
-     return redirect('/user')
-  else:
-     request.session['title'] = "Login"
-     return render(request, 'html/login.html')
+# def login(request):
+#   if request.session.get("loggin"):
+  
+#      return redirect('/user')
+#   else:
+#      request.session['title'] = "Login"
+#      return render(request, 'html/login.html')
 
 def verify(request):
  
@@ -114,6 +116,7 @@ def verify(request):
 
 def verified(request):
   ret_msg = ""
+  goto = ""
   if request.session.get('code') != request.POST['code']:
     ret_msg = "Incorrect code!"
   else:
@@ -125,12 +128,11 @@ def verified(request):
     else:
 
         hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
-        user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo = "dep.jpg", uname = request.session.get('reg_username'))
+        user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo = "dp.jpg", uname = request.session.get('reg_username'))
         user.save()
         # save session for the users panel
-        request.session['id'] = user.id
-        request.session['loggin'] = True
-        request.session['username'] = user.uname
+       
+      
         # del all sessions stored
         try:
           del request.session['code']
@@ -138,54 +140,132 @@ def verified(request):
           del request.session['reg_email']
           del request.session['reg_username']
           del request.session['session_ok']
+          del request.session['reg_photo']
         except:
           pass
 
-        ret_msg = "Correct"
+        ret_msg = True
+  if ret_msg == True:
 
-    return HttpResponse(ret_msg)
+            if request.session.get('redirectTo'):
+              if request.session['redirectTo'] == "user":
+                request.session['id'] = user.id
+                request.session['loggin'] = True
+                request.session['username'] = user.uname
+                goto = "/user"
+              else:
+                request.session['viewQuestion'] = True
+                request.session['questionViewerId'] = user.id
+                route = request.session['redirectTo']
+                goto = "/viewQuestion/"+route[13:len(route)+1]
+                
+            else:
+                request.session['id'] = user.id
+                request.session['loggin'] = True
+                request.session['username'] = user.uname
+                goto = "/user"
+              
+
+  else:
+        
+      goto = "/verify"
+      messages.error(request, ret_msg)
+
+  return redirect(goto)
+
+# logout for the viewQuestionPage
+def logout(request,questionId):
+
+    del request.session['viewQuestion']
+    del request.session['questionViewerId']
+
+    return redirect("/login/"+questionId)
 
 
 def projects(request):
+
   project = Projects.objects.all()
-  language = Projects.objects.values(
-    'language'
-    ).annotate(language_count=Count('language')).filter(language_count__gt=0)
+  # language = Projects.objects.values(
+  #   'language'
+  #   ).annotate(language_count=Count('language')).filter(language_count__gt=0)
+  with connection.cursor() as cursor:
+			try:
+				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.framework, blog_Language.language, blog_Language.id as langID FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
+				# framework = Frameworks.objects.all().values()
+				frameworks = dictfetchall(cursor)
+			finally:
+				cursor.close()
+	
+  language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
-  paginator = Paginator(project, 4)
+  paginator = Paginator(project, 3)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
-  return render(request, 'html/projects.html', {'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
+  return render(request, 'html/projects.html', {'frameworks': frameworks,'total_project': project.count(),'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
+
+def searchProject(request,toSearch):
+ 
+  with connection.cursor() as cursor:
+			try:
+				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.framework, blog_Language.language, blog_Language.id as langID FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
+				# framework = Frameworks.objects.all().values()
+				frameworks = dictfetchall(cursor)
+			finally:
+				cursor.close()
+  project = Projects.objects.filter(project_name__icontains=toSearch)
+
+  # language = Projects.objects.values(
+  #   'language'
+  #   ).annotate(language_count=Count('language')).filter(language_count__gt=0)
+  language = Language.objects.all()
+  apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
+  newest_apps = Projects.objects.order_by('-id')[:10]
+  paginator = Paginator(project, 3)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  request.session['title'] = "Projects"
+  return render(request, 'html/search_project.html', {'frameworks': frameworks,'search': toSearch,'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
 def filterProjects(request, toSearch):
+  with connection.cursor() as cursor:
+			try:
+				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.framework, blog_Language.language, blog_Language.id as langID FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
+				# framework = Frameworks.objects.all().values()
+				frameworks = dictfetchall(cursor)
+			finally:
+				cursor.close()
   project = Projects.objects.filter(language__contains=toSearch)
-  language = Projects.objects.values(
-    'language'
-    ).annotate(language_count=Count('language')).filter(language_count__gt=0)
+  # language = Projects.objects.values(
+  #   'language'
+  #   ).annotate(language_count=Count('language')).filter(language_count__gt=0)
+  language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
   paginator = Paginator(project, 4)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
-  return render(request, 'html/filterProjects.html', {'toSearch': toSearch, 'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
+  return render(request, 'html/filterProjects.html', {'frameworks': frameworks,'toSearch': toSearch, 'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
 def questions(request):
   languages = Language.objects.all()
-  question_cat = Question_Category.objects.all()  
+  frameworks = Frameworks.objects.all() 
+  category = Question_Category.objects.all()
   questions = Questions.objects.all()
-  paginator = Paginator(questions, 5)
+  paginator = Paginator(questions, 15)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
   request.session['title'] = "Questions"
-  return render(request, 'html/questions.html', {'question_cat': question_cat, 'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj, 'languages': languages})
+  return render(request, 'html/questions.html', {'question_cat': category,'frameworks': frameworks, 'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj, 'languages': languages})
 
-def userLogin(request):
+
+def userLogin(request, redirectTo):
     request.session['title'] = "Login"
     msg = ""
+    redirectedTo = ""
 
     if request.POST['email'] != "":
 
@@ -197,29 +277,53 @@ def userLogin(request):
                 user = Developers.objects.get(email__exact = request.POST['email'])
 
                 if check_password(request.POST['password'], user.password):
-                    request.session['id'] = user.id
-                    request.session['loggin'] = True
-                    request.session['username'] = user.uname
-                    request.session['photo'] = json.dumps(str(user.photo))
-        
 
-                    msg = "Success"
+                    if redirectTo == "user":
 
+                        request.session['id'] = user.id
+                        request.session['loggin'] = True
+                        request.session['username'] = user.uname
+                        request.session['photo'] = json.dumps(str(user.photo))
+                        # print(redirectTo[0:(len(redirectTo)+1)])
+                    
+                        redirectedTo = "/user"
+
+                    else:
+                        request.session['viewQuestion'] = True
+                        request.session['questionViewerId'] = user.id
+                    
+                        # request.session.set_expiry(60)
+                        redirectedTo = "/viewQuestion/"+(redirectTo[13:len(redirectTo)+1])
+                    
+                    msg = True
 
                 else:
                     msg = "Incorrect password!"
-
+                  
             else:
                 msg = "Email doesn't exist!"
-
+              
         else:
             msg = "Password cannot be empty!"
-
+           
     else:
         msg = "Email cannot be empty!"
+       
+    
+    
+        
+    if msg != True:
+      if redirectTo == "user":
+                      
+        redirectedTo = "/login/user"
 
+      else:
 
-    return HttpResponse(msg)
+        redirectedTo = "/login/viewQuestion/"+(redirectTo[13:len(redirectTo)+1])
+      messages.error(request, msg)
+
+    return redirect(redirectedTo)
+
 
 def register(request):
      msg = ""
@@ -232,20 +336,16 @@ def register(request):
                          if Developers.objects.filter(email__exact = request.POST["email"]):
                                msg = "Email already exist!"
                          else:
-                               # upload_file = request.FILES['image']
-                               # extension = os.path.splitext(upload_file.name)[1]
-                               # rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
-                               # fss = FileSystemStorage()
-                               # filename = fss.save(rename, upload_file)
+                            
                                code = str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))+str(random.randint(0,9))
                                request.session['reg_email'] = request.POST['email']
                                request.session['reg_password']  = request.POST['password']
-                               request.session['reg_photo'] = "haha"
+                               request.session['reg_photo'] = "dp.jpg"
                                request.session['reg_username'] = request.POST['username']
                                request.session['code'] = code
                                request.session['session_ok'] = True
                                request.session.set_expiry(300)
-                               port = 465  # For SSL
+                               port = 465  
                                smtp_server = "smtp.gmail.com"
                                sender_email = "jamesjerecopiso@gmail.com"  # sites email
                                receiver_email = request.POST['email']  # receivers email
@@ -256,9 +356,9 @@ def register(request):
                                with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
                                    server.login(sender_email, password)
                                    server.sendmail(sender_email, receiver_email, message)
-
+                              
                                msg = "Success"
-                    
+                            
                     else:
                          msg = "Password didn't matched!"
                else:
@@ -269,16 +369,39 @@ def register(request):
 
      else:
           msg = "Email cannot be empty!"
-
-     return HttpResponse(msg)
      
-def signup(request):
+     if msg == "Success":
+          route = "/verify"
+          
+     else:
+
+       if request.session.get('redirectTo'):
+          route = "/signup/"+request.session['redirectTo']
+       else:
+          route = "/"
+    
+     if msg != "Success":
+        messages.error(request, msg)
+
+     return redirect(route)
+
+def signup(request, redirectTo):
      request.session['title'] = "Signup"
+     request.session['redirectTo'] = redirectTo
+     print(request.session['redirectTo'])
      return render(request, "html/signup.html")
+
+def login(request, redirectTo):
+    #  messages.warning(request, 'Your account expires in three days.')
+     request.session['title'] = "Signup"
+  
+     return render(request, "html/login.html", {'redirect': redirectTo})
 
 def developers(request):
      request.session['title'] = "Developers"
-     return render(request, 'html/developers.html')
+     devs = Developers.objects.all()
+     total_devs = Developers.objects.all().count()
+     return render(request, 'html/developers.html', {'devs': devs, 'total': total_devs})
 
 def viewProject(request, id):
       request.session['title'] = "viewProject"
@@ -289,15 +412,24 @@ def viewProject(request, id):
 
 def viewQuestion(request, id):
       request.session['title'] = "viewQuestion"
+   
       question = Questions.objects.get(id=id)
+
       return render(request, "html/view_question.html", {'question': question, 'post_id': id})
+
+      # else:
+      #     question = Questions.objects.get(id=id)
+      #     return render(request, "html/view_question.html", {'question': question, 'post_id': id})
 
 def addComment(request):
    
       if request.method == "POST":
         try:
-            comment = Comments(commentor = request.POST['commentor_id'], post_id = request.POST['post_id'], comment = request.POST['comment'], date = request.POST['date'], answer = request.POST['answer'])
+            comment = Comments(commentor = request.session['questionViewerId'], post_id = request.POST['post_id'], comment = request.POST['comment'], date = request.POST['date'], answer = request.POST['answer'])
             comment.save()
+            com = Questions.objects.get(id = request.POST['post_id'])
+            com.comments = com.comments + 1
+            com.save()
             return HttpResponse("Commented succesfully.")
         
         except:
@@ -310,9 +442,13 @@ def addComment(request):
 
 # saved reply
 def reply(request):
-     reply = Replies(commentor = request.POST['commentor_id'], post_id = request.POST['post_id'], comment_id = request.POST['comment_id'], reply = request.POST['reply'])
+     reply = Replies(commentor = request.session['questionViewerId'], post_id = request.POST['post_id'], comment_id = request.POST['comment_id'], reply = request.POST['reply'])
      reply.save()
+     ques = Questions.objects.get(id = request.POST['post_id'])
+     ques.comments = ques.comments + 1
+     ques.save()
      return HttpResponse("Replied successfully")
+   
 
 # get comments
 def getCom(request):
@@ -327,14 +463,20 @@ def getCom(request):
 def getReply(request):
     with connection.cursor() as cursor:
         try:
-          cursor.execute("SELECT * FROM blog_Replies WHERE blog_Replies.post_id = "+request.POST['question_id'])
+           
+          cursor.execute("SELECT blog_Replies.id, blog_Replies.post_id, blog_Replies.commentor, blog_Replies.comment_id, blog_Replies.reply, blog_Developers.uname, blog_Developers.photo FROM blog_Replies LEFT JOIN blog_Developers ON blog_Replies.commentor = blog_Developers.id WHERE blog_Replies.post_id = "+request.POST['question_id'])
           return JsonResponse(list(dictfetchall(cursor)), safe=False)
         finally:
           cursor.close()
 
+ 
+
 def deleteReply(request):
     reply = Replies.objects.get(id=request.POST['id'])
     reply.delete()
+    ques = Questions.objects.get(id = request.POST['post_id'])
+    ques.comments = ques.comments - 1
+    ques.save()
     return HttpResponse("Reply deleted successfully")
 # set the raw query result to  dict
 def dictfetchall(cursor):
@@ -346,9 +488,15 @@ def dictfetchall(cursor):
 
 # delete comment
 def deleteComment(request):
-    reply = Replies.objects.filter(comment_id=request.POST['id'])
-    reply.delete()
+    total_reply_of_comment = Replies.objects.filter(comment_id=request.POST['id']).count()
+   
+  
     comment = Comments.objects.get(id=request.POST['id'])
     comment.delete()
-   
+    reply = Replies.objects.filter(comment_id=request.POST['id'])
+    reply.delete()
+    ques = Questions.objects.get(id = request.POST['post_id'])
+    ques.comments = ques.comments - (total_reply_of_comment + 1)
+    ques.save()
+  
     return HttpResponse("Comment deleted successfully")

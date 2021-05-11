@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/pppp.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questionsedd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questionseddd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Settings' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settingsxxxx.css' %}">
@@ -201,14 +201,22 @@ $(document).ready(function(){
 				var code = new nicEditors.findEditor('code');
 				// if(code.getContent() != "<br>"){
 					// data.append('question', ques.getContent())
-					data.append('question', questions.questionInfo.question)
-					data.append('code', code.getContent())
-					data.append('language', questions.questionInfo.language)
-					data.append('category', questions.questionInfo.category)
-					axios.post("askQuestion", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
-						alert(response.data)
-						questions.getQuestions()
-					})
+					if((questions.questionInfo.question && questions.questionInfo.language && questions.questionInfo.category) != ""){
+						alert( questions.questionInfo.question)
+						data.append('question', questions.questionInfo.question)
+						data.append('code', code.getContent())
+						data.append('language', questions.questionInfo.language)
+						data.append('category', questions.questionInfo.category)
+						axios.post("askQuestion", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
+							alert(response.data)
+							questions.getQuestions()
+							// questions.questionInfo = ""
+						})
+
+					}else{
+						alert("All fields must be filled up except the field of code!")
+					}
+					
 				// }else{
 				// 	alert("All fields must be filled up!")
 				// }
@@ -339,6 +347,7 @@ $(document).ready(function(){
 				if(folderUpload.fileLimit != true){
 
 					var about = new nicEditors.findEditor('about');
+					var more = new nicEditors.findEditor('more')
 					var pos = folderUpload.folder[0]['webkitRelativePath'].indexOf("/");
 					let fd = new FormData();
 					for(var i = 0; i < folderUpload.folder.length; i++){
@@ -348,6 +357,7 @@ $(document).ready(function(){
 					}
 					fd.append("project_name", folderUpload.folder[0]['webkitRelativePath'].slice(0, pos))
 					fd.append('about', about.getContent())
+					fd.append('more', more.getContent())
 					fd.append("language", folderUpload.language)
 					fd.append("photo", folderUpload.appPhoto)
 					//  alert(folderUpload.language)

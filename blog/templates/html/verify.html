@@ -3,20 +3,28 @@
 {% block login_signup_verify %}
 	
 			<div class="form" id="verify">
-					<form @submit.prevent="verify()" id="verify-form" >
-						{% csrf_token %}
-						<div>
-							<p class="site-name">codeUnity</p>
-							<label>Verification code</label>
-							<input type="number" name="code" v-model="verifyInfo.code" required>
-							
-							<button type="submit" id="btn-verify">Verify</button>
-							<a href="" class="resend">Re-send verification code</a>
-
-							<p class="verify-notice"> <span class="fa fa-exclamation mr-3"></span> Verification code will expire after 5 minutes.</p>
+				<form action="/verified" method="POST" id="verify-form" >
+					{% csrf_token %}
+					<div>
+						<p class="site-name">codeUnity</p>
+						{% if messages %}
+						<!-- <ul class="messages"> -->
+							{% for message in messages %}
+							<p {% if message.tags %} class="center-align error"{% endif %}>{{ message }}</p>
+							{%endfor %}
+						<!-- </ul> -->
+						{% endif %}
+						<label>Verification code</label>
+						<input type="number" name="code" required>
 						
-						</div>				
-					</form>
+						<button type="submit" id="btn-verify">Verify</button>
+						<a href="" class="resend">Re-send verification code</a>
+
+						<p class="verify-notice"> <span class="fa fa-exclamation mr-3"></span> Verification code will expire after 5 minutes.</p>
+						
+					</div>				
+				</form>
+				
 				</div>
 
 {% endblock %}

@@ -5,95 +5,39 @@
 	
 	{% include 'html/templates/header.html' %}
     
-        <div class="row">
+        <div class="row" style="margin-top: 55px">
             <div class="col l9 m8 s12">
                 <input type="" id="search-div" placeholder="Search developer's expertise . . .">
 
                 <div class="row" style="clear: both;">
+                  {% for dev in devs %}
                     <div class="col l3">
-                        <div class="card">
-                            <div class="card-image">
-                              <img src="/media/it2.jpg">
-                            
+                        <div class="card" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
+                            <div class="card-image" style="padding: 15px">
+                              <img src="/media/{{dev.photo}}" style="max-height: 100px;border-radius: 50%;width: 110px;margin:auto;display: block;">
+                              <p class="center-align devname">{{dev.uname}}
+
+                              </p>
+                              <p class="center-align" style="margin-top: 0;margin-bottom: -5px">( Backend Developer )</p>
                             </div>
-                            <div class="card-name">
-                               Jereco Piso
+                            <div class="card-skills ">
+                              <a href="">PHP</a>  
+                              <a href="">Javascript</a> 
+                              <a href="">PHP</a>
+                              <a href="">Django</a>  
+                              <a href="">Ruby on Rails</a> 
+                              
                             </div>
                             <div class="card-footer" >
-                              <a href="#"><span class="fa fa-eye"></span> </a>
+                              <!-- <a href="#"><span class="fa fa-eye"></span> </a> -->
+                              <p class="view-profile"><a href="" >Read more</a></p>
                             </div>
                        </div>
-                    </div>
-                    <div class="col l3">
-                        <div class="card">
-                            <div class="card-image">
-                              <img src="/media/it2.jpg">
-                             
-                            </div>
-                            <div class="card-name">
-                              Jereco Piso
-                           </div>
-                           <div class="card-footer" >
-                            <a href="#"> <span class="fa fa-eye"></span> </a>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="col l3">
-                        <div class="card">
-                            <div class="card-image">
-                              <img src="/media/it2.jpg">
-                             
-                            </div>
-                            <div class="card-name">
-                              Jereco Piso
-                           </div>
-                           <div class="card-footer" >
-                            <a href="#"> <span class="fa fa-eye"></span> </a>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="col l3">
-                        <div class="card">
-                            <div class="card-image">
-                              <img src="/media/it2.jpg">
-                            
-                            </div>
-                            <div class="card-name">
-                              Jereco Piso
-                           </div>
-                            <div class="card-footer" >
-                              <a href="#"> <span class="fa fa-eye"></span> </a>
-                            </div>
-                       </div>
-                    </div>
-                    <div class="col l3">
-                      <div class="card">
-                          <div class="card-image">
-                            <img src="/media/it2.jpg">
-                          
-                          </div>
-                          <div class="card-name">
-                             Jereco Piso
-                          </div>
-                          <div class="card-footer" >
-                            <a href="#"> <span class="fa fa-eye"></span> </a>
-                          </div>
-                     </div>
-                  </div>
-                  <div class="col l3">
-                    <div class="card">
-                        <div class="card-image">
-                          <img src="/media/it2.jpg">
-                        
-                        </div>
-                        <div class="card-name">
-                           Jereco Piso
-                        </div>
-                        <div class="card-footer" >
-                          <a href="#"> <span class="fa fa-eye"></span> </a>
-                        </div>
-                   </div>
-                </div>
+                    </div> 
+                    {% empty %}
+                      <p>No Developers</p>
+                    {% endfor %}
+                 
                     
         
                 </div>
@@ -101,7 +45,13 @@
             </div>
 
             <div class="col l3 s12 m4">
-                <p class="total-developers">20, 000 Developers</p>
+                <p class="total-developers">
+                  {% if total > 1%}
+                  {{total}} Developers
+                  {% else %}
+                  {{total} Developer
+                  {%  endif %}
+                </p>
                 <p class="filter-by">Developers Category :</p>
                 <div class="categories">
                     <a href="">Backend</a>

@@ -1,22 +1,81 @@
 {% extends 'html/templates/base.html' %}
 
 {% block main_page %}
-	{% include 'html/templates/header.html' %}
-			
+
+    {% if request.session.viewQuestion %}
+
+    <div class="header" style="top: 0;position: fixed;z-index: 1"><a id="site-nameMobile" >codeUnity </a><button id="open"><span class="fa fa-bars"></span></button>
+	
+        <ul id="top-nav">
+            
+                <a id="site-name">codeUnity </a>
+              
+                <li id="for-mobile-nav-logo"><button id="close">&times;</button></li>
+                <li><a href="/logout/viewQuestion={{post_id}}"> Logout</a></li>
+              
+              
+    
+         </ul>
+         
+    </div>
+
+    {% else %}
+    <div class="header" style="top: 0;position: fixed;z-index: 1"><a id="site-nameMobile" >codeUnity <span class="showSearch fa fa-search" style="margin-left: 10px;font-size: 25px;"></span></a><button id="open"><span class="fa fa-bars"></span></button>
+	
+        <ul id="top-nav">
+            
+                <a id="site-name">codeUnity </a>
+                <li><a  class="showSearch"><span class="fa fa-search" style="font-size: 25px;"></span></a></li>
+                <li id="for-mobile-nav-logo"><button id="close">&times;<!-- <span class="fa fa-bars"></span> --></button></li>
+                 <li><a href="/login/viewQuestion={{post_id}}"> Login</a></li>
+                 <li><a href="/developers"> Find Developer</a></li>
+                <li><a href="/questions"> <!--  <span class="fa fa-question-circle"></span> --> Questions</a></li>
+           
+                <li><a href="/projects"> <!-- <span class="fa fa-folder"></span> --> Projects</a></li>
+                
+            <li><a href="/">Home</a></li>
+    
+         </ul>
+         
+    </div>
   
-    <div class="row question-box ">
+    <div class="row search-section">
+       
+        <button class="x">&times;</button><br>
+       <div class="col s12" id="search">
+          
+          <button class="search-btn"><span class="fa fa-search"></span></button><input placeholder="Search . . . ">
+         <select id="search-cat">
+             <option value="" disabled selected>Search by:</option>
+             <option value="1">Projects</option>
+             <option value="2">Questions</option>
+         </select> 
+    
+       </div>
+       
+    
+    
+    </div>
+
+    {% endif %}
+    
+    
+    <div class="row question-box " style="margin-top: 55px">
         <div class="col l8 s12 m8">
+            
             <div class="my-project">
                 <h5 class="project-title">{{question.question}}</h5>
                 <!-- <cite>by: Jereco James Piso</cite> <br> -->
                 <cite class="time-counter">Posted: <date-posted posted="{{question.date}}"></date-posted></cite>
-               
-                <!-- <h5>Code</h5> -->
-                <pre class="question-code language-{{question.language}}">
-                    <code>{{question.code|safe}}</code>
-                </pre>
-                
+                 
+
+
+                <div id="app">                  
+                    <vue-prism code="{{question.code}}" language="language-"  lang="php"></vue-prism>
+                </div>
+
                 <ul class="comments" id="comment-section" >
+                    {% if request.session.questionViewerId %}
                     <div class="MyModal" v-if="popUpAlert">
                         <div class="ModalDialog">
                             <div class="ModalHeaderAlert">
@@ -33,6 +92,8 @@
                             </div>
                         </div>
                     </div>
+                    {% endif %}
+                    {% if request.session.questionViewerId %}
                     <div class="MyModal"  v-if="replyModal">
                         <!-- -->
                         <div class="ModalDialog">
@@ -53,51 +114,63 @@
                             </div>
                         </div>
                     </div>		
+                    {% endif %}
                    
-                     <p class="flash-msg" v-if="flashMsg">[flashMsg]</p>
-                    <div v-for="info in commentInfo">
-                        <img src="/media/dp.jpg" class="commentor-dp">
+                    <p class="flash-msg" v-if="flashMsg">[flashMsg]</p>
+                    <div v-for="info in commentInfo" :key="info.id">
+
+                        <!-- <img :src="srcImg+info.photo" class="commentor-dp">
                         <div class="commentor"> <p class="commentor-name">[info.uname]</p>
                            
                             <p class="comment">[info.comment]</p>
+                             -->
+                            <vue-prism style="margin-left: 50px;" :code="info.id" language="language-"  lang="{{question.language}}"></vue-prism>
+<!-- 
+                             {% if request.session.viewQuestion %}
                            
-                            <a href="javascript:void(0)" class="btn-reply" @click="replyModal = true;replyInfo.question_id = info.post_id; replyInfo.comment_id = info.id;replyInfo.commentor_id = {{question.asker_id}}; ">Reply</a>
-                            <a href="javascript:void(0)" class="btn-delete" @click="promptMsgExtension = 'comment'; comId = info.id;postId = info.post_id;popUpAlert = true;actionToPerform = 'deleteComment'">Delete</a>
-                            <!-- deleteComment(info.post_id) -->
-                           
-                        </div>       
-                       
-                        <div class="sec-comments" v-for="reply in replies" v-if="info.id == reply.comment_id">
+                             <a href="javascript:void(0)" class="btn-reply" @click="replyModal = true;replyInfo.question_id = info.post_id; replyInfo.comment_id = info.id;replyInfo.commentor_id = {{question.asker_id}}; ">Reply</a>
+                             <a href="javascript:void(0)" class="btn-delete" v-if="info.commentor == {{request.session.questionViewerId}} || {{question.asker_id}} == {{request.session.questionViewerId}}" @click="promptMsgExtension = 'comment'; comId = info.id;questionId = info.post_id;popUpAlert = true;actionToPerform = 'deleteComment'">Delete</a>
                             
-                                <img src="/media/dp.jpg" class="commentor-dp">
-                                <div class="commentor"> <p class="commentor-name">Jereco James Piso</p>
+                             {% endif %} 
+                           
+                        </div>        
+                       
+                        <div class="sec-comments" v-for="reply in replies" :key="reply.id" v-if="info.id == reply.comment_id">
+                            
+                                <img :src="srcImg+reply.photo" class="commentor-dp">
+                                <div class="commentor"> <p class="commentor-name">[reply.uname]</p>
                                     <p class="comment">[reply.reply]</p>
-                                    <a href="javascript:void(0)" class="btn-reply"  @click="replyModal = true;replyInfo.question_id = info.post_id; replyInfo.comment_id = info.id;replyInfo.commentor_id = {{question.asker_id}}; ">Reply</a>
-                                    <a href="javascript:void(0)" class="btn-delete" @click="promptMsgExtension = 'reply';replyId = reply.id;popUpAlert = true;actionToPerform = 'deleteReply'">Delete</a>
+                                   
                                 </div>       
-                             
-                            </div>
-                  
+                                {% if request.session.viewQuestion %}
+                                <a href="javascript:void(0)" class="btn-reply"  @click="replyModal = true;replyInfo.question_id = info.post_id; replyInfo.comment_id = info.id;replyInfo.commentor_id = {{question.asker_id}}; ">Reply</a>
+                                <a href="javascript:void(0)" class="btn-delete" v-if="reply.commentor == {{request.session.questionViewerId}} || info.commentor == {{request.session.questionViewerId}} || {{question.asker_id}} == {{request.session.questionViewerId}}" @click="promptMsgExtension = 'reply';replyId = reply.id;questionId = reply.post_id;popUpAlert = true;actionToPerform = 'deleteReply'">Delete</a>
+                                {% endif %}
                         </div>
+                   -->
+                    </div>
                   
                     <div class="comment-area">
     
-                        <form @submit.prevent="addComment({{question.asker_id}}, {{post_id}})">
+                        <form @submit.prevent="addComment({{post_id}})">
                            {% csrf_token %}
-                           <input type="hidden" value="{{post_id}}" id="post-id">
-                            <textarea placeholder="Write your comment here Jereco James Piso . . ." v-model="comment" required></textarea>
+                           <input type="hidden" value="{{post_id}}" id="post-id" >
+                            <textarea placeholder="Write your comment here . . ." v-model="comment" required {% if request.session.viewQuestion %} {% else %} disabled="True"   {%endif %}></textarea>
                             <div class="summernote" style="margin-bottom: 10px;display: none;">
                                 <label style="font-size: 20px;">Code (Optional)</label>
                           
                                 <div  id="summernote"></div>
                             </div>
-                        
-                            <button type="submit" class="btn-comment">Comment</button>
-                            <button type="button" class="btn-put-code">Put Code</button>
+                           
+                            <button type="submit" class="btn-comment" {% if request.session.viewQuestion %} {% else %} disabled="True"   {%endif %}>Comment</button>
+                            <button type="button" class="btn-put-code" {% if request.session.viewQuestion %} {% else %} disabled="True"   {%endif %}>Put Code</button>
                         </form>
                       
+                      
                     </div>
-                    
+                    {% if not request.session.viewQuestion %}
+                    <p class="err-login-first"> <span class="fa fa-exclamation"></span> &nbsp; You must login first to be able to comment/reply in the post.</p>
+                    {% endif %}
                 </ul>
                 <!-- class comments close -->
             </div>      
@@ -106,7 +179,7 @@
 
         </div>
     </div>
-
+  
 	{% include 'html/templates/footer.html' %}
 
 {% endblock %}

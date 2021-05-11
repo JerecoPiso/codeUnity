@@ -4,29 +4,62 @@
 {% block main_page %}
 	
 	{% include 'html/templates/header.html' %}
-	
-	<div class="row mt-1">
-		<div class="col s12 m12 xl8 l8">
-			<div class="row mb-n3" >
-				<div class="col l6 m5 s12">
-					<form id="form-filter-question">
-						 <!--  <label  class="filter-by">Search by:</label> -->
-
-						  <select class="browser-default">
-							<option value="" disabled selected>Search by Language</option>
-							{% for lang in languages %}
-							<option>{{lang.language}}</option>
-							{% endfor %}
-						  </select>
-					</form>
-				</div>
-				<div class="col l6 m7 s12">
-					<form id="search-question">
-						<input type="text" name="" placeholder="Search for question">
-					</form>
-				</div>
-
+	<div class="LoginModal">
+		<div class="LoginModalWrapper">
+			<div class="ModalHeader">
+				<button class="closeModal">&times;</button>
 			</div>
+			<div class="ModalBody">
+				<form id="LoginForm">
+					<p class="form-title">codeUnity</p>
+					<label>Email</label>
+					<input type="email" >
+					<label style="margin-top: -50px">Password</label>
+					<input type="text" >
+					<button type="submit">Login</button>
+					<p class="dont-have">Don't have an account?</p>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="row " style="margin-top: 60px;">
+		<div class="col s12 m12 xl8 l8">
+			<div  id="question-box">
+			<div class="questions-total-small-device">
+				{% if total_questions > 1 %}
+						{{total_questions}} Questions to be Answered
+				{% else %}
+
+						{{total_questions}} Question to be Answered
+
+				{% endif %}
+			</div>
+			<p class="feel-free">Feel Free to Ask Question <a href="javascript:void(0)" id="ask-btn">Ask Now</a></p>
+			
+			<div style="padding-left: 2px;padding-right: 2px;clear: both;">
+				<select id="form-filter-categories" class="browser-default">
+					<option value="" disabled selected>Categories</option>
+					{% for cat in question_cat %}
+					<option>{{cat.category}}</option>
+					{% endfor %}
+				  </select>
+				  <select id="form-filter-lang" class="browser-default">
+					<option value="" disabled selected>Languages</option>
+					{% for lang in languages %}
+					<option>{{lang.language}}</option>
+					{% endfor %}
+				  </select>
+				  <select id="form-filter-frameworks" class="browser-default">
+					<option value="" disabled selected>Frameworks</option>
+					{% for fw in frameworks %}
+					<option>{{fw.framework}}</option>
+					{% endfor %}
+				  </select>
+				  <form id="search-question" >
+					<input type="text" name="" placeholder="Search for question">
+				</form>
+			</div>
+			
 			<!-- <strong>Questions</strong> -->
 			<ul class="questions-box time-counter">
 				{% for question in questions %}
@@ -34,8 +67,8 @@
 					<a href="viewQuestion/{{question.id}}">{{ question.question }}</a> <br>
 					<cite>by: Jereco James Piso <i style="font-size: 7px;"><date-posted posted="{{question.date}}"></date-posted></i></cite>
 					<div class="infos">
-						<span class="fa fa-comments comments" style=""></span><b class="question-info">  {{ question.likes }}</b> 
-							<b class="question-info"><span class="fa fa-thumbs-up likes" style=""></span> {{ question.likes }}</b>
+						<span class="fa fa-comments comments"></span><b class="question-info">  {{ question.comments }}</b> 
+						<b class="question-info"><span class="fa fa-thumbs-up likes" ></span> {{ question.likes }}</b>
 					</div>
 				
 				</li>
@@ -55,16 +88,18 @@
 						<a href="?page={{ page_obj.next_page_number }}" style="font-size: 20px;margin-right: 10px">Next</a>
 						<a href="?page={{ page_obj.paginator.num_pages }}" style="font-size: 20px"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
 					{% endif %}
-					<span class="current" style="font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
+					{% if questions %}
+					<span class="current" style="opacity: 0.6; font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;margin-top: -10px">
 						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
 					</span>
+					{% endif %}
 			
 				</span>
 			</div>  
-			
+		  </div>	
 		</div>
 		<div class="col s12 m12 xl4 l4">
-			<div class="questions-total">
+			<div class="questions-total-large-device">
 				{% if total_questions > 1 %}
 						{{total_questions}} Questions
 				{% else %}
@@ -73,20 +108,21 @@
 
 				{% endif %}
 			</div>
-			<p class="question-categories">Question Categories:</p>
+			<!-- <p class="question-categories">Question Categories</p>
 				<ul class="categories">
 					{% for cat in question_cat %}
 					<a href="">{{cat.category}}</a>
 				
 					{% endfor %}
 				</ul>
-			<p class="filter-p">Filter:</p>
+				 -->
+			<p class="filter-p">Filter</p>
 			<div class="questions-btn">
 
-				<button>Latest</button>
-				<button>Answered Questions</button>
-				<button>Most Viewed</button>
-
+				<a href="">Latest</a>
+				<a href="">Answered Questions</a>
+				<a href="">Most Viewed</a>
+				<a href="">Trending</a>
 			</div>
 		</div> 
 	</div>

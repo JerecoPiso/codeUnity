@@ -3,7 +3,37 @@
 {% block login_signup_verify %}
 		<div class="form" id="signup">
 
-				<form id="signup-form" v-on:submit.prevent="register()">
+			<form id="signup-form" action="/register" method="POST">
+				{% csrf_token %}
+				<img class="signup-logo" src="/media/images.png">
+				<div>
+	
+                     {% csrf_token %}
+            
+            		   <label>Username</label>
+					   <input type="text" class="login-input" name="username" required>
+		               <label >E-mail</label>
+		               <input  type="email" name="email" required>
+		                <label>Password</label>
+		               <input type="password" name="password" required>
+		                <label>Re-type password</label>
+		               <input type="password" name="password2" required>
+                  
+						<button type="submit" id="btn-signup">Signup</button>
+						{% if messages %}
+						<!-- <ul class="messages"> -->
+							{% for message in messages %}
+							<p {% if message.tags %} class="center-align error"{% endif %}>{{ message }}</p>
+							{%endfor %}
+						<!-- </ul> -->
+						{% endif %}
+					  <!-- <p class="center-align error" v-if="error">[error]</p>
+               		  <p class="center-align success" v-if="success">[success]</p> -->
+					<a href="/login/user" >Login</a>
+					<a href="" class="right" id="forgot-password">Forgot password?</a>
+				</div>				
+			</form>	
+				<!-- <form id="signup-form" v-on:submit.prevent="register()">
 				{% csrf_token %}
 				<img class="signup-logo" src="/media/images.png">
 				<div>
@@ -22,10 +52,10 @@
 						<button type="submit" id="btn-signup">[status]</button>
 					  <p class="center-align error" v-if="error">[error]</p>
                		  <p class="center-align success" v-if="success">[success]</p>
-					<a href="login" >Login</a>
+					<a href="/login/user" >Login</a>
 					<a href="" class="right" id="forgot-password">Forgot password?</a>
 				</div>				
-			</form>	
+			</form>	 -->
 	
 
 		</div>

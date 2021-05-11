@@ -2,44 +2,103 @@
 
 {% block main_page %}
 	{% include 'html/templates/header.html' %}
-			
-			<p class="for-free">Download Projects for Free <span class="fa fa-download"></span></p>
-			{% for d in duplicates%}
-					{{d.language}}
-			{% endfor %}
-			<div class="row mt-n3">
-				<div class="col l2 m3 s12 xl2" id="projects">
-					 <button id="close-show">&times;</button>
-					 <p class="languages">Languages</p> 
-					<ul>
-                        {% for lang in languages %}
-                        {% if lang.language != toSearch %}
-                        <li> <a href="/filterProjects/{{lang.language}}">{{lang.language}}</a> </li>
-                        {% endif %}
-						{% endfor %}
-					</ul>
-				</div>
-				<div class="col l7 m9 s12 xl7">
+			<div class="project-container-box">
+				<div class="languages-box">
+					
+					<button id="close-show">&times;</button>
 				
-					<button id="btn-languages">Languages</button>
-					<div>
-						<input type="text" id="search-project" placeholder="Search project . . ." class="dropbtn">
+					<div id="languages">
 						
-					</div>
+						<!-- <p class="languages">Languages</p> 
+						{% for lang in languages %}	
+					
+						<li class="lang" id="{{lang.language}}" 	{% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="javascript:void(0)" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}} <span style="display: none;margin-top: 7px;font-size: 10px;float: right;margin-right: 20px" class="fa fa-chevron-down"></span> </a> 
+					
+							<ul id="ul" style="margin-top: 0;display: none;margin-bottom:-8px;">
+								
+								<li><a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}</a></li>
+							
+								{% for fw in frameworks %}
+									{% if fw.langID == lang.id %}
+									<li><a href="/projects/language/{{fw.framework}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{fw.framework}}</a></li>
+									{% endif %}
+								{% endfor %}
+							
+							</ul>
+						</li>
+					
+						{% endfor %} -->
+						<p class="languages">Frontend</p>
+						 {% for lang in languages %}	
+						 	{% if lang.category == "Front-End" %}
+							<li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
+						 	{% endif %}
+						{% endfor %}
+						<p class="languages">Backend</p>
+						 {% for lang in languages %}	
+						 	{% if lang.category == "Back-End" %}
+							<li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
+						 	{% endif %}
+						{% endfor %}
+						<p class="languages">Android</p>
+						{% for lang in languages %}	
+							{% if lang.category == "Android Development" %}
+						   <li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}} </a> </li>
+							{% endif %}
+					   {% endfor %}
+					   <p class="languages">Desktop</p>
+					   {% for lang in languages %}	
+						   {% if lang.category == "Desktop" %}
+						  <li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
+						   {% endif %}
+					  {% endfor %}
+					  <p class="languages">iOS Development</p>
+					   {% for lang in languages %}	
+						   {% if lang.category == "iOS Development" %}
+						  <li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
+						   {% endif %}
+					  {% endfor %}
+				   
+						
+					
+					
+				
+					
+				</div>
+				</div>
+				<div class="projects-box">
+					<div class="project-box-white-bg" style="">
+					<p class="total_project_uploaded">
+						{% if total_project > 1 %}
+							{{total_project}} Projects
+						{% else %}
+							{{total_project}} Project
+						{% endif %}
+						
+						
+						Uploaded by Co-Developers</p>
+				
+					<button id="btn-languages" >Languages</button>
+				
+					<form @submit.prevent="searchProjects()">
+						{% csrf_token %}
+						<input type="text" id="search-project" placeholder="Search project . . ." v-model="searchValue">
+						<button type="submit" class="searchBtn"><span class="fa fa-search" style="font-size: 25px;opacity: 0.7;"></span></button>
+					</form>
 					<div class="projects-div clear-float">
 						{% for project in projects %}
 						<div class="project-box">
-							<a href="viewProject/{{project.id}}" class="app-title">{{ project.project_name }}</a>
+							<a href="/viewProject/{{project.id}}" class="app-title">{{ project.project_name }}</a>
 							<div class="project-container">
 							 <div class="project-img"><img src="/media/{{project.photo}}" style="border: 1px solid white"></div>
-								 <div  style="margin-left: 10px;">
-									<p style="margin-top: -5px;font-size: 18px;word-wrap: break-word;" >{{ project.about|safe }}</p>
+								 <div>
+									
+									<p style="margin-top: -5px;font-size: 18px" >{{ project.about|safe }}</p>
+									
 								</div> 
 								
 							</div>
-							<!-- <div class="about-project">
-								{{ project.about|safe }}
-							</div> -->
+					
 							
 								<div class="project-info-btn">
 									{% if project.downloads > 1%}
@@ -52,13 +111,15 @@
 									{% else %}
 									<button>{{project.views}} View</button>
 									{% endif %}
-								
+										<a href="/download/{{ project.project_name }}" class="download-app"> <span class="fa fa-download"></span></a>								
 								</div>
 								
-								<a href="download/{{ project.project_name }}" class="download-app"> <span class="fa fa-download"></span></a>								
+							
 						</div>
+						{% empty %}
+						<p class="no-result" >No result found for <i>"{{toSearch}}"</i></p>
 						{% endfor %}
-						<div class="pagination">
+						<div class="pagination" style="margin-bottom: 20px">
 							<span class="step-links">
 								{% if page_obj.has_previous %}
 									<a href="?page=1" style="font-size: 20px;margin-right: 10px;">&laquo; 1</a>
@@ -71,34 +132,42 @@
 									<a href="?page={{ page_obj.next_page_number }}" style="font-size: 20px;margin-right: 10px">Next</a>
 									<a href="?page={{ page_obj.paginator.num_pages }}" style="font-size: 20px"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
 								{% endif %}
+								{% if projects %}
 								<span class="current" style="color:rgb(92, 138, 138);font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
 									Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
 								</span>
-						
+								{% endif %}
 							</span>
 						</div>  
 					
 					</div>
-					
-            
 				</div>
-				<div class="col l3 m12 s12 xl3">
+				</div>
+				<div class="trending-box">
+					<div class="trending-box-bg-white">
+						<!-- <p style="font-size: 20px;font-family: sans-serif;margin-top: 10px;margin-bottom: 1px">
+							Download projects for free</p> -->
+						<button class="upload-code">Upload Source Code</button>
+						<p class="trends popular-projects">Popular Projects</p>
+						<ul class="trending-projects">
+							{% for app in apps %}
+							<li><a href="/viewProject/{{app.id}}">{{app.project_name}}</a></li>
+							{% endfor %}
+						</ul>
+						<p class="trends">Newest Projects</p>
+						<ul class="trending-projects">
+							{% for app in new_apps %}
+							<li><a href="/viewProject/{{app.id}}">{{app.project_name}}</a></li>
+							{% endfor %}
+						</ul>
+				  </div>
+				</div>
 
-					<p class="trends">Popular Projects</p>
-					<ul class="trending-projects">
-						{% for app in apps %}
-						<li><a href="viewProject/{{app.id}}">{{app.project_name}}</a></li>
-						{% endfor %}
-					</ul>
-					<p class="trends">Newest Projects</p>
-					<ul class="trending-projects">
-						{% for app in new_apps %}
-						<li><a href="viewProject/{{app.id}}">{{app.project_name}}</a></li>
-						{% endfor %}
-					</ul>
-				</div>
 			</div>
-
+			<!-- <p class="for-free" style="margin-top: 70px;">Download Projects for Free <span class="fa fa-download"></span></p> -->
+		
+		
 	{% include 'html/templates/footer.html' %}
 
+	
 {% endblock %}

@@ -3,18 +3,46 @@
 
 {% block main_page %}
    {% include 'html/templates/header.html' %}
-
-   	<div  id="signup" style="margin-top: -1px;">
+   <!-- {% load date_converter %} -->
+   	<div  id="signup" style="margin-top: 40px;">
    		<div class="img-container">
         <!-- <p class="slogan">We CODE As ONE</p>  -->
         <p class="slogan">A Place for Coders</p>
         
    			<img class="img mt" src="/media/slider.jpg" width="100%" height="500px">
-   		  
-            <form id="form" v-on:submit.prevent="register()">
+   		   <form id="form" action="register" method="POST">
+               {% csrf_token %}
+               
+                <p class="form-title">codeUnity</p>
+              
+                <label> Username</label>
+                <input type="text" name="username" v-model="signupInfo.username" @keyup="usernameMonitor" required >
+                <label> Email</label>
+                <input  type="email" name="email" v-model="signupInfo.email" @keyup="emailMonitor"  required>
+             
+                 <label>Password</label>
+                <input type="password" name="password" v-model="signupInfo.password" @keyup="passwordMonitor" required>
+             
+                 <label>Re-type password </label>
+                <input type="password" name="password2"  v-model="signupInfo.password2"  @keyup="password2Monitor" required>
+       
+                <button type="submit" class="btn-signup"   :disabled="btnDisable">Signup</button>
+                <p style="font-size: 13px" class="center-align error" v-if="error">[error]</p>
+                {% if messages %}
+              
+                    {% for message in messages %}
+                    <p {% if message.tags %} class="center-align error"{% endif %}>{{ message }}</p>
+                    {%endfor %}
+         
+                {% endif %}
+               
+             </form>
+             
+            <!-- <form id="form" v-on:submit.prevent="register()">
               {% csrf_token %}
             
                <p class="form-title">codeUnity</p>
+               <p class="center-align error" ></p>
                <label> Username</label>
                <input type="text" v-model="signupInfo.username" required>
                <label> Email</label>
@@ -25,14 +53,16 @@
                 <label>Re-type password </label>
                <input type="password" v-model="signupInfo.password2" required>
       
-               <button type="submit" class="btn-signup">[status]</button>
-               <p class="center-align error" v-if="error">[error]</p>
-               <p class="center-align success" v-if="success">[success]</p>
-            </form>
+               <button type="submit" class="btn-signup">Signup</button>
+           
+               <p class="center-align success"></p>
+            </form> -->
    		</div>
       </div>
       <div class="bg-color">
          <div class="slogan-2">
+         
+               
             A Helpful Platform for Developers <br>
             <!-- <span>Upload/Download projects, Post/Answer questions.</span> -->
             
@@ -71,7 +101,7 @@
        </div> -->
        <div class="row cards-row" >
           <div class="col l4 m6 s12">
-             <div class="card card-min-height">
+             <div class="card card-min-height" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
                 <div class="card-content">
                    <img src="/media/updown.png" class="card-logos upload-download">
                    <div class="card-desc">
@@ -83,7 +113,7 @@
       
           </div>
           <div class="col l4 m6 s12">
-             <div class="card card-min-height">
+             <div class="card card-min-height" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
                 <div class="card-content">
  
                    <img src="/media/qa.jpg" class="card-logos qa">
@@ -97,7 +127,7 @@
       
           </div>
           <div class="col l4 m6 s12">
-             <div class="card card-min-height">
+             <div class="card card-min-height" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
                 <div class="card-content">   
                    <img src="/media/s.png" class="card-logos find-dev">
                       <div class="card-desc">
@@ -110,6 +140,7 @@
       
           </div>
        </div>
+ 
  
  <!-- 
        <div class="row boxes">   

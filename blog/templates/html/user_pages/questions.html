@@ -17,7 +17,7 @@
 				<!-- 	-->
 					<div class="col l6 s12 m12 xl6">
 
-						<p class="questions-asked-p">Questions Asked ([total_ques])</p>
+						<p class="questions-asked-p">Questions Asked (Unanswered) ([total_ques])</p>
 						<ul class="collection question-ask" id="question-ask">
 							
 							<li class="collection-item" v-for="ques in myquestions">[ques.question]<br>
@@ -25,14 +25,11 @@
 								<div class="question-info">
 									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
 									<button id="btn-remove" @click="questionInfo.id = ques.id;deleteQuestion()"> <span class="fa fa-trash"></span> Remove </button>
-									<button type="button" id="set-to-answered">Set as Answered</button>
+									<button type="button" id="set-to-answered"> <span class="fa fa-edit"></span> Edit</button>
 
 								</div>
 							</li>
-							
-						
-				
-
+					
 						</ul>
 						
 						
@@ -40,6 +37,20 @@
 					</div>
 					<div class="col l6 s12 m12 xl6">
 						
+						<p class="questions-asked-p">Answered Questions([total_ques])</p>
+						<ul class="collection question-ask" id="question-ask">
+							
+							<li class="collection-item" v-for="ques in myquestions">[ques.question]<br>
+								<cite class="date-asked">asked: [ques.date]</cite>
+								<div class="question-info">
+									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
+									<button id="btn-remove" @click="questionInfo.id = ques.id;deleteQuestion()"> <span class="fa fa-trash"></span> Remove </button>
+									<button type="button" id="set-to-answered">Set as Unanswered</button>
+
+								</div>
+							</li>
+					
+						</ul>
 					</div>
 				</div>
 
@@ -68,7 +79,7 @@
 								</select>
 							
 											 <br>
-						<button type="submit" id="ask-btn">Ask</button>
+						<button type="submit" id="ask-btn">Ask Now</button>
 					</form>
 					
 				</div>
