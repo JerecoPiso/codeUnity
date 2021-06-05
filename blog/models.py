@@ -96,12 +96,12 @@ class Questions(models.Model):
 	views = models.IntegerField()
 	category = models.CharField(max_length=255)
 	comments = models.IntegerField()
-	status = models.TextField(blank=True)
+	# status = models.TextField(blank=True)
 	tags = models.CharField(blank=True,max_length=255)
 	
 
 	def __str__(self):
-		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.date + " " + self.views + " " + self.category + " " + self.comments + " " + self.status + " " + self.tags
+		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.date + " " + self.views + " " + self.category + " " + self.comments + " " + self.tags
 
 # class QuestionTags(models.Model):
 # 	question_id = models.IntegerField()
