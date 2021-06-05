@@ -30,30 +30,55 @@
 							<li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}}  </a> </li>
 						 	{% endif %}
 						{% endfor %}
+						{% for fw in frameworks %}	
+						{% if fw.category == "Front-End" %}
+							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
+						{% endif %}
+					   {% endfor %}
 						<p class="languages">Backend</p>
 						 {% for lang in languages %}	
 						 	{% if lang.category == "Back-End" %}
 							<li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}}  </a> </li>
 						 	{% endif %}
 						{% endfor %}
+						{% for fw in frameworks %}	
+						{% if fw.category == "Back-End" %}
+							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
+						{% endif %}
+					   {% endfor %}
 						<p class="languages">Android</p>
 						{% for lang in languages %}	
 							{% if lang.category == "Android Development" %}
 						   <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}}  </a> </li>
 							{% endif %}
 					   {% endfor %}
+					   {% for fw in frameworks %}	
+					   {% if fw.category == "Android Development" %}
+						   <li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
+					   {% endif %}
+					  {% endfor %}
 					   <p class="languages">Desktop</p>
 					   {% for lang in languages %}	
 						   {% if lang.category == "Desktop" %}
 						  <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
 						   {% endif %}
 					  {% endfor %}
+					  {% for fw in frameworks %}	
+					  {% if fw.category == "Desktop" %}
+						  <li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
+					  {% endif %}
+					 {% endfor %}
 					  <p class="languages">iOS Development</p>
 					   {% for lang in languages %}	
 						   {% if lang.category == "iOS Development" %}
 						  <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}}  </a> </li>
 						   {% endif %}
 					  {% endfor %}
+					  {% for fw in frameworks %}	
+					  {% if fw.category == "iOS Development" %}
+						  <li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
+					  {% endif %}
+					 {% endfor %}
 				   
 						
 					

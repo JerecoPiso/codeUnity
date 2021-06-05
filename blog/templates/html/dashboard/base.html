@@ -17,7 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/proojjj.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Language' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/lanngggg.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/lannggggggg.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/questionstzzzez.css' %}">
@@ -79,6 +79,7 @@ $(document).ready(function(){
 	$("#show-side-nav").click(function(){
 		$("#side-nav").show()
 	})
+	
 	$(".close").click(function(){
 		$("#side-nav").hide()
 	})
@@ -214,40 +215,73 @@ $(document).ready(function(){
 	 el: "#languageFramework",
 	 data:{
 		language: {category: '', lang: '', id: ''},
-		framework: {language_id: '', framework: '', id: ''},
+		framework: {language_id: '', framework: '', id: '', category: ''},
 		toShowLanguages: [],
-		toShowFrameworks: []
+		toShowFrameworks: [],
+		showAddLanguage: false,
+		showAddFramework: false,
+		languageFunction: '',
+		frameworkFunction: '',
+		languageBtn: '',
+		frameworkBtn: '',
+		csrf_token: '',
+		languageCtr: 0,
+		frameworkCtr: 0
 	 },
 	 mounted: function(){
 		this.getLanguages()
 		this.getFrameworks()
+	
+	
+		
 	 },
 	 methods:{
-		addLanguage: function(){
+		Language: function(){
 			let data = new FormData()
 			data.append("category", languages.language.category)
 			data.append("language", languages.language.lang)
-			axios.post("addLanguage", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+		
+			if(languages.languageFunction == 'update'){
 
-				alert(response.data)
-				languages.getLanguages()
+				data.append("id", languages.language.id)
+			}
+			axios.post(languages.languageFunction+"Language", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+
+					alert(response.data)
+					languages.language.category = ""
+					languages.language.lang = ""
+					languages.getLanguages()
+
 			})
+
+
 		},
-		addFramework: function(){
+		Framework: function(){
 			let data = new FormData()
 			data.append("framework", languages.framework.framework)
 			data.append("language_id", languages.framework.language_id)
-			axios.post("addFramework", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
-
+			data.append("category", languages.framework.category)
+			// alert(languages.framework.framework)
+			if(languages.frameworkFunction == 'update'){
+				data.append("id", languages.framework.id)
 				
-				languages.getFrameworks()
-			})
+			}
+		
+			
+			axios.post(languages.frameworkFunction+"Framework", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+					alert(response.data)
+					languages.framework.language_id = ''
+					languages.framework.category = ''
+					languages.framework.framework = ''
+					languages.getFrameworks()
+				})
+			
 		},
 		deleteLanguage: function(){
 			if (confirm("Are you sure you want to delete this data?") == true) {
 				let data = new FormData()
 				data.append("id", languages.language.id)
-	
+				
 				axios.post("deleteLanguage", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
 
 					alert(response.data)
@@ -256,7 +290,7 @@ $(document).ready(function(){
 				})
 			} 
 		},
-		deleteFramework: function(){
+		deleteFrameworks: function(){
 			if (confirm("Are you sure you want to delete this data?") == true) {
 				let data = new FormData()
 				data.append("id", languages.framework.id)
@@ -274,25 +308,24 @@ $(document).ready(function(){
 				if(response.data == "Failed"){
 					alert("Unable to retrieve Languages!")
 				}else{
-					console.log(response.data)
+					
 					languages.toShowLanguages = response.data
-						// alert(languages.toShowLanguages.length)
+					languages.languageCtr = languages.toShowLanguages.length
+					
 				}
 			})
 		},
 		getFrameworks: function(){
 			axios.get('getFrameworks').then(function(response){
-				if(response.data == "Failed"){
-					alert("Unable to retrieve Languages!")
-				}else{
-					console.log(response.data)
+			
 					languages.toShowFrameworks = response.data
-						// alert(languages.toShowLanguages.length)
-				}
+					languages.frameworkCtr = languages.toShowFrameworks.length
+					
 			})
 		}
 	 }
  })
+ 
 </script>
 </body>
 </html>

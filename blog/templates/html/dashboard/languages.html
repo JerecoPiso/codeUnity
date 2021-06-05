@@ -1,31 +1,49 @@
 {% extends 'html/dashboard/base.html' %}
 
 {% block body %}
-	
+
 	<div class="row mt-1" id="languageFramework">
 			<h5 class="manage"><span class="fa fa-language"></span> <span id="total-project">| 2000 Projects |</span></h5>
 
 			<div class="col l12 s12 m12 xl12 mt-3" id="table-div">
                 
-                <div class="row" style="margin-left: -12px;margin-bottom: -3%;margin-right: -12px;">
-                    <div class="col l8 s12" >
-						<form @submit.prevent="addLanguage()">
-							{% csrf_token %}
-							<select id="language-cat" v-model="language.category"  required>
-								<option value="" disabled selected>Language Specialization</option>
-								<option>Front-End</option>
-								<option>Back-End</option>
-								<option>Android Development</option>
-								<option>Desktop</option>
-								<option>iOS Development</option>
-							</select> 
-							<input type="text" id="add-input-lang" placeholder="Enter language ..." v-model="language.lang" required> 
-							<button type="submit" class="btn-add-language">Add <span class="fa fa-plus"></span></button>
-						</form>
-					
-        
+				<div class="row" style="margin-left: -12px;margin-bottom: -3%;margin-right: -12px;">
+				
+                    <div class="col l8 s12 m6" >
+						{% csrf_token %}
+						<button  @click="languageBtn = 'Add';language.category = '';language.lang = '';languageFunction = 'add';showAddLanguage = true" id="showAddLanguage">Add Language <span class="fa fa-plus"></span> </button>
+						<div class="AddModal" id="addLanguage" v-if="showAddLanguage">
+							<div class="ModalWrapper">
+								<div class="ModalHeader">
+								
+									<span class="ModalTitle">[languageBtn] Language</span><button class="closeModal" @click="showAddLanguage = false">&times;</button>
+								</div>
+								<div class="ModalBody">
+									<form id="addFormLanguage" @submit.prevent="Language()">
+										
+										<!-- {% csrf_token %} -->
+										<label>Language Specialization</label>
+										<select class="language-cat" v-model="language.category"  required>
+											<!-- <option value="" disabled selected> Specialization</option> -->
+											<option>Front-End</option>
+											<option>Back-End</option>
+											<option>Android Development</option>
+											<option>Desktop</option>
+											<option>iOS Development</option>
+										</select> 
+										
+										<label>Language</label>
+										<input type="text" class="add-input-lang" placeholder="Enter language ..." v-model="language.lang" required> 
+										<button type="submit" class="btn-language">[languageBtn] <span class="fa fa-plus"></span></button>
+									
+									</form>
+								</div>
+							</div>
+						</div>
+				
                     </div>
-                    <div class="col l4 s12" style="">
+                    <div class="col l4 s12 m6">
+					
                         <input type="text" id="search-language" placeholder="Search language ..." >
 					
                     </div>
@@ -45,13 +63,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="lang in toShowLanguages">
+						<tr v-for="(lang, index) in toShowLanguages" v-if="index < languageCtr">
 							<td>[lang.id]</td>
 							<td>[lang.language]</td>
 							<td>[lang.category]</td>
 							<td style="width: auto">
-								<button class="btn-edit"> <span class="fa fa-edit"></span></button>
-								<button class="btn-delete" @click="language.id = lang.id;deleteLanguage()"> <span class="fa fa-trash"></span></button>
+								<button class="btn-edit" @click="languageFunction = 'update';language.id = lang.id;languageBtn = 'Update';language.category = lang.category;language.lang = lang.language;showAddLanguage = true"> <span class="fa fa-edit"></span></button>
+								<button class="btn-delete" @click="language.id = lang.id;deleteLanguage();"> <span class="fa fa-trash"></span></button>
 							</td>
 							
 						</tr>
@@ -60,12 +78,12 @@
 
 				</table>
 				<b class="show">Show</b>
-					<select class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
-						<option value="1">25</option>
-						<option value="2">50</option>
-						<option value="3">100</option>
+					<select v-model="languageCtr" class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
+						<option>25</option>
+						<option>50</option>
+						<option>100</option>
 					</select>
-					<b class="entries" style="" >Entries 
+					<b class="entries">Entries 
 					
 				</b>
 			</div>
@@ -74,21 +92,43 @@
 			<div class="col l12 s12 m12 xl12 mt-3" id="table-div">
                 
                 <div class="row" style="margin-left: -12px;margin-bottom: -3%;margin-right: -12px;">
-                    <div class="col l8 s12" >
-						<form @submit.prevent="addFramework()">
-							{% csrf_token %}
-							<select id="framework-lang" v-model="framework.language_id" required>
-								<option value="" disabled selected>Framework Language</option>
-								<option  v-for="lang in toShowLanguages"  :value="lang.id">[lang.language]</option>
+                    <div class="col l8 s12 m6" >
+						<button  id="showAddFramework" @click="framework.language_id = '';framework.category = '';framework.framework = '';frameworkFunction = 'add';frameworkBtn = 'Add';showAddFramework = true;">Add Framework <span class="fa fa-plus"></span> </button>
+						<div class="AddModal"  v-if="showAddFramework">
+							<div class="ModalWrapper">
+								<div class="ModalHeader">
 								
-							</select> 
-							<input type="text" id="add-input-framework" placeholder="Enter framework ..." v-model="framework.framework" required> 
-							<button type="submit" class="btn-add-language">Add <span class="fa fa-plus"></span></button>
-						</form>
+									<span class="ModalTitle">[frameworkBtn] Framework</span><button @click="showAddFramework = false;" class="closeModal" id="closeModalFramework">&times;</button>
+								</div>
+								<div class="ModalBody">
+									<form id="addFormFramework" @submit.prevent="Framework()">
+										<!-- {% csrf_token %} -->
+										<label>Language</label>
+										<select id="framework-lang" v-model="framework.language_id" required>
+											<option value="" disabled selected>Language</option>
+											<option  v-for="lang in toShowLanguages"  :value="lang.id">[lang.language]</option>
+											
+										</select> 
+										<label>Language Specialization</label>
+										<select class="language-cat" v-model="framework.category"  required>
+											<option value="" disabled selected>Specialization</option>
+											<option>Front-End</option>
+											<option>Back-End</option>
+											<option>Android Development</option>
+											<option>Desktop</option>
+											<option>iOS Development</option>
+										</select> 
+										<label>Framework</label>
+										<input type="text" id="add-input-framework" placeholder="Enter framework ..." v-model="framework.framework" required> 
+										<button type="submit" class="btn-language">[frameworkBtn] <span class="fa fa-plus"></span></button>
+									
+									</form>
+								</div>
+							</div>
+						</div>
 					
-        
                     </div>
-                    <div class="col l4 s12" style="">
+                    <div class="col l4 s12 m6">
                         <input type="text" id="search-framework" placeholder="Search framework ..." >
 					
                     </div>
@@ -102,20 +142,22 @@
 							<th>Id</th>
 							<th>Framework</th>
 							<th>Language</th>
+							<th>Category</th>
 							<th>Action</th>
 						
 							
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="f in toShowFrameworks">
+						<tr v-for="(f, index) in toShowFrameworks" v-if="index < frameworkCtr">
 							<td>[f.id]</td>
 							<td>[f.framework]</td>
 							<td>[f.language]</td>
+							<td>[f.category]</td>
 						
 							<td style="width: auto">
-								<button class="btn-edit"> <span class="fa fa-edit"></span></button>
-								<button class="btn-delete" @click="framework.id = f.id;deleteFramework()"> <span class="fa fa-trash"></span></button>
+								<button class="btn-edit" @click="framework.id = f.id;frameworkFunction = 'update';framework.language_id = f.language_id;framework.category = f.category;framework.framework = f.framework;showAddFramework = true;frameworkBtn = 'Update'"> <span class="fa fa-edit"></span></button>
+								<button class="btn-delete" @click="framework.id = f.id;deleteFrameworks()"> <span class="fa fa-trash"></span></button>
 							</td>
 							
 						</tr>
@@ -124,12 +166,12 @@
 
 				</table>
 				<b class="show">Show</b>
-					<select class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
-						<option value="1">25</option>
-						<option value="2">50</option>
-						<option value="3">100</option>
+					<select v-model="frameworkCtr" class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
+						<option>5</option>
+						<option>10</option>
+						<option>15</option>
 					</select>
-					<b class="entries" style="" >Entries 
+					<b class="entries">Entries 
 					
 				</b>
 			</div>

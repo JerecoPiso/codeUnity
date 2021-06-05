@@ -4,17 +4,19 @@
 		
 		<div class="flex-container">
 			<div class="flex-item1">
+				
 				<div class="sideNav">
-						<span class="fa fa-bars" id="bars"></span>
-						<img src="/media/dp.jpg" class="dp">
-						<p class="name">Jereco James Piso	</p>
-						<li class="../notifications"><a href="">Notifications <span class="notif-total">10</span> </a></li> 
-						<li><a href="../projects">Projects </a></li>
-						<li><a href="../questions">Questions </a></li>
-						<li ><a href="../settings">Account Settings</a></li>
-						<li><a href="../logout">Logout</a></li>
+					<span class="fa fa-bars" id="bars"></span>
+					<img :src="src+mydp" class="dp">
+					<p class="name">{{ request.session.username }}	</p>
+					<li class="notifications"><a href="/user">Home</a></li>
+					<li><a href="/user/projects">Projects </a></li>
+					<li><a href="/user/questions">Questions </a></li>
+					<li ><a href="/user/settings">Account Settings</a></li>
+					<li ><a href="">Notifications <span class="notif-total">10</span> </a></li> 
+					<li><a href="logout">Logout</a></li>
 				</div>
-
+				
 			</div>
 			<div class="flex-item2" >
 				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>

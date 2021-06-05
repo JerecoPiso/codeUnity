@@ -14,8 +14,10 @@ urlpatterns = [
      url(r'^getProjects', user_views.getProject, name='Get Projects'),
      url(r'^getQuestions', user_views.getQuestions, name='Get Questions'),
      url(r'^getUser', user_views.getUser, name='Get User'),
+     url(r'^getOtherInfo', user_views.getOtherInfo, name='Get OtherInfo'),
      url(r'^deleteProject', user_views.deleteProject, name='Delete Project'),
      url(r'^deleteQuestion', user_views.deleteQuestion, name='Delete Question'),
+     url(r'^updateInfo', user_views.updateInfo, name='Delete Question'),
      url(r'^changeDp', user_views.changeDp, name='Change Profile'),
      url(r'^project_files/(?P<folder>.+)$', user_views.project_files, name='Project Files')
 ]

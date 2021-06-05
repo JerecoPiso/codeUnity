@@ -665,3 +665,27 @@
 .btn-cancel{
 	background-color: rgb(255,0,0);
 }
+.myCharts, .notifications-div{
+	border: 0.5px solid rgba(153, 153, 153,0.6);
+	background-color: white;
+	padding: 10px;
+	border-radius: 0.2rem;
+}
+.notifications-div ul li{
+	background-color: rgba(153, 153, 153,0.2);
+	padding: 10px;
+	border-radius: 0.1rem;
+	color: rgb(102, 153, 153);
+	margin-bottom: 5px
+}
+.asked-question-views{
+	
+	margin-left: 1px;
+	padding: 5px;
+	font-size: 18px;
+	color: rgb(0, 128, 128);
+	
+}
+.mt-20{
+	margin-top: 20px;
+}

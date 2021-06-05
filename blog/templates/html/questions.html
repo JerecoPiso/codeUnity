@@ -25,6 +25,7 @@
 	<div class="row " style="margin-top: 60px;">
 		<div class="col s12 m12 xl8 l8">
 			<div  id="question-box">
+				
 			<div class="questions-total-small-device">
 				{% if total_questions > 1 %}
 						{{total_questions}} Questions to be Answered
@@ -36,14 +37,14 @@
 			</div>
 			<p class="feel-free">Feel Free to Ask Question <a href="javascript:void(0)" id="ask-btn">Ask Now</a></p>
 			
-			<div style="padding-left: 2px;padding-right: 2px;clear: both;">
-				<select id="form-filter-categories" class="browser-default">
+			<div style="padding-left: 2px;padding-right: 2px;clear: both;" id="searchQuestion">
+				<select id="form-filter-categories" class="browser-default" v-model="category" @change="getCategory()">
 					<option value="" disabled selected>Categories</option>
 					{% for cat in question_cat %}
 					<option>{{cat.category}}</option>
 					{% endfor %}
 				  </select>
-				  <select id="form-filter-lang" class="browser-default">
+				  <!-- <select id="form-filter-lang" class="browser-default">
 					<option value="" disabled selected>Languages</option>
 					{% for lang in languages %}
 					<option>{{lang.language}}</option>
@@ -54,24 +55,31 @@
 					{% for fw in frameworks %}
 					<option>{{fw.framework}}</option>
 					{% endfor %}
-				  </select>
-				  <form id="search-question" >
-					<input type="text" name="" placeholder="Search for question">
+				  </select> -->
+				  <!-- id="search-question" -->
+				  <form id="search-question"  @submit.prevent="searchQuestion()">
+					{% csrf_token %}
+					<input type="text" v-model="searchValue"  placeholder="Search for question">
 				</form>
 			</div>
 			
 			<!-- <strong>Questions</strong> -->
-			<ul class="questions-box time-counter">
+			<ul class="questions-box " id="ques">
 				{% for question in questions %}
 				<li class="question">
-					<a href="viewQuestion/{{question.id}}">{{ question.question }}</a> <br>
-					<cite>by: Jereco James Piso <i style="font-size: 7px;"><date-posted posted="{{question.date}}"></date-posted></i></cite>
+					<a href="/viewQuestion/{{question.id}}">{{ question.question }}</a> <br>
+					<cite class="time-counter">by: Jereco James Piso <i style="font-size: 7px;"><date-posted posted="{{question.date}}"></date-posted></i></cite>
 					<div class="infos">
 						<span class="fa fa-comments comments"></span><b class="question-info">  {{ question.comments }}</b> 
-						<b class="question-info"><span class="fa fa-thumbs-up likes" ></span> {{ question.likes }}</b>
+						<b class="question-info"><span class="fa fa-thumbs-up likes" ></span> {{ question.views }}</b>
 					</div>
+					<cite style="font-style: normal;">Tags</cite>
+					<my-component skills="{{question.tags}}"></my-component>
+				
 				
 				</li>
+				{% empty %}
+					<h5 style="text-align: center;">No result found for {% if toSearch %}<i>{{ toSearch }}</i> {% endif %}</h5>
 				{% endfor %}
 			
 			</ul>
@@ -119,10 +127,9 @@
 			<p class="filter-p">Filter</p>
 			<div class="questions-btn">
 
-				<a href="">Latest</a>
-				<a href="">Answered Questions</a>
-				<a href="">Most Viewed</a>
-				<a href="">Trending</a>
+				<a href="/questions/filter/latest">Latest</a>
+				<a href="">Answered</a>
+				<a href="">Unanswered</a>
 			</div>
 		</div> 
 	</div>

@@ -31,32 +31,57 @@
 						<p class="languages">Frontend</p>
 						 {% for lang in languages %}	
 						 	{% if lang.category == "Front-End" %}
-							<li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
+							<li class="lang"  {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
 						 	{% endif %}
 						{% endfor %}
+						{% for fw in frameworks %}	
+							{% if fw.category == "Front-End" %}
+								<li class="lang"  {% if fw.framework == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{fw.framework}}" {% if fw.framework == toSearch%} style="color: white;" {% endif %}>{{fw.framework}}</a> </li>
+							{% endif %}
+					    {% endfor %}
 						<p class="languages">Backend</p>
 						 {% for lang in languages %}	
 						 	{% if lang.category == "Back-End" %}
-							<li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
+							<li class="lang"  {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
 						 	{% endif %}
 						{% endfor %}
+						{% for fw in frameworks %}	
+							{% if fw.category == "Back-End" %}
+								<li class="lang"  {% if fw.framework == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{fw.framework}}" {% if fw.framework == toSearch%} style="color: white;" {% endif %}>{{fw.framework}}</a> </li>
+							{% endif %}
+					    {% endfor %}
 						<p class="languages">Android</p>
 						{% for lang in languages %}	
 							{% if lang.category == "Android Development" %}
-						   <li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}} </a> </li>
+						   <li class="lang"  {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}} </a> </li>
 							{% endif %}
 					   {% endfor %}
+					   {% for fw in frameworks %}	
+							{% if fw.category == "Android Development" %}
+								<li class="lang"  {% if fw.framework == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{fw.framework}}" {% if fw.framework == toSearch%} style="color: white;" {% endif %}>{{fw.framework}}</a> </li>
+							{% endif %}
+					    {% endfor %}
 					   <p class="languages">Desktop</p>
 					   {% for lang in languages %}	
 						   {% if lang.category == "Desktop" %}
-						  <li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
+						  <li class="lang"  {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
 						   {% endif %}
 					  {% endfor %}
+					  {% for fw in frameworks %}	
+						{% if fw.category == "Desktop" %}
+							<li class="lang"  {% if fw.framework == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{fw.framework}}" {% if fw.framework == toSearch%} style="color: white;" {% endif %}>{{fw.framework}}</a> </li>
+						{% endif %}
+				  	  {% endfor %}
 					  <p class="languages">iOS Development</p>
 					   {% for lang in languages %}	
 						   {% if lang.category == "iOS Development" %}
-						  <li class="lang" id="{{lang.language}}" {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
+						  <li class="lang"  {% if lang.language == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{lang.language}}" {% if lang.language == toSearch%} style="color: white;" {% endif %}>{{lang.language}}  </a> </li>
 						   {% endif %}
+					  {% endfor %}
+					  {% for fw in frameworks %}	
+					  {% if fw.category == "iOS Development" %}
+						  <li class="lang"  {% if fw.framework == toSearch%} style="background-color: rgb(0,128,128);" 	{% endif %}> <a href="/projects/language/{{fw.framework}}" {% if fw.framework == toSearch%} style="color: white;" {% endif %}>{{fw.framework}}</a> </li>
+					  {% endif %}
 					  {% endfor %}
 				   
 						

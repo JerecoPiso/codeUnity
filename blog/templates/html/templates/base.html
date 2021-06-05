@@ -10,7 +10,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innddddexxeddddddddddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innddddexxedddddddddddd.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
@@ -18,45 +18,70 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionstttttttttttttt.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/pe.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectsvv.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Developers' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developp.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewProject' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projectteddd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewQuestion' %}
-	<!-- <link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-editor.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-tomorrow.css' %}"> -->
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prismm.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-editorr.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-tomorroww.css' %}">
+	<!-- <link rel="stylesheet" type="text/css" href="{% static 'assets/css/prismmm.css' %}"> -->
 
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_questionedddddddddddddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/viewQuestionnnnn	nnnn.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">
 	{% endif %}
 </head>
 <style>
-	.height-200{
-	  height: 200px  
-	}
-	
-	.my-editor {
-	  /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
-	  background: #2d2d2d;
-	  color: #ccc;
+ .rep{
+	 border: 2px solid red;
+ }
+ .height-200{
+    height: 200px  
+  }
   
-	  /* you must provide font-family font-size line-height. Example:*/
-	  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-	  font-size: 14px;
-	  line-height: 1.5;
-	  padding: 5px;
-	}
-  
-	/* optional class for removing the outline */
-	.prism-editor__textarea:focus {
-	  outline: none;
-	}
+  .my-editor {
+    /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+    background: #2d2d2d;
+    color: #ccc;
 	
+    /* you must provide font-family font-size line-height. Example:*/
+    font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 5px;
+	max-height: 400px;
+	overflow: auto;
+	border-radius: 0.3rem;
+	width: 100%
+  }
+
+  /* optional class for removing the outline */
+  .prism-editor__textarea:focus {
+    outline: none;
+  }
+	.tag-link{
+		background-color: rgba(0, 128, 255,0.9);
+		color: white;
+		margin-right: 10px;
+		padding: 5px;
+		font-size: 1px;
+		border-radius: 0.5rem;
+	}
+	.skill-link{
+		background-color: rgba(0, 128, 255,0.9);
+		color: white;
+		margin-right: 10px;
+		padding: 2px;
+		font-size: 1px;
+		border-radius: 0.5rem;
+	}
+	#tags .tag-link:hover{
+		border-bottom: none
+	}
   </style>
 <body>
 
@@ -69,113 +94,468 @@
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
 {% if request.session.title == 'viewQuestion' %}
-<script type="text/javascript" src="{% static 'assets/js/prism.js' %}"></script>
-<!-- <script type="text/javascript" src="{% static 'assets/js/vue-prism-editor.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'assets/js/p.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/vue-prism-editorr.js' %}"></script>
 {% endif %}
 <script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/moment.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/date_componented.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/date_componentedddd.js' %}"></script>
 
 <script type="text/javascript">
-var vue_prism_component = {
+
+	var my_component = {
 		delimiters: ['[', ']'],
-		props: {
-			code: String,
-			language: String,
-			lang: String
-		},	
-		template: '<pre style="max-height: 500px;overflow: auto" :class="language + lang"><code v-html="code"></code></pre>'
+		props:{
+			
+			skills: String,
+			// dev_skills: String,
+		
+			
+			
+			
+		},
+		data: function(){
+
+			return{
+				tag: this.skills,
+				dev_skills: String,
+			}
+
+		},
+		created: function(){
+			this.dev_skills = this.getTags(this.tag)
+		
+			// alert(this.dev_skills)
+		},
+		methods:{
+			getTags: function(skill){
+				var str = skill
+			
+				var n = null;
+				var tags = ""
+				// var num = str.search(",");
+				while(str.length != 0){
+					var ctr = str.search(",");
+					if(ctr != -1){
+						n = str.slice(0,ctr)
+						str = str.slice(ctr+1,str.length)
+					
+						tags = tags+"<a href='/questions/tags/"+n+"' class='tag-link'>"+n+"</a>";
+						
+					}else{
+						str = str.slice(0,str.length)
+						tags = tags+"<a href='/questions/tags/"+str+"' class='tag-link'>"+str+"</a>";
+					
+						str = ""
+						
+						
+					
+					}
+					
+				}
+			
+				return tags
+			}
+		},
+		template: '<div id="tags" style="margin: 10px 5px 5px 0;font-size: 10px" v-html="dev_skills"></div>'
+	}
+	var developers_skills = {
+		delimiters: ['[', ']'],
+		props:{
+			
+			skills: String,
+			// dev_skills: String	
+		},
+		data: function(){
+
+			return{
+				skill: this.skills,
+				dev_skills: String,
+			}
+
+		},
+		created: function(){
+			this.dev_skills = this.getSkills(this.skill)
+		
+			// alert(this.dev_skills)
+		},
+		methods:{
+			getSkills: function(skill){
+				var str = skill
+			
+				var n = null;
+				var skill = ""
+				// var num = str.search(",");
+				while(str.length != 0){
+					var ctr = str.search(",");
+					if(ctr != -1){
+						n = str.slice(0,ctr)
+						str = str.slice(ctr+1,str.length)
+					
+						skill = skill+"<a href='/developers/skills/"+n+"' class='skill-link'>"+n+"</a>";
+						
+					}else{
+						str = str.slice(0,str.length)
+						skill = skill+"<a href='/developers/skills/"+str+"' class='skill-link'>"+str+"</a>";
+					
+						str = ""
+						
+						
+					
+					}
+					
+				}
+			
+				return skill
+			}
+		},
+		template: '<div id="" style=" display: flex;flex-wrap: wrap;margin: -5px 5px 5px 0;font-size: 8px" v-html="dev_skills"></div>'
 	}
 	new Vue({
-		delimiters: ['[', ']'],
-		el: "#app",
-		components: {
-			
-			'vue-prism':  vue_prism_component
-	
-		},
-		
-	})
-	
-	new Vue({
-		el:".projects-box",
+		el: "#developers",
 		data:{
-			searchValue: ''
+
+		},
+		components:{
+			"dev-skills": developers_skills
+		}
+	})
+	new Vue({
+		delimiters: ['[', ']'],
+		el:"#ques",
+		data:{
+			
+			category: '',
+			searchValue: '',
+		
+		},
+		components: {
+		
+		'my-component': my_component,
+		
+
+		},
+		mounted: function(){
+		// console.log(my_component.props.dev_skills.type)
+			
 		},
 		methods: {
-			searchProjects: function(){
+			searchQuestion: function(){
 				let data = new FormData()
 				data.append('search', this.searchValue)
 				// axios.post('/projects/'+this.searchValue, data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
 					
 				// })
+			
 				if(this.searchValue != ""){
-					window.location.href="/projects/search/"+this.searchValue
+					window.location.href="/questions/"+this.searchValue
 				}
 			
+			},
+			getCategory: function(){
+				window.location.href = '/questions/category/'+ this.category
 			}
 		}
 	})
-	
-  var comments = new Vue({
+	new Vue({
+		delimiters: ['[', ']'],
+		el:"#searchQuestion",
+		data:{
+			
+			category: '',
+			searchValue: '',
+		
+		},
+		mounted: function(){
+		// console.log(my_component.props.dev_skills.type)
+			// alert($("#totalComments").text())
+		},
+		methods: {
+			searchQuestion: function(){
+				let data = new FormData()
+				data.append('search', this.searchValue)
+				// axios.post('/projects/'+this.searchValue, data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+					
+				// })
+			
+				if(this.searchValue != ""){
+					window.location.href="/questions/"+this.searchValue
+				}
+			
+			},
+			getCategory: function(){
+				window.location.href = '/questions/category/'+ this.category
+			}
+		}
+	})
+
+	var app = new Vue({
+		delimiters: ['[', ']'],
+		el: "#app",
+		data: function(){
+			return{
+				ques_code: '',
+				lang: '',
+				
+				
+			}
+			
+		
+		},
+		
+		mounted: function(){
+			this.ques_code = $("#cd").val()
+			this.lang = $("#lang").val()
+			// this.commentTotal = comments.commentTotal
+			// alert(this.commentTotal)
+			// alert(comments.commentTotal)
+		},
+		methods: {
+		
+			highlighter(code) {
+      	
+		  		return Prism.highlight(code, Prism.languages.js, this.lang)
+			},
+			
+		}
+		
+	})
+	Vue.component('date-posted',{
+	delimiters: ['[', ']'],
+		props:{
+		
+			posted: String
+		},
+		data: function(){
+			return {
+				post: this.posted,
+				date: ''
+			}
+		},
+		mounted: function(){
+
+			this.date = this.getDate(this.post)
+		
+
+		},
+		methods: {
+			getDate: function(val){
+				// alert(val)
+				var now = moment().year()+"-"+(moment().month()+1)+"-"+moment().date()+" "+moment().hour()+":"+moment().minutes()+":"+moment().seconds() 
+				var currDate = moment(now)
+				var dateToTest = moment(val);				 
+				var years = currDate.diff(dateToTest, 'years')
+				var months = currDate.diff(dateToTest, 'months')
+				var weeks = currDate.diff(dateToTest, 'weeks')
+				var days = currDate.diff(dateToTest, 'days')
+				var hours = currDate.diff(dateToTest, 'hours')
+				var minutes = currDate.diff(dateToTest, 'minutes')
+				   // check year if less than or equal to 1
+				   if(years <= 1){
+				   	  // check months if less than 1
+				   	  if (months < 12) {
+				   	  		// check if months is less than or equal to 1
+				   			if(months <= 1){
+				   				// check if weeks
+				   				if (weeks > 4) {
+				   					return(months+" month ago")
+				   				// check if weeks is greater than 1 and less than 5
+				   				}else if (weeks > 1 && weeks < 5){
+
+				   					return(weeks+" weeks ago")
+
+				   				}else{
+				   					// check if weeks is equal to 1 and days is equal to 7
+				   					if (weeks == 1 && days == 7) {
+
+				   						return(weeks+" week ago")
+
+				   					}else{
+				   						// check if days is greater than 1 and days is less than 7
+				   						if (days > 1 && days < 7) {
+				   							return(days+" days ago")
+				   						}else{
+				   							// check if days is equal to 1 and hours is equal to 24
+				   							if(days == 1){
+				   							
+				   								return(days+" day ago")
+				   								
+				   							}else{
+
+				   								if(hours > 1 && hours < 24){
+				   									return(hours+" hours ago")
+				   								}else if(hours >= 24){
+				 									var day = hours/24
+
+				   										if(Math.floor(day) > 1){
+				   											return(Math.floor(day)+" days ago")
+				   										}else{
+				   											return(Math.floor(day)+" day ago")
+				   										}
+
+				   								}else{
+
+				   									if(minutes == 60 && hours == 1){
+				   										return(hours+" hour ago")
+				   									}else if(minutes >= 60){
+				   										var hour = minutes/60
+
+				   										if(Math.floor(hour) > 1){
+				   											return(Math.floor(hour)+" hours ago")
+				   										}else{
+				   											return(Math.floor(hour)+" hour ago")
+				   										}
+
+				   									}else{
+				   										if (minutes > 1 && minutes == 60) {
+				   											return(minutes+" minutes ago")
+				   										}else{
+															   if(minutes == 1){
+																return(minutes+" minute ago")
+															   }else if(minutes == 0){
+																return("Now")
+															   }else{
+																return(minutes+" minutes ago")
+															   }
+				   											
+				   										}
+				   									}
+				   								}
+				   								
+				   							}
+				   						
+				   						}
+				   					}
+				   					
+				   				}
+
+				   			}else{
+				   				return(months+" months ago")
+				   			}
+				   		}else{
+				   			return(years +" year ago")
+				   		}
+				   }else{
+				   		return(years+ " years ago")
+				   }
+				   
+			}
+		},
+		template: "<span>[date]</span>"
+
+	});
+	var comments = new Vue({
 	  delimiters: ['[', ']'],
 	  el: "#comment-section",
-	  components: {
+	 
+	  data(){
+		  return{
+			code: String,
+			commentInfo: [],
+			commentTotal: 0,
+			// comment
+			comment: '',
+			// text area for the code
+			editor: false,
 			
-		'vue-prism':  vue_prism_component
+			replies: [],
+			// comment id
+			comId: '',
+			// post id
+			srcImg: '/media/',
+			flashMsg: '',
+			// used to hide and show the reply popup box
+			// replyModal: false,
+			replyInfo: {question_id: '', comment_id: '', commentor_id: '', reply: ''},
+			// reply id
+			replyId: '',
+			// question id
+			qID: '',
+			// the modal 
+			// popUpAlert: false,
+			// what action to perform in the modal 
+			actionToPerform: '',
+			// extension for the message in the modal content on which data will be deleted
+			promptMsgExtension: '',
+			btnDisable: true,
+			questionId: '',
+		
+			lang: String,
+			commentIndex: 0,
+			replyClass: "haha",
+			viewQuestion: '',
+			lim: [],
+		
+	}
 
 	  },
-	  data:{
-		code: "<p></p>",
-		commentInfo: [],
-	
-		// comment
-		comment: '',
-		// text area for the code
-		editor: false,
-		
-		replies: [],
-		// comment id
-		comId: '',
-		// post id
-		srcImg: '/media/',
-		flashMsg: '',
-		// used to hide and show the reply popup box
-		replyModal: false,
-		replyInfo: {question_id: '', comment_id: '', commentor_id: '', reply: ''},
-		// reply id
-		replyId: '',
-		// question id
-		qID: '',
-		// the modal 
-		popUpAlert: false,
-		// what action to perform in the modal 
-		actionToPerform: '',
-		// extension for the message in the modal content on which data will be deleted
-		promptMsgExtension: '',
-		btnDisable: true,
-		questionId: '',
-		ctr: 0
-		
-	
-	  },
+	//   beforeCreate: function(){
+	// 	this.replyModal = false
+
+	//   },
 	  mounted: function(){
+		//   console.log(this.lim[0])
 		this.qID = $("#post-id").val()
+		// alert($("#post-id").val())
 		this.getComments($("#post-id").val())
 		this.getReplies($("#post-id").val())
+		
+		this.lang = $("#lang").val()
 	  },
+	
 	  methods:{
-		highlighter(code) {
-      	
-		  return Prism.highlight(code, Prism.languages.js, 'js');
+		  showHideDeleteModal(status){
+			if(status == "show"){
+				$("#deleteModall").show()
+			}else{
+				$("#deleteModall").hide()
+			}
+		  },
+		  showHideReplyModal(status){
+			if(status == "show"){
+				$("#replyModall").show()
+			}else{
+				$("#replyModall").hide()
+			}
+			
+			
+		  },
+		  limitShownReply(index){
+			if(this.lim[index] == 'false'){
+				Vue.set(this.lim,index,'true')
+			}else{
+				Vue.set(this.lim,index,'false')
+			}
+			
+		  },
+		 
+		  reply(com,id){
+			  let newReplies = []
+					for(var i = 0; i < com.length; i++){
+						if(com[i].comment_id == id){
+							newReplies.push(com[i])
+						}
+					
+					}
+				
+			  	return newReplies
+				
+
+		  },
+		highlighter: function(code) {
+			// alert(comments.code)
+			// var inp = code.replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi,'').replace(/<[^>]+?>/g,'').replace(/\s+/g,' ').replace(/ /g,' ').replace(/>/g,' '); 
+		 	 return Prism.highlight(code, Prism.languages.js, this.lang);
 		},
 		  	// adding reply
 		  secComment: function(){
 			 let data = new FormData()
+			 var now = moment().year()+"-"+(moment().month()+1)+"-"+moment().date()+" "+moment().hour()+":"+moment().minutes()+":"+moment().seconds() 
 			 data.append("post_id", comments.replyInfo.question_id)
 			 data.append('comment_id', comments.replyInfo.comment_id)
 			 data.append('commentor_id', comments.replyInfo.commentor_id)
 			 data.append('reply', comments.replyInfo.reply)
+			 data.append('date', now)
 			 axios.post("/reply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
 				comments.flashMsg = response.data
 				comments.replyInfo.reply = ""
@@ -185,15 +565,18 @@ var vue_prism_component = {
 				setTimeout(function(){
 					comments.flashMsg = ""
 				}, 5000)
+				comments.showHideReplyModal('hide');
+				var getTotalComment = $("#totalComments").text()
+			 	 $("#totalComments").text(Number(getTotalComment)+1)
 			 })
 		
 		  },
 		  	// adding comment
 		  addComment: function(post_id){
-			  
+			//   console.log(app.$options)
 			  var code = $("#summernote").summernote('code')
 			  var now = moment().year()+"-"+(moment().month()+1)+"-"+moment().date()+" "+moment().hour()+":"+moment().minutes()+":"+moment().seconds() 
-				// alert(val)
+				
 			    let data = new FormData()
 				data.append("comment", comments.comment)
 				// alert(code)
@@ -201,6 +584,7 @@ var vue_prism_component = {
 				// var doc = dom.parseFromString(code, 'html')
 				data.append("date", now) 
 				data.append("post_id", post_id) 
+				
 			  if(code != "<p><br></p>"){
 				
 				data.append("answer", code)
@@ -209,7 +593,7 @@ var vue_prism_component = {
 			  }
 
 			  axios.post("/addComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-				
+				$("#summernote").summernote('reset')
 				comments.comment = ""
 				comments.flashMsg = response.data
 				comments.getComments(post_id)
@@ -219,12 +603,14 @@ var vue_prism_component = {
 				}, 5000)
 				
 			  })
-			
+			  var getTotalComment = $("#totalComments").text()
+			  $("#totalComments").text(Number(getTotalComment)+1)
 		  },
 		  	// deleting comment
 		  deleteComment: function(post_id){
+			var toDeleteReplyCtr = 0
 			let data = new FormData()
-			
+	
 			data.append("id", comments.comId)
 		
 			data.append("post_id", comments.questionId)
@@ -232,12 +618,22 @@ var vue_prism_component = {
 		
 			axios.post("/deleteComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
 				comments.flashMsg = response.data
-				comments.getComments(post_id)
-			
+				
+				comments.commentInfo.splice(comments.commentIndex,1)
 				comments.getReplies(comments.qID)
 				setTimeout(function(){
 					comments.flashMsg = ""
 				}, 5000)
+		
+				for(var i = 0; i < comments.replies.length; i++){
+					if(comments.replies[i].comment_id == comments.comId){
+						toDeleteReplyCtr++;
+					}
+					
+				}
+				comments.showHideDeleteModal('hide');
+				var getTotalComment = $("#totalComments").text()
+			 	$("#totalComments").text(Number(getTotalComment)-(1+toDeleteReplyCtr))
 			  })
 		  },
 		  	// deleting reply
@@ -251,10 +647,14 @@ var vue_prism_component = {
 				
 				comments.flashMsg = response.data
 				comments.getComments(comments.qID)
-				comments.getReplies(comments.qID)
+				comments.replies.splice(comments.commentIndex,1)
+				// comments.getReplies(comments.qID)
 				setTimeout(function(){
 					comments.flashMsg = ""
 				}, 5000)
+				comments.showHideDeleteModal('hide');
+				var getTotalComment = $("#totalComments").text()
+			 	 $("#totalComments").text(Number(getTotalComment)-1)
 			   })
 		  },
 		  	// getting comments
@@ -264,8 +664,11 @@ var vue_prism_component = {
 			axios.post("/getComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
 				
 				comments.commentInfo = response.data
-		
-				
+				comments.commentTotal = comments.commentInfo.length
+				for(var i=0;i < comments.commentInfo.length;i++){
+					comments.lim.push('false')
+				}
+			
 			  })
 		  },
 		  	// getting replies
@@ -276,6 +679,7 @@ var vue_prism_component = {
 			axios.post("/getReply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
 			
 				 comments.replies = response.data
+			
 			
 			  })
 		  },
@@ -294,6 +698,33 @@ var vue_prism_component = {
 		 
 	  }
   })
+	new Vue({
+		el:".projects-box",
+		data:{
+			searchValue: ''
+		},
+		components: {
+		
+			'my-componente': my_component,
+			
+	
+		},
+		methods: {
+			searchProjects: function(){
+				let data = new FormData()
+				data.append('search', this.searchValue)
+				// axios.post('/projects/'+this.searchValue, data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
+					
+				// })
+				if(this.searchValue != ""){
+					window.location.href="/projects/search/"+this.searchValue
+				}
+			
+			}
+		}
+	})
+	
+
   $('.btn-put-code').click(function(){
 	  if($(this).text() != "Close"){
 		$('.summernote').slideToggle()
@@ -404,41 +835,13 @@ var signup = new Vue({
 	
 	}
 })
- $(document).ready(function(){
-	// $(".MyModal").css({'display': 'none'})
-		// $(".btn-delete").click(function(){
-		//  	$("#ModalDelete").fadeToggle()
-		// })
-		// $(".btn-delete").click(function(){
-		//  	$("#ModalDelete").fadeToggle()
-		// })
-		// $(".btn-reply").click(function(){
-		//  	$("#ModalReply").fadeToggle()
-		// })
-		// $("#closeModalReply").click(function(){
-		//  	$("#ModalReply").fadeToggle()
-		// })
-	// $(".lang").click(function(){
-	// 	$("#languages li").each(function(){
-	// 		if($(this).hasClass("act")){
-			
-	// 			$(this).children("ul").slideUp()
-				
-	// 		}
-	// 	})
-	// 	if(!$(this).hasClass("act")){
 
-	// 		// $(this).css({"border-top": '0.3px solid rgba(179, 179, 179,0.5)', "border-bottom": '0.3px solid rgba(179, 179, 179,0.5)', "border-right": '5px solid rgb(255, 255, 255)'})
-	// 		$(this).addClass("act")
-	// 		$(this).children("ul").slideDown()
-	// 	}else{
-			
-	// 		$(this).removeClass("act")
-	// 		// $(this).css({"border": 'none'})
-	// 	}
+ $(document).ready(function(){
 	
-	
-	// })
+	$('.hh').click(function(){
+		// $(this).text()
+		alert("sdf")
+	})
 	$('#ask-btn').click(function(){
 		$('.LoginModal').slideToggle()
 	})

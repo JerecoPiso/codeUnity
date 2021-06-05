@@ -22,7 +22,7 @@
 									<span class="fa fa-exclamation"></span>
 								</div>
 								<div class="ModalContent">
-									<p>Are you sure you want to delete this data!</p>
+									<p>Are you sure you want to delete this project!</p>
 								</div>
 								<div class="ModalFooter">
 									<button class="btn-ok" @click="deleteProject()">OK</button>
@@ -40,7 +40,7 @@
 									  <th>Project Name</th>
 									  <th>Language</th>
 									  <th>No. of Downloads</th>
-									  <th>About</th>
+								
 									  <th>Views</th>
 									  <th>Action</th>
 								  </tr>
@@ -51,7 +51,7 @@
 									<td>[p.project_name]</td>
 									<td>[p.language]</td>
 									<td>[p.downloads]</td>
-									<td></td>
+									
 									<td>[p.views]</td>
 									<td style="overflow: auto"><a type="button" class="btn-view" v-bind:href="url+p.project_name"><span class="fa fa-eye"></span></a >
 										<button class="btn-edit"><span class="fa fa-edit"></span></button>
@@ -61,12 +61,14 @@
 								</tbody>
 							  </table>
 						</div>
-				
+			
 								
 						
 					</div>
+					<!-- id projects end -->
 					
 				</div>
+				<!-- class row clear-float end -->
 				<div id="files" >
 					<div class="MyModal" v-if="modalErr">
 						<div class="ModalDialog">
@@ -88,28 +90,31 @@
 							  <label>Folder</label><br>
 							  <input type='file' webkitdirectory ref="file" @change="handleFileUpload()" ><br> 
 							  <label>About</label>
-							  <textarea  id="about" style="max-width: 100%;overflow: auto;"></textarea>
+							  <div  id="about"></div>
 							  <label>More</label>
-							  <textarea  id="more" placeholder="e.g Features, How to run, Technologies Used" style="max-width: 100%;overflow: auto;"></textarea>
+							  <div  id="more"></div>
 							  <label>Photo</label> <br>
 							  <input type='file'  ref="photo" @change="photo()"><br> 
-							  <label>Language(Optional)</label>
-							<select class="browser-default" id="select" v-model="language">
-							   <!-- <option value="" disabled selected>Select Language</option> -->
-							   <option v-for="lang in languages" v-bind:value="lang.language">[ lang.language ]</option>
-							   <!-- <option>Option 2</option>
-							   <option>Option 3</option> -->
-							 </select>
+							  <label v-if="toShowLang">Language(Optional)</label> <button class="switch-btn"  @click="change()" v-html="text"></button>
+							  <select v-if="toShowLang" class="browser-default" id="select" v-model="language">
+								<option value="" disabled selected>Select Language</option>
+								<option v-for="lang in languages" v-bind:value="lang.language">[ lang.language ]</option>
+							  </select>
+							  <label v-if="!toShowLang">Framework(Optional)</label>
+							  <select v-if="!toShowLang" class="browser-default" id="select" v-model="language">
+								<option value="" disabled selected>Select Framework</option>
+								<option v-for="fw in frameworks" v-bind:value="fw.framework">[ fw.framework ]</option>
+							  </select>
 						  </div>
 				   
-					   <button  type="submit" id="upload-btn">Upload <span class="fa fa-upload"></span> </button>
+					   <button  type="submit" id="upload-btn">Upload Project <span class="fa fa-upload"></span> </button>
 
 					</form>
 					
 			</div> 
-				
+				<!-- id files end -->
 			</div>
-			<!-- class sflex-item2 end -->
+			<!-- class flex-item2 end -->
 			
 		</div>
 		<!-- class flex-container end -->

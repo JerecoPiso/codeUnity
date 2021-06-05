@@ -17,7 +17,7 @@ def askQuestion(request):
             # d = int(datetime.datetime.now().strftime("%m"))
             
             datenow =  datetime.datetime.now().strftime("%Y") + "-" + datetime.datetime.now().strftime("%m") + "-"+ datetime.datetime.now().strftime("%d") + " " + datetime.datetime.now().strftime("%H")+ ":" + datetime.datetime.now().strftime("%M")+ ":" + datetime.datetime.now().strftime("%S")
-            ask = Questions(question=request.POST['question'], likes=0, category = request.POST['category'], asker_id=request.session['id'], date = datenow, code=request.POST['code'], language=request.POST['language'], comments = 0)
+            ask = Questions(question=request.POST['question'], views=0, category = request.POST['category'], asker_id=request.session['id'], date = datenow, code=request.POST['code'], language=request.POST['language'], comments = 0, tags = request.POST['tags'])
             ask.save()
             return HttpResponse('Asked successfully')
 
@@ -109,6 +109,16 @@ def getQuestions(request):
     try:
         ques = Questions.objects.filter(asker_id__exact=request.session['id']).values()
         return JsonResponse(list(ques), safe=False)
+
+    except:
+
+        return HttpResponse("Failed")
+
+def getOtherInfo(request):
+    try:
+        infos = Developers.objects.filter(id=request.session['id']).values()
+        
+        return JsonResponse(list(infos), safe=False)
 
     except:
 
@@ -241,3 +251,13 @@ def getUser(request):
     user = Developers.objects.filter(id__exact=request.session['id']).values()
     return JsonResponse(list(user), safe=False)
 
+def updateInfo(request):
+    try:
+        info = Developers.objects.get(id=request.session['id'])
+        info.skills = request.POST['skills']
+        info.expertise = request.POST['expertise']
+        info.aboutme = request.POST['aboutme']
+        info.save()
+        return HttpResponse("Success")
+    except:
+        return HttpResponse("Failed")

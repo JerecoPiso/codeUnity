@@ -13,13 +13,18 @@ urlpatterns = [
      url(r'^projects/search/(?P<toSearch>.+)$', views.searchProject, name="Projects"),
      url(r'^projects', views.projects, name="Projects"),
      url(r'^logout/(?P<questionId>.+)$', views.logout, name="Projects"),
-    
+     # url(r'^questions/filter/(?P<filter>.+)$', views.filterQuestions, name="Search Question"),
+     # url(r'^questions/tags/(?P<tag>.+)$', views.getQuestionByTags, name="Search Question"),
+     url(r'^questions/(?P<toGetQuestion>.+)/(?P<value>.+)$', views.getQuestion, name="Search Question"),
+     url(r'^questions/(?P<toSearch>.+)$', views.searchQuestion, name="Search Question"),
      
      url(r'^questions', views.questions, name="Questions"),
      url(r'^login/(?P<redirectTo>.+)$', views.login, name="Questions"),
      url(r'^userLogin/(?P<redirectTo>.+)$', views.userLogin, name="Questions"),
      url(r'^verified', views.verified, name="Verified"),
+
      # url(r'^userLogin', views.userLogin, name="User Login"),
+     url(r'^developers/(?P<toGetDevelopers>.+)/(?P<value>.+)$', views.getDevelopers, name="Questions"),
      url(r'^developers', views.developers, name="Developers"),
      url(r'^addComment', views.addComment, name="Add Comment"),
      url(r'^getComment', views.getCom, name="Get Comments"),

@@ -89,6 +89,8 @@ Vue.component('date-posted',{
 				   										}else{
 															   if(minutes == 1){
 																return(minutes+" minute ago")
+															   }else if(minutes == 0){
+																return("now")
 															   }else{
 																return(minutes+" minutes ago")
 															   }
@@ -116,10 +118,10 @@ Vue.component('date-posted',{
 				   
 			}
 		},
-		template: "<span>[date]</span>"
+		template: "<span>( [date] )</span>"
 
 	});
-	var d = new Vue({
+	new Vue({
 		delimiters: ['[', ']'],
 		el: ".time-counter",
 		data:{
@@ -127,3 +129,9 @@ Vue.component('date-posted',{
 		}
 	
 	})
+
+	
+
+	
+
+	

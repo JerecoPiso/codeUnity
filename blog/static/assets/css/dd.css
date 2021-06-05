@@ -18,7 +18,7 @@
 	margin-right: 1%;
 	font-weight: bold;
 	text-align: center;
-	border-radius: 1rem;
+
     width: 100%;
 }
 .total-developers:hover{
@@ -48,7 +48,7 @@
 	
 }
 .card .card-img img{
-    height: 150px;
+    height: 120px;
 }
 .devname{
   
@@ -100,3 +100,40 @@
   
 }
 
+.devs-categories{
+    color: rgb(0, 128, 128);
+    font-size: 20px;
+    font-family: sans-serif;
+    text-align: center;
+    margin-bottom: -10px;
+}
+.categories-skills li{
+    text-align: center;
+    font-size: 17px;
+    padding: 5px 0 0 0;
+    font-family: sans-serif;
+}
+.categories-skills li a{
+    text-align: center;
+    font-size: 17px;
+    color: rgb(0, 0, 0);
+    font-family: sans-serif;
+}
+.categories-skills li:hover {
+  transform: scale(1.1);
+  transition: 0.2s;
+}
+/* body{
+	background-color: rgba(191, 191, 191,0.1);
+} */
+.skills-categories-box{
+   
+    border-top: 0.5px solid rgba(153, 153, 153,0.6);
+   
+    margin-bottom: 1px;
+}
+.no-devs{
+    text-align: center;
+    font-size: 25px;
+    margin-top: 100px;
+}

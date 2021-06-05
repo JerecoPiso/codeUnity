@@ -178,6 +178,8 @@ def logout(request,questionId):
 
     del request.session['viewQuestion']
     del request.session['questionViewerId']
+    del request.session['photo']
+    del request.session['username']
 
     return redirect("/login/"+questionId)
 
@@ -188,18 +190,12 @@ def projects(request):
   # language = Projects.objects.values(
   #   'language'
   #   ).annotate(language_count=Count('language')).filter(language_count__gt=0)
-  with connection.cursor() as cursor:
-			try:
-				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.framework, blog_Language.language, blog_Language.id as langID FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
-				# framework = Frameworks.objects.all().values()
-				frameworks = dictfetchall(cursor)
-			finally:
-				cursor.close()
-	
+
   language = Language.objects.all()
+  frameworks = Frameworks.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
-  paginator = Paginator(project, 3)
+  paginator = Paginator(project, 5)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
@@ -207,13 +203,7 @@ def projects(request):
 
 def searchProject(request,toSearch):
  
-  with connection.cursor() as cursor:
-			try:
-				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.framework, blog_Language.language, blog_Language.id as langID FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
-				# framework = Frameworks.objects.all().values()
-				frameworks = dictfetchall(cursor)
-			finally:
-				cursor.close()
+  frameworks = Frameworks.objects.all()
   project = Projects.objects.filter(project_name__icontains=toSearch)
 
   # language = Projects.objects.values(
@@ -229,13 +219,7 @@ def searchProject(request,toSearch):
   return render(request, 'html/search_project.html', {'frameworks': frameworks,'search': toSearch,'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
 def filterProjects(request, toSearch):
-  with connection.cursor() as cursor:
-			try:
-				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.framework, blog_Language.language, blog_Language.id as langID FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
-				# framework = Frameworks.objects.all().values()
-				frameworks = dictfetchall(cursor)
-			finally:
-				cursor.close()
+  frameworks = Frameworks.objects.all()
   project = Projects.objects.filter(language__contains=toSearch)
   # language = Projects.objects.values(
   #   'language'
@@ -247,19 +231,71 @@ def filterProjects(request, toSearch):
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
-  return render(request, 'html/filterProjects.html', {'frameworks': frameworks,'toSearch': toSearch, 'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
+  return render(request, 'html/filterProjects.html', {'frameworks': frameworks,'languages': language,'toSearch': toSearch, 'new_apps': newest_apps, 'projects': page_obj,'page_obj': page_obj, 'apps': apps})
 
 def questions(request):
-  languages = Language.objects.all()
-  frameworks = Frameworks.objects.all() 
-  category = Question_Category.objects.all()
-  questions = Questions.objects.all()
+  # languages = Language.objects.all()
+  # frameworks = Frameworks.objects.all() 
+  category = Questions.objects.values(
+  'category'
+  ).annotate(category_count=Count('category')).filter(category_count__gt=0)
+
+  questions = Questions.objects.all().order_by('-id')
   paginator = Paginator(questions, 15)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
   request.session['title'] = "Questions"
-  return render(request, 'html/questions.html', {'question_cat': category,'frameworks': frameworks, 'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj, 'languages': languages})
+  return render(request, 'html/questions.html', {'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
+
+
+def searchQuestion(request, toSearch):
+  category = Questions.objects.values(
+  'category'
+  ).annotate(category_count=Count('category')).filter(category_count__gt=0)
+
+  questions = Questions.objects.filter(question__contains=toSearch)
+  paginator = Paginator(questions, 15)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  total_questions = Questions.objects.all().count()
+  request.session['title'] = "Questions"
+  return render(request, 'html/questions.html', {'question_cat': category,'toSearch': toSearch,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
+
+def getQuestion(request, toGetQuestion, value):
+  category = Questions.objects.values(
+  'category'
+  ).annotate(category_count=Count('category')).filter(category_count__gt=0)
+
+  if toGetQuestion == "tags":
+    questions = Questions.objects.filter(tags__contains=value).order_by('-id')
+  elif toGetQuestion == "filter":
+    questions = Questions.objects.filter().order_by('-id')[:10]
+  else:
+    questions = Questions.objects.filter(category__contains=value).order_by('-id')
+
+  paginator = Paginator(questions, 15)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  total_questions = Questions.objects.all().count()
+  request.session['title'] = "Questions"
+  return render(request, 'html/questions.html', {'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
+
+def getDevelopers(request, toGetDevelopers, value):
+  if toGetDevelopers == "skills":
+    devs = Developers.objects.filter(skills__contains=value).order_by("-id")
+  else:
+    devs = Developers.objects.filter(expertise__contains=value).order_by("-id")
+  
+  request.session['title'] = "Developers"
+  # devs = Developers.objects.all()
+  frameworks = Frameworks.objects.all()
+  total_devs = Developers.objects.all().count()
+  language = Language.objects.all()
+  paginator = Paginator(devs, 10)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  return render(request, 'html/developers.html', {'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total': total_devs, 'languages': language})
 
 
 def userLogin(request, redirectTo):
@@ -291,6 +327,8 @@ def userLogin(request, redirectTo):
                     else:
                         request.session['viewQuestion'] = True
                         request.session['questionViewerId'] = user.id
+                        request.session['photo'] = json.dumps(str(user.photo))
+                        request.session['username'] = user.uname
                     
                         # request.session.set_expiry(60)
                         redirectedTo = "/viewQuestion/"+(redirectTo[13:len(redirectTo)+1])
@@ -400,8 +438,13 @@ def login(request, redirectTo):
 def developers(request):
      request.session['title'] = "Developers"
      devs = Developers.objects.all()
+     frameworks = Frameworks.objects.all()
      total_devs = Developers.objects.all().count()
-     return render(request, 'html/developers.html', {'devs': devs, 'total': total_devs})
+     language = Language.objects.all()
+     paginator = Paginator(devs, 1)
+     page_number = request.GET.get('page')
+     page_obj = paginator.get_page(page_number)
+     return render(request, 'html/developers.html', {'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks,'total': total_devs, 'languages': language})
 
 def viewProject(request, id):
       request.session['title'] = "viewProject"
@@ -442,7 +485,7 @@ def addComment(request):
 
 # saved reply
 def reply(request):
-     reply = Replies(commentor = request.session['questionViewerId'], post_id = request.POST['post_id'], comment_id = request.POST['comment_id'], reply = request.POST['reply'])
+     reply = Replies(commentor = request.session['questionViewerId'], post_id = request.POST['post_id'], comment_id = request.POST['comment_id'], reply = request.POST['reply'], date = request.POST['date'])
      reply.save()
      ques = Questions.objects.get(id = request.POST['post_id'])
      ques.comments = ques.comments + 1
@@ -464,7 +507,7 @@ def getReply(request):
     with connection.cursor() as cursor:
         try:
            
-          cursor.execute("SELECT blog_Replies.id, blog_Replies.post_id, blog_Replies.commentor, blog_Replies.comment_id, blog_Replies.reply, blog_Developers.uname, blog_Developers.photo FROM blog_Replies LEFT JOIN blog_Developers ON blog_Replies.commentor = blog_Developers.id WHERE blog_Replies.post_id = "+request.POST['question_id'])
+          cursor.execute("SELECT blog_Replies.id, blog_Replies.post_id, blog_Replies.commentor, blog_Replies.comment_id, blog_Replies.reply, blog_Replies.date, blog_Developers.uname, blog_Developers.photo FROM blog_Replies LEFT JOIN blog_Developers ON blog_Replies.commentor = blog_Developers.id WHERE blog_Replies.post_id = "+request.POST['question_id'])
           return JsonResponse(list(dictfetchall(cursor)), safe=False)
         finally:
           cursor.close()

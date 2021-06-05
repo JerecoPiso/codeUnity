@@ -126,7 +126,7 @@ def addFramework(request):
 				return HttpResponse("Framework already exist!")
 
 			else:
-				frame = Frameworks(framework = request.POST['framework'], language_id = request.POST['language_id'])
+				frame = Frameworks(framework = request.POST['framework'], language_id = request.POST['language_id'], category = request.POST['category'])
 				frame.save()
 				return HttpResponse("Framework added successfuly")
 
@@ -186,6 +186,29 @@ def deleteQuestionCategory(request):
 		return HttpResponse("An error has occured!")
 
 
+def updateLanguage(request):
+	try:
+		lang = Language.objects.get(id=request.POST['id'])
+		lang.language = request.POST['language']
+		lang.category = request.POST['category']
+		lang.save()
+		return HttpResponse("Updated successfuly")
+	except:
+
+		return HttpResponse("An error has occured!")
+
+def updateFramework(request):
+	try:
+		fw = Frameworks.objects.get(id=request.POST['id'])
+		fw.language_id = request.POST['language_id']
+		fw.framework = request.POST['framework']
+		fw.category = request.POST['category']
+		fw.save()
+		return HttpResponse("Updated successfuly")
+	except:
+
+		return HttpResponse("An error has occured!")
+
 def editQuestionCategory(request):
 	try:
 		if request.POST['category'] != "":
@@ -214,18 +237,12 @@ def getLanguages(request):
 def getFrameworks(request):
 	with connection.cursor() as cursor:
 			try:
-				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.framework, blog_Language.language FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
+				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.language_id, blog_Frameworks.framework, blog_Frameworks.category, blog_Language.language FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
 				# framework = Frameworks.objects.all().values()
 				return JsonResponse(list(dictfetchall(cursor)), safe=False)
 			finally:
 				cursor.close()
 	
-def dictfetchall(cursor):
-      columns = [col[0] for col in cursor.description]
-      return [
-          dict(zip(columns, row))
-          for row in cursor.fetchall()
-      ]
 
 # getting datas
 def getQuestions(request):
@@ -237,12 +254,19 @@ def getQuestions(request):
 		return HttpResponse("Failed")	
 
 def getProjects(request):
-	try:
-		project = Projects.objects.all().values()
-		return JsonResponse(list(project), safe=False)
+	with connection.cursor() as cursor:
+			try:
+				cursor.execute("SELECT blog_Projects.id, blog_Projects.project_name, blog_Projects.downloads, blog_Projects.language, blog_Developers.uname FROM blog_Projects LEFT JOIN blog_Developers ON blog_Projects.uploader_id = blog_Developers.id")
+				# framework = Frameworks.objects.all().values()
+				return JsonResponse(list(dictfetchall(cursor)), safe=False)
+			finally:
+				cursor.close()
+	# try:
+	# 	project = Projects.objects.all().values()
+	# 	return JsonResponse(list(project), safe=False)
 
-	except:
-		return HttpResponse("Failed")
+	# except:
+	# 	return HttpResponse("Failed")
 
 def getCategory(request):
 	try:
@@ -251,3 +275,10 @@ def getCategory(request):
 
 	except:
 		return HttpResponse("Failed")
+
+def dictfetchall(cursor):
+      columns = [col[0] for col in cursor.description]
+      return [
+          dict(zip(columns, row))
+          for row in cursor.fetchall()
+      ]

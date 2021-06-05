@@ -20,10 +20,12 @@ class Developers(models.Model):
 	password = models.CharField(max_length=255)
 	photo = models.FileField(upload_to="media/")
 	uname = models.CharField(max_length=255, blank=True)
-
+	skills = models.TextField(blank=True)
+	aboutme = models.TextField(blank=True)
+	expertise = models.CharField(max_length=50,blank=True)
 
 	def __str__(self):
-		return self.email + " " + self.password + " " + self.photo + " " + self.uname
+		return self.email + " " + self.password + " " + self.photo + " " + self.uname + " " + self.skills + " " + self.aboutme + " " + self.expertise
 
 	def delete(self, *args, **kwargs):
 		self.photo.delete()
@@ -45,9 +47,10 @@ class Replies(models.Model):
 	post_id = models.IntegerField()
 	comment_id = models.IntegerField()
 	reply = models.TextField(blank=False)
+	date = models.CharField(max_length=50)
 
 	def __str__(self):
-		return self.commentor + " " + self.post_id + " " + self.comment_id + " " + self.reply
+		return self.commentor + " " + self.post_id + " " + self.comment_id + " " + self.reply + " " + self.date
 
 class Language(models.Model):
 	language = models.CharField(max_length=255)
@@ -55,12 +58,14 @@ class Language(models.Model):
 
 	def __str__(self):
 		return self.language + " " + self.category
+		
 class Frameworks(models.Model):
 	language_id = models.IntegerField(blank=False)
 	framework = models.CharField(max_length=255)
+	category = models.CharField(max_length=100)
 
 	def __str__(self):
-		return self.language_id + " " + self.framework
+		return self.language_id + " " + self.framework + " " + self.category
 		
 class Projects(models.Model):
 	project_name = models.CharField(max_length=255)
@@ -88,20 +93,22 @@ class Questions(models.Model):
 	language = models.CharField(max_length=155)
 	# language = models.ForeignKey(Language, on_delete=models.CASCADE)
 	date = models.CharField(max_length=50)
-	likes = models.IntegerField()
+	views = models.IntegerField()
 	category = models.CharField(max_length=255)
 	comments = models.IntegerField()
+	status = models.CharField(max_length=20)
+	tags = models.CharField(blank=True,max_length=255)
 	
 
 	def __str__(self):
-		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.date + " " + self.likes + " " + self.category + " " + self.comments
+		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.date + " " + self.views + " " + self.category + " " + self.comments + " " + self.status + " " + self.tags
 
-class QuestionTags(models.Model):
-	question_id = models.IntegerField()
-	tag = models.CharField(max_length=100, blank=False)
+# class QuestionTags(models.Model):
+# 	question_id = models.IntegerField()
+# 	tag = models.CharField(max_length=100, blank=False)
 
-	def __str__(self):
-		return self.question_id + " " + self.tag
+# 	def __str__(self):
+# 		return self.question_id + " " + self.tag
 		
 class Question_Category(models.Model):
 	category = models.CharField(max_length=50)

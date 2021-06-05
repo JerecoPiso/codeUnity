@@ -11,10 +11,9 @@
 			</div>
 			<div class="flex-item2">
 				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
-				<!-- <button class="btn-back" onclick="back()"> <span class="fa fa-arrow-left"></span> Back</button>
-				<button class="btn-home" onclick="home()"> <span class="fa fa-home"></span> Home</button> -->
+		
 				<div class="row clear-float">
-				<!-- 	-->
+				
 					<div class="col l6 s12 m12 xl6">
 
 						<div id="user-dp">
@@ -26,7 +25,7 @@
 							<!-- modal for changing profile photo -->
 							<div class="dpModal" v-if="changeDpModal">
 								<div class="modalHeader">
-									<p id="change-dp-title">Change Profile</p> <button  @click="changeDpModal=false" class="close">&times;</button>
+									<p id="change-dp-title">Change Profile</p> <button  @click="changeDpModal=false" id="close">&times;</button>
 								</div>
 								<div class="modalBody">
 									<form @submit.prevent="changeDp()">
@@ -60,10 +59,10 @@
 									<button v-if="password_save" class="save-btn" @click="editPassword()"> Save</button>
 								</div>
 									<div>
-										<label>Hint</label><br>
-									<input  type="text" value="jerecojamespiso@gmail.com" v-bind:disabled="editHintDisable">
-									<button v-if="!hint_save" @click="editHintDisable=false;editHint()"class="edit-btn">Edit</button>
-									<button  v-if="hint_save" class="save-btn" type="submit">Save</button>
+										<label>Username</label><br>
+									<input  type="text" value="jerecojamespiso@gmail.com" v-bind:disabled="editUnameDisable">
+									<button v-if="!uname_save" @click="editUnameDisable=false;editUname()"class="edit-btn">Edit</button>
+									<button  v-if="uname_save" class="save-btn" type="submit">Save</button>
 							
 									</div>
 									
@@ -89,15 +88,50 @@
 					</div>
 					<div class="col l12 m12 s12 xl12 other-info">
 						<div id="other-info">
-							<p>Other Information</p>
+							
+							<p class="p">Other Information</p>
 							<form>
 								{% csrf_token %}
-									
+								<label for="">Expertise</label>
+								<input type="text" v-model="expertise" placeholder="Your main skill">
 								<label>Skills</label><br>
-								<textarea></textarea>
-								<label>Work Experience (Optional)</label>
-								<input type="text" name="">
-								<button class="other-info-edit-btn">Edit</button>
+								<div class="row" >
+									<div class="col l6">
+										<ol style="max-width: 200px">
+									
+											<li v-for="(skill,index) in mySkills" style="font-size: 18px;">[skill] <button type="button" class="rm-skills-btn" @click="deleteMySkills(index,skill)">Remove</button></li>
+										</ol>
+									</div>
+									<div class="col l6">
+										<ol style="max-width: 200px">
+									
+											<li v-for="(skill,index) in rmSkills" style="font-size: 18px;">[skill.value] <button type="button" class="rm-skills-btn" @click="undoDeleteSkills(index,skill.value)">Undo</button></li>
+										</ol>
+									</div>
+								</div>
+							
+								<div style="border: 1px solid rgba(204, 204, 204,0.3);
+								width: auto;
+								height: auto; padding-bottom: 5px;">
+									<div class="skills">
+										<span v-for="(skill,index) in newSkills"  @click="deleteSkill(index)"  >[skill]</span>
+								
+									</div>	
+									<input type="text" style="	background: #eee;
+									border: 0;
+									margin: 10px 4px 4px 4px;
+									padding: 7px;
+									width: auto;
+									height: 17px;
+									border-radius: 0.2rem;" v-model="newSkill" @keyup="monitor" placeholder="Enter new skills . . .">
+								</div>
+								<label>About Me (Optional)</label>
+								<div style="margin-bottom: 7px;" v-html="summerNote">
+
+								</div>
+								<div  id="work-experience"></div>
+								<br>
+								<button class="other-info-edit-btn" type="button" @click="updateInfo()">Update</button>
 							</form>
 						</div>
 					</div>

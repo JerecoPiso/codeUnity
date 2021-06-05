@@ -47,19 +47,21 @@ body{
 }*/
 
 #upload-btn{
-	width: 40%;
+	width: 30%;
 	padding: 1.5%;
 	border: none;
 	background-color: rgb(0, 128, 128);
 	margin-top: 2%;
 	color: rgb(255,255,255);
-	margin-left: 30%;
+	margin-left: 35%;
+	font-size: 18px;
+	border-radius: 0.2rem;
 }
 .uploaded-project{
 	height: 60px;
 	background-color: rgb(57, 172, 115);
 	text-align: center;
-	border-radius: 0.5rem;
+	border-radius: 0.1rem;
 	margin-top: 2%;
 	padding-top: 2.2%;
 	margin-bottom: 3%;
@@ -89,4 +91,13 @@ body{
 }
 table, th, tr, td{
 	border: 1px solid rgb(204, 204, 204);
+}
+.switch-btn{
+	float: right;
+	margin-bottom: 5px;
+	padding: 5px 8px 5px 8px;
+	border: none;
+	background-color: rgb(0, 128, 128);
+	color: rgb(255, 255, 255);
+	border-radius: 0.2rem;
 }

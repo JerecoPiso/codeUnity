@@ -5,8 +5,8 @@
 	
 	{% include 'html/templates/header.html' %}
     
-        <div class="row" style="margin-top: 55px">
-            <div class="col l9 m8 s12">
+        <div class="row" style="margin-top: 55px" id="developers">
+            <div class="col l9 m8 s12"  style=" background-color: rgb(255,255,255);">
                 <input type="" id="search-div" placeholder="Search developer's expertise . . .">
 
                 <div class="row" style="clear: both;">
@@ -14,19 +14,14 @@
                     <div class="col l3">
                         <div class="card" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
                             <div class="card-image" style="padding: 15px">
-                              <img src="/media/{{dev.photo}}" style="max-height: 100px;border-radius: 50%;width: 110px;margin:auto;display: block;">
+                              <img src="/media/{{dev.photo}}" style="max-height: 80px;border-radius: 50%;width: 90px;margin:auto;display: block;">
                               <p class="center-align devname">{{dev.uname}}
 
                               </p>
-                              <p class="center-align" style="margin-top: 0;margin-bottom: -5px">( Backend Developer )</p>
+                              <p class="center-align" style="margin-top: 0;margin-bottom: -5px">( {{dev.expertise}} )</p>
                             </div>
                             <div class="card-skills ">
-                              <a href="">PHP</a>  
-                              <a href="">Javascript</a> 
-                              <a href="">PHP</a>
-                              <a href="">Django</a>  
-                              <a href="">Ruby on Rails</a> 
-                              
+                              <dev-skills skills="{{dev.skills}}"></dev-skills>
                             </div>
                             <div class="card-footer" >
                               <!-- <a href="#"><span class="fa fa-eye"></span> </a> -->
@@ -35,13 +30,33 @@
                        </div>
                     </div> 
                     {% empty %}
-                      <p>No Developers</p>
+                      <p class="no-devs">No Developers</p>
                     {% endfor %}
-                 
-                    
+               
         
                 </div>
-              
+                    <!-- <br> -->
+                    <div class="pagination">
+                      <span class="step-links">
+                        {% if page_obj.has_previous %}
+                          <a href="?page=1" style="font-size: 20px;margin-right: 10px;margin-left: 10px">&laquo; 1</a>
+                          <a href="?page={{ page_obj.previous_page_number }}" style="font-size: 20px;margin-right: 20px;">Prev</a>
+                        {% endif %}
+                    
+                      
+                        {% if page_obj.has_next %}
+                    
+                          <a href="?page={{ page_obj.next_page_number }}" style="font-size: 20px;margin-right: 10px;margin-left: 10px">Next</a>
+                          <a href="?page={{ page_obj.paginator.num_pages }}" style="font-size: 20px"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
+                        {% endif %}
+                        {% if devs %}
+                        <span class="current" style="float: right;;opacity: 0.6; font-size: 18px;padding: 1%;border-radius: 0.5rem;margin-top: -10px">
+                          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                        {% endif %}
+                    
+                      </span>
+                    </div> 
             </div>
 
             <div class="col l3 s12 m4">
@@ -54,8 +69,70 @@
                 </p>
                 <p class="filter-by">Developers Category :</p>
                 <div class="categories">
-                    <a href="">Backend</a>
+                    <a href="/developers/category/Backend">Backend</a>
                 </div>
+            </div>
+        </div>
+        <div class="row skills-categories-box" style="">
+            <div class="col l3">
+              <p class="devs-categories">Frontend Development</p>
+              <ul class="categories-skills">
+                {% for lang in languages %}
+                  {% if lang.category == "Front-End" %}
+                  <li><a href="/developers/skills/{{lang.language}}">{{lang.language}}</a></li>
+                  
+                  {% endif %}
+                {% endfor %}
+                {% for fw in frameworks %}
+                  {% if fw.category == "Front-End" %}
+                  <li><a href="/developers/skills/{{fw.framework}}">{{fw.framework}}</a></li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="col l3">
+              <p class="devs-categories">Backend Development</p>
+              <ul class="categories-skills">
+                {% for lang in languages %}
+                  {% if lang.category == "Back-End" %}
+                  <li><a href="/developers/skills/{{lang.language}}">{{lang.language}}</a></li>
+                  
+                  {% endif %}
+                {% endfor %}
+                {% for fw in frameworks %}
+                  {% if fw.category == "Back-End" %}
+                  <li><a href="/developers/skills/{{fw.framework}}">{{fw.framework}}</a></li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="col l3">
+              <p class="devs-categories">Mobile Development</p>
+              <ul class="categories-skills">
+                {% for lang in languages %}
+                  {% if lang.category == "Android Development" or lang.category == "iOS Development" %}
+                  <li><a href="/developers/skills/{{lang.language}}">{{lang.language}}</a></li>
+                  
+                  {% endif %}
+                {% endfor %}
+                {% for fw in frameworks %}
+                {% if fw.category == "Android Development" or lang.category == "iOS Development" %}
+                <li><a href="/developers/skills/{{fw.framework}}">{{fw.framework}}</a></li>
+                {% endif %}
+              {% endfor %}
+              </ul>
+            </div>
+           
+            <div class="col l3">
+              <p class="devs-categories">Desktop Development</p>
+              <ul class="categories-skills">
+               
+                {% for lang in languages %}
+                  {% if lang.category == "Desktop" %}
+                  <li><a href="/developers/skills/{{lang.language}}">{{lang.language}}</a></li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
             </div>
         </div>
 

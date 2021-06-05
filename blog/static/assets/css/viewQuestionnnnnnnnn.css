@@ -6,17 +6,26 @@
     margin-top: 5px;
     height: 400px;
 }
+.delreply{
+   
+    color: rgb(0, 153, 255);
+    background-color: transparent;
+    font-size: 16px;
+}
+
 .btn-reply{
     margin-left: 50px;
     border: none;
     color: rgb(0, 153, 255);
     background-color: transparent;
+    font-size: 16px;
 }
 
 .btn-delete{
     margin-left: 10px;
     color: rgb(0, 153, 255);
     border: none;
+    font-size: 16px;
     background-color: transparent;
 }
 cite{
@@ -42,8 +51,8 @@ cite{
      /* max-height: 7em; */
      overflow: hidden;
     /* line-height: 25px; */
-
-     margin-right: 50px;
+ 
+    margin-right: 50px;
      
     
 }
@@ -71,6 +80,7 @@ cite{
   font-size: 16px;
   color: rgb(92, 138, 138); */
 }
+
 .sec-comments{
     margin-left: 50px;
    
@@ -113,8 +123,9 @@ cite{
     left: 0;
     top: 0;
     z-index: 1;
-    /* display: none; */
+    display: none;
 }
+
 /* .MyModalReply{
     background-color: rgba(0, 0, 0, 0.4);
     height: 104%;;
@@ -125,14 +136,71 @@ cite{
     z-index: 1;
     display: none;
 } */
-.ModalDialog{
-    background-color: rgb(255,255,255);
-    height: auto;
-    width: 40%;
-    margin-left: 30%;
-    margin-top: 15%;
-    border-radius: 0.5rem;
-    
+@media(max-width: 360px){
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 35%;
+        border-radius: 0.5rem;
+        
+    }
+}
+@media(min-width: 361px) and (max-width: 560px){
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 35%;
+        border-radius: 0.5rem;
+        
+    }
+}
+@media(min-width: 561px) and (max-width: 768px){
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 12%;
+        border-radius: 0.5rem;
+        
+    }
+}
+@media(min-width: 769px) and (max-width: 991px){
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 70%;
+        margin-left: 18%;
+        margin-top: 35%;
+        border-radius: 0.5rem;
+        
+    }
+}
+@media(min-width: 992px) and (max-width: 1999px){
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 40%;
+        margin-left: 30%;
+        margin-top: 10%;
+        border-radius: 0.5rem;
+        
+    }
+}
+@media(min-width: 1200px){
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 40%;
+        margin-left: 30%;
+        margin-top: 10%;
+        border-radius: 0.5rem;
+        
+    }
 }
 .ModalHeaderAlert{
     padding: 10px;
@@ -286,4 +354,18 @@ cite{
 .err-login-first{
     color: rgb(255,0,0);
     font-size: 16px;
+}
+.show-more-reply{
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 153, 255);
+    margin-left: 43px;
+}
+.hide-replies{
+    margin-left: 93px;
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 153, 255);
+    margin-bottom: 20px;
+  
 }
