@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 # Create your models here.
 class User(models.Model):
-    username = models.CharField(max_length=40)
+    username = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     file = models.FileField(upload_to='media/', blank=True)
 
@@ -16,13 +16,13 @@ class User(models.Model):
         super().delete(*args,**kwargs)
 
 class Developers(models.Model):
-	email = models.CharField(max_length=50)
+	email = models.CharField(max_length=255)
 	password = models.CharField(max_length=255)
 	photo = models.FileField(upload_to="media/")
 	uname = models.CharField(max_length=255, blank=True)
 	skills = models.TextField(blank=True)
 	aboutme = models.TextField(blank=True)
-	expertise = models.CharField(max_length=50,blank=True)
+	expertise = models.CharField(max_length=255,blank=True)
 
 	def __str__(self):
 		return self.email + " " + self.password + " " + self.photo + " " + self.uname + " " + self.skills + " " + self.aboutme + " " + self.expertise
@@ -36,7 +36,7 @@ class Comments(models.Model):
 	commentor = models.IntegerField()
 	post_id = models.IntegerField()
 	comment = models.TextField(blank=True)
-	date = models.CharField(max_length=50)
+	date = models.CharField(max_length=255)
 	answer = models.TextField(blank=True)
 
 	def __str__(self):
@@ -47,14 +47,14 @@ class Replies(models.Model):
 	post_id = models.IntegerField()
 	comment_id = models.IntegerField()
 	reply = models.TextField(blank=False)
-	date = models.CharField(max_length=50)
+	date = models.CharField(max_length=255)
 
 	def __str__(self):
 		return self.commentor + " " + self.post_id + " " + self.comment_id + " " + self.reply + " " + self.date
 
 class Language(models.Model):
 	language = models.CharField(max_length=255)
-	category = models.CharField(max_length=50)
+	category = models.CharField(max_length=255)
 
 	def __str__(self):
 		return self.language + " " + self.category
@@ -62,7 +62,7 @@ class Language(models.Model):
 class Frameworks(models.Model):
 	language_id = models.IntegerField(blank=False)
 	framework = models.CharField(max_length=255)
-	category = models.CharField(max_length=100)
+	category = models.CharField(max_length=255)
 
 	def __str__(self):
 		return self.language_id + " " + self.framework + " " + self.category
@@ -71,7 +71,7 @@ class Projects(models.Model):
 	project_name = models.CharField(max_length=255)
 	uploader_id = models.IntegerField()
 	downloads = models.IntegerField(blank=True)
-	language = models.CharField(max_length=100,blank=True)
+	language = models.CharField(max_length=255,blank=True)
 	# language = models.ForeignKey(Language, on_delete=models.CASCADE)
 	about = models.TextField(blank=True)
 	photo = models.FileField(upload_to="media/", blank=True)
@@ -87,10 +87,10 @@ class Projects(models.Model):
 
 
 class Questions(models.Model):
-	question = models.CharField(max_length=355)
+	question = models.CharField(max_length=255)
 	asker_id = models.IntegerField(null=True)
 	code = models.TextField(blank=True)
-	language = models.CharField(max_length=155)
+	language = models.CharField(max_length=255)
 	# language = models.ForeignKey(Language, on_delete=models.CASCADE)
 	date = models.CharField(max_length=255)
 	views = models.IntegerField()
