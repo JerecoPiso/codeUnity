@@ -92,11 +92,11 @@ class Questions(models.Model):
 	code = models.TextField(blank=True)
 	language = models.CharField(max_length=155)
 	# language = models.ForeignKey(Language, on_delete=models.CASCADE)
-	date = models.CharField(max_length=50)
+	date = models.CharField(max_length=255)
 	views = models.IntegerField()
 	category = models.CharField(max_length=255)
 	comments = models.IntegerField()
-	status = models.CharField(max_length=20)
+	status = models.CharField(max_length=255)
 	tags = models.CharField(blank=True,max_length=255)
 	
 
@@ -111,7 +111,7 @@ class Questions(models.Model):
 # 		return self.question_id + " " + self.tag
 		
 class Question_Category(models.Model):
-	category = models.CharField(max_length=50)
+	category = models.CharField(max_length=255)
 
 	def __str__(self):
 		return self.category
