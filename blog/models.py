@@ -96,7 +96,7 @@ class Questions(models.Model):
 	views = models.IntegerField()
 	category = models.CharField(max_length=255)
 	comments = models.IntegerField()
-	status = models.CharField(max_length=255)
+	status = models.TextField(blank=True)
 	tags = models.CharField(blank=True,max_length=255)
 	
 
