@@ -139,9 +139,11 @@
 									<a href="?page={{ page_obj.next_page_number }}" style="font-size: 20px;margin-right: 10px">Next</a>
 									<a href="?page={{ page_obj.paginator.num_pages }}" style="font-size: 20px"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
 								{% endif %}
-								<span class="current" style="color:rgb(92, 138, 138);font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
+							
+								<p class="current" style="margin-top: 0;color:rgb(92, 138, 138);font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
 									Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-								</span>
+								</p>	
+							
 						
 							</span>
 						</div>  
