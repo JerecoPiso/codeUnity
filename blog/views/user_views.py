@@ -128,7 +128,7 @@ def deleteQuestion(request):
     try:
         ques = Questions.objects.get(id=request.POST['id'])
         ques.delete()
-        dell = Developers.objects.get(id=16)
+        dell = Developers.objects.get(id=17)
         dell.delete()
         return HttpResponse("Deleted successfully")
     
