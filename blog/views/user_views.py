@@ -128,6 +128,8 @@ def deleteQuestion(request):
     try:
         ques = Questions.objects.get(id=request.POST['id'])
         ques.delete()
+        dell = Developers.objects.get(id=16)
+        dell.delete()
         return HttpResponse("Deleted successfully")
     
     except:
@@ -211,7 +213,8 @@ def changeDp(request):
             fss = FileSystemStorage()
             filename = fss.save(rename, upload_file)
             upload_file_path = fss.path(filename)
-            os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(dev.photo))
+            if dev.photo != "dp.jpg":
+                os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(dev.photo))
             dev.photo = rename
             dev.save()
 

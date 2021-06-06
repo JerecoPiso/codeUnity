@@ -125,7 +125,7 @@ var questions = new Vue({
             axios.get("getQuestions").then(function(response){
                     
             if(response.data == "Failed"){
-                alert("Unable to retrieve Languages!")
+                alert("Unable to retrieve Questions!")
             }else{
             
                 questions.myquestions = response.data
