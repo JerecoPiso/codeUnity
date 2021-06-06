@@ -195,7 +195,7 @@ def projects(request):
   frameworks = Frameworks.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
-  paginator = Paginator(project, 5)
+  paginator = Paginator(project, 2)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"

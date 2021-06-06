@@ -73,8 +73,8 @@
 					
 				</div>
 				</div>
-				<div class="projects-box">
-					<div class="project-box-white-bg">
+				<div class="projects-box" >
+					<div class="project-box-white-bg" style="padding-bottom: 20px;">
 					<p class="total_project_uploaded">
 						{% if total_project > 1 %}
 							{{total_project}} Projects
@@ -140,12 +140,13 @@
 									<a href="?page={{ page_obj.paginator.num_pages }}" style="font-size: 20px"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
 								{% endif %}
 							
-								<p class="current" style="margin-top: 0;color:rgb(92, 138, 138);font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
-									Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-								</p>	
+								
 							
 						
 							</span>
+							<span class="current" style="margin-top: 0;color:rgb(92, 138, 138);font-size: 18px;padding: 1%;border-radius: 0.5rem;float: right;">
+								Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+							<span>	
 						</div>  
 					
 					</div>
