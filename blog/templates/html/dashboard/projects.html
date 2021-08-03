@@ -3,26 +3,26 @@
 {% block body %}
 	
 	<div class="row mt-1" id="projects-dash">
-			<h5 class="manage"><span class="fa fa-folder"></span> <span id="total-project">| 2000 Projects |</span></h5>
+			<h5 class="manage"><span class="fa fa-folder"></span> <span id="total-project">| [totalProjects] |</span></h5>
 
 			<div class="col l12 s12 m12 xl12 mt-3" id="table-div">
-				<div class="row" style="margin-left: -12px;margin-bottom: -3%;margin-right: -12px;">
-                    <div class="col l6 m6 s12" >
-						
-						<select class="browser-default" id="opt">
+				
+				<div class="row" id="filter-search">
+                    <div class="col l6 m6 s12" >	
+						<select class="browser-default" v-model="selectedLanguage" id="opt" @change="filterValue()">
 							<option value="" disabled selected>Filter by Language</option>
 							<option v-for="lang in languages">[lang.language]</option>
 						
 						</select>
-        
+						
                     </div>
                     <div class="col l6 m6 s12">
-                      					
-						<input type="text" id="search-project" placeholder="Search project ..." >
-				
+						<button type="button" @click="filter = ''" style="float: right">Clear</button>
+						<input type="text" id="search-project" v-model="filter" placeholder="Search project ..." >
+					
                     </div>
                 </div>
-				
+			
 				<table class="bordered responsive-table" id="table">
 					<thead>
 						<tr>
@@ -31,20 +31,15 @@
 							<th>Downloads</th>
 							<th>Language</th>
 							<th>Developer</th>
-							
-						
-							
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="project in toShowProjects">
+						<tr v-for="(project, index) in filterProject" :key="index" v-if="index < projectToShowCtr">
 							<td>[project.id]</td>
 							<td>[project.project_name]</td>
 							<td>[project.downloads]</td>
 							<td>[project.language]</td>
-							<td>[project.uname]</td>
-						
-							
+							<td>[project.uname]</td>	
 						</tr>
 						
 					</tbody>
@@ -52,14 +47,51 @@
 				</table>
 
 				<b class="show">Show</b>
-					<select class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
-						<option value="1">25</option>
-						<option value="2">50</option>
-						<option value="3">100</option>
+					<select v-model="projectToShowCtr"  class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
+						<option v-for="(toShow, index) in limitToShow" :value="toShow" :key="index">[toShow]</option>
+						
 					</select>
-					<b class="entries" style="" >Entries 
+					<b class="entries">Entries 
 					
 				</b>
+			
+			
+			
+			</div>
+			<div class="row" style="clear: both;">
+				<div class="col l6 xl6 m12 s12 xs12">
+					<ul class="collection countLanguageProjects">
+						<p class="noOfProjectsByLanguage">No. of Projects by Language</p>
+						{% for count in projectsLanguage %}
+	
+							<li class="collection-item">{{count.language}} <span>| {{count.language_count}}
+								
+								{% if count.language_count == 1 %}
+										Project
+								{% else %}
+										Projects 
+								{% endif %}
+								|</span> </li>
+	
+	
+						{% endfor %}
+						
+					</ul>
+				</div>
+				<div class="col l6 xl6 m12 s12 xs12">
+					<ul class="collection latestProjects">	
+						<p>Latest Projects</p>
+						{% for count in latestProjects %}
+		
+							<li class="collection-item">{{count.project_name}}</li>
+		
+						{% endfor %}
+		
+					</ul>
+					
+				</div>
+			
+				
 			</div>
 	</div>
  

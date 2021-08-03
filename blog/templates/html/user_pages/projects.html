@@ -15,8 +15,21 @@
 				<div class="row clear-float">
 					
 					<div class="col l12 s12 m12 xl12" id="projects" >
-	
-						<div class="MyModal" v-if="modalDel">
+						<div id="promptModal">
+							<div class="responseModal">
+								<div class="modalHeader">
+
+								
+									<button @click="closePromptModal()" class="close-file">&times;</button>
+								</div>
+								<div class="modalBody">
+									<span v-if="modalLogo == 'err'" class="fa fa-exclamation err"></span>
+									<span v-else class="fa fa-check success"></span>
+									<p class="center-align promptMsg" >[responseMsg]</p>
+								</div>
+							</div>
+						</div>
+						<div class="MyModal" id="deleteProjectModal">
 							<div class="ModalDialog">
 								<div class="ModalHeader">
 									<span class="fa fa-exclamation"></span>
@@ -26,9 +39,8 @@
 								</div>
 								<div class="ModalFooter">
 									<button class="btn-ok" @click="deleteProject()">OK</button>
-									<button class="btn-cancel" @click="modalDel = false;">Cancel</button>
-									
-									
+									<button class="btn-cancel" @click="showDeleteModal('hide')">Cancel</button>
+
 								</div>
 							</div>
 						</div>
@@ -53,9 +65,10 @@
 									<td>[p.downloads]</td>
 									
 									<td>[p.views]</td>
-									<td style="overflow: auto"><a type="button" class="btn-view" v-bind:href="url+p.project_name"><span class="fa fa-eye"></span></a >
-										<button class="btn-edit"><span class="fa fa-edit"></span></button>
-										<button class="btn-delete" @click="id = p.id;modalDel = true;"><span class="fa fa-trash"></span></button></td>
+									<td style="overflow: auto;max-width: 150px;">
+										<a type="button" class="btn-view" v-bind:href="url+p.project_name"><span class="fa fa-eye"></span> View</a >
+										<button class="btn-edit" @click="updateProject(p.project_name, p.language, p.id)"><span class="fa fa-edit"></span> Edit</button>
+										<button class="btn-delete" @click="showDeleteModal('show');id = p.id;"><span class="fa fa-trash"></span> Delete</button></td>
 								  </tr>
 								
 								</tbody>
@@ -65,12 +78,44 @@
 								
 						
 					</div>
+
+					
 					<!-- id projects end -->
 					
 				</div>
 				<!-- class row clear-float end -->
-				<div id="files" >
-					<div class="MyModal" v-if="modalErr">
+				<div id="files">
+					<div class="updateModal">
+						<div class="formEditModal">
+							<div class="modalHeader">
+								<p class="modal-title">Update Project</p>
+								<button class="btn-close" @click="closeEditModal()">&times;</button>
+							</div>
+							<div class="ModalContent">
+								<form @submit.prevent="editProject()">
+									<label for="">Project Name</label>
+									<input type="text" v-model="editProjectInfo.project_name">
+									<label for="">Language</label>
+									<select class="browser-default" id="" v-model="editProjectInfo.lang">
+										<optgroup>
+											<option value="" disabled selected>Select Language</option>
+											<option v-for="lang in languages" v-bind:value="lang.language">[ lang.language ]</option>
+										</optgroup>
+										<optgroup>
+											<option value="" disabled selected>Select Framework</option>
+											<option v-for="fw in frameworks" v-bind:value="fw.framework">[ fw.framework ]</option>
+										</optgroup>
+									  </select>
+									  <button class="btn-update"> <span class="fa fa-edit"></span> Update</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+
+
+					
+					<div class="MyModal" id="size-limit" >
 						<div class="ModalDialog">
 							<div class="ModalHeader">
 								<span class="fa fa-exclamation"></span>
@@ -79,32 +124,62 @@
 								<p>File size must not exceed over 10MB!</p>
 							</div>
 							<div class="ModalFooter">
-								<button class="btn-ok" @click="modalErr = false">OK</button>
+								<button class="btn-ok" @click="closeSizeLimit()">OK</button>
 							</div>
 						</div>
 					</div>
 					<p class="upload-proj">Upload a Project</p>
-					<form  @submit.prevent="file()">
+					
+					<form  @submit.prevent="uploadProject()">
 					   {% csrf_token %}
 						  <div>
 							  <label>Folder</label><br>
-							  <input type='file' webkitdirectory ref="file" @change="handleFileUpload()" ><br> 
-							  <label>About</label>
+							  <!-- <div class="customFile">
+								<span class="folder">Select Folder</span>
+								<input type='file' id="projectFile" webkitdirectory ref="file" @change="handleFileUpload()" >
+								
+							  </div> -->
+							  <div class="file-field input-field">
+								<div class="btn">
+								  <span>Folder</span>
+								  <input type="file" webkitdirectory ref="file" @change="handleFileUpload()">
+								</div>
+								<div class="file-path-wrapper">
+								  <input class="file-path validate" type="text" :placeholder="placeHolder">
+								</div>
+							</div>
+							  <!-- <input type='file' id="projectFile" webkitdirectory ref="file" @change="handleFileUpload()" ><br>  -->
+							  <label >About</label>
 							  <div  id="about"></div>
 							  <label>More</label>
 							  <div  id="more"></div>
 							  <label>Photo</label> <br>
-							  <input type='file'  ref="photo" @change="photo()"><br> 
-							  <label v-if="toShowLang">Language(Optional)</label> <button class="switch-btn"  @click="change()" v-html="text"></button>
-							  <select v-if="toShowLang" class="browser-default" id="select" v-model="language">
-								<option value="" disabled selected>Select Language</option>
-								<option v-for="lang in languages" v-bind:value="lang.language">[ lang.language ]</option>
+							  <!-- <input type='file'  ref="photo" @change="photo()"><br>  -->
+							  <div class="file-field input-field">
+								<div class="btn">
+								  <span>Photo</span>
+								  <input type="file"  ref="photo" @change="photo()">
+								</div>
+								<div class="file-path-wrapper">
+								  <input class="file-path validate" type="text" :placeholder="appPhotoName">
+								</div>
+							  </div>
+							  <label>Language(Optional)</label>
+							  <select class="browser-default" id="select" v-model="language">
+								<optgroup>
+									<option value="" disabled selected>Select Language</option>
+									<option v-for="lang in languages" v-bind:value="lang.language">[ lang.language ]</option>
+								</optgroup>
+								<optgroup>
+									<option value="" disabled selected>Select Framework</option>
+									<option v-for="fw in frameworks" v-bind:value="fw.framework">[ fw.framework ]</option>
+								</optgroup>
 							  </select>
-							  <label v-if="!toShowLang">Framework(Optional)</label>
+							  <!-- <label v-if="!toShowLang">Framework(Optional)</label>
 							  <select v-if="!toShowLang" class="browser-default" id="select" v-model="language">
 								<option value="" disabled selected>Select Framework</option>
 								<option v-for="fw in frameworks" v-bind:value="fw.framework">[ fw.framework ]</option>
-							  </select>
+							  </select> -->
 						  </div>
 				   
 					   <button  type="submit" id="upload-btn">Upload Project <span class="fa fa-upload"></span> </button>

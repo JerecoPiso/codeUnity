@@ -2,15 +2,18 @@
 
 {% block main_page %}
 	{% include 'html/templates/header.html' %}
+	
 			<div class="project-container-box">
 				<div class="languages-box">
 					
 					<button id="close-show">&times;</button>
-				
+					<!-- <div class="download">
+						<button @click="download()">Download</button>
+					</div> -->
 					<div id="languages">
 						
 					
-						<p class="languages">Frontend</p>
+						<p class="languages">Frontend Development</p>
 						 {% for lang in languages %}	
 						 	{% if lang.category == "Front-End" %}
 							<li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
@@ -21,7 +24,7 @@
 								<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 							{% endif %}
 				   		{% endfor %}
-						<p class="languages">Backend</p>
+						<p class="languages">Backend Development</p>
 						 {% for lang in languages %}	
 						 	{% if lang.category == "Back-End" %}
 							<li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}}  </a> </li>
@@ -32,7 +35,7 @@
 								<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 							{% endif %}
 					    {% endfor %}
-						<p class="languages">Android</p>
+						<p class="languages">Mobile Development</p>
 						{% for lang in languages %}	
 							{% if lang.category == "Android Development" %}
 						   <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
@@ -43,8 +46,19 @@
 							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 						{% endif %}
 					   {% endfor %}
+					   {% for lang in languages %}	
+					   {% if lang.category == "iOS Development" %}
+					  	<li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
+					   {% endif %}
+						{% endfor %}
 
-					   <p class="languages">Desktop</p>
+						{% for fw in frameworks %}	
+						{% if fw.category == "iOS Development" %}
+							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
+						{% endif %}
+						{% endfor %}
+
+					   <p class="languages">Desktop Development</p>
 					   {% for lang in languages %}	
 						   {% if lang.category == "Desktop" %}
 						  <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}}  </a> </li>
@@ -55,7 +69,7 @@
 							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 						{% endif %}
 					   {% endfor %}
-					  <p class="languages">iOS Development</p>
+					  <!-- <p class="languages">iOS Development</p>
 					   {% for lang in languages %}	
 						   {% if lang.category == "iOS Development" %}
 						  <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
@@ -67,7 +81,7 @@
 						  <li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 					  {% endif %}
 					 {% endfor %}
-				   
+				    -->
 					
 				
 					
@@ -93,6 +107,7 @@
 						<button type="submit" class="searchBtn"><span class="fa fa-search" style="font-size: 25px;opacity: 0.7;"></span></button>
 					</form>
 					<div class="projects-div clear-float">
+					
 						{% for project in projects %}
 						<div class="project-box">
 							<a href="/viewProject/{{project.id}}" class="app-title">{{ project.project_name }}</a>
@@ -100,25 +115,26 @@
 							 <div class="project-img"><img src="/media/{{project.photo}}" style="border: 1px solid white"></div>
 								 <div>
 									
-									<p style="margin-top: -5px;font-size: 18px" >{{ project.about|safe }}</p>
+									<p style="margin: 0;font-size: 18px" >{{ project.about|safe }}</p>
 									
 								</div> 
 								
 							</div>
 					
 								<!-- <my-componente skills="{{project.project_name}}"></my-componente> -->
-								<div class="project-info-btn">
+								<div class="project-info-btn" id="download">
 									{% if project.downloads > 1%}
-									<button >{{project.downloads}} Downloads </button>
+									<button id="{{project.project_name}}">{{project.downloads}} Downloads </button>
 									{% else %}
-									<button >{{project.downloads}} Download </button>
+									<button id="{{project.project_name}}">{{project.downloads}} Download </button>
 									{% endif %}
 									{% if project.views > 1%}
 									<button>{{project.views}} Views</button>
 									{% else %}
 									<button>{{project.views}} View</button>
 									{% endif %}
-										<a href="/download/{{ project.project_name }}" class="download-app"> <span class="fa fa-download"></span></a>								
+									<!-- href="/download/{{ project.project_name }}" -->
+									<button  @click="download('{{project.project_name}}')" class="download-app"> <span class="fa fa-download"></span></button>								
 								</div>
 								
 						

@@ -38,19 +38,21 @@ class Comments(models.Model):
 	comment = models.TextField(blank=True)
 	date = models.CharField(max_length=255)
 	answer = models.TextField(blank=True)
+	status = models.CharField(blank=True,max_length=255)
 
 	def __str__(self):
-		return str(self.commentor) + " " + str(self.post_id) + " " +  self.comment + " " + self.date + " " + self.answer
-
+		return str(self.commentor) + " " + str(self.post_id) + " " +  self.comment + " " + self.date + " " + self.answer + " " + self.status
+	
 class Replies(models.Model):
 	commentor = models.IntegerField()
 	post_id = models.IntegerField()
 	comment_id = models.IntegerField()
 	reply = models.TextField(blank=False)
 	date = models.CharField(max_length=255)
+	status = models.CharField(blank=True,max_length=255)
 
 	def __str__(self):
-		return self.commentor + " " + self.post_id + " " + self.comment_id + " " + self.reply + " " + self.date
+		return self.commentor + " " + self.post_id + " " + self.comment_id + " " + self.reply + " " + self.date + " " + self.status
 
 class Language(models.Model):
 	language = models.CharField(max_length=255)
@@ -96,22 +98,47 @@ class Questions(models.Model):
 	views = models.IntegerField()
 	category = models.CharField(max_length=255)
 	comments = models.IntegerField()
-	status = models.CharField(max_length=255)
+	status = models.CharField(blank=True,max_length=255)
 	tags = models.CharField(blank=True,max_length=255)
 	
 
 	def __str__(self):
 		return self.question + " " + self.asker_id + " " + self.code + " " + self.language + " " + self.date + " " + self.views + " " + self.category + " " + self.comments + " " + self.status + " " + self.tags
 
-# class QuestionTags(models.Model):
-# 	question_id = models.IntegerField()
-# 	tag = models.CharField(max_length=100, blank=False)
+class Users_Device(models.Model):
+	device_name = models.CharField(max_length=255)
+	total_users = models.IntegerField()
 
-# 	def __str__(self):
-# 		return self.question_id + " " + self.tag
+	# def save(self, *args, **kwargs):
+	# 	if self.device_name != "Desktop" and  self.device_name != "Laptop" and self.device_name != "Tablet" and self.device_name != "Mobile" and  self.device_name != "laptop" and  self.device_name != "desktop" and  self.device_name != "mobile" and  self.device_name != "tablet":
+	# 		return "Not Matched!"
+	# 	else:
+	# 		super().save(*args, *kwargs)
+
+	def __str__(self):
+		return self.device_name
+
 		
 class Question_Category(models.Model):
 	category = models.CharField(max_length=255)
 
 	def __str__(self):
 		return self.category
+
+class Yearly_Visitors(models.Model):
+	year = models.IntegerField()
+	total_visitors = models.IntegerField()
+
+	def __str__(self):
+		return self.year + " " + self.total_visitors
+
+class Notifications(models.Model):
+	notification = models.CharField(max_length=255)
+	notified_id = models.IntegerField(null=False)
+	notification_category = models.TextField(null=True)
+	date = models.CharField(null=True,max_length=255)
+	status = models.CharField(null=True,max_length=25)
+
+	def __str__(self):
+		return self.notification + " " + self.notified_id + " " + self.notification_category +  " " + self.date + " " + self.status
+

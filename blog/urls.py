@@ -15,13 +15,22 @@ urlpatterns = [
      url(r'^logout/(?P<questionId>.+)$', views.logout, name="Projects"),
      # url(r'^questions/filter/(?P<filter>.+)$', views.filterQuestions, name="Search Question"),
      # url(r'^questions/tags/(?P<tag>.+)$', views.getQuestionByTags, name="Search Question"),
-     url(r'^questions/(?P<toGetQuestion>.+)/(?P<value>.+)$', views.getQuestion, name="Search Question"),
-     url(r'^questions/(?P<toSearch>.+)$', views.searchQuestion, name="Search Question"),
      
+     url(r'^questions/(?P<toGetQuestion>.+)/(?P<value>.+)$', views.getQuestion, name="Search Question"),
+     url(r'^question/(?P<id>.+)$', views.viewQuestion, name="View Question"),
+     url(r'^questions/(?P<toSearch>.+)$', views.searchQuestion, name="Search Question"),
+
+
+     
+
      url(r'^questions', views.questions, name="Questions"),
+     url(r'^setAnswered', views.setAnswer, name="setAnsdfsdfswer"),
+     url(r'^setUnanswered', views.setUnanswered, name="setAnsdfsdfswer"),
      url(r'^login/(?P<redirectTo>.+)$', views.login, name="Questions"),
      url(r'^userLogin/(?P<redirectTo>.+)$', views.userLogin, name="Questions"),
      url(r'^verified', views.verified, name="Verified"),
+
+     url(r'^developers/search/(?P<search>.+)$', views.searchDevs, name="Search"),
 
      # url(r'^userLogin', views.userLogin, name="User Login"),
      url(r'^developers/(?P<toGetDevelopers>.+)/(?P<value>.+)$', views.getDevelopers, name="Questions"),
@@ -33,5 +42,6 @@ urlpatterns = [
      url(r'^deleteReply', views.deleteReply, name="Delete Reply"),
      url(r'^reply', views.reply, name="Reply"),
      url(r'^viewProject/(?P<id>.+)$', views.viewProject, name="View Project"),
-     url(r'^viewQuestion/(?P<id>.+)$', views.viewQuestion, name="View Question")
+     
+     # url(r'^viewQuestion/(?P<id>.+)$', views.viewQuestion, name="View Question")
 ]

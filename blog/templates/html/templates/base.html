@@ -10,18 +10,18 @@
 
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/innddddexxedddddddddddd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/index.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionstttttttttttttt.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionsz.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectsvv.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectsz.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Developers' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developer.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewProject' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projectteddd.css' %}">
@@ -31,11 +31,37 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-tomorroww.css' %}">
 	<!-- <link rel="stylesheet" type="text/css" href="{% static 'assets/css/prismmm.css' %}"> -->
 
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/viewQuestionnnnn	nnnn.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/viewQuess.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">
 	{% endif %}
 </head>
 <style>
+	.spinner1{
+		width: 100%;position: fixed;top: 0;bottom: 0;z-index: 2;padding-top: 20%;background-color: rgb(0,128,128);
+	}
+	#loader {
+            border: 12px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 12px solid #444444;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s linear infinite;
+        }
+          
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+          
+        .center {
+            /* position: absolute; */
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
  .rep{
 	 border: 2px solid red;
  }
@@ -56,9 +82,26 @@
 	max-height: 400px;
 	overflow: auto;
 	border-radius: 0.3rem;
-	width: 100%
+	width: 100%;
+	margin-top: 5px;
+	border-radius: 0.1rem;
   }
-
+  .my-editor2 {
+    /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+    background: #2d2d2d;
+    color: #ccc;
+	
+    /* you must provide font-family font-size line-height. Example:*/
+    font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 5px;
+	max-height: 400px;
+	overflow: auto;
+	border-radius: 0.3rem;
+	width: 100%;
+	margin-top: 5px;margin-left: 50px;border-radius: 0.1rem;max-width: 70%
+  }
   /* optional class for removing the outline */
   .prism-editor__textarea:focus {
     outline: none;
@@ -82,20 +125,32 @@
 	#tags .tag-link:hover{
 		border-bottom: none
 	}
+	.header-extra-style{
+		top: 0;position: fixed;z-index: 1
+	}
   </style>
 <body>
+	<div class="spinner1">
 
+		<div id="loader" class="center">
+
+		</div>
+	</div>
 	{% block main_page %}
     
-
     {% endblock %}
 
 <script type="text/javascript" src="{% static 'assets/js/jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
+{% if request.session.title == 'Home' %}
+<script type="text/javascript" src="{% static 'assets/js/index.js' %}"></script>
+{% endif %}
 {% if request.session.title == 'viewQuestion' %}
-<script type="text/javascript" src="{% static 'assets/js/p.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/prism.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue-prism-editorr.js' %}"></script>
+<script src="{% static 'assets/js/viewQuestionxc.js' %}"></script>
+
 {% endif %}
 <script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/moment.js' %}"></script>
@@ -214,10 +269,16 @@
 	new Vue({
 		el: "#developers",
 		data:{
-
+			search: ''
 		},
 		components:{
 			"dev-skills": developers_skills
+		},
+		methods:{
+			searchDevs: function(){
+				
+				window.location.href="/developers/search/"+this.search
+			}
 		}
 	})
 	new Vue({
@@ -289,415 +350,7 @@
 		}
 	})
 
-	var app = new Vue({
-		delimiters: ['[', ']'],
-		el: "#app",
-		data: function(){
-			return{
-				ques_code: '',
-				lang: '',
-				
-				
-			}
-			
-		
-		},
-		
-		mounted: function(){
-			this.ques_code = $("#cd").val()
-			this.lang = $("#lang").val()
-			// this.commentTotal = comments.commentTotal
-			// alert(this.commentTotal)
-			// alert(comments.commentTotal)
-		},
-		methods: {
-		
-			highlighter(code) {
-      	
-		  		return Prism.highlight(code, Prism.languages.js, this.lang)
-			},
-			
-		}
-		
-	})
-	Vue.component('date-posted',{
-	delimiters: ['[', ']'],
-		props:{
-		
-			posted: String
-		},
-		data: function(){
-			return {
-				post: this.posted,
-				date: ''
-			}
-		},
-		mounted: function(){
 
-			this.date = this.getDate(this.post)
-		
-
-		},
-		methods: {
-			getDate: function(val){
-				// alert(val)
-				var now = moment().year()+"-"+(moment().month()+1)+"-"+moment().date()+" "+moment().hour()+":"+moment().minutes()+":"+moment().seconds() 
-				var currDate = moment(now)
-				var dateToTest = moment(val);				 
-				var years = currDate.diff(dateToTest, 'years')
-				var months = currDate.diff(dateToTest, 'months')
-				var weeks = currDate.diff(dateToTest, 'weeks')
-				var days = currDate.diff(dateToTest, 'days')
-				var hours = currDate.diff(dateToTest, 'hours')
-				var minutes = currDate.diff(dateToTest, 'minutes')
-				   // check year if less than or equal to 1
-				   if(years <= 1){
-				   	  // check months if less than 1
-				   	  if (months < 12) {
-				   	  		// check if months is less than or equal to 1
-				   			if(months <= 1){
-				   				// check if weeks
-				   				if (weeks > 4) {
-				   					return(months+" month ago")
-				   				// check if weeks is greater than 1 and less than 5
-				   				}else if (weeks > 1 && weeks < 5){
-
-				   					return(weeks+" weeks ago")
-
-				   				}else{
-				   					// check if weeks is equal to 1 and days is equal to 7
-				   					if (weeks == 1 && days == 7) {
-
-				   						return(weeks+" week ago")
-
-				   					}else{
-				   						// check if days is greater than 1 and days is less than 7
-				   						if (days > 1 && days < 7) {
-				   							return(days+" days ago")
-				   						}else{
-				   							// check if days is equal to 1 and hours is equal to 24
-				   							if(days == 1){
-				   							
-				   								return(days+" day ago")
-				   								
-				   							}else{
-
-				   								if(hours > 1 && hours < 24){
-				   									return(hours+" hours ago")
-				   								}else if(hours >= 24){
-				 									var day = hours/24
-
-				   										if(Math.floor(day) > 1){
-				   											return(Math.floor(day)+" days ago")
-				   										}else{
-				   											return(Math.floor(day)+" day ago")
-				   										}
-
-				   								}else{
-
-				   									if(minutes == 60 && hours == 1){
-				   										return(hours+" hour ago")
-				   									}else if(minutes >= 60){
-				   										var hour = minutes/60
-
-				   										if(Math.floor(hour) > 1){
-				   											return(Math.floor(hour)+" hours ago")
-				   										}else{
-				   											return(Math.floor(hour)+" hour ago")
-				   										}
-
-				   									}else{
-				   										if (minutes > 1 && minutes == 60) {
-				   											return(minutes+" minutes ago")
-				   										}else{
-															   if(minutes == 1){
-																return(minutes+" minute ago")
-															   }else if(minutes == 0){
-																return("Now")
-															   }else{
-																return(minutes+" minutes ago")
-															   }
-				   											
-				   										}
-				   									}
-				   								}
-				   								
-				   							}
-				   						
-				   						}
-				   					}
-				   					
-				   				}
-
-				   			}else{
-				   				return(months+" months ago")
-				   			}
-				   		}else{
-				   			return(years +" year ago")
-				   		}
-				   }else{
-				   		return(years+ " years ago")
-				   }
-				   
-			}
-		},
-		template: "<span>[date]</span>"
-
-	});
-	var comments = new Vue({
-	  delimiters: ['[', ']'],
-	  el: "#comment-section",
-	 
-	  data(){
-		  return{
-			code: String,
-			commentInfo: [],
-			commentTotal: 0,
-			// comment
-			comment: '',
-			// text area for the code
-			editor: false,
-			
-			replies: [],
-			// comment id
-			comId: '',
-			// post id
-			srcImg: '/media/',
-			flashMsg: '',
-			// used to hide and show the reply popup box
-			// replyModal: false,
-			replyInfo: {question_id: '', comment_id: '', commentor_id: '', reply: ''},
-			// reply id
-			replyId: '',
-			// question id
-			qID: '',
-			// the modal 
-			// popUpAlert: false,
-			// what action to perform in the modal 
-			actionToPerform: '',
-			// extension for the message in the modal content on which data will be deleted
-			promptMsgExtension: '',
-			btnDisable: true,
-			questionId: '',
-		
-			lang: String,
-			commentIndex: 0,
-			replyClass: "haha",
-			viewQuestion: '',
-			lim: [],
-		
-	}
-
-	  },
-	//   beforeCreate: function(){
-	// 	this.replyModal = false
-
-	//   },
-	  mounted: function(){
-		//   console.log(this.lim[0])
-		this.qID = $("#post-id").val()
-		// alert($("#post-id").val())
-		this.getComments($("#post-id").val())
-		this.getReplies($("#post-id").val())
-		
-		this.lang = $("#lang").val()
-	  },
-	
-	  methods:{
-		  showHideDeleteModal(status){
-			if(status == "show"){
-				$("#deleteModall").show()
-			}else{
-				$("#deleteModall").hide()
-			}
-		  },
-		  showHideReplyModal(status){
-			if(status == "show"){
-				$("#replyModall").show()
-			}else{
-				$("#replyModall").hide()
-			}
-			
-			
-		  },
-		  limitShownReply(index){
-			if(this.lim[index] == 'false'){
-				Vue.set(this.lim,index,'true')
-			}else{
-				Vue.set(this.lim,index,'false')
-			}
-			
-		  },
-		 
-		  reply(com,id){
-			  let newReplies = []
-					for(var i = 0; i < com.length; i++){
-						if(com[i].comment_id == id){
-							newReplies.push(com[i])
-						}
-					
-					}
-				
-			  	return newReplies
-				
-
-		  },
-		highlighter: function(code) {
-			// alert(comments.code)
-			// var inp = code.replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi,'').replace(/<[^>]+?>/g,'').replace(/\s+/g,' ').replace(/ /g,' ').replace(/>/g,' '); 
-		 	 return Prism.highlight(code, Prism.languages.js, this.lang);
-		},
-		  	// adding reply
-		  secComment: function(){
-			 let data = new FormData()
-			 var now = moment().year()+"-"+(moment().month()+1)+"-"+moment().date()+" "+moment().hour()+":"+moment().minutes()+":"+moment().seconds() 
-			 data.append("post_id", comments.replyInfo.question_id)
-			 data.append('comment_id', comments.replyInfo.comment_id)
-			 data.append('commentor_id', comments.replyInfo.commentor_id)
-			 data.append('reply', comments.replyInfo.reply)
-			 data.append('date', now)
-			 axios.post("/reply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-				comments.flashMsg = response.data
-				comments.replyInfo.reply = ""
-				comments.replyModal = false
-				comments.getComments(comments.qID)
-				comments.getReplies(comments.qID)
-				setTimeout(function(){
-					comments.flashMsg = ""
-				}, 5000)
-				comments.showHideReplyModal('hide');
-				var getTotalComment = $("#totalComments").text()
-			 	 $("#totalComments").text(Number(getTotalComment)+1)
-			 })
-		
-		  },
-		  	// adding comment
-		  addComment: function(post_id){
-			//   console.log(app.$options)
-			  var code = $("#summernote").summernote('code')
-			  var now = moment().year()+"-"+(moment().month()+1)+"-"+moment().date()+" "+moment().hour()+":"+moment().minutes()+":"+moment().seconds() 
-				
-			    let data = new FormData()
-				data.append("comment", comments.comment)
-				// alert(code)
-				// var dom = new DOMParser()
-				// var doc = dom.parseFromString(code, 'html')
-				data.append("date", now) 
-				data.append("post_id", post_id) 
-				
-			  if(code != "<p><br></p>"){
-				
-				data.append("answer", code)
-			  }else{
-				data.append("answer", "")
-			  }
-
-			  axios.post("/addComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-				$("#summernote").summernote('reset')
-				comments.comment = ""
-				comments.flashMsg = response.data
-				comments.getComments(post_id)
-				comments.getReplies(comments.qID)
-				setTimeout(function(){
-					comments.flashMsg = ""
-				}, 5000)
-				
-			  })
-			  var getTotalComment = $("#totalComments").text()
-			  $("#totalComments").text(Number(getTotalComment)+1)
-		  },
-		  	// deleting comment
-		  deleteComment: function(post_id){
-			var toDeleteReplyCtr = 0
-			let data = new FormData()
-	
-			data.append("id", comments.comId)
-		
-			data.append("post_id", comments.questionId)
-			
-		
-			axios.post("/deleteComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-				comments.flashMsg = response.data
-				
-				comments.commentInfo.splice(comments.commentIndex,1)
-				comments.getReplies(comments.qID)
-				setTimeout(function(){
-					comments.flashMsg = ""
-				}, 5000)
-		
-				for(var i = 0; i < comments.replies.length; i++){
-					if(comments.replies[i].comment_id == comments.comId){
-						toDeleteReplyCtr++;
-					}
-					
-				}
-				comments.showHideDeleteModal('hide');
-				var getTotalComment = $("#totalComments").text()
-			 	$("#totalComments").text(Number(getTotalComment)-(1+toDeleteReplyCtr))
-			  })
-		  },
-		  	// deleting reply
-		  deleteReply: function(){
-			let data = new FormData()
-			
-			data.append("id", comments.replyId)
-			
-			data.append("post_id", comments.questionId)
-			axios.post("/deleteReply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-				
-				comments.flashMsg = response.data
-				comments.getComments(comments.qID)
-				comments.replies.splice(comments.commentIndex,1)
-				// comments.getReplies(comments.qID)
-				setTimeout(function(){
-					comments.flashMsg = ""
-				}, 5000)
-				comments.showHideDeleteModal('hide');
-				var getTotalComment = $("#totalComments").text()
-			 	 $("#totalComments").text(Number(getTotalComment)-1)
-			   })
-		  },
-		  	// getting comments
-		  getComments: function(id){
-			  let data = new FormData()
-			  data.append("question_id", id)
-			axios.post("/getComment", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-				
-				comments.commentInfo = response.data
-				comments.commentTotal = comments.commentInfo.length
-				for(var i=0;i < comments.commentInfo.length;i++){
-					comments.lim.push('false')
-				}
-			
-			  })
-		  },
-		  	// getting replies
-		  getReplies: function(id){
-			  let data = new FormData()
-			  data.append("question_id", id)
-			  
-			axios.post("/getReply", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-			
-				 comments.replies = response.data
-			
-			
-			  })
-		  },
-		  	// what delete function will be executed
-		  toDelete: function(){
-				if(comments.actionToPerform == "deleteComment"){
-					comments.deleteComment(comments.questionId)
-					
-				}else{
-					comments.deleteReply()
-				}
-				setTimeout(function(){
-					comments.popUpAlert = false
-				}, 800)
-		  },
-		 
-	  }
-  })
 	new Vue({
 		el:".projects-box",
 		data:{
@@ -710,12 +363,24 @@
 	
 		},
 		methods: {
+			download: function(project_name){
+				 var idName = $("#"+project_name).text()
+				 var totalDownloads = Number(idName.slice(0, idName.search(" ")))
+				
+				 window.location.href="/download/"+project_name
+				
+				 var newTotal = totalDownloads+1
+				 if(newTotal <= 1){
+					$("#"+project_name).text(newTotal.toString()+" Download")
+				 }else{
+					$("#"+project_name).text(newTotal.toString()+" Downloads")
+				 }
+				 
+				},
 			searchProjects: function(){
 				let data = new FormData()
 				data.append('search', this.searchValue)
-				// axios.post('/projects/'+this.searchValue, data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-					
-				// })
+			
 				if(this.searchValue != ""){
 					window.location.href="/projects/search/"+this.searchValue
 				}
@@ -741,109 +406,32 @@
 		
        
 });
-var signup = new Vue({
-	delimiters: ['[', ']'],
-	el: "#signup",
-	data:{
-		signupInfo: {username: '', email: '', password: '', password2: ''},
-		error: '',
-		// success: '',
-		// status: 'Signup'
-		btnDisable: '',
-		stringOnly: /^[a-zA-Z ]+$/,
-		numbersOnly: /^[0-9]+$/
-	},
-	mounted: function(){
-		this.btnDisable = true
-		$('.btn-signup').css({'opacity': '0.7'})
-	},
-	methods: {
-		usernameMonitor: function(event){
-			const key = event.key
-			
-			if(!key.toString().match(signup.stringOnly)){
-				newname = this.signupInfo.username
-				this.signupInfo.username = newname.substr(0,newname.length-1)
-			}else{
-				this.passwordChecker()
-			}
-			
-
-		},
-		emailMonitor: function(event){
-			
-			this.passwordChecker()
-			
-
-		},
-		passwordMonitor: function(event){
-			
-			if(signup.signupInfo.password.length < 8){
-				
-				this.error = "Password must contain at least 8 characters!"
-			
-				
-			}else if(this.signupInfo.password.match(signup.numbersOnly) || this.signupInfo.password.match(signup.stringOnly) ){
-		
-				this.error = "Password must contain letters and numbers!"
-
-			}else{
-				this.error = ""
-				if(!this.signupInfo.password != "" && this.signupInfo.password2 == ""){
-
-					if((signup.signupInfo.email && signup.signupInfo.password && signup.signupInfo.username && signup.signupInfo.password2) != ""){			
-						this.btnDisable = false
-						$(".btn-signup").css({'opacity': '1'})
-					}
-						this.error = ""
-						
-				}
-				
-			}
-			if(event.key == " "){
-				newpass = this.signupInfo.password
-				this.signupInfo.password = newpass.substr(0,newpass.length-1)
-				this.error = "Password must not contain a whitespace!"
-			
-			}
-		},
-		password2Monitor: function(event){
-				if(this.signupInfo.password != ""){
-
-					if(this.signupInfo.password2 != ""){
-
-						this.passwordChecker()
-
-					}
-
-				}else{
-					this.error = "Password must not be empty!"
-				}
-				
-		},
-		passwordChecker: function(){
-			if(this.signupInfo.password == this.signupInfo.password2){
-							if((signup.signupInfo.email && signup.signupInfo.password && signup.signupInfo.username && signup.signupInfo.password2) != ""){			
-								this.btnDisable = false
-								$(".btn-signup").css({'opacity': '1'})
-							}
-							this.error = ""
-						}else{
-							this.error = "Pasword didn't matched!"
-						}
-		}
-	
+function setUserDevice(){
+	var screenSize = document.body.clientWidth
+	var deviceName = ''
+	let data = new FormData()
+	if(screenSize < 768){
+		deviceName = "Mobile"
+	}else if(screenSize >= 768 && screenSize < 992){
+		deviceName = "Tablets"
+	}else if(screenSize > 992 ){
+		 deviceName = "Laptop/Desktop"
 	}
-})
+	data.append("deviceName", deviceName)
+	axios.post("/dashboard/setDevice", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
 
+	}).catch(function(err){
+		console.log(err.statusText)
+	})
+}
  $(document).ready(function(){
-	
+	setUserDevice()
 	$('.hh').click(function(){
 		// $(this).text()
 		alert("sdf")
 	})
-	$('#ask-btn').click(function(){
-		$('.LoginModal').slideToggle()
+	$('.upload-code').click(function(){
+		window.location.href="/login/upload-project"
 	})
 	$('.closeModal').click(function(){
 		$('.LoginModal').slideToggle()
@@ -914,15 +502,6 @@ var signup = new Vue({
 	 	$('#open').show() 	
 	 	
 	})
-
-
- 	// $('#search-question input').focus(function(){
- 	// 	$(this).css({'box-shadow': '1px 1px 2px 1px rgb(153, 214, 255)'})
- 	// })
- 	// $('#search-question input').mouseout(function(){
- 	// 	$(this).css({'box-shadow': '0px 0px 0px 0px'})
- 	// })
-  	
   	$('#btn-languages').click(function(){
 	 		
 	 	$('.languages-box').show()
@@ -939,6 +518,23 @@ var signup = new Vue({
 	
   
 
+</script>
+<script>
+	document.onreadystatechange = function() {
+	
+		if (document.readyState !== "complete") {
+			document.querySelector(
+			  "body").style.display = "none";
+			document.querySelector(
+			  ".spinner1").style.display = "block";
+		
+		} else {
+			document.querySelector(
+			  ".spinner1").style.display = "none";
+			document.querySelector(
+			  "body").style.display = "block";
+		}
+	};
 </script>
 </body>
 </html>

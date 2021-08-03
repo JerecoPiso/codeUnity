@@ -1,11 +1,10 @@
 <div class="sideNav">
 	<span class="fa fa-bars" id="bars"></span>
 	<img :src="src+mydp" class="dp">
-	<p class="name">{{ request.session.username }}	</p>
+	<p class="name">[username]</p>
 	<li class="notifications"><a href="/user">Home</a></li>
 	<li><a href="/user/projects">Projects </a></li>
 	<li><a href="/user/questions">Questions </a></li>
 	<li ><a href="/user/settings">Account Settings</a></li>
-	<li ><a href="">Notifications <span class="notif-total">10</span> </a></li> 
-	<li><a href="logout">Logout</a></li>
+	<li><a href="/user/logout">Logout</a></li>
 </div>

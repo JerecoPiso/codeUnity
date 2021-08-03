@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>List Rendering Using VueJs 3</title>
+</head>
+<body>
+
+<div id="app">
+	
+	<ul>
+		<li v-for="(list, index) in lists" :key="index">{{list.msg}}</li>
+	</ul>
+
+</div>
+
+<script type="text/javascript" src="vuejs3.js"></script>
+<script type="text/javascript">
+	Vue.createApp({
+		data(){
+			return{
+				lists: [{msg: "Hello"}, {msg: 'World'}, {msg: 'Hello World'}]
+			}
+		}
+	}).mount("#app")
+</script>
+</body>
+</html>

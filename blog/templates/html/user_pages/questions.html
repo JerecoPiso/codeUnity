@@ -3,27 +3,96 @@
 
 {% block user_page %}
 		<span class="fa fa-bars" id="show"></span>
-		<div class="flex-container" >
+		<div class="flex-container"  >
 			<div class="flex-item1">
 				
 				{% include 'html/user_pages/side_nav.html' %}
 				
 			</div>
-			<div class="flex-item2" id="my-questions">
+			<div class="flex-item2" id="my-questions" >
 				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
 		
-				<div class="row clear-float">
-					<div class="col l6 s12 m12 xl6">
+				<div class="row clear-float" >
+					<div id="promptModal">
+						<div class="responseModal">
+							<div class="modalHeader">
 
-						<p class="questions-asked-p">Questions Asked (Unanswered) ([total_ques])</p>
+							
+								<button @click="closePromptModal()" class="close-file">&times;</button>
+							</div>
+							<div class="modalBody">
+								<span v-if="modalLogo == 'err'" class="fa fa-exclamation err"></span>
+								<span v-else class="fa fa-check success"></span>
+								<p class="center-align promptMsg" >[responseMsg]</p>
+							</div>
+						</div>
+					</div>
+					<div id="deleteModalForQuestion" class="MyModal">
+						<div class="ModalDialog">
+							<div class="ModalHeader">
+								<span class="fa fa-exclamation"></span>
+							</div>
+							<div class="ModalContent">
+								<p>Are you sure you want to delete this question?</p>
+							</div>
+							<div class="ModalFooter">							
+								<button class="btn-ok" @click="deleteQuestion()">OK</button>
+								<button class="btn-cancel" @click="showHideDelModal('hide')">Cancel</button>
+							</div>
+						</div>
+					</div>
+					<div class="MyModal"  id="editQuestionModal">
+						<div class="ModalDialog">
+							<div class="ModalHeader" id="updateQuestionHeader">
+								<span>Update Question</span>
+								<button class="x" @click="editModalMethod('hide')">&times;</button>
+							</div>
+							<div class="ModalContent p-20">
+								<form action="">
+									<label>Question</label>
+									<input type="text"  v-model="questionEditInfo.question"  placeholder="Question Title">
+									<label>Language</label>
+									<select  v-model="questionEditInfo.language" class="browser-default">
+										
+									
+										<optgroup>
+											<option  disabled selected>Select Language</option>
+											<option v-for="lang in languages" >[lang.language]</option>
+										</optgroup>
+										<optgroup>
+											<option  disabled selected>Select Framework</option>
+											
+											<option v-for="fw in frameworks" >[fw.framework]</option>
+											
+										</optgroup>
+									</select>
+								
+									<label for="">Category</label>
+									<select class="browser-default"  v-model="questionEditInfo.category">
+										<option value="" disabled selected>Select Category</option>
+										<option v-for="cat in question_cat">[cat.category]</option>
+									</select>
+							</div>
+							<div class="ModalFooter">							
+								<button id="btn-update" @click="updateQuestion()"> <span class="fa fa-edit"></span> Update</button>
+
+								</form>	
+							</div>
+						</div>
+					</div>
+					<div class="col l6 s12 m12 xl6" >
+
+						<p class="questions-asked-p">Questions Asked (Unanswered) ([total_ques_unanswered])</p>
 						<ul class="collection question-ask" id="question-ask">
 							
-							<li class="collection-item" v-for="ques in myquestions">[ques.question]<br>
-								<cite class="date-asked">asked: [ques.date]</cite>
+							<li class="collection-item" v-for="ques in myquestions" :key="ques.id" v-if="ques.status != 'Answered'">[ques.question]<br>
+								<!-- <cite class="date-asked">asked: [ques.date]</cite> -->
+								
+								<cite class="date-asked"><b>Posted: </b><date-posted :posted="ques.date"></date-posted></cite>
 								<div class="question-info">
-									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
-									<button id="btn-remove" @click="questionInfo.id = ques.id;deleteQuestion()"> <span class="fa fa-trash"></span> Remove </button>
-									<button type="button" id="set-to-answered"> <span class="fa fa-edit"></span> Edit</button>
+									<button  class="btn-view-comments" @click="viewQuestion(ques.id)"> <span class="fa fa-eye"></span> View</button>
+									<button class="btn-remove" @click="questionInfo.id = ques.id;showHideDelModal('show')"> <span class="fa fa-trash"></span> Remove </button>
+									<button class="edit-btn" @click="questionEditInfo.language = ques.language;questionEditInfo.id = ques.id;questionEditInfo.question = ques.question;questionEditInfo.category = ques.category;editModalMethod('show');"> <span class="fa fa-edit"></span> Edit</button>
 
 								</div>
 							</li>
@@ -32,15 +101,15 @@
 					</div>
 					<div class="col l6 s12 m12 xl6">
 						
-						<p class="questions-asked-p">Answered Questions([total_ques])</p>
+						<p class="questions-asked-p">Answered Questions([total_ques_answered])</p>
 						<ul class="collection question-ask" id="questions-answered">
 							
-							<li class="collection-item" v-for="ques in myquestions">[ques.question]<br>
-								<cite class="date-asked">asked: [ques.date]</cite>
+							<li class="collection-item" v-for="ques in myquestions" :key="ques.id"  v-if="ques.status == 'Answered'">[ques.question]<br>
+								<cite class="date-asked"><b>Posted: </b><date-posted :posted="ques.date"></date-posted></cite>
 								<div class="question-info">
-									<button type="button" id="btn-comments"> <span class="fa fa-comment"></span> </button>
-									<button id="btn-remove" @click="questionInfo.id = ques.id;deleteQuestion()"> <span class="fa fa-trash"></span> Remove </button>
-									<button type="button" id="set-to-answered">Set as Unanswered</button>
+									<button  class="btn-view-comments" @click="viewQuestion(ques.id)"> <span class="fa fa-eye"></span> View</button>
+									<button class="btn-remove" @click="questionInfo.id = ques.id;showHideDelModal('show')"> <span class="fa fa-trash"></span> Remove </button>
+									<button class="edit-btn" @click="questionEditInfo.language = ques.language;questionEditInfo.id = ques.id;questionEditInfo.question = ques.question;questionEditInfo.category = ques.category;editModalMethod('show');"> <span class="fa fa-edit"></span> Edit</button>
 
 								</div>
 							</li>
@@ -55,17 +124,27 @@
 						<label>Question</label>
 						<input type="text" v-model="questionInfo.question">
 						<label>Code(Optional)</label>				
-						<div  id="summernote"></div>
-						<label v-if="toShowLang">Languages(Optional)</label> <button type="button" class="switch-btn" @click="change()" v-html="txt"></button>
-							<select v-if="toShowLang" class="browser-default"  v-model="questionInfo.language">
-								<option value="" disabled selected>Select Language</option>
-								<option v-for="lang in languages">[lang.language]</option>
+						<div  id="questionCode"></div>
+						<label >Languages(Optional)</label> 
+							<select class="browser-default"  v-model="questionInfo.language">
+							
+								<optgroup>
+									<option  disabled selected>Select Language</option>
+									<option v-for="lang in languages" >[lang.language]</option>
+								</optgroup>
+								<optgroup>
+									<option  disabled selected>Select Framework</option>
+									
+									<option v-for="fw in frameworks" >[fw.framework]</option>
+								
+									
+								</optgroup>
 							</select>
-						<label v-if="!toShowLang">Frameworks(Optional)</label> 
+						<!-- <label v-if="!toShowLang">Frameworks(Optional)</label> 
 							<select v-if="!toShowLang" class="browser-default"  v-model="questionInfo.language">
 								<option value="" disabled selected>Select Framework</option>
 								<option v-for="fw in frameworks">[fw.framework]</option>
-							</select>
+							</select> -->
 						<label>Question Category(Optional)</label>
 							<select class="browser-default" v-model="questionInfo.category">
 								<option value="" disabled selected>Select Category</option>
@@ -77,9 +156,6 @@
 							height: auto; padding-bottom: 5px;">
 								<div class="tags">
 									<span v-for="(tag,index) in tags"  @click="deleteTag(index)"  >[tag]</span>
-							
-							
-									
 								</div>	
 								<input type="text" id="tags" v-model="newTag" @keyup="monitor" placeholder="Enter tag . . .">
 							</div>

@@ -12,15 +12,7 @@
 			<div class="flex-item2" style="background-color: rgba(230, 230, 230,0.5);">
 				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
 				<div class="row">
-					<!-- <div class="col l6">
-						<div class="ask-question">
-							<form>
-								<textarea  id="question" placeholder="Enter your question . . ."></textarea>
-								<button type="submit" id="ask">Ask</button>
-								<button type="button" id="clear">Clear</button>
-							 </form>
-						</div>
-					</div> -->
+				
 					<div class="col l4 m4  s12 ">
 
 						<div class="card card-projects">
@@ -51,7 +43,7 @@
 						<div class="card card-notif">
 							<div class="card-header">
 								<span class="fa fa-bell"></span>
-								<b class="total">90</b>
+								<b class="total">{{total_notifications}}</b>
 							</div>
 							<div class="card-body">
 								<p>Notifications</p>
@@ -60,11 +52,20 @@
 					</div>
 					
 					<div class="col l8 m12 s12 xl8" >
-							<!-- <p>Chart for the total downloads of your uploaded projects</p> -->
-							<div class="canvas myCharts">
+						<div class="row">
+							<div class="col l12 s12 m12">
+								<div class="canvas myCharts projectDownloadChart" style=""> 
 								
-								<canvas id="myChart" ></canvas>
+									<canvas id="myChart" ></canvas>
+								</div>
+								<div class="canvas myCharts chartMargin askQuestionChart" style="">
+									<b class="asked-question-views">Asked Questions Views</b>
+									<canvas id="comments" ></canvas>
+								</div>
 							</div>
+						</div>
+						
+							
 							<div class="charts">
 							
 							</div>
@@ -72,25 +73,18 @@
 					<div class="col l4 m12 s12 xl4" >
 						<div class="notifications-div"> 
 							<b>Notifications</b>
-							<ul>
-								<li><b>Jereco James</b> downloaded your app.</li>
-								<li><b>Juan Dela Cruz</b> commented your post.</li>
-								<li><b>Jereco James</b> downloaded your app.</li>
-
+						
+							
+							<ul id="notifications-div">
+								<li v-for="not in noti"><p v-html="not.notification" style="margin: 0"></p> <b>[not.date]</b> </li>
+							
+							
 							</ul>
+							<cite> <strong>Note: </strong> Notifications total will only count the notifications that inserted before you login.</cite>
 						</div>
 						
 					</div>
-					<div class="col l8 m12 s12 xl8" >
-						<!-- <p>Chart for the total downloads of your uploaded projects</p> -->
-						<div class="canvas myCharts mt-20">
-							<b class="asked-question-views">Asked Questions Views</b>
-							<canvas id="comments" ></canvas>
-						</div>
-						<div class="charts">
-						
-						</div>
-				</div>
+
 					
 				</div>
 				</div>

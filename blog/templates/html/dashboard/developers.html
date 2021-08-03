@@ -1,0 +1,88 @@
+{% extends 'html/dashboard/base.html' %}
+
+{% block body %}
+	
+	<div class="row mt-1" id="devs">
+			<h5 class="manage"><span class="fa fa-users"></span> <span id="total-devs">| [totalDevs] |</span></h5>
+
+			<div class="col l12 s12 m12 xl12 " id="table-div">
+                <div class="row" id="filter-search">
+                    <div class="col l6 m6 s12" >	
+					
+						
+                    </div>
+                    <div class="col l6 m6 s12">
+						
+						<input type="text" v-model="filter" id="search-dev"placeholder="Search developer ..." >
+					
+                    </div>
+                </div>
+			
+				<table class="bordered responsive-table" id="table">
+					<thead>
+						<tr>
+							<th>Photo</th>
+							<th>Name</th>
+							<th>Expertise</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(devs, index) in filterDevs" :key="index"  v-if="index < devsToShowCtr">
+							<td  class="dev-photo"><img :src="src+devs.photo" :alt="devs.photo" ></td>
+							<td>[devs.uname]</td>
+							<td>[devs.expertise]</td>
+							
+						</tr>
+						
+					</tbody>
+
+				</table>
+
+				<b class="show">Show</b>
+					<select v-model="devsToShowCtr"  class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
+						<option v-for="(toShow, index) in limitToShow" :value="toShow" :key="index">[toShow]</option>
+						
+					</select>
+					<b class="entries">Entries 
+					
+				</b>
+			
+			
+			
+			</div>
+               <!-- <div class="flex-container">
+                    <div class="card-dev" v-for="devs in developers">
+                        <div class="card-photo">
+                            <img :src="src+devs.photo" alt="">
+                        </div>
+                        <div class="card-body">
+                            <p class="dev-name">[devs.uname]</p>
+                            <p class="dev-expertise">( [devs.expertise] )</p>
+                        </div>
+                    </div>
+                    <div class="card-dev" v-for="devs in developers">
+                        <div class="card-photo">
+                            <img :src="src+devs.photo" alt="">
+                        </div>
+                        <div class="card-body">
+                            <p class="dev-name">[devs.uname]</p>
+                            <p class="dev-expertise">( [devs.expertise] )</p>
+                        </div>
+                    </div>
+                    <div class="card-dev" v-for="devs in developers">
+                        <div class="card-photo">
+                            <img :src="src+devs.photo" alt="">
+                        </div>
+                        <div class="card-body">
+                            <p class="dev-name">[devs.uname]</p>
+                            <p class="dev-expertise">( [devs.expertise] )</p>
+                        </div>
+                    </div>
+                    
+               </div> -->
+
+			</div>
+	</div>
+ 
+{% endblock %}

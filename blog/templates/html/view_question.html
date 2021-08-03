@@ -2,9 +2,9 @@
 
 {% block main_page %}
 
-    {% if request.session.viewQuestion %}
+    {% if request.session.loggin %}
 
-    <div class="header" style="top: 0;position: fixed;z-index: 1"><a id="site-nameMobile" >codeUnity </a><button id="open"><span class="fa fa-bars"></span></button>
+    <div class="header header-extra-style"><a id="site-nameMobile" >codeUnity </a><button id="open"><span class="fa fa-bars"></span></button>
 	
         <ul id="top-nav">
             
@@ -13,19 +13,20 @@
                 <li id="for-mobile-nav-logo"><button id="close">&times;</button></li>
                 <li><a href="/logout/viewQuestion={{post_id}}"> Logout</a></li>
               
-              
+             
     
          </ul>
          
     </div>
 
     {% else %}
-    <div class="header" style="top: 0;position: fixed;z-index: 1"><a id="site-nameMobile" >codeUnity <span class="showSearch fa fa-search" style="margin-left: 10px;font-size: 25px;"></span></a><button id="open"><span class="fa fa-bars"></span></button>
+
+    <div class="header header-extra-style"><a id="site-nameMobile" >codeUnity <span class="showSearch fa fa-search" style="margin-left: 10px;font-size: 25px;"></span></a><button id="open"><span class="fa fa-bars"></span></button>
 	
         <ul id="top-nav">
             
                 <a id="site-name">codeUnity </a>
-                <li><a  class="showSearch"><span class="fa fa-search" style="font-size: 25px;"></span></a></li>
+                <li><a  class="showSearch"><span class="fa fa-search font-size-25"></span></a></li>
                 <li id="for-mobile-nav-logo"><button id="close">&times;<!-- <span class="fa fa-bars"></span> --></button></li>
                  <li><a href="/login/viewQuestion={{post_id}}"> Login</a></li>
                  <li><a href="/developers"> Find Developer</a></li>
@@ -58,7 +59,7 @@
     </div>
 
     {% endif %}
-    
+   
    
     <div class="row question-box " style="margin-top: 55px">
 
@@ -67,27 +68,27 @@
             <div class="my-project">
                 <h5 class="project-title">{{question.question}}</h5>
                 <!-- <cite>by: Jereco James Piso</cite> <br> -->
-                <cite class="time-counter">Posted by: <b>{{request.session.username}} </b><date-posted posted="{{question.date}}"></date-posted></cite>
+                <cite class="time-counter">Posted by: <b>{{poster_name}} </b><date-posted posted="{{question.date}}"></date-posted></cite>
                  
               
               
                 <input type="hidden" id="cd" value="{{question.code}}">
                 <input type="hidden" id="lang" value="{{question.language}}">
-                <input type="hidden" id="viewQuestion" value="{{request.session.viewQuestion}}">
-                <div id="app" style="margin-top: 10px;">
+                <input type="hidden" id="viewQuestion" value="{{request.session.loggin}}">
+                <div id="app" class="mt-10">
                    
                     <prism-editor  class="my-editor" readonly v-model='ques_code'  :highlight="highlighter">
                         
                     </prism-editor>
                   
-                    <span style="font-size: 30px;border:none;color: green" class="fa fa-comments comments"></span><b id="totalComments">{{question.comments}}</b>
-                    <button style="background-color: transparent;font-size: 30px;border:none;color: blue;margin-left: 20px;"><span class="fa fa-thumbs-up"></span></button>
+                    <span  class="fa fa-comments comments comments-logo"></span><b id="totalComments">{{question.comments}}</b>
+                    <button class="view-logo"><span class="fa fa-eye"></span></button>
                     {{question.views}}
                    
                 </div>
              
-                <ul class="comments" id="comment-section" style="clear: both;" >
-                    {% if request.session.questionViewerId %}
+                <ul class="comments clear" id="comment-section" >
+                    {% if request.session.id %}
                     <div class="MyModal" id="deleteModall">
                         <div class="ModalDialog">
                             <div class="ModalHeaderAlert">
@@ -104,7 +105,7 @@
                         </div>
                     </div>
                     {% endif %}
-                    {% if request.session.questionViewerId %}
+                    {% if request.session.id %}
                     <div class="MyModal" id="replyModall">
                         <!-- -->
                         <div class="ModalDialog">
@@ -127,30 +128,28 @@
                     </div>		
                     {% endif %}
                 
-                    <p class="flash-msg" v-if="flashMsg">[flashMsg]</p>
-                    <!-- <div class="haha" v-bind:class="{'hide': !replyModal}">
-dfgdfgdfgdf
-                    </div> -->
+                    <p class="flash-msg">[flashMsg]</p>
+    
                     <div v-for="(info,index) in commentInfo" :key="info.id">
                       
                         
                         <img :src="srcImg+info.photo" class="commentor-dp">
-                        <div class="commentor"> <p class="commentor-name">[info.uname]</p>
+                        <div class="commentor"> <p class="commentor-name">[info.uname] <cite  class="date-posted"> <date-posted :posted="info.date"></date-posted> </cite> </p>
                            
                             <div class="comment">
                                 [info.comment] 
+                               
                             </div>
                             
                            
-                            <prism-editor v-if="info.answer" style="margin-left: 50px;border-radius: 0.1rem;max-width: 70%" class="my-editor" readonly v-model='code=info.answer' :highlight="highlighter">
+                            <prism-editor v-if="info.answer"  class="my-editor2" readonly v-model='code=info.answer' :highlight="highlighter">
                             </prism-editor>
-                            <cite style="margin: 20px 20px 20px 50px;font-style: normal;"><date-posted :posted="info.date"></date-posted></cite>
-                             <!-- {% if request.session.viewQuestion %}
-                           
-                             <a href="javascript:void(0)" class="btn-reply" @click="replyModal = true;replyInfo.question_id = info.post_id; replyInfo.comment_id = info.id;replyInfo.commentor_id = {{question.asker_id}}; ">Reply</a>
-                             <a href="javascript:void(0)" class="btn-delete" v-if="info.commentor == {{request.session.questionViewerId}} || {{question.asker_id}} == {{request.session.questionViewerId}}" @click="showHideDeleteModal('show');commentIndex = index;promptMsgExtension = 'comment'; comId = info.id;questionId = info.post_id;popUpAlert = true;actionToPerform = 'deleteComment'">Delete</a>
+                          
+                          
+                            <span class="fa fa-check answer" v-if="showCheckMark[index] == 'true'"></span> 
                             
-                             {% endif %}  -->
+                            
+                            <!-- <span class="fa fa-check answer"></span> -->
                            
                         </div>        
                 
@@ -158,15 +157,17 @@ dfgdfgdfgdf
                             
                             <div v-if="replyIndex < 5">
                                 <img :src="srcImg+reply.photo" class="commentor-dp">
-                                <div class="commentor"> <p class="commentor-name">[reply.uname]</p>
-                                    <p class="comment">[reply.reply] <br>
-                                        <cite style="font-style: normal;"><date-posted :posted="reply.date"></date-posted></cite>
+                                <div class="commentor"> <p class="commentor-name">[reply.uname] <cite class="date-posted"><date-posted :posted="reply.date"></date-posted></cite> <br></p>
+                                    <p class="comment" >[reply.reply] <br>
                                         
-                                        <br>
-                                        {% if request.session.viewQuestion %}
-                                            <a href="javascript:void(0)" class="delreply" v-if="reply.commentor == {{request.session.questionViewerId}} || info.commentor == {{request.session.questionViewerId}} || {{question.asker_id}} == {{request.session.questionViewerId}}" @click="showHideDeleteModal('show');commentIndex = replyIndex; promptMsgExtension = 'reply';replyId = reply.id;questionId = reply.post_id;popUpAlert = true;actionToPerform = 'deleteReply'">Delete</a>
-                                        {% endif %}
+                                        
+                                        <!-- <br> -->
+                                      
                                     </p>
+                                    {% if request.session.loggin %}
+                                    <button  class="delreply" v-if="reply.commentor == {{request.session.id}} || info.commentor == {{request.session.id}} || {{question.asker_id}} == {{request.session.id}}" @click="showHideDeleteModal('show');commentIndex = replyIndex; promptMsgExtension = 'reply';replyId = reply.id;questionId = reply.post_id;popUpAlert = true;actionToPerform = 'deleteReply'"><span class="fa fa-trash"></span></button>
+                                    <!-- <button class="set-as-answered-reply ml-10"> <span class="fa fa-check"></span> </button> -->
+                                {% endif %}
                                     
                                 </div>       
                                
@@ -174,16 +175,18 @@ dfgdfgdfgdf
                             <div v-else-if="replyIndex == 5">
                                 <div v-if="lim[index] == 'true'">
                                     <img :src="srcImg+reply.photo" class="commentor-dp">
-                                    <div class="commentor"> <p class="commentor-name">[reply.uname]</p>
-                                        <p class="comment">[reply.reply]
-
-                                            <cite style="font-style: normal;"><date-posted :posted="reply.date"></date-posted></cite>
-                                        
-                                            <br>
-                                            {% if request.session.viewQuestion %}
-                                                <a href="javascript:void(0)" class="delreply" v-if="reply.commentor == {{request.session.questionViewerId}} || info.commentor == {{request.session.questionViewerId}} || {{question.asker_id}} == {{request.session.questionViewerId}}" @click="showHideDeleteModal('show');commentIndex = replyIndex; promptMsgExtension = 'reply';replyId = reply.id;questionId = reply.post_id;popUpAlert = true;actionToPerform = 'deleteReply'">Delete</a>
-                                            {% endif %}
+                                    <div class="commentor"> <p class="commentor-name">[reply.uname] <cite class="date-posted"><date-posted :posted="reply.date"></date-posted></cite></p>
+                                        <p class="comment">[reply.reply]  <br>
+                                           
+                                            
+                                            
+                                           
+                                           
                                         </p>
+                                        {% if request.session.loggin %}
+                                        <button  class="delreply" v-if="reply.commentor == {{request.session.id}} || info.commentor == {{request.session.id}} || {{question.asker_id}} == {{request.session.id}}" @click="showHideDeleteModal('show');commentIndex = replyIndex; promptMsgExtension = 'reply';replyId = reply.id;questionId = reply.post_id;popUpAlert = true;actionToPerform = 'deleteReply'"><span class="fa fa-trash"></span></button>
+                                        <!-- <button class="set-as-answered-reply ml-10" > <span class="fa fa-check"></span> </button> -->
+                                    {% endif %}
                                       
                                     </div>       
                                   
@@ -194,15 +197,17 @@ dfgdfgdfgdf
                             <div v-else>
                                 <div v-if="lim[index] == 'true'">
                                     <img :src="srcImg+reply.photo" class="commentor-dp">
-                                    <div class="commentor"> <p class="commentor-name">[reply.uname]</p>
-                                        <p class="comment">[reply.reply]
-                                            <cite style="font-style: normal;"><date-posted :posted="reply.date"></date-posted></cite>
+                                    <div class="commentor"> <p class="commentor-name">[reply.uname] <cite class="date-posted"><date-posted :posted="reply.date"></date-posted></cite></p>
+                                        <p class="comment">[reply.reply] <br>
+                                            
                                         
-                                            <br>
-                                            {% if request.session.viewQuestion %}
-                                                <a href="javascript:void(0)" class="delreply" v-if="reply.commentor == {{request.session.questionViewerId}} || info.commentor == {{request.session.questionViewerId}} || {{question.asker_id}} == {{request.session.questionViewerId}}" @click="commentIndex = replyIndex; promptMsgExtension = 'reply';replyId = reply.id;questionId = reply.post_id;popUpAlert = true;actionToPerform = 'deleteReply'">Delete</a>
-                                            {% endif %}
+                                       
                                         </p>
+                                           
+                                        {% if request.session.loggin %}
+                                        <button  class="delreply" v-if="reply.commentor == {{request.session.id}} || info.commentor == {{request.session.id}} || {{question.asker_id}} == {{request.session.id}}" @click="commentIndex = replyIndex; promptMsgExtension = 'reply';replyId = reply.id;questionId = reply.post_id;popUpAlert = true;actionToPerform = 'deleteReply'"> <span class="fa fa-share"></span> </button>
+                                        <!-- <button class="set-as-answered-reply ml-10"> <span class="fa fa-check"></span> </button> -->
+                                    {% endif %}
                                        
                                     </div>       
                                    
@@ -211,22 +216,23 @@ dfgdfgdfgdf
                         </div>
                         
                         <div>
-                            <button class="hide-replies" v-if="lim[index] == 'true'" @click="limitShownReply(index)">Hide Replies</button>
+                            <button style="margin-bottom: 0;margin-top: 5px" class="hide-replies" v-if="lim[index] == 'true'" @click="limitShownReply(index)">Hide Replies</button>
 
                         </div>
                       
-                        <!-- <br> -->
-                    
-
                        
-                        <a href="javascript:void(0)" class="btn-reply" @click="showHideReplyModal('show');replyModal = true;replyInfo.question_id = info.post_id; replyInfo.comment_id = info.id;replyInfo.commentor_id = {{question.asker_id}}; "> Reply</a>
                     
-                        {% if request.session.viewQuestion %}
+                        {% if request.session.loggin %}
                            
+                            <button  class="btn-reply" @click="showHideReplyModal('show');replyModal = true;replyInfo.question_id = info.post_id; replyInfo.comment_id = info.id;replyInfo.commentor_id = {{question.asker_id}}; "> <span class="fa fa-share"></span></button>
+                            <button class="btn-delete" v-if="info.commentor == {{request.session.id}} || {{question.asker_id}} == {{request.session.id}}" @click="showHideDeleteModal('show');commentIndex = index;promptMsgExtension = 'comment'; comId = info.id;questionId = info.post_id;popUpAlert = true;actionToPerform = 'deleteComment'"> <span class="fa fa-trash"></span> </button>
+                          
+                                <button class="set-as-answered" v-if="(showCheckMark[index] == 'false') && ( {{question.asker_id}} == {{request.session.id}} )"  @click="setAnswerInfo.question_id = {{question.id}};setAnswerInfo.id=info.id;setAnswerInfo.category='comment';setAnswer(index)"> <span class="fa fa-check"></span> </button>
+                                <button class="set-as-answered" v-if="(showCheckMark[index] == 'true' ) && ( {{question.asker_id}} == {{request.session.id}} )" @click="setAnswerInfo.question_id = {{question.id}};setAnswerInfo.id=info.id;setAnswerInfo.category='comment';setUnanswered(index)"> <span class="fa fa-window-close"></span> </button>
+
                         
-                        <a href="javascript:void(0)" class="btn-delete" v-if="info.commentor == {{request.session.questionViewerId}} || {{question.asker_id}} == {{request.session.questionViewerId}}" @click="showHideDeleteModal('show');commentIndex = index;promptMsgExtension = 'comment'; comId = info.id;questionId = info.post_id;popUpAlert = true;actionToPerform = 'deleteComment'"> Delete</a>
-                       
-                        {% endif %} 
+                         {% endif %}
+                     
                       
                     </div>
                   
@@ -235,21 +241,21 @@ dfgdfgdfgdf
                         <form @submit.prevent="addComment({{post_id}})">
                            {% csrf_token %}
                            <input type="hidden" value="{{post_id}}" id="post-id" >
-                            <textarea placeholder="Write your comment here . . ." v-model="comment" required {% if request.session.viewQuestion %} {% else %} disabled="True"   {%endif %}></textarea>
-                            <div class="summernote" style="margin-bottom: 10px;display: none;">
-                                <label style="font-size: 16px;">Code (Optional)</label><br>
+                            <textarea placeholder="Write your comment here . . ." v-model="comment" required {% if request.session.loggin %} {% else %} disabled="True"   {%endif %}></textarea>
+                            <div class="summernote for-code">
+                                <label >Code (Optional)</label><br>
                                 <b>Please click the Code View  tab if you are going to add code/answer to your comment.</b>
                           
                                 <div  id="summernote"></div>
                             </div>
                            
-                            <button type="submit" class="btn-comment" {% if request.session.viewQuestion %} {% else %} disabled="True"   {%endif %}>Comment</button>
-                            <button type="button" class="btn-put-code" {% if request.session.viewQuestion %} {% else %} disabled="True"   {%endif %}>Put Code</button>
+                            <button type="submit" class="btn-comment" {% if request.session.loggin %} {% else %} disabled="True"   {%endif %}>Comment</button>
+                            <button type="button" class="btn-put-code" {% if request.session.loggin %} {% else %} disabled="True"   {%endif %}>Put Code</button>
                         </form>
                       
                       
                     </div>
-                    {% if not request.session.viewQuestion %}
+                    {% if not request.session.loggin %}
                     <p class="err-login-first"> <span class="fa fa-exclamation"></span> &nbsp; You must login first to be able to comment/reply in the post.</p>
                     {% endif %}
                 </ul>

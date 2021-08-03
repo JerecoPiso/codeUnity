@@ -1,9 +1,12 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.conf import settings
-from blog.models import Language, Projects, Question_Category, Questions, User, Frameworks
+from blog.models import Users_Device, Language, Projects, Question_Category, Questions, User, Frameworks, Developers, Yearly_Visitors
 from django.contrib.auth.hashers import make_password, check_password
 from django.db import connection
+from django.db.models import Count, Q
+import datetime
+
 # PAGES
 def index(request):
 	request.session['title'] = "Home"
@@ -15,8 +18,14 @@ def index(request):
 
 def home(request):
 	request.session['title'] = "Main"
+	totals = {}
+	totals['total_apps'] = Projects.objects.all().count()
+	totals['total_devs'] = Developers.objects.all().count()
+	totals['total_questions'] = Questions.objects.all().count()
+	totals['total_languages'] = Language.objects.all().count()
+
 	if request.session.get('admin_id'):
-		return render(request, 'html/dashboard/index.html')
+		return render(request, 'html/dashboard/index.html', totals)
 	
 	else:
 		return redirect("/dashboard")
@@ -30,8 +39,20 @@ def logout(request):
 
 def projects(request):
 	request.session['title'] = "Projects"
+	projectsLanguage = Projects.objects.values(
+    'language'
+    ).annotate(language_count=Count('language')).filter(language_count__gt=0)
+	latestProjects = Projects.objects.filter(downloads__gt=0)[:10]
 	if request.session.get('admin_id'):
-		return render(request, 'html/dashboard/projects.html')
+		return render(request, 'html/dashboard/projects.html', {'projectsLanguage': projectsLanguage, 'latestProjects':latestProjects })
+	
+	else:
+		return redirect("/dashboard")
+
+def developers(request):
+	request.session['title'] = "Developers"
+	if request.session.get('admin_id'):
+		return render(request, 'html/dashboard/developers.html')
 	
 	else:
 		return redirect("/dashboard")
@@ -133,6 +154,26 @@ def addFramework(request):
 		else:
 			return HttpResponse("All fields must be filled up!")
 
+	except:
+		return HttpResponse("An error has occured!")
+
+def setDevice(request):
+	try:
+		if request.POST['deviceName'] != "":
+	
+			if Users_Device.objects.filter(device_name=request.POST['deviceName']).count() > 0:
+				device = Users_Device.objects.get(device_name__exact=request.POST['deviceName'])
+				device.total_users = device.total_users + 1
+				device.save()
+				return HttpResponse("Updated")
+			else:	
+				dev = Users_Device(device_name=request.POST['deviceName'], total_users=1)
+				dev.save()
+			
+				return HttpResponse("Device added successfuly")
+		
+		else:
+			return HttpResponse("Device name must not be empty!")
 	except:
 		return HttpResponse("An error has occured!")
 # creating datas
@@ -253,6 +294,21 @@ def getQuestions(request):
 	except:
 		return HttpResponse("Failed")	
 
+def getDevs(request):
+	try:
+		devs = Developers.objects.all().values()
+		return JsonResponse(list(devs), safe=False)
+
+	except:
+		return HttpResponse("Failed")	
+
+def getDevices(request):
+	try:
+		devices = Users_Device.objects.all().order_by("-id").values()
+		return JsonResponse(list(devices), safe=False)
+	except:
+		return HttpResponse("Failed")	
+
 def getProjects(request):
 	with connection.cursor() as cursor:
 			try:
@@ -275,6 +331,32 @@ def getCategory(request):
 
 	except:
 		return HttpResponse("Failed")
+
+
+def getMostDownloadedApp(request):
+	# Q(downloads__gt=0) & Q(status="unread")
+	app = Projects.objects.filter(Q(downloads__gt=0) & Q(photo__contains=datetime.datetime.now().strftime("%Y"))).order_by('-downloads').values()[:10]
+	return JsonResponse(list(app), safe=False)
+
+def getMostViewedQuestions(request):
+	ques = Questions.objects.filter(Q(views__gt=0) & Q(date__contains=datetime.datetime.now().strftime("%Y"))).order_by('-views').values()[:10]
+	return JsonResponse(list(ques), safe=False)
+
+def getYearlyVisitors(request):
+	year_now = datetime.datetime.now().strftime("%Y")
+	yearly = Yearly_Visitors.objects.filter(year=year_now).exists()
+	if yearly:
+		# add_year_now = Yearly_Visitors(year=2020, total_visitors=0)
+		# add_year_now.save()
+		ret_years = Yearly_Visitors.objects.all().order_by('year').values()
+		# return HttpResponse("Exists")
+	else:
+		add_year_now = Yearly_Visitors(year=year_now, total_visitors=0)
+		add_year_now.save()
+		ret_years = Yearly_Visitors.objects.all().values()
+
+
+	return JsonResponse(list(ret_years), safe=False)
 
 def dictfetchall(cursor):
       columns = [col[0] for col in cursor.description]

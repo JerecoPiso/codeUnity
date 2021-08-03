@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from blog.models import Frameworks, User, Developers, Projects, Questions, Language, Question_Category, Comments, Replies
+from blog.models import Notifications, Yearly_Visitors, Frameworks, User, Developers, Projects, Questions, Language, Question_Category, Comments, Replies
 from django.core.files.storage import FileSystemStorage
 import os, datetime, json, zipfile, tempfile, mimetypes
 from django.conf import settings
@@ -8,10 +8,10 @@ from django.contrib import messages
 import io, smtplib, ssl
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import Paginator
-import random, time
+import random, time, datetime
 from django.db.models import Count
 from django.db import connection
-
+from django.db.models import Q
 # rootDir = ""
 # message = "www"
 # resp = ""
@@ -42,9 +42,25 @@ def download(request, folder):
     
     zf.close() 
     download_total = Projects.objects.get(project_name__exact=folder)
-    download_total.downloads = download_total.downloads + 1
-
+    d_total = download_total.downloads + 1
+    download_total.downloads = d_total
     download_total.save()
+    hour = ""
+    am_pm = ""
+    if int(datetime.datetime.now().strftime("%H")) > 12:
+       hour = int(datetime.datetime.now().strftime("%H")) - 12
+       am_pm = " pm"
+    else:
+       hour = datetime.datetime.now().strftime("%H")
+       am_pm = " pm"
+    datenow =  datetime.datetime.now().strftime("%h") + "-" + datetime.datetime.now().strftime("%d") + "-"+ datetime.datetime.now().strftime("%Y") + " " + str(hour) + ":" + datetime.datetime.now().strftime("%M")+ ":" + datetime.datetime.now().strftime("%S") + "" + am_pm
+    notification_content = "A user downloaded your <b>" + folder + "</b> project. It has now <b>" + str(d_total) + "</b> download/s."
+    notify = Notifications(notification=notification_content, notified_id=download_total.uploader_id, date=datenow, status="unread")
+    notify.save()
+   #  months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec')
+   #  d = int(datetime.datetime.now().strftime("%m"))
+      #  print(months[int(datetime.datetime.now().strftime("%m"))])  
+   
     
     resp = HttpResponse(s.getvalue())
     resp["Content-Disposition"] = "attachment; filename=%s" % zip_filename
@@ -68,46 +84,26 @@ def index(request):
     del request.session['redirectTo']
   
   request.session['title'] = "Home"
-  total_devs = Developers.objects.all().count()
-  if (total_devs / 1000) >= 1:
-    devs = str(1000*(total_devs/1000))+"K+"
-  elif (total_devs/100) >= 1:
-    devs = str(100*(total_devs/100))+"H+"
+  year_now = datetime.datetime.now().strftime("%Y")
+  # check if the current year exists in the data base 
+  # if not add the current year
+  check_if_yearnow_exists = Yearly_Visitors.objects.filter(year=year_now).exists()
+  if check_if_yearnow_exists:
+      yearly = Yearly_Visitors.objects.get(year=year_now)
+      if yearly:
+          yearly.total_visitors = yearly.total_visitors + 1
+          yearly.save()
   else:
-    devs = str(total_devs)
-
-  total_projects = Projects.objects.all().count()
-  if (total_projects / 1000) >= 1:
-    proj = str(1000*(total_projects/1000))+"K+"
-  elif (total_projects  / 100) >= 1:
-    proj = str(100*(total_projects/100))+"H+"
-  else:
-    proj = str(total_projects)
-
-  developers = Developers.objects.all()
-
-  request.session.title = "Code Unity"
-  apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
-  context = {}
-  context['apps'] = apps
-  context['total_devs'] = devs.replace(".0", "")
-  context['total_projects'] = proj
-  context['developers'] = developers
+      # save the current year to database
+      add_year_now = Yearly_Visitors(year=year_now, total_visitors=1)
+      add_year_now.save()
   
-  return render(request, 'html/index.html', context)
-
-# def login(request):
-#   if request.session.get("loggin"):
-  
-#      return redirect('/user')
-#   else:
-#      request.session['title'] = "Login"
-#      return render(request, 'html/login.html')
+  return render(request, 'html/index.html')
 
 def verify(request):
  
   request.session.title = "Verify Account"
- 
+  # check if the session_ok is set
   if request.session.get("session_ok"):
     return render(request, 'html/verify.html')
   
@@ -123,7 +119,7 @@ def verified(request):
     # return HttpResponse("HAHAHA")
     # saved new user's info to the db if the verification code match
     if Developers.objects.filter(email__exact = request.session.get('reg_email')):
-        msg = "Email already exist!"
+        ret_msg = "Email already exist!"
     
     else:
 
@@ -154,10 +150,11 @@ def verified(request):
                 request.session['username'] = user.uname
                 goto = "/user"
               else:
-                request.session['viewQuestion'] = True
-                request.session['questionViewerId'] = user.id
+                request.session['loggin'] = True
+                request.session['id'] = user.id
                 route = request.session['redirectTo']
-                goto = "/viewQuestion/"+route[13:len(route)+1]
+               
+                goto = "/question/"+route[13:len(route)+1]
                 
             else:
                 request.session['id'] = user.id
@@ -175,9 +172,9 @@ def verified(request):
 
 # logout for the viewQuestionPage
 def logout(request,questionId):
-
-    del request.session['viewQuestion']
-    del request.session['questionViewerId']
+    
+    del request.session['loggin']
+    del request.session['id']
     del request.session['photo']
     del request.session['username']
 
@@ -187,7 +184,7 @@ def logout(request,questionId):
 def projects(request):
 
   project = Projects.objects.all()
-  # language = Projects.objects.values(
+  # lang = Projects.objects.values(
   #   'language'
   #   ).annotate(language_count=Count('language')).filter(language_count__gt=0)
 
@@ -195,7 +192,13 @@ def projects(request):
   frameworks = Frameworks.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
-  paginator = Paginator(project, 2)
+  if project.count() < 10:
+     paginator = Paginator(project, project.count())
+  elif project.count() > 10:
+     paginator = Paginator(project, 10)
+  else:
+     paginator = Paginator(project, 1)
+  
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
@@ -212,7 +215,13 @@ def searchProject(request,toSearch):
   language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
-  paginator = Paginator(project, 3)
+  if project.count() < 10 and project.count() > 1:
+     paginator = Paginator(project, project.count())
+  elif project.count() > 10:
+     paginator = Paginator(project, 10)
+  else:
+     paginator = Paginator(project, 1)
+  
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
@@ -227,7 +236,13 @@ def filterProjects(request, toSearch):
   language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
-  paginator = Paginator(project, 4)
+
+  if project.count() < 10 and project.count() > 1:
+     paginator = Paginator(project, project.count())
+  elif project.count() > 10:
+     paginator = Paginator(project, 10)
+  else:
+     paginator = Paginator(project, 1)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
@@ -241,7 +256,13 @@ def questions(request):
   ).annotate(category_count=Count('category')).filter(category_count__gt=0)
 
   questions = Questions.objects.all().order_by('-id')
-  paginator = Paginator(questions, 15)
+  if questions.count() < 10 and questions.count() > 1:
+     paginator = Paginator(questions, questions.count())
+  elif questions.count() > 10:
+     paginator = Paginator(questions, 10)
+  else:
+     paginator = Paginator(questions, 1)
+  
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
@@ -255,7 +276,12 @@ def searchQuestion(request, toSearch):
   ).annotate(category_count=Count('category')).filter(category_count__gt=0)
 
   questions = Questions.objects.filter(question__contains=toSearch)
-  paginator = Paginator(questions, 15)
+  if questions.count() < 10 and questions.count() > 1:
+     paginator = Paginator(questions, questions.count())
+  elif questions.count() > 10:
+     paginator = Paginator(questions, 10)
+  else:
+     paginator = Paginator(questions, 1)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
@@ -270,11 +296,22 @@ def getQuestion(request, toGetQuestion, value):
   if toGetQuestion == "tags":
     questions = Questions.objects.filter(tags__contains=value).order_by('-id')
   elif toGetQuestion == "filter":
-    questions = Questions.objects.filter().order_by('-id')[:10]
+      if value == "latest":
+          questions = Questions.objects.filter().order_by('-id')[:10]
+      elif value == "answered":
+          questions = Questions.objects.filter(status='Answered').order_by('-id')
+      else:
+          questions = Questions.objects.filter(status='').order_by('-id')
   else:
     questions = Questions.objects.filter(category__contains=value).order_by('-id')
 
-  paginator = Paginator(questions, 15)
+
+  if questions.count() < 10 and questions.count() > 1:
+     paginator = Paginator(questions, questions.count())
+  elif questions.count() > 10:
+     paginator = Paginator(questions, 10)
+  else:
+     paginator = Paginator(questions, 1)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
@@ -282,11 +319,18 @@ def getQuestion(request, toGetQuestion, value):
   return render(request, 'html/questions.html', {'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
 
 def getDevelopers(request, toGetDevelopers, value):
+  dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
   if toGetDevelopers == "skills":
     devs = Developers.objects.filter(skills__contains=value).order_by("-id")
   else:
     devs = Developers.objects.filter(expertise__contains=value).order_by("-id")
   
+  if devs.count() < 10 and devs.count() > 1:
+     paginator = Paginator(devs, devs.count())
+  elif devs.count() > 10:
+     paginator = Paginator(devs, 25)
+  else:
+     paginator = Paginator(devs, 1)
   request.session['title'] = "Developers"
   # devs = Developers.objects.all()
   frameworks = Frameworks.objects.all()
@@ -295,8 +339,27 @@ def getDevelopers(request, toGetDevelopers, value):
   paginator = Paginator(devs, 10)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
-  return render(request, 'html/developers.html', {'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total': total_devs, 'languages': language})
+  return render(request, 'html/developers.html', {"categor": dev_cat,'search': value,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total': total_devs, 'languages': language})
 
+def searchDevs(request, search):
+  
+  devs = Developers.objects.filter(Q(skills__contains=search) | Q(expertise__contains=search)).order_by("-id")
+  dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
+  if devs.count() < 10 and devs.count() > 1:
+     paginator = Paginator(devs, devs.count())
+  elif devs.count() > 10:
+     paginator = Paginator(devs, 25)
+  else:
+     paginator = Paginator(devs, 1)
+  request.session['title'] = "Developers"
+  
+  frameworks = Frameworks.objects.all()
+  total_devs = Developers.objects.all().count()
+  language = Language.objects.all()
+  paginator = Paginator(devs, 10)
+  page_number = request.GET.get('page')
+  page_obj = paginator.get_page(page_number)
+  return render(request, 'html/developers.html', {"categor": dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total': total_devs, 'languages': language, 'search': search})
 
 def userLogin(request, redirectTo):
     request.session['title'] = "Login"
@@ -314,24 +377,38 @@ def userLogin(request, redirectTo):
 
                 if check_password(request.POST['password'], user.password):
 
+                    request.session['id'] = user.id
+                    request.session['loggin'] = True
+                    request.session['username'] = user.uname
+                    request.session['photo'] = json.dumps(str(user.photo))
+                    request.session['toLogout'] = redirectTo 
                     if redirectTo == "user":
 
-                        request.session['id'] = user.id
-                        request.session['loggin'] = True
-                        request.session['username'] = user.uname
-                        request.session['photo'] = json.dumps(str(user.photo))
+                     
                         # print(redirectTo[0:(len(redirectTo)+1)])
                     
                         redirectedTo = "/user"
-
+                    elif redirectTo == "ask":
+                        redirectedTo = "/user/questions"
+                    elif redirectTo == "upload-project":
+                        redirectedTo = "/user/projects"
                     else:
-                        request.session['viewQuestion'] = True
-                        request.session['questionViewerId'] = user.id
-                        request.session['photo'] = json.dumps(str(user.photo))
-                        request.session['username'] = user.uname
-                    
+                        # request.session['viewQuestion'] = True
+                        # request.session['questionViewerId'] = user.id
+                        # request.session['photo'] = json.dumps(str(user.photo))
+                        # request.session['username'] = user.uname
+                        # request.session['id'] = user.id
+                        # request.session['loggin'] = True
+                        # request.session['username'] = user.uname
+                        # request.session['photo'] = json.dumps(str(user.photo))
+
+                        question = Questions.objects.get(id=(redirectTo[13:len(redirectTo)+1]))
+                        question.views = question.views + 1
+                        
+                        question.save()
                         # request.session.set_expiry(60)
-                        redirectedTo = "/viewQuestion/"+(redirectTo[13:len(redirectTo)+1])
+                        redirectedTo = "/question/"+(redirectTo[13:len(redirectTo)+1])
+                       
                     
                     msg = True
 
@@ -354,7 +431,10 @@ def userLogin(request, redirectTo):
       if redirectTo == "user":
                       
         redirectedTo = "/login/user"
-
+      elif redirectTo == "ask":
+        redirectedTo = "/login/ask"
+      elif redirectTo == "upload-project":
+        redirectedTo = "/login/upload-project"
       else:
 
         redirectedTo = "/login/viewQuestion/"+(redirectTo[13:len(redirectTo)+1])
@@ -420,6 +500,7 @@ def register(request):
     
      if msg != "Success":
         messages.error(request, msg)
+        print(msg)
 
      return redirect(route)
 
@@ -431,20 +512,32 @@ def signup(request, redirectTo):
 
 def login(request, redirectTo):
     #  messages.warning(request, 'Your account expires in three days.')
-     request.session['title'] = "Signup"
-  
-     return render(request, "html/login.html", {'redirect': redirectTo})
+     request.session['title'] = "Login"
+     if request.session.get("loggin"):
+          if redirectTo == "user":
+             return redirect("/user/")
+          else:
+             return redirect("/questions/"+(redirectTo[13:len(redirectTo)+1]))
+     else:
+          return render(request, "html/login.html", {'redirect': redirectTo})
 
 def developers(request):
+     dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
      request.session['title'] = "Developers"
      devs = Developers.objects.all()
      frameworks = Frameworks.objects.all()
      total_devs = Developers.objects.all().count()
      language = Language.objects.all()
-     paginator = Paginator(devs, 1)
+     if devs.count() < 10 and devs.count() > 1:
+        paginator = Paginator(devs, devs.count())
+     elif devs.count() > 10:
+        paginator = Paginator(devs, 25)
+     else:
+        paginator = Paginator(devs, 1)
+    
      page_number = request.GET.get('page')
      page_obj = paginator.get_page(page_number)
-     return render(request, 'html/developers.html', {'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks,'total': total_devs, 'languages': language})
+     return render(request, 'html/developers.html', {'categor': dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks,'total': total_devs, 'languages': language})
 
 def viewProject(request, id):
       request.session['title'] = "viewProject"
@@ -455,10 +548,11 @@ def viewProject(request, id):
 
 def viewQuestion(request, id):
       request.session['title'] = "viewQuestion"
-   
+      # if request.session.get("loggin"):
       question = Questions.objects.get(id=id)
-
-      return render(request, "html/view_question.html", {'question': question, 'post_id': id})
+      asker_name = Developers.objects.get(id=question.asker_id)
+  
+      return render(request, "html/view_question.html", {'question': question, 'post_id': id, 'poster_name': asker_name.uname})
 
       # else:
       #     question = Questions.objects.get(id=id)
@@ -468,11 +562,24 @@ def addComment(request):
    
       if request.method == "POST":
         try:
-            comment = Comments(commentor = request.session['questionViewerId'], post_id = request.POST['post_id'], comment = request.POST['comment'], date = request.POST['date'], answer = request.POST['answer'])
+            comment = Comments(commentor = request.session['id'], post_id = request.POST['post_id'], comment = request.POST['comment'], date = request.POST['date'], answer = request.POST['answer'])
             comment.save()
             com = Questions.objects.get(id = request.POST['post_id'])
+           
             com.comments = com.comments + 1
             com.save()
+            hour = ""
+            am_pm = ""
+            if int(datetime.datetime.now().strftime("%H")) > 12:
+               hour = int(datetime.datetime.now().strftime("%H")) - 12
+               am_pm = " pm"
+            else:
+               hour = datetime.datetime.now().strftime("%H")
+               am_pm = " pm"
+            datenow =  datetime.datetime.now().strftime("%h") + "-" + datetime.datetime.now().strftime("%d") + "-"+ datetime.datetime.now().strftime("%Y") + " " + str(hour) + ":" + datetime.datetime.now().strftime("%M")+ ":" + datetime.datetime.now().strftime("%S") + "" + am_pm
+            notification_content = "<b>" + request.session['username'] + "</b> commented on your question " + "<b>" + com.question + "</b>."
+            notify = Notifications(notification=notification_content, notified_id=com.asker_id, date=datenow, status="unread")
+            notify.save()
             return HttpResponse("Commented succesfully.")
         
         except:
@@ -485,19 +592,21 @@ def addComment(request):
 
 # saved reply
 def reply(request):
-     reply = Replies(commentor = request.session['questionViewerId'], post_id = request.POST['post_id'], comment_id = request.POST['comment_id'], reply = request.POST['reply'], date = request.POST['date'])
-     reply.save()
-     ques = Questions.objects.get(id = request.POST['post_id'])
-     ques.comments = ques.comments + 1
-     ques.save()
-     return HttpResponse("Replied successfully")
-   
-
+    try:  
+        reply = Replies(commentor = request.session['id'], post_id = request.POST['post_id'], comment_id = request.POST['comment_id'], reply = request.POST['reply'], date = request.POST['date'])
+        reply.save()
+        ques = Questions.objects.get(id = request.POST['post_id'])
+        ques.comments = ques.comments + 1
+        ques.save()
+        return HttpResponse("Replied successfully")
+    except:
+        return HttpResponse("An error has occurred!")
+     
 # get comments
 def getCom(request):
      with connection.cursor() as cursor:
        try:
-          cursor.execute("SELECT blog_Comments.id, blog_Comments.commentor, blog_Comments.post_id, blog_Comments.comment, blog_Comments.date, blog_Comments.answer, blog_Developers.photo,  blog_Developers.uname  FROM blog_Comments LEFT JOIN blog_Developers ON blog_Comments.commentor = blog_Developers.id WHERE blog_Comments.post_id = "+request.POST['question_id'])
+          cursor.execute("SELECT blog_Comments.id, blog_Comments.commentor, blog_Comments.post_id, blog_Comments.comment, blog_Comments.date, blog_Comments.answer, blog_Comments.status, blog_Developers.photo,  blog_Developers.uname  FROM blog_Comments LEFT JOIN blog_Developers ON blog_Comments.commentor = blog_Developers.id WHERE blog_Comments.post_id = "+request.POST['question_id'])
           return JsonResponse(list(dictfetchall(cursor)), safe=False)
        finally:
           cursor.close()
@@ -507,20 +616,56 @@ def getReply(request):
     with connection.cursor() as cursor:
         try:
            
-          cursor.execute("SELECT blog_Replies.id, blog_Replies.post_id, blog_Replies.commentor, blog_Replies.comment_id, blog_Replies.reply, blog_Replies.date, blog_Developers.uname, blog_Developers.photo FROM blog_Replies LEFT JOIN blog_Developers ON blog_Replies.commentor = blog_Developers.id WHERE blog_Replies.post_id = "+request.POST['question_id'])
+          cursor.execute("SELECT blog_Replies.id, blog_Replies.post_id, blog_Replies.commentor, blog_Replies.comment_id, blog_Replies.reply, blog_Replies.date, blog_Developers.uname, blog_Developers.photo FROM blog_Replies LEFT JOIN blog_Developers ON blog_Replies.commentor = blog_Developers.id  WHERE blog_Replies.post_id = "+request.POST['question_id']+" ORDER BY blog_Replies.id DESC")
           return JsonResponse(list(dictfetchall(cursor)), safe=False)
         finally:
           cursor.close()
 
- 
+
+def setAnswer(request):
+    # print(request.POST['category'])
+    
+    question = Questions.objects.get(id=request.POST['question_id'])
+    question.status = "Answered"
+    question.save()
+    if request.POST['category'] == 'comment':
+       comment = Comments.objects.get(id=request.POST['id'])
+       comment.status = "Answer"
+       comment.save()
+       return HttpResponse("Done")
+    else:
+    
+       return HttpResponse("Error")
+
+def setUnanswered(request):
+    # print(request.POST['category'])
+   
+    if request.POST['category'] == 'comment':
+       comment = Comments.objects.get(id=request.POST['id'])
+       comment.status = ""
+       comment.save()
+       check_if_answered = Comments.objects.filter(Q(status="Answer") & Q(post_id=request.POST['question_id']))
+    
+       if check_if_answered.count() == 0:
+          question = Questions.objects.get(id=request.POST['question_id'])
+          question.status = ""
+          question.save()
+
+       return HttpResponse("Done")
+    else:
+  
+       return HttpResponse("Error")    
 
 def deleteReply(request):
-    reply = Replies.objects.get(id=request.POST['id'])
-    reply.delete()
-    ques = Questions.objects.get(id = request.POST['post_id'])
-    ques.comments = ques.comments - 1
-    ques.save()
-    return HttpResponse("Reply deleted successfully")
+    try:
+        reply = Replies.objects.get(id=request.POST['id'])
+        reply.delete()
+        ques = Questions.objects.get(id = request.POST['post_id'])
+        ques.comments = ques.comments - 1
+        ques.save()
+        return HttpResponse("Reply deleted successfully")
+    except:
+        return HttpResponse("Something went wrong!")
 # set the raw query result to  dict
 def dictfetchall(cursor):
       columns = [col[0] for col in cursor.description]
@@ -531,15 +676,18 @@ def dictfetchall(cursor):
 
 # delete comment
 def deleteComment(request):
-    total_reply_of_comment = Replies.objects.filter(comment_id=request.POST['id']).count()
-   
-  
-    comment = Comments.objects.get(id=request.POST['id'])
-    comment.delete()
-    reply = Replies.objects.filter(comment_id=request.POST['id'])
-    reply.delete()
-    ques = Questions.objects.get(id = request.POST['post_id'])
-    ques.comments = ques.comments - (total_reply_of_comment + 1)
-    ques.save()
-  
-    return HttpResponse("Comment deleted successfully")
+    try:
+
+        total_reply_of_comment = Replies.objects.filter(comment_id=request.POST['id']).count()
+        comment = Comments.objects.get(id=request.POST['id'])
+        comment.delete()
+        reply = Replies.objects.filter(comment_id=request.POST['id'])
+        reply.delete()
+        ques = Questions.objects.get(id = request.POST['post_id'])
+        ques.comments = ques.comments - (total_reply_of_comment + 1)
+        ques.save()
+        return HttpResponse("Comment deleted successfully")
+    except:
+        return HttpResponse("Something went wrong!")
+
+        

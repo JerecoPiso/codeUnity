@@ -9,40 +9,42 @@
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	{% if request.session.title == 'Home' or  request.session.title == 'Main' or  request.session.title == 'Projects' or  request.session.title == 'Language' or  request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashzboardddded.css' %}">
-	{% endif %}
-
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashboardD.css' %}">
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/proojjj.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/projects.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Language' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/lannggggggg.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/lannguages.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/questionstzzzez.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/questions.css' %}">
 	{% endif %}
-
+	{% if request.session.title == 'Developers' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/developers.css' %}">
+	{% endif %}
 </head>
 <body>
-	
+	<!-- for the loading animation while the page is not fully display -->
+	<div class="spinner1">
+		<div id="loader" class="center">
 
+		</div>
+	</div>
 	<div class="flex-container">
-		
 		<div class="flex-item-1 bg-color" id="side-nav">
 			<span class="close">&times;</span>
 			<div class="admin-panel">
-			<!-- <p class="ap">Admin Panel</p> -->
+		
 			<img src="/media/dp.jpg">
 			<p id="user-name">Jereco James Piso</p>
 			</div>
 			 <ul>
-
 			 	<li><span class="fa fa-home"></span><a href="/dashboard/home">Home</a></li>
-			 	<li><span class="fa fa-folder"></span><a href="projects">Projects</a></li>
-			 	<li><span class="fa fa-language"></span><a href="languages">Languages</a></li>
-				 <li><span class="fa fa-question"></span><a href="questions">Questions</a></li>
-				 <li><span class="fa fa-users"></span><a href="questions">Developers</a></li>			 	
+			 	<li><span class="fa fa-folder"></span><a href="/dashboard/projects">Projects</a></li>
+			 	<li><span class="fa fa-language"></span><a href="/dashboard/languages">Languages</a></li>
+				<li><span class="fa fa-question"></span><a href="/dashboard/questions">Questions</a></li>
+				<li><span class="fa fa-users"></span><a href="/dashboard/developers">Developers</a></li>
+						 	
 			 </ul>	
 		</div>
 
@@ -73,8 +75,24 @@
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>	
 <script type="text/javascript" src="{% static 'assets/js/jquery.js' %}"></script>	
-<script type="text/javascript" src="{% static 'assets/js/materialize.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/chart.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/dashboard/dashboardChart.js' %}"></script>
 <script type="text/javascript"> 
+	document.onreadystatechange = function() {
+	
+	if (document.readyState !== "complete") {
+		document.querySelector(
+		  "body").style.display = "none";
+		document.querySelector(
+		  ".spinner1").style.display = "block";
+	
+	} else {
+		document.querySelector(
+		  ".spinner1").style.display = "none";
+		document.querySelector(
+		  "body").style.display = "block";
+	}
+};
 $(document).ready(function(){
 	$("#show-side-nav").click(function(){
 		$("#side-nav").show()
@@ -93,6 +111,72 @@ $(document).ready(function(){
 		}
    	});
 })
+var devs = new Vue({
+	delimiters: ['[', ']'],
+	el: "#devs",
+	data:{
+		developers: [],
+		src: '/media/',
+		totalDevs: '',
+		filter: '',
+		limitToShow: [],
+		devsToShowCtr: 0
+	},
+	mounted: function(){
+		this.getDevs()
+	},
+	computed: {
+		 filterDevs(){
+			return this.developers.filter(filteredDevs => {
+				const uname = filteredDevs.uname.toString().toLowerCase()
+				const expertise = filteredDevs.expertise.toString().toLowerCase()
+				const searchTerm  = this.filter.toLowerCase()
+
+				return(
+					uname.includes(searchTerm) || expertise.includes(searchTerm)
+				)
+
+			})
+		 }
+	 },
+	methods:{
+		getDevs: function(){
+			axios.get("getDevs").then(function(response){
+				devs.developers = response.data
+				if(response.data.length > 1){
+					devs.totalDevs = response.data.length +" Developers"
+				}else{
+					devs.totalDevs = response.data.length +" Developer"
+				}
+				var devs_length = response.data.length
+					if(devs_length >= 10){
+						var ctr = devs_length/10;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+							// if(i == 0){
+							// 	projects.limitToShow.push(2)
+							// }else if(i == 1){
+								devs.limitToShow.push(10*i)
+							// }else{
+							// 	projects.limitToShow.push(2*i)
+							// }
+							
+						}
+						if(Math.floor(ctr)*10 != devs_length){
+							devs.limitToShow.push(devs_length)
+							
+						}
+						devs.devsToShowCtr = 10
+					}else{
+						devs.limitToShow.push(devs_length)
+						devs.devsToShowCtr = devs_length
+					}
+			}).catch(function(err){
+				console.log(err)
+			})
+		}
+	}
+})
  var questions = new Vue({
 	 delimiters: ['[', ']'],
 	 el: "#questions",
@@ -101,8 +185,12 @@ $(document).ready(function(){
 		 category: '',
 		 toShowLanguages: [],
 		 id: '',
+		 filter: '',
 		 newCategory: '',
-		 allQuestions: []
+		 allQuestions: [],
+		 limitToShow: [],
+		 questionToShowCtr: 0,
+		 selectedLanguage: ''
 	 },
 	 mounted: function(){
 		this.getCategories()
@@ -111,6 +199,9 @@ $(document).ready(function(){
 		
 	 },
 	 methods:{
+		 filterByLanguage: function(){
+			questions.filter = questions.selectedLanguage
+		 },
 		addCategory: function(){
 			let data = new FormData()
 			data.append("category", questions.category)
@@ -158,7 +249,30 @@ $(document).ready(function(){
 		 getQuestions: function(){
 			axios.get("getQuestions").then(function(response){
 				questions.allQuestions = response.data
-				
+			
+					var questions_length = response.data.length
+					if(questions_length >= 5){
+						var ctr = questions_length/5;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+							// if(i == 0){
+							// 	projects.limitToShow.push(2)
+							// }else if(i == 1){
+								questions.limitToShow.push(5*i)
+							// }else{
+							// 	projects.limitToShow.push(2*i)
+							// }
+							
+						}
+						if(Math.floor(ctr)*5 != questions_length){
+							questions.limitToShow.push(questions_length)
+							
+						}
+						questions.questionToShowCtr = 5
+					}else{
+						questions.limitToShow.push(questions_length)
+						questions.questionToShowCtr = questions_length
+					}
 				
 			})
 		 },
@@ -173,21 +287,61 @@ $(document).ready(function(){
 				}
 			})
 		}
+	 },
+	 computed: {
+		 filterQuestions(){
+			 return this.allQuestions.filter(filteredQuestions => {
+				const question = filteredQuestions.question.toString().toLowerCase()
+				const language = filteredQuestions.language.toString().toLowerCase()
+				const searchTerm = this.filter.toLowerCase()
+				return (
+					question.includes(searchTerm) || language.includes(searchTerm)
+				)
+			 })
+		 }
 	 }
  })
  var projects = new Vue({
  	 delimiters: ['[', ']'],
 	 el: "#projects-dash",
 	 data:{
+		filter: "",
 		languages: [],
-		toShowProjects: []
+		toShowProjects: [],
+		limitToShow: [],
+		projectToShowCtr: 0,
+		selectedLanguage: '',
+		totalProjects: ''
 	 },
 	 mounted: function(){
 		 
 		 this.getLanguages();
-		 this.getProjects();
+		 this.getProjects()
+	 },
+	 computed: {
+		filterProject() {
+			return this.toShowProjects.filter(filteredProject => {
+				
+				const project_name = filteredProject.project_name.toString().toLowerCase();
+				const language = filteredProject.language.toLowerCase();
+				const searchTerm = this.filter.toLowerCase();
+				
+				return (
+					project_name.includes(searchTerm) || language.includes(searchTerm)
+				
+				);
+		
+			
+			});
+			
+   		 },
 	 },
 	 methods:{
+		
+		filterValue: function(h){	
+			projects.filter = projects.selectedLanguage
+		
+		},
 		getLanguages: function(){
 			axios.get('getLanguages').then(function(response){
 				if(response.data == "Failed"){
@@ -202,8 +356,38 @@ $(document).ready(function(){
 				if(response.data == "Failed"){
 					alert("Unable to retrieve Projects!")
 				}else{
+					if(response.data.length > 1){
+						projects.totalProjects = response.data.length.toString()+ " Projects"
+					}else{
+						projects.totalProjects = response.data.length.toString()+ " Project"
+					}
 					
 					projects.toShowProjects = response.data
+					var project_length = response.data.length
+					if(project_length >= 5){
+						var ctr = project_length/5;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+							// if(i == 0){
+							// 	projects.limitToShow.push(2)
+							// }else if(i == 1){
+								projects.limitToShow.push(5*i)
+							// }else{
+							// 	projects.limitToShow.push(2*i)
+							// }
+							
+						}
+						if(Math.floor(ctr)*5 != project_length){
+							projects.limitToShow.push(project_length)
+							
+						}
+						projects.projectToShowCtr = 5
+					}else{
+						projects.limitToShow.push(project_length)
+						projects.projectToShowCtr = project_length
+					}
+				
+					
 				}
 			})
 		},
@@ -226,14 +410,56 @@ $(document).ready(function(){
 		frameworkBtn: '',
 		csrf_token: '',
 		languageCtr: 0,
-		frameworkCtr: 0
+		frameworkCtr: 0,
+		searchLanguage: '',
+		searchFramework: '',
+		limitToShowLanguage: [],
+		limitToShowFramework: [],
+		totalFW: 0,
+		totalLanguage: 0,
+	
 	 },
 	 mounted: function(){
 		this.getLanguages()
 		this.getFrameworks()
 	
+
+	
 	
 		
+	 },
+	 computed: {
+		filterLanguage() {
+			return this.toShowLanguages.filter(filteredLanguage => {
+				// alert(filteredLanguage.language)
+				const lang = filteredLanguage.language.toString().toLowerCase();
+				const cat = filteredLanguage.category.toLowerCase();
+				const searchTerm = this.searchLanguage.toLowerCase();
+			
+				return (
+					lang.includes(searchTerm) || cat.includes(searchTerm)
+				
+				);
+		
+			
+			});
+			
+			},
+		filterFramework(){
+			return this.toShowFrameworks.filter( filteredFramework => {
+
+				const fw = filteredFramework.framework.toString().toLowerCase();
+				const lang = filteredFramework.language.toString().toLowerCase()
+				const cat = filteredFramework.category.toString().toLowerCase()
+				const searchVal = this.searchFramework.toLowerCase()
+
+				return(
+					fw.includes(searchVal) || lang.includes(searchVal) || cat.includes(searchVal)
+				)
+
+
+			})
+		}
 	 },
 	 methods:{
 		Language: function(){
@@ -250,6 +476,7 @@ $(document).ready(function(){
 					alert(response.data)
 					languages.language.category = ""
 					languages.language.lang = ""
+					languages.limitToShowLanguage = []
 					languages.getLanguages()
 
 			})
@@ -273,6 +500,7 @@ $(document).ready(function(){
 					languages.framework.language_id = ''
 					languages.framework.category = ''
 					languages.framework.framework = ''
+					languages.limitToShowFramework = []
 					languages.getFrameworks()
 				})
 			
@@ -283,8 +511,9 @@ $(document).ready(function(){
 				data.append("id", languages.language.id)
 				
 				axios.post("deleteLanguage", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
-
+				
 					alert(response.data)
+					languages.limitToShowLanguage = []
 					languages.getLanguages()
 					
 				})
@@ -298,6 +527,7 @@ $(document).ready(function(){
 				axios.post("deleteFramework", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
 
 					alert(response.data)
+					languages.limitToShowFramework = []
 					languages.getFrameworks()
 					
 				})
@@ -310,7 +540,26 @@ $(document).ready(function(){
 				}else{
 					
 					languages.toShowLanguages = response.data
-					languages.languageCtr = languages.toShowLanguages.length
+					languages.totalLanguage = response.data.length
+					// languages.languageCtr = languages.toShowLanguages.length
+					var languages_length = response.data.length
+					if(languages_length >= 5){
+						var ctr = languages_length/5;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+						
+								languages.limitToShowLanguage.push(5*i)
+						
+						}
+						if((Math.floor(ctr)*5) != languages_length){
+							languages.limitToShowLanguage.push(languages_length)
+							
+						}
+						languages.languageCtr = 5
+					}else{
+						languages.limitToShowLanguage.push(languages_length)
+						languages.languageCtr = languages_length
+					}
 					
 				}
 			})
@@ -319,13 +568,34 @@ $(document).ready(function(){
 			axios.get('getFrameworks').then(function(response){
 			
 					languages.toShowFrameworks = response.data
-					languages.frameworkCtr = languages.toShowFrameworks.length
+					// languages.frameworkCtr = languages.toShowFrameworks.length
+
+					var fw_length = response.data.length
+					languages.totalFW = fw_length
+					
+					if(fw_length >= 5){
+						var ctr = fw_length/5;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+
+								languages.limitToShowFramework.push(5*i)
+						
+						}
+						if((Math.floor(ctr)*5) < fw_length){
+							languages.limitToShowFramework.push(fw_length)
+							
+						}
+						languages.frameworkCtr = 5
+					}else{
+						languages.limitToShowFramework.push(fw_length)
+						languages.frameworkCtr = fw_length
+					}
 					
 			})
 		}
 	 }
  })
- 
+
 </script>
 </body>
 </html>

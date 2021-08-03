@@ -4,7 +4,7 @@
 	{% load static %}
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/userss.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/user.css' %}">
 	{% if request.session.title == 'Home' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chart.css' %}">
 	{% endif %}
@@ -12,61 +12,113 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/projects.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questionseddDdd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questions.css' %}">
 
 	{% endif %}
 	{% if request.session.title == 'Settings' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/setting.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settingz.css' %}">
 	{% endif %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/project_files.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/project_file.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">  
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-editorr.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-tomorroww.css' %}">
 </head>
 <style>
-	.tags, .skills{
-		float: left;
-  		padding: 4px;
-  		font-family: Arial;		
+   
+.tags, .skills{
+	float: left;
+	  padding: 4px;
+	  font-family: Arial;		
+}
+ .tags span:after, .skills span:after {
+  position: absolute;
+  content: "×";
+  padding: 0 4px;
+  margin: 0px 0 10px 7px;
+  font-size: 18px;
+}
+.tags span, .skills span{
+  cursor: pointer;
+  display: block;
+  float: left;
+  color: rgb(255,255,255);
+  background: rgb(0,128,128);
+  padding: 5px 10px;
+  padding-right: 30px;
+  margin-right: 4px;
+  margin-top: 5px;
+}
+#tags{
+	background: #eee;
+  border: 0;
+  margin: 10px 4px 4px 4px;
+  padding: 7px;
+  width: auto;
+  height: 17px;
+  border-radius: 0.2rem;
+}
+#skills-input{
+	background: #eee;
+	border: 0;
+	margin: 10px 4px 4px 4px;
+	padding: 7px;
+	width: auto;
+	height: 1px;
+	border-radius: 0.2rem;
+}
+  
+	#my-editor {
+		/* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+		background: #2d2d2d;
+		color: #ccc;
+		
+		/* you must provide font-family font-size line-height. Example:*/
+		font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+		font-size: 14px;
+		line-height: 1.5;
+		padding: 5px;
+		max-height: 400px;
+		overflow: auto;
+		border-radius: 0.3rem;
+		width: 100%;
+		margin-top: 1px;
+		border-radius: 0.1rem;
+	  }
+	  .spinner1{
+		width: 100%;position: fixed;top: 0;bottom: 0;z-index: 2;padding-top: 20%;background-color: rgb(0,128,128);
 	}
-	 .tags span:after, .skills span:after {
-	  position: absolute;
-	  content: "×";
-	  padding: 0 4px;
-	  margin: 0px 0 10px 7px;
-	  font-size: 18px;
-	}
-	.tags span, .skills span{
-	  cursor: pointer;
-	  display: block;
-	  float: left;
-	  color: rgb(255,255,255);
-	  background: rgb(0,128,128);
-	  padding: 5px 10px;
-	  padding-right: 30px;
-	  margin-right: 4px;
-	  margin-top: 5px;
-	}
-	#tags{
-		background: #eee;
-	  border: 0;
-	  margin: 10px 4px 4px 4px;
-	  padding: 7px;
-	  width: auto;
-	  height: 17px;
-	  border-radius: 0.2rem;
-	}
-	#skills-input{
-		background: #eee;
-		border: 0;
-		margin: 10px 4px 4px 4px;
-		padding: 7px;
-		width: auto;
-		height: 1px;
-		border-radius: 0.2rem;
-	}
+	#loader {
+            border: 12px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 12px solid #444444;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s linear infinite;
+        }
+          
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+          
+        .center {
+            /* position: absolute; */
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
 </style>
 <body>
+	<div class="spinner1">
 
+		<div id="loader" class="center">
+
+		</div>
+	</div>
 	{% block user_page %}
 
 
@@ -74,387 +126,43 @@
 	{% endblock %}
 	
 <script src="{% static 'assets/js/jquery.js' %}" type="text/javascript"></script>
-<script type="text/javascript" src="{% static 'assets/js/userrrrrsssed.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/users.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 {% if request.session.title == 'Home' %}
 <script src="{% static 'assets/js/chart.js' %}" type="text/javascript"></script>
-<script type="text/javascript" src="{% static 'assets/js/myChartssssssss.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/myChart.js' %}"></script>
 {% endif %}
 {% if request.session.title == 'Projects' %}
-<script src="{% static 'assets/js/user/projects.js' %}" type="text/javascript"></script>
-
+<script src="{% static 'assets/js/user/project.js' %}" type="text/javascript"></script>
 {% endif %}
 {% if request.session.title == 'Questions' %}
+<script src="{% static 'assets/js/moment.js' %}" type="text/javascript"></script>
 <script src="{% static 'assets/js/user/questions.js' %}" type="text/javascript"></script>
-
 {% endif %}
 <script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
-<script type="text/javascript">
+<script type="text/javascript" src="{% static 'assets/js/prism.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/vue-prism-editorr.js' %}"></script>
+<!-- {% if request.session.title == 'Settings' %}
 
-$(document).ready(function(){
-	$('#summernote').summernote({
-		tabSize: 1,
-		maxHeight: 500,
+{% endif %} -->
+<script src="{% static 'assets/js/user/settings.js' %}" type="text/javascript"></script>
+<script>
+	document.onreadystatechange = function() {
 	
-       
-});
-$('#about').summernote({
-		tabSize: 1,
-		maxHeight: 500,
-		
-       
-});
-$('#more').summernote({
-		tabSize: 1,
-		maxHeight: 500,
-		placeholder: 'e.g Features, How to run, Technologies Used',
-		
-		
-       
-});
-$('#work-experience').summernote({
-		tabSize: 1,
-		maxHeight: 500,
-		placeholder: 'e.g works/links, work experience, years of experience, and your personal profile',
+	if (document.readyState !== "complete") {
+		document.querySelector(
+		  "body").style.display = "none";
+		document.querySelector(
+		  ".spinner1").style.display = "block";
 	
-		
-       
-});
-	
-
-	$('#show').click(function(){
-		$('.flex-item1').show().css({'width': '35%'})
-	})
-	$('#bars').click(function(){
-		$('.flex-item1').hide()
-	})
-	$("#uploadErr").click(function(){
-		$(".uploadErr").fadeOut()
-	})
-})
-
-	var changeDp = new Vue({
-		el: "#user-dp",
-		data:{
-			changeDpModal: false,
-			photo: '',
-			mydp: null,
-			src: '/media/'
-		},
-		mounted: function(){
-			this.getUser()
-		},
-		methods:{
-			dp: function(){
-				changeDp.photo  = this.$refs.photo.files[0]
-			},
-			changeDp: function(){
-				let data = new FormData()
-				data.append("photo", changeDp.photo)
-				axios.post('changeDp', data,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
-					// projects.getProjects()
-				 	alert(response.data)
-					 changeDp.getUser()
-					 sideNav.getUser()
-				
-				 })
-			},
-			getUser: function(){
-				 axios.get("getUser").then(function(response){
-					 changeDp.mydp = response.data[0].photo
-				 })
-			}
-		}
-	})
-	var sideNav  = new Vue({
-		el: ".sideNav",
-		data:{
-	
-			mydp: null,
-			src: '/media/'
-		},
-		mounted: function(){
-			this.getUser()
-		},
-		methods:{
-	
-			getUser: function(){
-				 axios.get("getUser").then(function(response){
-					sideNav.mydp = response.data[0].photo
-					
-				 })
-			}
-		}
-	})
-
-	var settings = new Vue({
-		delimiters: ['[', ']'],
-		el: "#security-info",
-		data:{
-			editEmailDisable: true,
-			editPassDisable: true,
-			editUnameDisable: true,
-			email_save: false,
-			password_save: false,
-			uname_save: false,
-			disabled: false,
-			changePassModal: false,
-			skills: [],
-			newSkill: ''
-		},
-		methods:{
-			deleteTag: function(index){
-				// this.tags.pop(index)
-				settings.skills.splice(index,1)
-				
-			},
-			monitor: function(event){
-			
-				if(event.key == "Enter"){
-					if (this.newSkill != "") {
-						this.skills.push(this.newSkill)
-						this.newSkill = ""
-					}
-					
-				}
-				// alert(this.tags.toString())
-				// alert($('.tags').html())
-				
-					
-			},
-			editEmail: function(){
-				if(settings.email_save){
-					// edit code
-				}else{
-					settings.email_save = true
-				}
-			},
-			editPassword: function(){
-				if(settings.password_save){
-					// edit code
-					settings.changePassModal = true
-				}else{
-					settings.password_save = true
-				}
-			},
-			editUname: function(){
-				if(settings.uname_save){
-					// edit code
-				}else{
-					settings.uname_save = true
-				}
-			},
-			changePassword: function(){
-				alert("hehe")
-			}
-		}
-	})
-	var my_component = {
-		delimiters: ['[', ']'],
-		props:{
-			
-			skills: String,
-			// dev_skills: String,
-		
-			
-			
-			
-		},
-		data: function(){
-
-			return{
-				tag: this.skills,
-				dev_skills: String,
-			}
-
-		},
-		created: function(){
-			this.dev_skills = this.getTags(this.tag)
-		
-			// alert(this.dev_skills)
-		},
-		methods:{
-			getTags: function(skill){
-				var str = skill
-			
-				var n = null;
-				var tags = ""
-				// var num = str.search(",");
-				while(str.length != 0){
-					var ctr = str.search(",");
-					if(ctr != -1){
-						n = str.slice(0,ctr)
-						str = str.slice(ctr+1,str.length)
-					
-						tags = tags+"<a href='/questions/tags/"+n+"' class='tag-link'>"+n+"</a>";
-						
-					}else{
-						str = str.slice(0,str.length)
-						tags = tags+"<a href='/questions/tags/"+str+"' class='tag-link'>"+str+"</a>";
-					
-						str = ""
-						
-						
-					
-					}
-					
-				}
-			
-				return tags
-			}
-		},
-		template: '<div id="tags" style="margin: 10px 5px 5px 0;font-size: 10px" v-html="dev_skills"></div>'
+	} else {
+		document.querySelector(
+		  ".spinner1").style.display = "none";
+		document.querySelector(
+		  "body").style.display = "block";
 	}
-
-	var settingsOtherInfo = new Vue({
-		delimiters: ['[', ']'],
-		el: "#other-info",
-		data:{
-			newSkills: [],
-			newSkill: '',
-			expertise: '',
-			mySkills: [],
-			rmSkills: [],
-			summerNote: ''
-			
-		
-
-		},
-		components:{
-			'my-skills': my_component
-		},	
-		mounted: function(){
-			
-			this.getOtherInfo()
-			
-		},
-		methods:{
-			getAboutMe(c){
-				this.summerNote = c
-			},
-			deleteSkill: function(index){
-				// this.tags.pop(index)
-				this.newSkills.splice(index,1)
-				
-			},
-			deleteMySkills: function(index,skill){
-				this.mySkills.splice(index,1)
-				this.rmSkills.push({
-					id: index,
-					value: skill 
-				})
-				// console.log(this.rmSkills)
-			},
-			undoDeleteSkills: function(index,skill){
-			
-				this.mySkills.splice(index, 0, skill)
-				this.rmSkills.splice(index, 1)
-				// alert(this.rmSkills[index])
-
-			},
-			getSkills: function(skill){
-				var str = skill
-			
-				var n = null;
-				var tags = []
-				// var num = str.search(",");
-				while(str.length != 0){
-					var ctr = str.search(",");
-					if(ctr != -1){
-						n = str.slice(0,ctr)
-						str = str.slice(ctr+1,str.length)
-					
-						tags.push(n)
-						
-					}else{
-						str = str.slice(0,str.length)
-						// tags = tags+"<a href='/questions/tags/"+str+"' class='tag-link'>"+str+"</a>";
-						tags.push(str)
-						str = ""
-						
-						
-					
-					}
-					
-				}
-				// console.log(tags)
-				return tags
-			},
-			monitor: function(event){
-			
-				if(event.key == "Enter"){
-					if (this.newSkill != "") {
-						this.newSkills.push(this.newSkill)
-						this.newSkill = ""
-					}
-					
-				}
-			},
-			getOtherInfo: function(){
-				axios.get("getOtherInfo").then(function(response){
-					// console.log(response.data)
-					
-					settingsOtherInfo.mySkills = settingsOtherInfo.getSkills(response.data[0].skills)
-					settingsOtherInfo.expertise = response.data[0].expertise
-					settingsOtherInfo.summerNote = response.data[0].aboutme
-					$("#work-experience").summernote('code', response.data[0].aboutme)
-					// console.log(skill)
-				})
-			},
-			updateInfo: function(){
-				let data = new FormData()
-				data.append("skills", this.mySkills.concat(this.newSkills))
-				data.append("expertise", this.expertise)
-				var summerNoteContent = $("#work-experience").summernote('code')
-				data.append("aboutme", summerNoteContent)
-				// alert(this.newSkills.toString())
-				// alert(this.mySkills.concat(this.newSkills))
-				axios.post("updateInfo", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-					alert(response.data)
-					settingsOtherInfo.newSkills = []
-					settingsOtherInfo.rmSkills = []
-					settingsOtherInfo.getOtherInfo()
-				})
-			}
-			
-		
-		}
-	})
-	$('#work-experience').on('summernote.change', function(we, contents, $editable) {
-		// console.log(contents);
-		settingsOtherInfo.getAboutMe(contents)
-	});
-
-	var hehe = new Vue({
-		delimiters: ['[', ']'],
-		el: ".folders-files",
-		data:{
-			path: '',
-			filename: '',
-			code: ''
-		},
-		methods: {
-			getFile: function(){
-				// document.querySelector('[name=csrfmiddlewaretoken]').value
-				
-				let fd = new FormData();
-				 
-				 	fd.append('path', hehe.path)
-				 	fd.append('fname', hehe.filename)
-		
-
-				 axios.post('../readFile', fd,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
-
-				 	 if(response.data != ""){
-				 	 	hehe.code = response.data
-				 	 }
-				 	
-				 })
-			}
-		}
-	})
-	
+};
 </script>
 </body>
 </html>

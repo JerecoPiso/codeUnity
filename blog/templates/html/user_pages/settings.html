@@ -17,15 +17,28 @@
 					<div class="col l6 s12 m12 xl6">
 
 						<div id="user-dp">
-							<p>Profile Photo</p>
+							<p class="user-dp-title">Profile Photo</p>
 														
 							<img class="dp-account-settings" :src="src+mydp">
-							<button type="submit" id="btn-change-dp" @click="changeDpModal=true">Change Photo <span class="fa fa-camera"></span> </button>
-								
+							<button type="submit" id="btn-change-dp" @click="changeDpModal('show')">Change Photo <span class="fa fa-camera"></span> </button>
+							
+
+							<div id="promptModal">
+								<div class="responseModal">
+									<div class="modalHeader">
+										<button @click="closePromptModal()" class="close-file">&times;</button>
+									</div>
+									<div class="modalBody">
+										<span v-if="modalLogo == 'err'" class="fa fa-exclamation err"></span>
+										<span v-else class="fa fa-check success"></span>
+										<p class="center-align promptMsg" id="promptMsg">[responseMsg]</p>
+									</div>
+								</div>
+							</div>
 							<!-- modal for changing profile photo -->
-							<div class="dpModal" v-if="changeDpModal">
+							<div class="dpModal">
 								<div class="modalHeader">
-									<p id="change-dp-title">Change Profile</p> <button  @click="changeDpModal=false" id="close">&times;</button>
+									<p id="change-dp-title">Change Profile</p> <button  @click="changeDpModal('hide')" id="close">&times;</button>
 								</div>
 								<div class="modalBody">
 									<form @submit.prevent="changeDp()">
@@ -41,52 +54,59 @@
 						
 					</div>
 					<div class="col l6 s12 m12 xl6">
+						<!-- modal for verifying password -->
+		
 						<div id="security-info">
+							<div class="passwordModal" >
+								<div class="modalHeader">
+									<p id="change-password-title">Verify Password</p> <button  @click="closeVerifyPass()" class="x">&times;</button>
+								</div>
+								<div class="modalBody">
+									<form @submit.prevent="changePassword()">
+										<label>Re-type Password</label>
+										<input type="password" v-model="userInfo.verifyPass"  id="verify-pass">
+										<button class="verify-pass-btn">Verify</button>
+									</form>
+								</div>
+							</div>
 							<p>Security</p>
 							<div id="forms">
 								<div>
 									{% csrf_token %}
 									<label>Email</label><br>
-									<input type="email" name="" value="jerecojamespiso@gmail.com" v-bind:disabled="editEmailDisable">
-									<button  v-if="!email_save" @click="editEmailDisable=false;editEmail()" class="edit-btn">Edit</button>
-									<button v-if="email_save" class="save-btn" @click="editEmail()"> Save</button>
+									<input type="email" name="" :value="userInfo.email" :disabled="true">
+									<!-- <button  v-if="!email_save" @click="editEmailDisable=false;editEmail()" class="edit-btn">Edit</button>
+									<button v-if="email_save" class="save-btn" @click="editEmail()"> Save</button> -->
 								</div>
-									<div>
+								<div>
 								
-									<label>Password</label><br>
-									<input type="password" name="" value="11111111" v-bind:disabled="editPassDisable">
-									<button   v-if="!password_save" @click="editPassDisable=false;editPassword()" class="edit-btn">Edit</button>
-									<button v-if="password_save" class="save-btn" @click="editPassword()"> Save</button>
-								</div>
-									<div>
-										<label>Username</label><br>
-									<input  type="text" value="jerecojamespiso@gmail.com" v-bind:disabled="editUnameDisable">
-									<button v-if="!uname_save" @click="editUnameDisable=false;editUname()"class="edit-btn">Edit</button>
-									<button  v-if="uname_save" class="save-btn" type="submit">Save</button>
-							
-									</div>
+									<label>New Password</label><br>
+									<b id="changePassNote">*Enter new password if you want to change your current password.</b>
+									<input type="password" v-model="userInfo.password" ref="pass" v-bind:disabled="editPassDisable" placeholder="">
+									<button type="button"  v-if="!password_save" @click="editPassDisable=false;editPassword()" class="edit-btn"><span class="fa fa-edit"></span></button>
+									<button v-if="password_save" class="save-btn" @click="editPassword()"> Save </button>
+									<!-- <button type="button"  @click="editPassDisable=false;editPassword()" class="edit-btn"><span class="fa fa-edit"></span></button>
+									<button type="button" class="save-btn" @click="editPassword()"> Save </button> -->
+									<button class="view-btn"  @click="viewHidePass()"><span class="fa fa-eye" v-if="!showPass"></span><span class="fa fa-eye-slash" v-if="showPass"></span></button>
 									
-								<br><br>
+								</div>
+								<div>
+									<label>Username</label><br>
+									<input  type="text" value="jerecojamespiso@gmail.com" v-model="userInfo.username" v-bind:disabled="editUnameDisable">
+									<button v-if="!uname_save" @click="editUnameDisable=false;editUname()"class="edit-btn"><span class="fa fa-edit"></span></button>
+									<button  v-if="uname_save" class="save-btn" @click="changeUsername()">Save</button>
+							
+								</div>
+									
+								<!-- <br><br> -->
 							</div>
 							
-							<!-- modal for verifying password -->
-							<div class="passwordModal" v-if="changePassModal">
-								<div class="modalHeader">
-									<p id="change-password-title">Verify Password</p> <button  @click="changePassModal=false" class="close">&times;</button>
-								</div>
-								<div class="modalBody">
-									<form @submit.prevent="changePassword()">
-										<label>Re-type password</label>
-										<input type="text" name="" id="verify-pass">
-										<button class="verify-pass-btn">Verify</button>
-									</form>
-								</div>
-							</div>
+							
 							
 						</div>
 						<!-- id security-info ends -->
 					</div>
-					<div class="col l12 m12 s12 xl12 other-info">
+					<div class="col l12 m12 s12 xl12 other-info" >
 						<div id="other-info">
 							
 							<p class="p">Other Information</p>
@@ -126,7 +146,7 @@
 									border-radius: 0.2rem;" v-model="newSkill" @keyup="monitor" placeholder="Enter new skills . . .">
 								</div>
 								<label>About Me (Optional)</label>
-								<div style="margin-bottom: 7px;" v-html="summerNote">
+								<div v-html="summerNote" class="my-experience">
 
 								</div>
 								<div  id="work-experience"></div>

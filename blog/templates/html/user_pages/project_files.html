@@ -4,18 +4,7 @@
 		
 		<div class="flex-container">
 			<div class="flex-item1">
-				
-				<div class="sideNav">
-					<span class="fa fa-bars" id="bars"></span>
-					<img :src="src+mydp" class="dp">
-					<p class="name">{{ request.session.username }}	</p>
-					<li class="notifications"><a href="/user">Home</a></li>
-					<li><a href="/user/projects">Projects </a></li>
-					<li><a href="/user/questions">Questions </a></li>
-					<li ><a href="/user/settings">Account Settings</a></li>
-					<li ><a href="">Notifications <span class="notif-total">10</span> </a></li> 
-					<li><a href="logout">Logout</a></li>
-				</div>
+				{% include 'html/user_pages/side_nav.html' %}
 				
 			</div>
 			<div class="flex-item2" >
@@ -29,6 +18,7 @@
 						<div class="col l4 s12 ">
 							
 							<div class="other-project for-other-projects-left">
+								
 								<p class="projects">Other Projects</p>
 								<ul>
 								{% for project in projects %}
@@ -45,17 +35,54 @@
 						</div>
 						<div class="col l8 s12">
 						<div class="folders-files">
-							<div class="fileModal" v-if="code">
-								<div class="modalHeader">
-
-									<p class="filename">[filename]</p>
-									<button @click="code = ''" class="close-file">&times;</button>
-
-								</div>
-								<div class="modalBody">
-									<pre>[code]</pre>
+							<div class="modalEditor">
+								<div class="fileModal">
+									<div class="modalHeader">
+	
+										<p class="filename">[filename]</p>
+										<button @click="closeEditor()" class="close-file">&times;</button>
+	
+									</div>
+									<div class="modalBody">
+									
+										<prism-editor  id="my-editor"  v-model='code'  :highlight="highlighter">
+							
+										</prism-editor>
+										
+										<button @click="editCode()" class="update-code-btn">Save</button>
+										<!-- <button class="btn-delete">Delete</button> -->
+									</div>
 								</div>
 							</div>
+							<div class="imgModal">
+								<div class="photoModal">
+									<div class="modalHeader">
+	
+										<p class="filename">[filename]</p>
+										<button @click="closeImageViewer()" class="close-file">&times;</button>
+									</div>
+									<div class="modalBody">
+										<img :src="media+path.replace(/%/g,'/')" class="file_image" :alt="filename">
+										<button class="btn-delete pull-right" @click="deleteFile()">Delete</button>
+									</div>
+								</div>
+							</div>
+							
+								<div class="promptModal">
+									<div class="responseModal">
+										<div class="modalHeader">
+		
+										
+											<button @click="closeResponseModal()" class="close-file">&times;</button>
+										</div>
+										<div class="modalBody">
+											<span v-if="modalLogo == 'err'" class="fa fa-exclamation err"></span>
+											<span v-else class="fa fa-check success"></span>
+											<p class="center-align promptMsg" >[responseMsg]</p>
+										</div>
+									</div>
+								</div>
+				
 							{% for folder in folders %}
 							<!-- {% if forloop.counter == 1%}
 							<p class="path"> <span class="fa fa-folder"></span> <b>{{ folder }}</b> </p>
@@ -81,12 +108,15 @@
 									{% with forloop.counter as fileName %}
 									{% for f_name in file_name %}
 										{% if fileName == forloop.counter %}
-										<button @click="path = '{{ file }}';filename = '{{ f_name }}';getFile()" class="file">
+										<button @click="path = '{{ file }}';filename = '{{ f_name }}';getFile()"  class="file">
 											{{ f_name }}
 
 										{% endif %}
 									{% endfor %}
 									{% endwith %}
+									<!-- <br>
+									<span class="fa fa-trash" style="margin-right: 10px;"></span>
+									<span class="fa fa-edit" ></span> -->
 								</button>
 								
 								

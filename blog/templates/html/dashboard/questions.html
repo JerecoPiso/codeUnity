@@ -51,7 +51,7 @@
 				<div class="row" style="margin-left: -12px;margin-bottom: -3%;margin-right: -12px;">
                     <div class="col l8 s12" >
 						
-						<select class="browser-default" id="opt">
+						<select class="browser-default" v-model="selectedLanguage" id="opt" @change="filterByLanguage()">
 							<option value="" disabled selected>Filter by Language</option>
 							<option v-for="lang in toShowLanguages">[lang.language]</option>
 						
@@ -61,7 +61,8 @@
                     <div class="col l4 s12">
                       
 					
-				<input type="text" id="search-question" placeholder="Search project ..." >
+				<input type="text" id="search-question" v-model="
+				filter" placeholder="Search project ..." >
 					
 			
                     </div>
@@ -76,19 +77,20 @@
 							<th>Language</th>
 							<th>Date</th>
 							<th>Comments</th>
-							<th>Likes</th>
+							<th>Views</th>
 						
 				
 						</tr>
 					</thead>
 					<tbody>
-					 <tr v-for="ques in allQuestions">
+						<!-- ques in allQuestions  -->
+					 <tr v-for="(ques,index) in filterQuestions" :key="index" v-if="index < questionToShowCtr">
 							<td>[ques.id]</td>
 							<td>[ques.question]</td>
 							<td>[ques.language]</td>
 							<td>[ques.date]</td>
 							<td>[ques.comments]</td>
-							<td>[ques.likes]</td>
+							<td>[ques.views]</td>
 							
 						</tr> 
 						
@@ -96,10 +98,9 @@
 
 				</table>
 				<b class="show">Show</b>
-					<select class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
-						<option value="1">25</option>
-						<option value="2">50</option>
-						<option value="3">100</option>
+					<select v-model="questionToShowCtr"  class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
+						<option v-for="(toShow, index) in limitToShow" :value="toShow" :key="index">[toShow]</option>
+						
 					</select>
 					<b class="entries">Entries 
 					

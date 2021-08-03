@@ -5,58 +5,84 @@
 	
 	{% include 'html/templates/header.html' %}
     
-        <div class="row" style="margin-top: 55px" id="developers">
-            <div class="col l9 m8 s12"  style=" background-color: rgb(255,255,255);">
-                <input type="" id="search-div" placeholder="Search developer's expertise . . .">
-
-                <div class="row" style="clear: both;">
+        <div class="row " id="developers">
+            <div class="col l9 m8 s12"  >
+              <div class="bg-white">
+                <p class="devs-slogan">  Well <strong>Experienced</strong>  and <strong>Skilled</strong>  Developers</p>
+                <form @submit.prevent="searchDevs()">
+                  {% csrf_token %}
+                   <input type="text" v-model="search"  id="search-div"  placeholder="Search developer . . .">
+                </form>
+              
+              
+                <div class="row clear">
+                  {% if search and devs %}
+                  <p class="result-for">Result for: <i>"{{search}}"</i> </p>
+                  {% endif %}
                   {% for dev in devs %}
-                    <div class="col l3">
-                        <div class="card" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
-                            <div class="card-image" style="padding: 15px">
-                              <img src="/media/{{dev.photo}}" style="max-height: 80px;border-radius: 50%;width: 90px;margin:auto;display: block;">
-                              <p class="center-align devname">{{dev.uname}}
+                    <div class="col l3 m4 s12 xl3">
+                        <div class="card">
+                            <div class="card-image p-15">
+                              <img src="/media/{{dev.photo}}" alt="/media/{{dev.photo}}">
+                              <a href="javascript:void(0)"  class="devname">{{dev.uname}}
 
-                              </p>
-                              <p class="center-align" style="margin-top: 0;margin-bottom: -5px">( {{dev.expertise}} )</p>
+                              </a>
+                              <p class="dev-expertise">( {{dev.expertise}} )</p>
                             </div>
-                            <div class="card-skills ">
+                            <div class="card-skills card-skills-max">
                               <dev-skills skills="{{dev.skills}}"></dev-skills>
-                            </div>
-                            <div class="card-footer" >
-                              <!-- <a href="#"><span class="fa fa-eye"></span> </a> -->
-                              <p class="view-profile"><a href="" >Read more</a></p>
                             </div>
                        </div>
                     </div> 
+                    <div class="col l3 m4 s12 xl3">
+                      <div class="card">
+                          <div class="card-image p-15">
+                            <img src="/media/{{dev.photo}}" alt="/media/{{dev.photo}}">
+                            <a href="javascript:void(0)"  class="devname">{{dev.uname}}
+
+                            </a>
+                            <p class="dev-expertise">( {{dev.expertise}} )</p>
+                          </div>
+                          <div class="card-skills card-skills-max">
+                            <dev-skills skills="{{dev.skills}}"></dev-skills>
+                          </div>
+                     </div>
+                  </div> 
+                  
+              
+                    
                     {% empty %}
-                      <p class="no-devs">No Developers</p>
+                      <p class="no-devs">No result found for <i>"{{search}}"</i> </p>
                     {% endfor %}
+                    
+                                    
+                <div class="pagination clear" >
+                  <span class="step-links ">
+                    {% if page_obj.has_previous %}
+                      <a href="?page=1" class="page1">&laquo; 1</a>
+                      <a href="?page={{ page_obj.previous_page_number }}" class="page-prev">Prev</a>
+                    {% endif %}
+                
+                  
+                    {% if page_obj.has_next %}
+                
+                      <a href="?page={{ page_obj.next_page_number }}" class="next-page">Next</a>
+                      <a href="?page={{ page_obj.paginator.num_pages }}" class="total-page"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
+                    {% endif %}
+                    {% if devs %}
+                    <span class="current current-page mb-n2">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    {% endif %}
+                
+                  </span>
+                </div> 
                
-        
                 </div>
-                    <!-- <br> -->
-                    <div class="pagination">
-                      <span class="step-links">
-                        {% if page_obj.has_previous %}
-                          <a href="?page=1" style="font-size: 20px;margin-right: 10px;margin-left: 10px">&laquo; 1</a>
-                          <a href="?page={{ page_obj.previous_page_number }}" style="font-size: 20px;margin-right: 20px;">Prev</a>
-                        {% endif %}
-                    
-                      
-                        {% if page_obj.has_next %}
-                    
-                          <a href="?page={{ page_obj.next_page_number }}" style="font-size: 20px;margin-right: 10px;margin-left: 10px">Next</a>
-                          <a href="?page={{ page_obj.paginator.num_pages }}" style="font-size: 20px"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
-                        {% endif %}
-                        {% if devs %}
-                        <span class="current" style="float: right;;opacity: 0.6; font-size: 18px;padding: 1%;border-radius: 0.5rem;margin-top: -10px">
-                          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                        </span>
-                        {% endif %}
-                    
-                      </span>
-                    </div> 
+    
+                   
+              </div>
+              
             </div>
 
             <div class="col l3 s12 m4">
@@ -67,69 +93,74 @@
                   {{total} Developer
                   {%  endif %}
                 </p>
-                <p class="filter-by">Developers Category :</p>
+                <p class="filter-by">Developers Expertise</p>
                 <div class="categories">
-                    <a href="/developers/category/Backend">Backend</a>
+                    
+                    {% for cats in categor %}
+                     
+                      <a href="/developers/expertise/{{cats.expertise}}"> {{cats.expertise}}</a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        <div class="row skills-categories-box" style="">
-            <div class="col l3">
-              <p class="devs-categories">Frontend Development</p>
+        <div class="row skills-categories-box">
+          <p class="theres-a-lot"><strong>There's</strong> a <strong>Lot</strong>  of <strong>Skills Here.</strong> </p>
+            <div class="col l3 xl3 m6 s12">
+              <p class="devs-categories">Frontend</p>
               <ul class="categories-skills">
                 {% for lang in languages %}
                   {% if lang.category == "Front-End" %}
-                  <li><a href="/developers/skills/{{lang.language}}">{{lang.language}}</a></li>
+                 <a href="/developers/skills/{{lang.language}}">{{lang.language}}</a>
                   
                   {% endif %}
                 {% endfor %}
                 {% for fw in frameworks %}
                   {% if fw.category == "Front-End" %}
-                  <li><a href="/developers/skills/{{fw.framework}}">{{fw.framework}}</a></li>
+                  <a href="/developers/skills/{{fw.framework}}">{{fw.framework}}</a>
                   {% endif %}
                 {% endfor %}
               </ul>
             </div>
-            <div class="col l3">
-              <p class="devs-categories">Backend Development</p>
+            <div class="col l3 xl3 m6 s12">
+              <p class="devs-categories">Backend</p>
               <ul class="categories-skills">
                 {% for lang in languages %}
                   {% if lang.category == "Back-End" %}
-                  <li><a href="/developers/skills/{{lang.language}}">{{lang.language}}</a></li>
+                  <a href="/developers/skills/{{lang.language}}">{{lang.language}}</a>
                   
                   {% endif %}
                 {% endfor %}
                 {% for fw in frameworks %}
                   {% if fw.category == "Back-End" %}
-                  <li><a href="/developers/skills/{{fw.framework}}">{{fw.framework}}</a></li>
+                  <a href="/developers/skills/{{fw.framework}}">{{fw.framework}}</a>
                   {% endif %}
                 {% endfor %}
               </ul>
             </div>
-            <div class="col l3">
-              <p class="devs-categories">Mobile Development</p>
+            <div class="col l3 l3 xl3 m6 s12">
+              <p class="devs-categories">Mobile</p>
               <ul class="categories-skills">
                 {% for lang in languages %}
                   {% if lang.category == "Android Development" or lang.category == "iOS Development" %}
-                  <li><a href="/developers/skills/{{lang.language}}">{{lang.language}}</a></li>
+                  <a href="/developers/skills/{{lang.language}}">{{lang.language}}</a>
                   
                   {% endif %}
                 {% endfor %}
                 {% for fw in frameworks %}
                 {% if fw.category == "Android Development" or lang.category == "iOS Development" %}
-                <li><a href="/developers/skills/{{fw.framework}}">{{fw.framework}}</a></li>
+                <a href="/developers/skills/{{fw.framework}}">{{fw.framework}}</a>
                 {% endif %}
               {% endfor %}
               </ul>
             </div>
            
-            <div class="col l3">
-              <p class="devs-categories">Desktop Development</p>
+            <div class="col l3 l3 xl3 m6 s12">
+              <p class="devs-categories">Desktop</p>
               <ul class="categories-skills">
                
                 {% for lang in languages %}
                   {% if lang.category == "Desktop" %}
-                  <li><a href="/developers/skills/{{lang.language}}">{{lang.language}}</a></li>
+                  <a href="/developers/skills/{{lang.language}}">{{lang.language}}</a>
                   {% endif %}
                 {% endfor %}
               </ul>

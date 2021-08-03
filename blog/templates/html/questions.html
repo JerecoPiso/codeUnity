@@ -4,7 +4,7 @@
 {% block main_page %}
 	
 	{% include 'html/templates/header.html' %}
-	<div class="LoginModal">
+	<!-- <div class="LoginModal">
 		<div class="LoginModalWrapper">
 			<div class="ModalHeader">
 				<button class="closeModal">&times;</button>
@@ -21,7 +21,7 @@
 				</form>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div class="row " style="margin-top: 60px;">
 		<div class="col s12 m12 xl8 l8">
 			<div  id="question-box">
@@ -35,7 +35,7 @@
 
 				{% endif %}
 			</div>
-			<p class="feel-free">Feel Free to Ask Question <a href="javascript:void(0)" id="ask-btn">Ask Now</a></p>
+			<p class="feel-free">Feel Free to Ask Question <a href="/login/ask" id="ask-btn">Ask Now</a></p>
 			
 			<div style="padding-left: 2px;padding-right: 2px;clear: both;" id="searchQuestion">
 				<select id="form-filter-categories" class="browser-default" v-model="category" @change="getCategory()">
@@ -44,19 +44,7 @@
 					<option>{{cat.category}}</option>
 					{% endfor %}
 				  </select>
-				  <!-- <select id="form-filter-lang" class="browser-default">
-					<option value="" disabled selected>Languages</option>
-					{% for lang in languages %}
-					<option>{{lang.language}}</option>
-					{% endfor %}
-				  </select>
-				  <select id="form-filter-frameworks" class="browser-default">
-					<option value="" disabled selected>Frameworks</option>
-					{% for fw in frameworks %}
-					<option>{{fw.framework}}</option>
-					{% endfor %}
-				  </select> -->
-				  <!-- id="search-question" -->
+		
 				  <form id="search-question"  @submit.prevent="searchQuestion()">
 					{% csrf_token %}
 					<input type="text" v-model="searchValue"  placeholder="Search for question">
@@ -67,11 +55,11 @@
 			<ul class="questions-box " id="ques">
 				{% for question in questions %}
 				<li class="question">
-					<a href="/viewQuestion/{{question.id}}">{{ question.question }}</a> <br>
+					<a href="/question/{{question.id}}">{{ question.question }}</a> <br>
 					<cite class="time-counter">by: Jereco James Piso <i style="font-size: 7px;"><date-posted posted="{{question.date}}"></date-posted></i></cite>
 					<div class="infos">
 						<span class="fa fa-comments comments"></span><b class="question-info">  {{ question.comments }}</b> 
-						<b class="question-info"><span class="fa fa-thumbs-up likes" ></span> {{ question.views }}</b>
+						<b class="question-info"><span class="fa fa-eye likes" ></span> {{ question.views }}</b>
 					</div>
 					<cite style="font-style: normal;">Tags</cite>
 					<my-component skills="{{question.tags}}"></my-component>
@@ -79,7 +67,7 @@
 				
 				</li>
 				{% empty %}
-					<h5 style="text-align: center;">No result found for {% if toSearch %}<i>{{ toSearch }}</i> {% endif %}</h5>
+					<h5 style="text-align: center;">No result found {% if toSearch %} <i>"{{ toSearch }}"</i> {% endif %} </h5>
 				{% endfor %}
 			
 			</ul>
@@ -128,8 +116,8 @@
 			<div class="questions-btn">
 
 				<a href="/questions/filter/latest">Latest</a>
-				<a href="">Answered</a>
-				<a href="">Unanswered</a>
+				<a href="/questions/filter/answered">Answered</a>
+				<a href="/questions/filter/unanswered">Unanswered</a>
 			</div>
 		</div> 
 	</div>

@@ -3,7 +3,7 @@
 {% block body %}
 
 	<div class="row mt-1" id="languageFramework">
-			<h5 class="manage"><span class="fa fa-language"></span> <span id="total-project">| 2000 Projects |</span></h5>
+			<h5 class="manage"><span class="fa fa-language"></span> <span id="total-project">| [totalLanguage + totalFW] |</span></h5>
 
 			<div class="col l12 s12 m12 xl12 mt-3" id="table-div">
                 
@@ -44,7 +44,7 @@
                     </div>
                     <div class="col l4 s12 m6">
 					
-                        <input type="text" id="search-language" placeholder="Search language ..." >
+                        <input type="text" id="search-language" v-model="searchLanguage" placeholder="Search language ..." >
 					
                     </div>
                 </div>
@@ -63,7 +63,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(lang, index) in toShowLanguages" v-if="index < languageCtr">
+						<tr v-for="(lang, index) in filterLanguage" v-if="index < languageCtr">
 							<td>[lang.id]</td>
 							<td>[lang.language]</td>
 							<td>[lang.category]</td>
@@ -79,9 +79,8 @@
 				</table>
 				<b class="show">Show</b>
 					<select v-model="languageCtr" class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
-						<option>25</option>
-						<option>50</option>
-						<option>100</option>
+						<option v-for="limit in limitToShowLanguage">[limit]</option>
+						
 					</select>
 					<b class="entries">Entries 
 					
@@ -129,7 +128,7 @@
 					
                     </div>
                     <div class="col l4 s12 m6">
-                        <input type="text" id="search-framework" placeholder="Search framework ..." >
+                        <input type="text" id="search-framework" v-model="searchFramework" placeholder="Search framework ..." >
 					
                     </div>
                 </div>
@@ -149,7 +148,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(f, index) in toShowFrameworks" v-if="index < frameworkCtr">
+						<tr v-for="(f, index) in filterFramework" v-if="index < frameworkCtr">
 							<td>[f.id]</td>
 							<td>[f.framework]</td>
 							<td>[f.language]</td>
@@ -167,9 +166,8 @@
 				</table>
 				<b class="show">Show</b>
 					<select v-model="frameworkCtr" class="browser-default" style="width: 100px;margin-top: 1%;float: left;">
-						<option>5</option>
-						<option>10</option>
-						<option>15</option>
+						<option v-for="limit in limitToShowFramework">[limit]</option>
+					
 					</select>
 					<b class="entries">Entries 
 					

@@ -1,49 +1,91 @@
-			<div class="row">
-				<div class="col l4 xl4 s12 m6">
+			<div class="row" >
+				<div class="col l3 xl3 s12 m6">
 					<div class="card card-projects">
 						<div class="card-header">
 							<span class="fa fa-folder"></span>
-								<b class="total">5</b>
+								<b class="total">{{total_apps}}</b>
 						</div>
 						<div class="card-body">
 							<p>Projects</p>
 						</div>
 					</div>
 				</div>
-				<div class="col l4 xl4 s12 m6">
+				<div class="col l3 xl3 s12 m6">
+					<div class="card card-devs">
+						<div class="card-header">
+							<span class="fa fa-users"></span>
+								<b class="total">{{total_devs}}</b>
+						</div>
+						<div class="card-body">
+							<p>Developers</p>
+						</div>
+					</div>
+				</div>
+				<div class="col l3 xl3 s12 m6">
 					<div class="card card-question">
 						<div class="card-header">
 							<span class="fa fa-question"></span>
-								<b class="total">5</b>
+								<b class="total">{{total_questions}}</b>
 						</div>
 						<div class="card-body">
 							<p>Questions</p>
 						</div>
 					</div>
 				</div>
-				<div class="col l4 xl4 s12 m6">
-					<div class="card card-notif">
-						<div class="card-header">
-							<span class="fa fa-bell"></span>
-								<b class="total">5</b>
-						</div>
-						<div class="card-body">
-							<p>Notifications</p>
-						</div>
-					</div>
-				</div>
-				<div class="col l4 xl4 s12 m6">
+			
+				<div class="col l3 xl3 s12 m6">
 					<div class="card card-languages">
 						<div class="card-header">
 							<span class="fa fa-code"></span>
-								<b class="total">5</b>
+								<b class="total">{{total_languages}}</b>
 						</div>
 						<div class="card-body">
 							<p>Languages</p>
 						</div>
 					</div>
 				</div>
-				<div class="col l4 xl4 s12 m6">
+				<div class="col l7 xl7 s12 m12">
+						
+					<div class="top-apps">
+						<!-- <p class="top-downloaded-apps">Top 10 Downloaded Projects</p> -->
+						<canvas id="top-projects" height="200" ></canvas>
+					</div>
 					
+				</div>
+				<div class="col l5 xl5 s12 m12">
+					<div id="mostViewed">
+						
+						<p class="top-downloaded-apps">Most Viewed Questions</p>
+						<ul>
+							<li v-for="ques in viewedQuestions"> [ques.question]
+								<p class="m-0" v-if="ques.views > 1"><span class="views">[ques.views] Views</span> </p>
+								<p class="m-0" v-else> <span class="views">[ques.views] View</span> </p>
+							</li>
+						</ul>
+					
+					</div>
+					
+				</div>
+				<div class="col l7 xl7 s12 m12">
+					
+					<div class="yearly">
+						<!-- <p class="top-downloaded-apps">Top 10 Viewed Questions</p> -->
+						<canvas id="yearly" height="100" width="200" ></canvas>
+					</div>
+					
+					
+				</div>
+				<div class="col l5 xl5 s12 m12">
+					<div id="device-form">
+						
+						<ul class="collection">
+							<li class="collection-item" style="color: rgb(0,128,128)" v-for="device in usersDevices">[device.device_name]</li>
+						</ul>
+					</div>
+				
+					<div class="devices">
+					
+						<canvas id="devices" height="100" width="200" ></canvas>
+					</div>
 				</div>
 			</div>

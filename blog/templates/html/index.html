@@ -27,36 +27,18 @@
                 <input type="password" name="password2"  v-model="signupInfo.password2"  @keyup="password2Monitor" required>
        
                 <button type="submit" class="btn-signup"   :disabled="btnDisable">Signup</button>
-                <p style="font-size: 13px" class="center-align error" v-if="error" v-html="error"></p>
+                <p style="font-size: 13px" class="center-align error" v-html="error"></p>
                 {% if messages %}
               
                     {% for message in messages %}
-                    <p {% if message.tags %} class="center-align error"{% endif %}>{{ message }}</p>
+                    <p {% if message.tags %} class="center-align error2"{% endif %}>{{ message }}</p>
                     {%endfor %}
-         
+              
                 {% endif %}
                
              </form>
              
-            <!-- <form id="form" v-on:submit.prevent="register()">
-              {% csrf_token %}
-            
-               <p class="form-title">codeUnity</p>
-               <p class="center-align error" ></p>
-               <label> Username</label>
-               <input type="text" v-model="signupInfo.username" required>
-               <label> Email</label>
-               <input  type="email" v-model="signupInfo.email" required>
-            
-                <label>Password</label>
-               <input type="password" v-model="signupInfo.password" required>
-                <label>Re-type password </label>
-               <input type="password" v-model="signupInfo.password2" required>
-      
-               <button type="submit" class="btn-signup">Signup</button>
-           
-               <p class="center-align success"></p>
-            </form> -->
+
    		</div>
       </div>
       <div class="bg-color">
@@ -64,41 +46,10 @@
          
                
             A Helpful Platform for Developers <br>
-            <!-- <span>Upload/Download projects, Post/Answer questions.</span> -->
+        
             
        </div>
-       <!-- <div class="row totals-portion" style="">
-          <div class="col l4 m4 s12">
-             <p class="totals"> {{total_devs}} </p>
-             <p class="total-desc">
-               {% if total_devs == '1' %}
-                 Developer
-               {% else %}
-                 Developers
-               {% endif %}
-             </p>            
-          </div>
-          <div class="col l4 m4 s12">
-             <p class="totals"> {{total_projects}} </p>
-             <p class="total-desc">
-                {% if total_projects == '1' %}
-                   Project
-                {% else %}
-                   Projects
-                {% endif %}
-             </p>            
-          </div>
-          <div class="col l4 m4 s12">
-             <p class="totals"> {{total_devs}} </p>
-             <p class="total-desc">
-               {% if total_devs == '1' %}
-                 Developer
-               {% else %}
-                 Developers
-               {% endif %}
-             </p>             
-          </div>
-       </div> -->
+
        <div class="row cards-row" >
           <div class="col l4 m6 s12">
              <div class="card card-min-height" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
@@ -140,81 +91,6 @@
       
           </div>
        </div>
- 
- 
- <!-- 
-       <div class="row boxes">   
-         <h2 id="slogan-2">Let's help each other be a<br> good developer.</h2>
-         <div class="col l4 xl4 m6 s12">
-            <div class="total-devs mt-5">
-             
-                 
-                <p class="m-0"> {{total_devs}} </p>
-                 <strong style="font-size: 25px">
-                   {% if total_devs == '1' %}
-                     Developer
-                   {% else %}
-                     Developers
-                   {% endif %}
-                 </strong>              
-             </div>
-           
-         </div>
-         <div class="col xl4 l4 m6 s12">
-            <div class="total-apps mt-5">
-            
-               <p class="m-0 "> {{total_projects}} </p>
-               <strong style="font-size: 25px">
-                   {% if total_projects == '1' %}
-                      Project
-                   {% else %}
-                      Projects
-                   {% endif %}
-               </strong>     
-             </div>
-     
-         </div>
-         <div class="col xl4 l4 m6 s12">
-            <div class="total-jobs mt-5">
-             
-                   <p class="m-0 "> 20,000 </p>
-                   <strong style="font-size: 25px">
-                       {% if total_projects == '1' %}
-                       Question
-                       {% else %}
-                          Questions
-                       {% endif %}
-                   </strong>     
- 
-              </div>
-         </div>
-       </div> -->
- <!--     
-       <div class="row tops">
-       
-          <div class="col s12 m12 l6 xl6">
-             <p class="top-downloads">Most Popular Projects</p>
-             <ul id="collection" class="collection">
-               {% for app in apps %}
-                <li class="collection-item">{{ forloop.counter }}. {{ app.project_name }} 
-                 <a href="download/{{ app.project_name }} " class="fa fa-download right"></a>  
-                 <span class="right">{{app.downloads}} Downloads</span></li>
-               {% endfor %}
-              </ul>
-         
-          </div>
-            <div class="col s12 m12 l6 xl6" style="">
-             <p class="top-downloads">Top Languages</p>
-             <ul id="top-languages-collection"  class="collection">
-                <li class="collection-item">NodeJS  <a href="#" class="right"><span class="fa fa-eye"></span></a> <span class="right">1000+ Projects</span> 
-                  
-                </li>
-                <li class="collection-item">Laravel <a href="#" class="right"><span class="fa fa-eye"></span></a><span class="right">1000+ Downloads</span></li>
-              </ul>
-            
-          </div>
-       </div> -->
- 
       </div>
      
 
