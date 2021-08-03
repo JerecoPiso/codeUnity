@@ -509,14 +509,7 @@ def signup(request, redirectTo):
      request.session['redirectTo'] = redirectTo
      print(request.session['redirectTo'])
      return render(request, "html/signup.html")
-
-
-                
-        redirectedTo = "/login/user"
-      elif redirectTo == "ask":
-        redirectedTo = "/login/ask"
-      elif redirectTo == "upload-project":
-        redirectedTo = "/login/upload-project"
+     
 def login(request, redirectTo):
     #  messages.warning(request, 'Your account expires in three days.')
      request.session['title'] = "Login"
