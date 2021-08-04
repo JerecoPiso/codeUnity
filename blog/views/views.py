@@ -13,6 +13,7 @@ from django.db.models import Count
 from django.db import connection
 from django.db.models import Q
 from django.core.mail import send_mail
+
 # rootDir = ""
 # message = "www"
 # resp = ""
@@ -479,7 +480,7 @@ def register(request):
                                send_mail(
                                  'Verify Account',
                                  'Verification code : ' + code,
-                                 'CodeUnity',
+                                 settings.EMAIL_HOST_USER,
                                  [receiver],
                                  fail_silently=True,
                                )
