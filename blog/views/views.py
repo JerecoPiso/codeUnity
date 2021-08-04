@@ -341,7 +341,7 @@ def getDevelopers(request, toGetDevelopers, value):
   paginator = Paginator(devs, 10)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
-  return render(request, 'html/developers.html', {"categor": dev_cat,'search': value,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total': total_devs, 'languages': language})
+  return render(request, 'html/developers.html', {"categor": dev_cat,'search': value,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total_devs': total_devs, 'languages': language})
 
 def searchDevs(request, search):
   
@@ -361,7 +361,7 @@ def searchDevs(request, search):
   paginator = Paginator(devs, 10)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
-  return render(request, 'html/developers.html', {"categor": dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total': total_devs, 'languages': language, 'search': search})
+  return render(request, 'html/developers.html', {"categor": dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total_devs': total_devs, 'languages': language, 'search': search})
 
 def userLogin(request, redirectTo):
     request.session['title'] = "Login"
