@@ -23,10 +23,10 @@ class Developers(models.Model):
 	skills = models.TextField(blank=True)
 	aboutme = models.TextField(blank=True)
 	expertise = models.CharField(max_length=255,blank=True)
-	resume = models.FileField(upload_to="media/")
-	rate = models.CharField(max_length=55)
-	countryAbbr = models.CharField(max_length=25)
-	country = models.CharField(max_length=25)
+	resume = models.FileField(upload_to="media/", blank=True)
+	rate = models.CharField(max_length=55, blank=True)
+	countryAbbr = models.CharField(max_length=25, blank=True)
+	country = models.CharField(max_length=25, blank=True)
 
 	def __str__(self):
 		return self.email + " " + self.password + " " + self.photo + " " + self.uname + " " + self.skills + " " + self.aboutme + " " + self.expertise + " " + self.resume + " " + self.rate + " " + self.countryAbbr + " " + self.country
