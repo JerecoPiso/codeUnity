@@ -868,6 +868,16 @@ body{
 	font-size: 25px;
 	text-align: center
 }
+.no-projects{
+    text-align: center;
+    font-size: 24px;
+    margin-top: 12%;
+ 
+}
+.imp-txt{
+	color: rgb(0, 128, 128);
+	font-size: 28px;
+}
 /* 
 #languages::-webkit-scrollbar {
     width: 5px;

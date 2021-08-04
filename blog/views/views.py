@@ -211,9 +211,7 @@ def searchProject(request,toSearch):
   frameworks = Frameworks.objects.all()
   project = Projects.objects.filter(project_name__icontains=toSearch)
 
-  # language = Projects.objects.values(
-  #   'language'
-  #   ).annotate(language_count=Count('language')).filter(language_count__gt=0)
+
   language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
@@ -227,7 +225,7 @@ def searchProject(request,toSearch):
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
-  return render(request, 'html/search_project.html', {'frameworks': frameworks,'search': toSearch,'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
+  return render(request, 'html/projects.html', {'frameworks': frameworks,'toSearch': toSearch,'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
 def filterProjects(request, toSearch):
   frameworks = Frameworks.objects.all()
@@ -248,7 +246,7 @@ def filterProjects(request, toSearch):
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
-  return render(request, 'html/filterProjects.html', {'frameworks': frameworks,'languages': language,'toSearch': toSearch, 'new_apps': newest_apps, 'projects': page_obj,'page_obj': page_obj, 'apps': apps})
+  return render(request, 'html/projects.html', {'frameworks': frameworks,'languages': language,'toSearch': toSearch, 'new_apps': newest_apps, 'projects': page_obj,'page_obj': page_obj, 'apps': apps})
 
 def questions(request):
   # languages = Language.objects.all()

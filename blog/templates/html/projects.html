@@ -140,8 +140,11 @@
 						
 						</div>
 						{% empty %}
-						<p>No result found for d</p>
+
+						
+						<p class="no-projects"> {% if toSearch %}  No  <strong class="imp-txt">Projects</strong>  found for  <strong class="imp-txt"><i>"{{ toSearch }} "</i> </strong>  {% else %} There's no <strong class="imp-txt">Project/s</strong> uploaded this time.   {% endif %}</p>
 						{% endfor %}
+						{% if projects %}
 						<div class="pagination">
 							<span class="step-links">
 								{% if page_obj.has_previous %}
@@ -164,7 +167,7 @@
 								Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
 							<span>	
 						</div>  
-					
+						{% endif %}
 					</div>
 				</div>
 				</div>
