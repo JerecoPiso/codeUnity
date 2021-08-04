@@ -192,7 +192,7 @@ def projects(request):
   frameworks = Frameworks.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
-  if project.count() < 10:
+  if project.count() < 10 and project.count() > 0:
      paginator = Paginator(project, project.count())
   elif project.count() > 10:
      paginator = Paginator(project, 10)
