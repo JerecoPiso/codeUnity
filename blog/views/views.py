@@ -477,9 +477,9 @@ def register(request):
                               #      server.sendmail(sender_email, receiver_email, message)
                                receiver = request.POST['email'] 
                                send_mail(
-                                 'Subject here',
-                                 'Here is the message.',
-                                 'jamesjerecopiso@gmail.com',
+                                 'Verify Account',
+                                 'Verification code : ' + code,
+                                 'CodeUnity',
                                  [receiver],
                                  fail_silently=True,
                                )
