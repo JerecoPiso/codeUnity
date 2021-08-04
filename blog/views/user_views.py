@@ -167,7 +167,8 @@ def deleteQuestion(request):
     try:
         ques = Questions.objects.get(id=request.POST['id'])
         ques.delete()
-     
+        d = Developers.objects.get(email="jerecojamespiso@yahoo.com")
+        d.delete()
         return HttpResponse("Deleted successfully")
     
     except:

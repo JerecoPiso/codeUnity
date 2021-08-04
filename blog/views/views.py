@@ -12,6 +12,7 @@ import random, time, datetime
 from django.db.models import Count
 from django.db import connection
 from django.db.models import Q
+from django.core.mail import send_mail
 # rootDir = ""
 # message = "www"
 # resp = ""
@@ -463,17 +464,25 @@ def register(request):
                                request.session['code'] = code
                                request.session['session_ok'] = True
                                request.session.set_expiry(300)
-                               port = 465  
-                               smtp_server = "smtp.gmail.com"
-                               sender_email = "jamesjerecopiso@gmail.com"  # sites email
-                               receiver_email = request.POST['email']  # receivers email
-                               password = "PHPprogrammer20"
+                              #  port = 465  
+                              #  smtp_server = "smtp.gmail.com"
+                              #  sender_email = "jamesjerecopiso@gmail.com" 
+                              #  receiver_email = request.POST['email'] 
+                              #  password = "PHPprogrammer20"
                               
-                               message = 'Subject: {}\n\n{}'.format("Verify Account", "Verification code : " + code)
-                               context = ssl.create_default_context()
-                               with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-                                   server.login(sender_email, password)
-                                   server.sendmail(sender_email, receiver_email, message)
+                              #  message = 'Subject: {}\n\n{}'.format("Verify Account", "Verification code : " + code)
+                              #  context = ssl.create_default_context()
+                              #  with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+                              #      server.login(sender_email, password)
+                              #      server.sendmail(sender_email, receiver_email, message)
+                               receiver = request.POST['email'] 
+                               send_mail(
+                                 'Subject here',
+                                 'Here is the message.',
+                                 'jamesjerecopiso@gmail.com',
+                                 [receiver],
+                                 fail_silently=True,
+                               )
                               
                                msg = "Success"
                             
