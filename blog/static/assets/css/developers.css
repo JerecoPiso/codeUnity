@@ -343,3 +343,7 @@ body{
     font-size: xx-large;
     margin: 1% 0 0 0;
 }
+.imp-txt{
+	color: rgb(0, 128, 128);
+	font-size: 28px;
+}
