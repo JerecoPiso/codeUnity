@@ -10,29 +10,29 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='developers',
-            name='country',
-            field=models.CharField(blank=True, max_length=25),
-        ),
-        migrations.AddField(
-            model_name='developers',
-            name='countryAbbr',
-            field=models.CharField(blank=True, max_length=25),
-        ),
-        migrations.AddField(
-            model_name='developers',
-            name='rate',
-            field=models.CharField(blank=True, max_length=55),
-        ),
-        migrations.AddField(
-            model_name='developers',
-            name='resume',
-            field=models.FileField(blank=True, upload_to='media/'),
-        ),
-        migrations.AlterField(
-            model_name='users_device',
-            name='total_users',
-            field=models.IntegerField(),
-        ),
+        # migrations.AddField(
+        #     model_name='developers',
+        #     name='country',
+        #     field=models.CharField(blank=True, max_length=25),
+        # ),
+        # migrations.AddField(
+        #     model_name='developers',
+        #     name='countryAbbr',
+        #     field=models.CharField(blank=True, max_length=25),
+        # ),
+        # migrations.AddField(
+        #     model_name='developers',
+        #     name='rate',
+        #     field=models.CharField(blank=True, max_length=55),
+        # ),
+        # migrations.AddField(
+        #     model_name='developers',
+        #     name='resume',
+        #     field=models.FileField(blank=True, upload_to='media/'),
+        # ),
+        # migrations.AlterField(
+        #     model_name='users_device',
+        #     name='total_users',
+        #     field=models.IntegerField(),
+        # ),
     ]
