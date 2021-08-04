@@ -23,9 +23,12 @@ class Developers(models.Model):
 	skills = models.TextField(blank=True)
 	aboutme = models.TextField(blank=True)
 	expertise = models.CharField(max_length=255,blank=True)
+	resume = models.FileField(upload_to=="media/")
+	rate = models.CharField(max_length=55)
+	countryAbbr = models.CharField(max_length=25)
 
 	def __str__(self):
-		return self.email + " " + self.password + " " + self.photo + " " + self.uname + " " + self.skills + " " + self.aboutme + " " + self.expertise
+		return self.email + " " + self.password + " " + self.photo + " " + self.uname + " " + self.skills + " " + self.aboutme + " " + self.expertise + " " + self.resume + " " + self.rate + " " + self.countryAbbr
 
 	def delete(self, *args, **kwargs):
 		self.photo.delete()
