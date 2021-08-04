@@ -446,6 +446,8 @@ def userLogin(request, redirectTo):
 
 
 def register(request):
+   #   request.session['toLogout'] = request.session['redirectTo']
+   #   print(request.session['redirectTo'])
      msg = ""
      if request.POST["email"] != "":
           # if all(x.isalpha() or x.isspace() for x in request.POST["email"]):
@@ -510,8 +512,8 @@ def register(request):
     
      if msg != "Success":
         messages.error(request, msg)
-        print(msg)
-
+       
+     request.session['toLogout'] = "user"
      return redirect(route)
 
 def signup(request, redirectTo):
