@@ -4,7 +4,7 @@
 	{% load static %}
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/user.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/user.css' %}">
 	{% if request.session.title == 'Home' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chart.css' %}">
 	{% endif %}
@@ -16,7 +16,7 @@
 
 	{% endif %}
 	{% if request.session.title == 'Settings' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settingz.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settings.css' %}">
 	{% endif %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/project_file.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}"/>
@@ -58,7 +58,7 @@
   height: 17px;
   border-radius: 0.2rem;
 }
-#skills-input{
+/* #skills-input{
 	background: #eee;
 	border: 0;
 	margin: 10px 4px 4px 4px;
@@ -66,51 +66,8 @@
 	width: auto;
 	height: 1px;
 	border-radius: 0.2rem;
-}
+} */
   
-	#my-editor {
-		/* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
-		background: #2d2d2d;
-		color: #ccc;
-		
-		/* you must provide font-family font-size line-height. Example:*/
-		font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-		font-size: 14px;
-		line-height: 1.5;
-		padding: 5px;
-		max-height: 400px;
-		overflow: auto;
-		border-radius: 0.3rem;
-		width: 100%;
-		margin-top: 1px;
-		border-radius: 0.1rem;
-	  }
-	  .spinner1{
-		width: 100%;position: fixed;top: 0;bottom: 0;z-index: 2;padding-top: 20%;background-color: rgb(0,128,128);
-	}
-	#loader {
-            border: 12px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 12px solid #444444;
-            width: 70px;
-            height: 70px;
-            animation: spin 1s linear infinite;
-        }
-          
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-          
-        .center {
-            /* position: absolute; */
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }
 </style>
 <body>
 	<div class="spinner1">
@@ -126,7 +83,7 @@
 	{% endblock %}
 	
 <script src="{% static 'assets/js/jquery.js' %}" type="text/javascript"></script>
-<script type="text/javascript" src="{% static 'assets/js/users.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'assets/js/usersz.js' %}"></script> -->
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 {% if request.session.title == 'Home' %}
@@ -163,6 +120,76 @@
 		  "body").style.display = "block";
 	}
 };
+var months = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+var day = ['Mon','Tues','Wed','Thurs','Fri','Sat','Sun']
+
+function time(){
+	var date = new Date();
+	var dateNow = months[date.getMonth()] +' '+ date.getDate() + ' '+date.getFullYear() + " ("+ day[date.getDay()]+")";
+    document.getElementById("time").innerHTML = date.toLocaleTimeString();
+    document.getElementById('date').innerHTML = dateNow.toString();
+
+}
+$(document).ready(function(){
+
+	var set = setInterval(time, 1000)	
+
+	$(window).resize(function(){
+       	if(document.body.clientWidth > 992){
+       		$('.flex-item1').show().css({'width': '20%'})     				
+		}else if(document.body.clientWidth > 600 && document.body.clientWidth < 992){
+       		$('.flex-item1').css({'width': '40%'})     		
+       	
+		}else{
+			   $('.flex-item1').css({'width': '40%'}).hide() 
+			
+       	}
+   	});
+
+	$('#bars').click(function(){
+		$('.flex-item1').hide()
+	})
+})
+
+
+
+$(document).ready(function(){
+	
+	$('#questionCode').summernote({
+		tabSize: 1,
+		maxHeight: 500,
+	});
+	$('#about').summernote({
+			tabSize: 1,
+			maxHeight: 500,
+			
+		
+	});
+	$('#more').summernote({
+		tabSize: 1,
+		maxHeight: 500,
+		placeholder: 'e.g features, how to run, technologies used',  
+	});
+
+	
+
+	$("#about").summernote('code', '')
+	$("#more").summernote('code', '')
+	
+	$("#questionCode").summernote('code', '')
+	
+		$('#show').click(function(){
+			$('.flex-item1').show().css({'width': '50%'})
+		})
+		$('#bars').click(function(){
+			$('.flex-item1').hide()
+		})
+		$("#uploadErr").click(function(){
+			$(".uploadErr").fadeOut()
+		})
+	})
+
+
 </script>
 </body>
 </html>

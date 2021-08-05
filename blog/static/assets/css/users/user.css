@@ -1,5 +1,5 @@
 
-@media(max-width: 600px){
+@media(min-width: 250px) and (max-width: 600px){
 	#bars{
 		color: rgb(255,255,255);
 		float: right;
@@ -28,6 +28,7 @@
 	.name{
 		text-align: center;
 		color: rgb(255,255,255);
+		font-size: 35px;
 	}
 	.notifications{
 		border-top: 1px solid rgb(255,255,255);;
@@ -121,9 +122,26 @@
 		padding: 5px 25px 5px 25px;
 		border-radius: 0.3rem
 	}
+	.notifications-div ul li{
+		
+		font-size: 25px;
+	}
+	.notifications-div .b, .asked-question-views {
+
+		font-size: 35px;
+
+	}
+	.notifications-div .note{
+		font-size: 25px;;
+	}
+	
 }
 
 @media(min-width: 601px) and (max-width: 991px){
+	.notifications-div .b, .asked-question-views {
+		font-size: 35px;
+
+	}
 	#show{
 		position: absolute;
 		z-index: 1;
@@ -160,7 +178,7 @@
 	.name{
 		text-align: center;
 		color: rgb(255,255,255);
-		font-size: 25px;
+		font-size: 35px;
 	}
 	.notifications{
 		border-top: 1px solid rgb(255,255,255);;
@@ -187,7 +205,7 @@
 		background-color:  rgb(0, 128, 128);
 	}
 	.sideNav li a{
-		font-size: 25px;
+		font-size: 30px;
 		display: block;
 		padding: 8px 16px;
 	    text-decoration: none;
@@ -247,6 +265,18 @@
 	
 		padding: 5px 25px 5px 25px;
 		border-radius: 0.3rem
+	}
+	.notifications-div ul li{
+		
+		font-size: 25px;
+	}
+	.notifications-div .b, .asked-question-views {
+
+		font-size: 35px;
+
+	}
+	.notifications-div .note{
+		font-size: 25px;;
 	}
 }
 @media(min-width: 992px) and (max-width: 1999px){
@@ -361,6 +391,17 @@
 	
 		padding: 5px 25px 5px 25px;
 		border-radius: 0.3rem
+	}
+	.notifications-div ul li{
+		
+		font-size: 20px;
+	}
+	.notifications-div .b, .asked-question-views {
+
+		font-size: 20px;
+	}
+	.notifications-div .note{
+		font-size: 14px;;
 	}
 }
 @media(min-width: 1200px){
@@ -477,35 +518,20 @@
 		padding: 5px 25px 5px 25px;
 		border-radius: 0.3rem
 	}
-	
+	.notifications-div ul li{
+		
+		font-size: 15px;
+	}
+	.notifications-div .b, .asked-question-views {
+
+		font-size: 18px;
+
+	}
+	.notifications-div .note{
+		font-size: 14px;;
+	}
 
 }
-
-/*#ask{
-	width: 50%;
-	float: right;
-	padding: 2%;
-	border: none;
-	background-color: rgb(0, 128, 128);
-	color: rgb(255,255,255);
-	border-radius: 2rem;
-	
-}*/
-/*#ask-btn, #upload-btn{
-	background-color: rgb(224, 235, 235);
-	font-weight: bolder;
-	width: 100%;
-	border-radius: 2rem;
-	font-size: 120%;
-	border: none;
-	margin-top: 6%;
-	padding: 2%;
-	background-color: 
-}*/
-/*#ask-btn:hover, #upload-btn:hover{
-	background-color: rgb(0, 128, 128);
-		color: rgb(255,255,255);
-}*/
 
 .canvas{
 	max-height: 600px;
@@ -586,7 +612,7 @@
 	height: 100px;
 	border-radius: 50%;
 	display: block;
-	margin: auto;
+	margin: 30px auto auto auto;
 
 }
 #question{
@@ -643,7 +669,7 @@
 }
 
 .btn-ok{
-	background-color: rgb(0, 102, 204); */
+	background-color: rgb(0, 102, 204);
 }
 .btn-cancel{
 	background-color: rgb(255,0,0);
@@ -658,6 +684,7 @@
 	max-height: 593px;
 	overflow: auto;
 }
+
 #notifications-div::-webkit-scrollbar-thumb {
     background: rgb(0, 128, 128);
 }
@@ -668,6 +695,7 @@
     height: 10px;
 
   }
+  
 .notifications-div ul li{
 	background-color: rgba(153, 153, 153,0.2);
 	padding: 10px;
@@ -675,12 +703,15 @@
 	color: rgb(102, 153, 153);
 	margin-bottom: 5px;
 	cursor: pointer;
+	/* font-size: 15px; */
 }
+
+
 .asked-question-views{
 	
 	margin-left: 1px;
 	padding: 5px;
-	font-size: 18px;
+	/* font-size: 20px; */
 	color: rgb(0, 128, 128);
 	
 }
@@ -725,4 +756,47 @@
 	margin: 10px -10px 0 -11px
 }
 
+.spinner1{
+	width: 100%;position: fixed;top: 0;bottom: 0;z-index: 2;padding-top: 20%;background-color: rgb(0,128,128);
+}
+#loader {
+	border: 12px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 12px solid #444444;
+	width: 70px;
+	height: 70px;
+	animation: spin 1s linear infinite;
+}
+	  
+@keyframes spin {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+	  
+.center {
+	 
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
 
+#my-editor {
+	/* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+	background: #2d2d2d;
+	color: #ccc;
+	
+	/* you must provide font-family font-size line-height. Example:*/
+	font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+	font-size: 14px;
+	line-height: 1.5;
+	padding: 5px;
+	max-height: 400px;
+	overflow: auto;
+	border-radius: 0.3rem;
+	width: 100%;
+	margin-top: 1px;
+	border-radius: 0.1rem;
+  }

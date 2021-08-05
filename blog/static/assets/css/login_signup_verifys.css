@@ -23,6 +23,34 @@ body{
 #forgot-password{
 	background-color: transparent;
 	border: none;
+	padding: 10px 0 10px 0 ;
+	font-size: 16px;
+	color: rgb(102, 102, 102);
+	
+
+}
+
+.mb-15{
+	margin-bottom: 15px;
+}
+#signup-link, #login-link{
+	
+	color: rgb(0, 128, 128);
+	border: 1.5px solid rgba(153, 153, 153,0.6);
+	padding: 2%;
+	margin: auto;
+	display: block;
+	width: 80%;
+	font-size: 17px;
+	border-radius: 0.4rem;
+	text-align: center;
+}
+#signup-link:hover, #login-link:hover{
+	transform: scale(1.1);
+	transition: 1s;
+}
+.mt-7{
+	margin-top: 7px
 }
 .form{
 	margin-top: -7%;
@@ -117,7 +145,27 @@ body{
 	color: rgb(255,255,255);
 	border-radius: 0.7rem;
 	padding: 2%;
-	margin-top: 2%;
+	margin-top: 1%;
 	font-size: 15px;
+	display: none;
 	
+}
+
+.error2{
+	background-color: #ff5252 ;
+	color: rgb(255,255,255);
+	border-radius: 0.7rem;
+	padding: 2%;
+	margin-top: 1%;
+	font-size: 15px;
+
+	
+}
+.form-title{
+	text-align: center;
+	font-size: 190%;
+	margin-top: -2%;
+	margin-bottom: 40px;
+	color: rgb(0, 128, 128);
+
 }

@@ -75,8 +75,7 @@
 									{% csrf_token %}
 									<label>Email</label><br>
 									<input type="email" name="" :value="userInfo.email" :disabled="true">
-									<!-- <button  v-if="!email_save" @click="editEmailDisable=false;editEmail()" class="edit-btn">Edit</button>
-									<button v-if="email_save" class="save-btn" @click="editEmail()"> Save</button> -->
+								
 								</div>
 								<div>
 								
@@ -85,8 +84,6 @@
 									<input type="password" v-model="userInfo.password" ref="pass" v-bind:disabled="editPassDisable" placeholder="">
 									<button type="button"  v-if="!password_save" @click="editPassDisable=false;editPassword()" class="edit-btn"><span class="fa fa-edit"></span></button>
 									<button v-if="password_save" class="save-btn" @click="editPassword()"> Save </button>
-									<!-- <button type="button"  @click="editPassDisable=false;editPassword()" class="edit-btn"><span class="fa fa-edit"></span></button>
-									<button type="button" class="save-btn" @click="editPassword()"> Save </button> -->
 									<button class="view-btn"  @click="viewHidePass()"><span class="fa fa-eye" v-if="!showPass"></span><span class="fa fa-eye-slash" v-if="showPass"></span></button>
 									
 								</div>
@@ -98,7 +95,7 @@
 							
 								</div>
 									
-								<!-- <br><br> -->
+				
 							</div>
 							
 							
@@ -116,42 +113,33 @@
 								<input type="text" v-model="expertise" placeholder="Your main skill">
 								<label>Skills</label><br>
 								<div class="row" >
-									<div class="col l6">
-										<ol style="max-width: 200px">
+									<div class="col l6 m6 s12 xl6">
+										<ol class="skills-max-width">
 									
 											<li v-for="(skill,index) in mySkills" style="font-size: 18px;">[skill] <button type="button" class="rm-skills-btn" @click="deleteMySkills(index,skill)">Remove</button></li>
 										</ol>
 									</div>
-									<div class="col l6">
-										<ol style="max-width: 200px">
+									<div class="col l6 m6 s12 xl6">
+										<ol class="skills-max-width">
 									
 											<li v-for="(skill,index) in rmSkills" style="font-size: 18px;">[skill.value] <button type="button" class="rm-skills-btn" @click="undoDeleteSkills(index,skill.value)">Undo</button></li>
 										</ol>
 									</div>
 								</div>
 							
-								<div style="border: 1px solid rgba(204, 204, 204,0.3);
-								width: auto;
-								height: auto; padding-bottom: 5px;">
+								<div id="skills-tags">
 									<div class="skills">
 										<span v-for="(skill,index) in newSkills"  @click="deleteSkill(index)"  >[skill]</span>
 								
 									</div>	
-									<input type="text" style="	background: #eee;
-									border: 0;
-									margin: 10px 4px 4px 4px;
-									padding: 7px;
-									width: auto;
-									height: 17px;
-									border-radius: 0.2rem;" v-model="newSkill" @keyup="monitor" placeholder="Enter new skills . . .">
+									<input type="text" id="skills-input" v-model="newSkill" @keyup="monitor" placeholder="Enter new skills . . .">
 								</div>
 								<label>About Me (Optional)</label>
 								<div v-html="summerNote" class="my-experience">
-
 								</div>
 								<div  id="work-experience"></div>
 								<br>
-								<button class="other-info-edit-btn" type="button" @click="updateInfo()">Update</button>
+								<button class="other-info-edit-btn" type="button" @click="updateInfo()">Update <span class="fa fa-edit"></span> </button>
 							</form>
 						</div>
 					</div>

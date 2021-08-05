@@ -48,7 +48,7 @@
 							<p class="my-projects">Uploaded Projects ([count])</p>
 							<table class="striped responsive-table" >
 								<thead>
-								  <tr>
+								  <tr v-if="project != '' ">
 									  <th>Project Name</th>
 									  <th>Language</th>
 									  <th>No. of Downloads</th>
@@ -58,7 +58,7 @@
 								  </tr>
 								</thead>
 						
-								<tbody>
+								<tbody >
 								  <tr v-for="p in project">
 									<td>[p.project_name]</td>
 									<td>[p.language]</td>
@@ -134,11 +134,7 @@
 					   {% csrf_token %}
 						  <div>
 							  <label>Folder</label><br>
-							  <!-- <div class="customFile">
-								<span class="folder">Select Folder</span>
-								<input type='file' id="projectFile" webkitdirectory ref="file" @change="handleFileUpload()" >
-								
-							  </div> -->
+							 
 							  <div class="file-field input-field">
 								<div class="btn">
 								  <span>Folder</span>
@@ -175,11 +171,7 @@
 									<option v-for="fw in frameworks" v-bind:value="fw.framework">[ fw.framework ]</option>
 								</optgroup>
 							  </select>
-							  <!-- <label v-if="!toShowLang">Framework(Optional)</label>
-							  <select v-if="!toShowLang" class="browser-default" id="select" v-model="language">
-								<option value="" disabled selected>Select Framework</option>
-								<option v-for="fw in frameworks" v-bind:value="fw.framework">[ fw.framework ]</option>
-							  </select> -->
+							
 						  </div>
 				   
 					   <button  type="submit" id="upload-btn">Upload Project <span class="fa fa-upload"></span> </button>

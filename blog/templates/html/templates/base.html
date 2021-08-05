@@ -10,7 +10,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/index.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/indexxxxx.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
@@ -144,7 +144,7 @@
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
 {% if request.session.title == 'Home' %}
-<script type="text/javascript" src="{% static 'assets/js/index.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/indexx.js' %}"></script>
 {% endif %}
 {% if request.session.title == 'viewQuestion' %}
 <script type="text/javascript" src="{% static 'assets/js/prism.js' %}"></script>
@@ -466,7 +466,7 @@ function setUserDevice(){
        	if(document.body.clientWidth > 651){
        		$('#top-nav').css({'width': '100%'})
        		$('#open').hide() 	
-       	}else if(document.body.clientWidth < 651){
+       	}else{
        		$('#top-nav').css({'width': '0'})
        		$('#open').show() 	
        	}
@@ -479,8 +479,9 @@ function setUserDevice(){
    	});
 
 	$('#open').click(function(){
-	 		
-	 	$('#top-nav').css({'width': '45%'})
+	
+		   $('#top-nav').css({'width': '250px'})
+		   $('#top-nav').show()
 	 	$(this).hide()
 	 	
 	})

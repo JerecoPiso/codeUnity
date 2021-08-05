@@ -16,10 +16,10 @@ $(document).ready(function(){
        	if(document.body.clientWidth > 992){
        		$('.flex-item1').show().css({'width': '20%'})     				
 		}else if(document.body.clientWidth > 600 && document.body.clientWidth < 992){
-       		$('.flex-item1').css({'width': '30%'})     		
+       		$('.flex-item1').css({'width': '40%'})     		
        	
 		}else{
-			   $('.flex-item1').css({'width': '30%'}).hide() 
+			   $('.flex-item1').css({'width': '40%'}).hide() 
 			
        	}
    	});

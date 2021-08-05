@@ -1,6 +1,5 @@
 {% extends 'html/user_pages/user_base.html' %}
 
-
 {% block user_page %}
 		<span class="fa fa-bars" id="show"></span>
 		<div class="flex-container"  >
@@ -86,8 +85,7 @@
 						<ul class="collection question-ask" id="question-ask">
 							
 							<li class="collection-item" v-for="ques in myquestions" :key="ques.id" v-if="ques.status != 'Answered'">[ques.question]<br>
-								<!-- <cite class="date-asked">asked: [ques.date]</cite> -->
-								
+							
 								<cite class="date-asked"><b>Posted: </b><date-posted :posted="ques.date"></date-posted></cite>
 								<div class="question-info">
 									<button  class="btn-view-comments" @click="viewQuestion(ques.id)"> <span class="fa fa-eye"></span> View</button>
@@ -137,30 +135,24 @@
 									
 									<option v-for="fw in frameworks" >[fw.framework]</option>
 								
-									
+								
 								</optgroup>
 							</select>
-						<!-- <label v-if="!toShowLang">Frameworks(Optional)</label> 
-							<select v-if="!toShowLang" class="browser-default"  v-model="questionInfo.language">
-								<option value="" disabled selected>Select Framework</option>
-								<option v-for="fw in frameworks">[fw.framework]</option>
-							</select> -->
+				
 						<label>Question Category(Optional)</label>
 							<select class="browser-default" v-model="questionInfo.category">
 								<option value="" disabled selected>Select Category</option>
 								<option v-for="cat in question_cat">[cat.category]</option>
 							</select>
 							<label>Tags</label>
-							<div style="border: 1px solid rgba(204, 204, 204,0.3);
-							width: auto;
-							height: auto; padding-bottom: 5px;">
+							<div id="question-tags-div">
 								<div class="tags">
 									<span v-for="(tag,index) in tags"  @click="deleteTag(index)"  >[tag]</span>
 								</div>	
 								<input type="text" id="tags" v-model="newTag" @keyup="monitor" placeholder="Enter tag . . .">
 							</div>
 							
-							<button style="margin-top: 10px" type="button" @click="askQuestion()" id="ask-btn">Ask Now</button>
+							<button  type="button" @click="askQuestion()" id="ask-btn">Ask Now <span class="fa fa-comment"></span> </button>
 					</form>	
 								
 				</div>	

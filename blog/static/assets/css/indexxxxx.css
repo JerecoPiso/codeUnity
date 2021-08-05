@@ -4,10 +4,11 @@
 	}
 	#open{
 		padding-top: 2%;
+		margin-top: 3px;
 		background-color: transparent;
 		border: none;
 		display: block;
-		color: rgb(255,255,255);
+		color: rgb(255, 255, 255);
 	}
 	.flex-container{
 		display: flex;
@@ -42,9 +43,11 @@
 		height: 100%;
 		z-index: 3;
 	    overflow: auto;
-	    width: 0;  
+		width: 0;  
+		display: none;
 	   top: 0;
 	   position: fixed;
+	   
 	}
 	#top-nav li{
 		width: 100%;
@@ -108,7 +111,8 @@
 		display: none;
 	}
 	#open{
-		padding-top: 2%;
+		padding-top: 1.5%;
+		/* margin */
 		background-color: transparent;
 		border: none;
 		display: block;
@@ -648,15 +652,20 @@
 	border-right: 2px solid rgb(255,255,255);
 }
 #close{
-	margin-left: 85%;
-	font-size: 32px;
-	margin-top: -3%;
+	margin-left: 88%;
+	font-size: 35px;
+	margin-top: -30px;
+
 	background-color: transparent;
 	border: none;
 	display: block;
+
+	border-radius: 2rem;
 	color: rgb(255,255,255);
 }
-
+#open{
+	margin-left: 5px;
+}
 .contact-us, .about-us{
 	color: rgb(255,255,255);
 	font-size: 120%;

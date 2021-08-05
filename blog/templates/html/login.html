@@ -7,7 +7,8 @@
 					<form action="/userLogin/{{redirect}}" method="POST" id="login-form" >
 						{% csrf_token %}
 					
-						<img class="login-logo" src="/media/images.png">
+					
+						<p class="form-title">codeUnity</p>
 						<div>
 					
 							<label>Email</label>
@@ -23,8 +24,10 @@
                             </ul>
                             {% endif %}
          
-							<a href="/signup/{{redirect}}" id="forgot-password">Signup</a>
-							<a href="" class="right" id="forgot-password">Forgot password?</a>
+							<p class="mt-7"><a href="" id="forgot-password">Forgot password?</a></p>
+							
+						
+							<a href="/signup/{{redirect}}" id="signup-link">Create an account</a>
 						</div>				
 					</form>
 				</div>

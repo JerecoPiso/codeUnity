@@ -5,58 +5,37 @@
 
 			<form id="signup-form" action="/register" method="POST">
 				{% csrf_token %}
-				<img class="signup-logo" src="/media/images.png">
+				<p class="form-title">codeUnity</p>
 				<div>
 	
                      {% csrf_token %}
-            
-            		   <label>Username</label>
-					   <input type="text" class="login-input" name="username" required>
-		               <label >E-mail</label>
-		               <input  type="email" name="email" required>
-		                <label>Password</label>
-		               <input type="password" name="password" required>
-		                <label>Re-type password</label>
-		               <input type="password" name="password2" required>
+        
+					<label> Username</label>
+					<input type="text" name="username" v-model="signupInfo.username" @keyup="usernameMonitor" required >
+					<label> Email</label>
+					<input  type="email" name="email" v-model="signupInfo.email" @keyup="emailMonitor"  required>
+				
+					<label>Password</label>
+					<input type="password" name="password" v-model="signupInfo.password" @keyup="passwordMonitor" required>
+				
+					<label>Re-type password </label>
+					<input type="password" name="password2"  v-model="signupInfo.password2"  @keyup="password2Monitor" required>
                   
-						<button type="submit" id="btn-signup">Signup</button>
-						{% if messages %}
-						<!-- <ul class="messages"> -->
-							{% for message in messages %}
-							<p {% if message.tags %} class="center-align error"{% endif %}>{{ message }}</p>
-							{%endfor %}
-						<!-- </ul> -->
-						{% endif %}
-					  <!-- <p class="center-align error" v-if="error">[error]</p>
-               		  <p class="center-align success" v-if="success">[success]</p> -->
-					<a href="/login/user" >Login</a>
-					<a href="" class="right" id="forgot-password">Forgot password?</a>
+					<button type="submit" class="mb-15" id="btn-signup" :disabled="btnDisable">Signup</button>
+				
+					<p style="font-size: 13px" class="center-align error" v-html="error"></p>
+					{% if messages %}
+				
+						{% for message in messages %}
+						<p {% if message.tags %} class="center-align error2"{% endif %}>{{ message }}</p>
+						{%endfor %}
+				
+					{% endif %}
+					
+					<a href="/login/user" id="login-link">Already have an account?</a>
+					
 				</div>				
 			</form>	
-				<!-- <form id="signup-form" v-on:submit.prevent="register()">
-				{% csrf_token %}
-				<img class="signup-logo" src="/media/images.png">
-				<div>
-	
-                     {% csrf_token %}
-            
-            		   <label>Username</label>
-					   <input type="text" class="login-input" v-model="signupInfo.username" required>
-		               <label >E-mail</label>
-		               <input  type="email" v-model="signupInfo.email" required>
-		                <label>Password</label>
-		               <input type="password" v-model="signupInfo.password" required>
-		                <label>Re-type password</label>
-		               <input type="password" v-model="signupInfo.password2" required>
-                  
-						<button type="submit" id="btn-signup">[status]</button>
-					  <p class="center-align error" v-if="error">[error]</p>
-               		  <p class="center-align success" v-if="success">[success]</p>
-					<a href="/login/user" >Login</a>
-					<a href="" class="right" id="forgot-password">Forgot password?</a>
-				</div>				
-			</form>	 -->
-	
 
 		</div>
 				
