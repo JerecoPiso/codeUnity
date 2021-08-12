@@ -122,7 +122,7 @@ var notifications = new Vue({
             axios.get("/user/getNotifications").then(function(response){
                
                 notifications.noti = response.data
-                console.log(notifications.noti)
+                // console.log(notifications.noti)
             }).catch(function(err){
                 console.log(err)
             })

@@ -22,12 +22,26 @@
         margin-left: 5px;
         
     }
+    .flex-item{
+        width: 100%;
+        margin: 0 5% 0 5%
+    }
+    .read-more{
+        bottom: 1.3em;
+    
+    }
+    .no-devs{
+        margin-left: 20%;
+        font-size: 1em;
+        margin-top: 1em;
+     
+    }
 }
 @media(min-width: 569px) and (max-width: 768px){
     #search-div{
         width: 60%;
         float: right;
-        margin-right: 12px;
+        margin-right: 5px;
         margin-top: 10px;
         margin-bottom: 5px;
         height: 45px;
@@ -46,12 +60,40 @@
         margin-left: 5px;
         
     }
+    .flex-item{
+        /* margin: 0 15% 0 15%; */
+        width: 50%;
+    }
+    .read-more{
+        bottom: 1.8em;
+    
+    }
+    .no-devs{
+        margin-left: 20%;;
+        font-size: 2em;
+        margin-top: 1em;
+     
+    }
 }
 @media(min-width: 769px) and (max-width: 992px){
+    .no-devs{
+        margin-left: 20%;;
+        font-size: 1.5em;
+        margin-top: 1em;
+     
+    }
+    .read-more{
+        bottom: 1.2em;
+    
+    }
+    .flex-item{
+        width: 50%;
+        /* margin: 0 px 0 5px; */
+    }
     #search-div{
-        width: 40%;
+        width: 50%;
         float: right;
-        margin-right: 12px;
+        margin-right: 7px;
         margin-top: 10px;
         margin-bottom: 5px;
         height: 45px;
@@ -72,6 +114,19 @@
     }
 }
 @media(min-width: 993px) and (max-width: 1200px){
+    .no-devs{
+        margin-left: 30%;;
+        font-size: 1.2em;
+        margin-top: 1em;
+     
+    }
+    .read-more{
+        bottom: 1.3em;
+    
+    }
+    .flex-item{
+        width: 33.3%;
+    }
     #search-div{
         width: 40%;
         float: right;
@@ -96,6 +151,14 @@
     }
 }
 @media(min-width: 1201px){
+    .read-more{
+        bottom: 1.5em;
+    
+    }
+    .flex-item{
+        width: 33.3%;
+
+    }
     #search-div{
         width: 40%;
         float: right;
@@ -107,19 +170,13 @@
         padding-left: 5px;
         border-radius: 0.2rem;
     }
+    .no-devs{
+        margin-left: 30%;;
+        font-size: 1.5em;
+        margin-top: 1em;
      
-    /* .devs-categories{
-       
-        margin-left: 5px;
-    
     }
-    .categories-skills{
-        
-     
-        margin-left: 5px;
-        
-    }
-     */
+
 }
 
 .total-developers{
@@ -134,24 +191,26 @@
 
     width: 100%;
 }
-/* .total-developers:hover{
-    color: rgb(255,255,255);
+
+.read-more{
+    border: none;  
+    padding: 0.4em 1em 0.4em 1em;
     background-color: rgb(0, 128, 128);
-} */
+    position: absolute;
+    border-radius: 1.5rem;
+    color: rgb(255,255,255);
+   
+    margin-left: 30%;
+}
+
 .card{
     border: 0.5px solid rgba(153, 153, 153,0.6);
-    min-height: 260px;
-}
-.dev-name{
-    color: rgb(255,255,255);
-    padding: -2%;
- 
-}
-.filter-by{
-    color: rgb(0,128,128);
-    font-size: 20px;
-    margin-top: -10px;
-    margin-bottom: 1px;
+    min-height: 350px;
+    max-height: 350px;
+    padding-bottom: 10px;
+    border-radius: 0.5em;
+    position: relative;
+
 }
 .categories{
 	display: flex;
@@ -171,26 +230,16 @@
     color: rgb(255,255,255);
   transition: 0.2s;
 }
-
-.card .card-image img{
-    height: 120px;
-    max-height: 80px;border-radius: 50%;width: 90px;margin:auto;display: block;
+.card .card-image .devDP{
+    height: 6em;
+   
+    border-radius: 50%;
+    width: 7em;
+    margin:auto;
+    display: block;
 }
 .card-img{
     padding: 15px;
-}
-.devname{
-    margin: auto;display: block;
-    font-family: sans-serif;
-    font-size: 18px;
-    color: rgb(51, 51, 51);
-    margin-top: 3px;
-    margin-bottom: -3px;
-    text-align: center;
-    
-}
-.card-skills-max{
-    max-height: 100px;overflow: auto
 }
 .card-skills{
     display: flex;
@@ -199,15 +248,84 @@
     margin-right: 10px
 }
 .card-skills a{
-    background-color: rgb(0, 128, 128);
-    color: rgb(255,255,255);
+    /* background-color: rgb(0, 128, 128); */
+    background-color: rgb(224, 235, 235);
+    color: rgb(0,128,128);
     padding-right: 8px;
-    font-size: 14px;
+    font-size: 1.8em;
     margin-right: 5px;
     border-radius: 1rem;
     padding-left: 8px;
     margin-top: 5px;
 }
+.categories-skills{
+    
+    font-size: 17px;
+    padding: 5px 0 0 0;
+    /* margin-left: 30px; */
+    
+    display: flex;
+	flex-wrap: wrap;
+}
+.categories-skills  a{
+  
+    background-color: rgb(224, 235, 235);
+    padding: 0.5% 4% 1% 4%;
+    color: rgb(0,128,128);
+    border-radius: 2rem;
+    font-size: 16px;
+	margin: 0 2% 4% 0%;
+}
+.categories-skills a:hover {
+    background-color: rgb(0,128,128);
+    color: rgb(255,255,255);
+  transition: 0.2s;
+}
+
+.filter-by{
+    color: rgb(0,128,128);
+    font-size: 20px;
+    margin-top: -10px;
+    margin-bottom: 1px;
+}
+
+.flex{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+}
+.flex-item{
+  
+    padding: 0 1% 1% 1%;
+}
+
+.devname{
+    margin: auto;
+    display: block;
+
+   font-size: 1.4em;
+    /* color: rgb(51, 51, 51); */
+    /* color: rgb(0,128,128); */
+    border-radius: 1rem;
+    color: rgba(0,0,0,0.7);
+    font-weight: bolder;
+    margin-top: 3px;
+    margin-bottom: 0;
+    text-align: center;
+ 
+    
+}
+/* .card-skills-max{
+    max-height: 100px;
+    overflow: auto
+} */
+::-webkit-scrollbar{
+    display: none;
+}
+
 
 .view-profile a{
     color: rgb(0, 102, 153);
@@ -236,29 +354,6 @@
    transition: 1s;
    transform: scale(1.1)
 }
-.categories-skills{
-    
-    font-size: 17px;
-    padding: 5px 0 0 0;
-    /* margin-left: 30px; */
-    
-    display: flex;
-	flex-wrap: wrap;
-}
-.categories-skills  a{
-  
-    background-color: rgb(224, 235, 235);
-    padding: 0.5% 4% 1% 4%;
-    color: rgb(0,128,128);
-    border-radius: 2rem;
-    font-size: 16px;
-	margin: 0 2% 4% 0%;
-}
-.categories-skills a:hover {
-    background-color: rgb(0,128,128);
-    color: rgb(255,255,255);
-  transition: 0.2s;
-}
 
 .skills-categories-box{
    
@@ -266,15 +361,10 @@
    
     margin-bottom: 1px;
 }
-.no-devs{
-    text-align: center;
-    font-size: 24px;
-    margin-top: 8%;
- 
-}
+
 .result-for{
     font-size: 20px;
-    margin: 0 0 0 10px;
+    margin: 0 0 -1em 10px;
 }
 #developers{
     margin-top: 55px;min-height: 300px;
@@ -288,7 +378,7 @@
 .dev-expertise{
     margin-top: 0;
     margin-bottom: -5px;
-    font-size: 12px;
+    font-size: 1em;
     text-align: center;
 }
 .page1{
@@ -323,6 +413,7 @@
 strong{
     color: rgb(0, 128, 128);
     font-weight: bold;
+    
 }
 .bg-white{
     background-color: rgb(255,255,255);
@@ -345,5 +436,20 @@ body{
 }
 .imp-txt{
 	color: rgb(0, 128, 128);
-	font-size: 28px;
+	font-size: 1.4em;
+}
+.flag{
+    width: 45px;
+    height: 25px;
+    top: 2.2%;
+    position: absolute;
+    z-index: 1;
+}
+.rate{
+    float: right;
+    font-size: 1.5em;
+    top: 0.5%;
+    right: 2%;
+    position: absolute;
+    opacity: 0.7;
 }

@@ -11,9 +11,9 @@
 						<button @click="download()">Download</button>
 					</div> -->
 					<div id="languages">
-						
 					
-						<p class="languages">Frontend Development</p>
+					
+						<p class="languages">Frontend </p>
 						 {% for lang in languages %}	
 						 	{% if lang.category == "Front-End" %}
 							<li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
@@ -24,7 +24,7 @@
 								<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 							{% endif %}
 				   		{% endfor %}
-						<p class="languages">Backend Development</p>
+						<p class="languages">Backend </p>
 						 {% for lang in languages %}	
 						 	{% if lang.category == "Back-End" %}
 							<li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}}  </a> </li>
@@ -35,30 +35,30 @@
 								<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 							{% endif %}
 					    {% endfor %}
-						<p class="languages">Mobile Development</p>
+						<p class="languages">Mobile </p>
 						{% for lang in languages %}	
-							{% if lang.category == "Android Development" %}
+							{% if lang.category == "Android " %}
 						   <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
 							{% endif %}
 					   {% endfor %}
 					   {% for fw in frameworks %}	
-						{% if fw.category == "Android Development" %}
+						{% if fw.category == "Android " %}
 							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 						{% endif %}
 					   {% endfor %}
 					   {% for lang in languages %}	
-					   {% if lang.category == "iOS Development" %}
+					   {% if lang.category == "iOS " %}
 					  	<li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
 					   {% endif %}
 						{% endfor %}
 
 						{% for fw in frameworks %}	
-						{% if fw.category == "iOS Development" %}
+						{% if fw.category == "iOS " %}
 							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 						{% endif %}
 						{% endfor %}
 
-					   <p class="languages">Desktop Development</p>
+					   <p class="languages">Desktop </p>
 					   {% for lang in languages %}	
 						   {% if lang.category == "Desktop" %}
 						  <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}}  </a> </li>
@@ -104,7 +104,7 @@
 					<form @submit.prevent="searchProjects()">
 						{% csrf_token %}
 						<input type="text" id="search-project" placeholder="Search project . . ." v-model="searchValue">
-						<button type="submit" class="searchBtn"><span class="fa fa-search" style="font-size: 25px;opacity: 0.7;"></span></button>
+						<button type="submit" class="searchBtn"><span class="fa fa-search" style="font-size: 23px;opacity: 0.7;"></span></button>
 					</form>
 					<div class="projects-div clear-float">
 					
@@ -142,7 +142,7 @@
 						{% empty %}
 
 						
-						<p class="no-projects"> {% if toSearch %}  No  <strong class="imp-txt">Projects</strong>  found for  <strong class="imp-txt"><i>"{{ toSearch }} "</i> </strong>  {% else %} There's no <strong class="imp-txt">Project/s</strong> uploaded this time.   {% endif %}</p>
+						<p class="no-projects"> {% if toSearch %}  No  project/s  found for  <strong class="imp-txt"><i>"{{ toSearch }} "</i> </strong>  {% else %} There's no <strong class="imp-txt">Project/s</strong> uploaded this time.   {% endif %}</p>
 						{% endfor %}
 						{% if projects %}
 						<div class="pagination">

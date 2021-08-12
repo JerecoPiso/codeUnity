@@ -7,47 +7,50 @@
     
         <div class="row " id="developers">
             <div class="col l9 m8 s12"  >
-              <div class="bg-white">
+              <div class="bg-white" style="padding-bottom: 1.6em;">
                 <p class="devs-slogan">  Well <strong>Experienced</strong>  and <strong>Skilled</strong>  Developers</p>
                 <form @submit.prevent="searchDevs()">
                   {% csrf_token %}
                    <input type="text" v-model="search"  id="search-div"  placeholder="Search developer . . .">
                 </form>
+                {% if search and devs %}
+                <p class="result-for clear">Result for: <i class="imp-txt">"{{search}}"</i> </p>
+                {% endif %} <br>
               
-              
-                <div class="row clear">
-                  {% if search and devs %}
-                  <p class="result-for">Result for: <i>"{{search}}"</i> </p>
-                  {% endif %}
+                <div class="flex">
+                 
                   {% for dev in devs %}
-                    <div class="col l3 m4 s12 xl3">
+                    <div class="flex-item">
                         <div class="card">
                             <div class="card-image p-15">
-                              <img src="/media/{{dev.photo}}" alt="/media/{{dev.photo}}">
-                              <a href="javascript:void(0)"  class="devname">{{dev.uname}}
-
+                              <img class="devDP" src="/media/{{dev.photo}}" alt="/media/{{dev.photo}}">
+                              
+                              <a href="javascript:void(0)"  class="devname">  {{dev.uname}}
+                               
                               </a>
+                           
                               <p class="dev-expertise">( {{dev.expertise}} )</p>
-                            </div>
-                            <div class="card-skills card-skills-max">
-                              <dev-skills skills="{{dev.skills}}"></dev-skills>
-                            </div>
-                       </div>
-                    </div> 
-                    <div class="col l3 m4 s12 xl3">
-                      <div class="card">
-                          <div class="card-image p-15">
-                            <img src="/media/{{dev.photo}}" alt="/media/{{dev.photo}}">
-                            <a href="javascript:void(0)"  class="devname">{{dev.uname}}
+                             
 
-                            </a>
-                            <p class="dev-expertise">( {{dev.expertise}} )</p>
-                          </div>
-                          <div class="card-skills card-skills-max">
-                            <dev-skills skills="{{dev.skills}}"></dev-skills>
-                          </div>
-                     </div>
-                  </div> 
+                            </div>
+                          
+                            <div class="card-skills card-skills-max">
+                              
+                              <dev-skills skills="{{dev.skills}}"></dev-skills>
+                              <div style="width: 100%">
+                                <img class="flag" src="/media/flags/{{dev.countryAbbr}}"> <span class="rate">${{dev.rate}}</span>
+                              </div>
+                              <button type="button" class="read-more">Read More</button>
+                            </div>
+                          
+                       </div>
+                     
+                    </div> 
+             
+                    
+                  
+                    
+                  
                   
               
                     
@@ -56,7 +59,10 @@
                     {% endfor %}
                     
                                     
-                <div class="pagination clear" >
+              
+               
+                </div>
+                <div class="pagination clear">
                   <span class="step-links ">
                     {% if page_obj.has_previous %}
                       <a href="?page=1" class="page1">&laquo; 1</a>
@@ -70,15 +76,13 @@
                       <a href="?page={{ page_obj.paginator.num_pages }}" class="total-page"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
                     {% endif %}
                     {% if devs %}
-                    <span class="current current-page mb-n2">
+                    <span class="current current-page mb-n2" style="margin-top: -1em">
                       Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                     </span>
                     {% endif %}
                 
                   </span>
                 </div> 
-               
-                </div>
     
                    
               </div>

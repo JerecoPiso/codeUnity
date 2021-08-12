@@ -126,14 +126,27 @@ cite{
 	margin-left: 1%;
 }
 .questions-btn a{
-	background-color: rgba(0, 128, 255,0.9);
-	border: none;
+	
+
+	border: 0.2px solid rgba(153, 153, 153,0.6);
+
+	background-color: rgba(224, 235, 235,0.7);
+	/* border: none; */
 	margin-right: 2%;
 	border-radius: 0.5rem;
-	padding: 5px;
 	margin-top: 8px;
-	font-size: 14px;
-	color: rgb(255,255,255);
+	padding: 0.5em;
+	font-size: 1em;
+	color: rgb(0,128,128);
+}
+.questions-btn a:hover{
+	
+
+
+
+	background-color: rgb(0,128,128);
+	
+	color: rgb(255, 255, 255)
 }
 .form-title{
 	text-align: center;
@@ -163,7 +176,7 @@ cite{
 
 .questions-total-large-device{
 	font-size: 200%;
-	margin-top: 2%;
+	margin-top: 1.2%;
 	margin-bottom: 0%;
 	margin-left: 1%;
 	color: rgb(0, 128, 128);
@@ -172,32 +185,6 @@ cite{
 	border-radius: 0.2rem;
 	border: 2px solid rgb(0, 128, 128);
 }
-/* .questions-total:hover{
-	background-color: rgb(0,128,128);
-	color: rgb(255,255,255);
-	transition: 0.5s;
-} */
-/* #search-question{
-	float: right;
-	margin-top:8px;
-	margin-bottom: -10px;
-	
-}
-#form-filter-categories{
-	width: 200px;
-	float: left;
-	margin-bottom: 10px;
-	margin-top: 1%;
-	margin-left: -3%;
-}
-#form-filter-lang{
-	width: 200px;
-	float: left;
-	
-	margin-top: 1.3%;
-
-} */
-
 #question-box{
 	margin: 0.5% 0 2% 1%;
 	padding: 0 2% 40px 2%;
@@ -217,7 +204,7 @@ body{
 
 	height: 40px;
 }
-span{
+.comments, .likes{
 	font-size: 200%;
 	
 }
@@ -226,8 +213,8 @@ strong{
 }
 .feel-free{
 	margin: 0;
-	padding: 1% 0 0.5% 0;
-	font-size: 25px;
+	padding: 1% 0 0.8% 0;
+
 	border-bottom: 1px solid rgba(153, 153, 153,0.8);
 	font-family: sans-serif;
 	color: rgb(0, 128, 128);
@@ -245,6 +232,14 @@ strong{
 	text-align: center;
 }
 @media (min-width: 300px) and (max-width: 499px){
+	.row-mt{
+		margin-top: 4em;
+	}
+	.feel-free{
+		font-size: 1.8em;
+		
+		
+	}
 	.LoginModalWrapper{
 		border-radius: 0.2rem;
 		background-color: rgb(255, 255, 255);
@@ -259,7 +254,9 @@ strong{
 		margin-bottom: 1%;
 	}
 	#ask-btn{
-		clear: both;
+		clear: left;
+		
+		
 		
 	}
 	.questions-total-small-device{
@@ -281,6 +278,12 @@ strong{
 	}
 }
 @media (min-width: 500px) and (max-width: 600px){
+	.row-mt{
+		margin-top: 4em;
+	}
+	.feel-free{
+		font-size: 1.8em;
+	}
 	.LoginModalWrapper{
 		border-radius: 0.2rem;
 		background-color: rgb(255, 255, 255);
@@ -295,6 +298,7 @@ strong{
 		margin-bottom: 1%;
 	}
 	#ask-btn{
+		clear: both;
 		float: right;
 		
 	}
@@ -331,7 +335,7 @@ strong{
 
 	.questions-total-small-device{
 		font-size: 160%;
-		margin-top: 1%;
+		margin-top: 1.5%;
 		margin-bottom: 0%;
 	
 		color: rgb(0, 128, 128);
@@ -342,7 +346,16 @@ strong{
 	
 	}
 }
-@media (min-width: 601px) and (max-width: 600px){
+@media (min-width: 601px) and (max-width: 767px){
+	.feel-free{
+		font-size: 1.8em;
+	}
+	#ask-btn{
+		float: right;
+	}
+	.row-mt{
+		margin-top: 4em;
+	}
 	.LoginModalWrapper{
 		border-radius: 0.2rem;
 		background-color: rgb(255, 255, 255);
@@ -395,6 +408,12 @@ strong{
 	}
 }
 @media(min-width: 768px) and (max-width: 990px){
+	.row-mt{
+		margin-top: 5em;
+	}
+	.feel-free{
+		font-size: 1.9em;
+	}
 	.LoginModalWrapper{
 		border-radius: 0.2rem;
 		background-color: rgb(255, 255, 255);
@@ -436,7 +455,7 @@ strong{
 		width: 50%;
 		margin-top: 1%;
 		
-	
+
 	}
 	.questions-total-small-device{
 		display: block;
@@ -446,7 +465,7 @@ strong{
 	}
 	.questions-total-small-device{
 		font-size: 200%;
-		margin-top: 1%;
+		margin-top: 1.5%;
 		margin-bottom: 0%;
 	
 		color: rgb(0, 128, 128);
@@ -458,6 +477,12 @@ strong{
 	}
 }
 @media(min-width: 991px) and (max-width: 1999px){
+	.feel-free{
+		font-size: 1.8em;
+	}
+	.row-mt{
+		margin-top: 5em;
+	}
 	.LoginModalWrapper{
 		border-radius: 0.2rem;
 		background-color: rgb(255, 255, 255);
@@ -510,6 +535,9 @@ strong{
 	}
 }
 @media(min-width: 1200px){
+	.row-mt{
+		margin-top: 4em;
+	}
 	.LoginModalWrapper{
 		border-radius: 0.2rem;
 		background-color: rgb(255, 255, 255);

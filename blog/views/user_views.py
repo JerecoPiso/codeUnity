@@ -325,6 +325,9 @@ def updateInfo(request):
         info.skills = request.POST['skills']
         info.expertise = request.POST['expertise']
         info.aboutme = request.POST['aboutme']
+        info.rate = request.POST['rate']
+        info.country = request.POST['country']
+        info.countryAbbr = request.POST['countryAbbr']+".png"
         info.save()
         return HttpResponse("Success")
     except:

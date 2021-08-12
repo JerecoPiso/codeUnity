@@ -10,18 +10,18 @@
 
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/indexxxxx.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/indexd.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionsz.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionszz.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projects.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectsxxddddd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Developers' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developers.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developersxxxxx.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewProject' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projectteddd.css' %}">
@@ -31,7 +31,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-tomorroww.css' %}">
 	<!-- <link rel="stylesheet" type="text/css" href="{% static 'assets/css/prismmm.css' %}"> -->
 
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/viewQuess.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/viewQuesss.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">
 	{% endif %}
 </head>
@@ -107,15 +107,28 @@
     outline: none;
   }
 	.tag-link{
-		background-color: rgba(0, 128, 255,0.9);
-		color: white;
+		/* background-color: rgba(0, 128, 255,0.9); */
+		background-color: rgba(224, 235, 235,0.7);
+		color: rgb(0,128,128);
 		margin-right: 10px;
-		padding: 5px;
-		font-size: 1px;
+		padding: 0.5em;
+		font-size: 1em;
 		border-radius: 0.5rem;
+		border: 0.2px solid rgba(153, 153, 153,0.6);
+	}
+	.tag-link:hover{
+		/* background-color: rgba(0, 128, 255,0.9); */
+		background-color: rgb(0,128,128);
+		
+		color: rgb(255,255,255);
+		/* margin-right: 10px;
+		padding: 0.5em;
+		font-size: 1em;
+		border-radius: 0.5rem; */
 	}
 	.skill-link{
-		background-color: rgba(0, 128, 255,0.9);
+	
+		background-color: red;
 		color: white;
 		margin-right: 10px;
 		padding: 2px;
@@ -196,7 +209,7 @@
 						str = str.slice(ctr+1,str.length)
 					
 						tags = tags+"<a href='/questions/tags/"+n+"' class='tag-link'>"+n+"</a>";
-						
+					
 					}else{
 						str = str.slice(0,str.length)
 						tags = tags+"<a href='/questions/tags/"+str+"' class='tag-link'>"+str+"</a>";
@@ -206,10 +219,13 @@
 						
 					
 					}
+				
+				
 					
 				}
-			
+				console.log(tags)
 				return tags
+				//
 			}
 		},
 		template: '<div id="tags" style="margin: 10px 5px 5px 0;font-size: 10px" v-html="dev_skills"></div>'
@@ -241,8 +257,10 @@
 				var n = null;
 				var skill = ""
 				// var num = str.search(",");
+				var counter = 0
 				while(str.length != 0){
 					var ctr = str.search(",");
+				
 					if(ctr != -1){
 						n = str.slice(0,ctr)
 						str = str.slice(ctr+1,str.length)
@@ -257,6 +275,10 @@
 						
 						
 					
+					}
+					counter++;
+					if(counter == 9){
+						break;
 					}
 					
 				}

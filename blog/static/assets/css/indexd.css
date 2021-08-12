@@ -1,3 +1,4 @@
+
 @media screen and (max-width: 450px){
 	#top-nav .showSearch{
 		display: none;
@@ -41,7 +42,7 @@
 		padding: 0;
 		background-color: rgb(0, 128, 128);	
 		height: 100%;
-		z-index: 3;
+		z-index: 1;
 	    overflow: auto;
 		width: 0;  
 		display: none;
@@ -143,13 +144,14 @@
 	    padding: 5%;
 	    border-radius: 1rem;
 	}
+	
 	#top-nav{
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
 		background-color: rgb(0, 128, 128);	
 		height: 100%;
-		z-index: 2;
+		z-index: 1;
 	    overflow: auto;
 	    width: 0;
 	    /* position: absolute; */
@@ -256,7 +258,7 @@
 		padding: 0;
 		background-color: rgb(0, 128, 128);	
 		height: 100%;
-		z-index: 1;
+		z-index: 3;
 	    overflow: auto;
 	    width: 0;
 	    position: fixed;
@@ -652,9 +654,9 @@
 	border-right: 2px solid rgb(255,255,255);
 }
 #close{
-	margin-left: 88%;
+	margin-left: 83%;
 	font-size: 35px;
-	margin-top: -30px;
+	margin-top: -28px;
 
 	background-color: transparent;
 	border: none;
@@ -675,7 +677,6 @@
 	margin-left: 15%;
 	font-size: 300%;
 }
-
 
 .error{
 	background-color: #ff5252 ;
@@ -799,14 +800,7 @@
 	color: rgb(77, 77, 77);
 
 }
-/* .success{
-	background-color: #00b8d4;
-	color: rgb(255,255,255);
-	border-radius: 0.7rem;
-	padding: 2%;
-	margin-top: 2%;
-	display: none;
-} */
+
 #top-nav li a span{
 	font-size: 18px;
 }
@@ -815,9 +809,9 @@ body::-webkit-scrollbar{
 	display: none;
 }
 .search-section{
-	position: absolute;
+	position: fixed;
 	width: 100%;
-	z-index: 1;
+	z-index: 5;
 	top: 0;
 	height: auto;
 	display: none;
@@ -858,8 +852,8 @@ body::-webkit-scrollbar{
 	clear: both;
 	border: none;
 	background-color: transparent;
-	font-size: 40px;
-	margin-top: -1%;
+	font-size: 2em;
+	margin-top: -10px;
 	margin-bottom: -1.5%;
 	color: rgb(255, 255, 255);
 }
@@ -883,7 +877,7 @@ body::-webkit-scrollbar{
 	height: 90px;
 }
 .card-desc{
-	/* font-weight: bold; */
+
 	margin-top: 10px;
 	font-size: 18px;
 	font-family: Arial, Helvetica, sans-serif;
@@ -902,4 +896,7 @@ body::-webkit-scrollbar{
 	margin-top: 2%;
 	padding-left: 5%;
 	padding-right: 5%;
+}
+.constant-header{
+	top: 0;position: fixed;z-index: 4
 }

@@ -14,9 +14,6 @@ from django.db import connection
 from django.db.models import Q
 from django.core.mail import send_mail
 
-# rootDir = ""
-# message = "www"
-# resp = ""
 # download folder in a zip format
 def download(request, folder):
     
@@ -59,11 +56,7 @@ def download(request, folder):
     notification_content = "A user downloaded your <b>" + folder + "</b> project. It has now <b>" + str(d_total) + "</b> download/s."
     notify = Notifications(notification=notification_content, notified_id=download_total.uploader_id, date=datenow, status="unread")
     notify.save()
-   #  months = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec')
-   #  d = int(datetime.datetime.now().strftime("%m"))
-      #  print(months[int(datetime.datetime.now().strftime("%m"))])  
-   
-    
+  
     resp = HttpResponse(s.getvalue())
     resp["Content-Disposition"] = "attachment; filename=%s" % zip_filename
 
@@ -174,14 +167,15 @@ def verified(request):
 
 # logout for the viewQuestionPage
 def logout(request,questionId):
-    
-    del request.session['loggin']
-    del request.session['id']
-    del request.session['photo']
-    del request.session['username']
+    try:
+        del request.session['loggin']
+        del request.session['id']
+        del request.session['photo']
+        del request.session['username']   
+    except:
+       pass
 
     return redirect("/login/"+questionId)
-
 
 def projects(request):
 
@@ -210,8 +204,6 @@ def searchProject(request,toSearch):
  
   frameworks = Frameworks.objects.all()
   project = Projects.objects.filter(project_name__icontains=toSearch)
-
-
   language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
@@ -383,28 +375,14 @@ def userLogin(request, redirectTo):
                     request.session['photo'] = json.dumps(str(user.photo))
                     request.session['toLogout'] = redirectTo 
                     if redirectTo == "user":
-
-                     
-                        # print(redirectTo[0:(len(redirectTo)+1)])
-                    
                         redirectedTo = "/user"
                     elif redirectTo == "ask":
                         redirectedTo = "/user/questions"
                     elif redirectTo == "upload-project":
                         redirectedTo = "/user/projects"
                     else:
-                        # request.session['viewQuestion'] = True
-                        # request.session['questionViewerId'] = user.id
-                        # request.session['photo'] = json.dumps(str(user.photo))
-                        # request.session['username'] = user.uname
-                        # request.session['id'] = user.id
-                        # request.session['loggin'] = True
-                        # request.session['username'] = user.uname
-                        # request.session['photo'] = json.dumps(str(user.photo))
-
                         question = Questions.objects.get(id=(redirectTo[13:len(redirectTo)+1]))
                         question.views = question.views + 1
-                        
                         question.save()
                         # request.session.set_expiry(60)
                         redirectedTo = "/question/"+(redirectTo[13:len(redirectTo)+1])
@@ -425,8 +403,6 @@ def userLogin(request, redirectTo):
         msg = "Email cannot be empty!"
        
     
-    
-        
     if msg != True:
       if redirectTo == "user":
                       
@@ -448,7 +424,7 @@ def register(request):
    #   print(request.session['redirectTo'])
      msg = ""
      if request.POST["email"] != "":
-          # if all(x.isalpha() or x.isspace() for x in request.POST["email"]):
+          if all(x.isalpha() or x.isspace() for x in request.POST["username"]):
                
                if request.POST["password"] != "" and request.POST["password2"] != "":
                     if request.POST["password"] == request.POST["password2"]:
@@ -492,8 +468,8 @@ def register(request):
                else:
                     msg = "Password's are empty!"
 
-          # else:
-          #      msg = "Name should be letters only!"
+          else:
+               msg = "Name should be letters only!"
 
      else:
           msg = "Email cannot be empty!"

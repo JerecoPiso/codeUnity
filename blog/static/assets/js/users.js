@@ -1,3 +1,18 @@
+document.onreadystatechange = function() {
+	
+	if (document.readyState !== "complete") {
+		document.querySelector(
+		  "body").style.display = "none";
+		document.querySelector(
+		  ".spinner1").style.display = "block";
+	
+	} else {
+		document.querySelector(
+		  ".spinner1").style.display = "none";
+		document.querySelector(
+		  "body").style.display = "block";
+	}
+};
 var months = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
 var day = ['Mon','Tues','Wed','Thurs','Fri','Sat','Sun']
 
@@ -23,9 +38,7 @@ $(document).ready(function(){
 			
        	}
    	});
-	$('#show').click(function(){
-		$('.flex-item1').show().css({'width': '40%'})
-	})
+
 	$('#bars').click(function(){
 		$('.flex-item1').hide()
 	})
@@ -59,7 +72,7 @@ $(document).ready(function(){
 	$("#questionCode").summernote('code', '')
 	
 		$('#show').click(function(){
-			$('.flex-item1').show().css({'width': '35%'})
+			$('.flex-item1').show().css({'width': '50%'})
 		})
 		$('#bars').click(function(){
 			$('.flex-item1').hide()

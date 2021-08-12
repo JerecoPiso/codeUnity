@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<style type="text/css">
+  #tags {
+  float: left;
+  border: 1px solid #ccc;
+  padding: 4px;
+  font-family: Arial;
+}
+
+#tags span.tag {
+  cursor: pointer;
+  display: block;
+  float: left;
+  color: #555;
+  background: #add;
+  padding: 5px 10px;
+  padding-right: 30px;
+  margin: 4px;
+}
+
+#tags span.tag:hover {
+  opacity: 0.7;
+}
+
+#tags span.tag:after {
+  
+  position: absolute;
+  content: "×";
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 0 4px;
+  margin: 3px 0 10px 7px;
+  font-size: 10px;
+}
+
+#tags input {
+  background: #eee;
+  border: 0;
+  margin: 4px;
+  padding: 7px;
+  width: auto;
+}
+
+
+</style>
+
+<body>
+<div id="tags">
+  <div id="id">
+  	
+  </div>
+
+  <input class="input" type="text" value="" placeholder="Add a skill" />
+</div>
+<button id="see">See</button>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+ $(document).ready(function(){
+
+  $('#tags input').on('focusout', function() {
+    var txt = this.value.replace(/[^a-zA-Z0-9\+\-\.\#]/g, ''); // allowed characters list
+    // if (txt) $(this).before('<span class="tag">' + txt + '</span>');
+     if (txt){
+      $('<span class="tag">' + txt + '</span>').appendTo("#id")
+     }
+    this.value = "";
+    this.focus();
+    
+  }).on('keyup', function(e) {
+    
+    if (/(13)/.test(e.which)) $(this).trigger('focusout');
+  });
+
+  $('#tags').on('click', '.tag', function() {
+    $(this).remove();
+  });
+
+  $('#see').click(function(){
+    alert($("#id").html())
+  })
+ })
+
+  
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Before Create</title>
+</head>
+<body>
+	<div id="root">
+		<input v-focus v-model="message">
+		{{ message | capitalize }}
+	</div>
+<div id="app">
+	
+</div>
+<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript">
+	var vm = new Vue({
+		el: "#app",
+		data:{
+			msg: ""
+		}
+	});
+	vm.msg = 'Hello'
+	// DOM not updated yet
+	Vue.nextTick(function () {
+	  // DOM updatedalert
+	  alert("hahaha")
+	});
+
+
+	var CompA = { haha: "jereco" }
+
+// extend CompA without having to call `Vue.extend` on either
+var CompB = {
+  extends: CompA,
+ 
+}
+	Vue.directive('focus', {
+  // When the bound element is inserted into the DOM...
+  inserted: function (el) {
+    // Focus the element
+    el.focus()
+  }
+})
+	Vue.filter('capitalize', function (value) {
+  // if (!value) return ''
+  // value = value.toString()
+  // return value.charAt(0).toUpperCase() + value.slice(1)
+})
+	new Vue({
+		el: "#root",
+		data:{
+			message: ""
+		},
+		mounted: function(){
+			//alert(CompA.haha)
+		},
+		updated: function(){
+
+			alert("f")
+
+		},
+		directives: {
+		  focus: {
+		    // directive definition
+		    inserted: function (el) {
+		      el.focus()
+		    }
+		  }
+		},
+		filters: {
+  capitalize: function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }
+},
+
+		
+	})
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tags Using VueJs</title>
+</head>
+<style type="text/css">
+	#app{
+		 border: 1px solid #ccc;
+		 width: auto;
+		 padding-bottom: 5px;
+	}
+	.tags{
+		float: left;
+  		padding: 4px;
+  		font-family: Arial;		
+	}
+	 span:after {
+	  position: absolute;
+	  content: "×";
+	  padding: 0 4px;
+	  margin: 0px 0 10px 7px;
+	  font-size: 18px;
+	}
+	span{
+	  cursor: pointer;
+	  display: block;
+	  float: left;
+	  color: rgb(255,255,255);
+	  background: rgb(0,128,128);
+	  padding: 5px 10px;
+	  padding-right: 30px;
+	  margin-right: 4px;
+	  margin-top: 5px;
+	}
+	input {
+	  background: #eee;
+	  border: 0;
+	  margin: 10px 4px 4px 4px;
+	  padding: 7px;
+	  width: auto;
+	}
+
+
+</style>
+<body>
+<div id="app">
+	<div class="tags">
+		<span v-for="(tag,index) in tags"  @click="deleteTag(index)"  >{{tag}}</span>
+
+
+		
+		
+	</div>	
+
+	
+
+<input type="text" v-model="newTag" @keyup="monitor" placeholder="Enter tag . . .">
+<button v-if="haha[0] == 'false'"  @click="ngek(0)">Click</button>
+<p v-if="haha[0] == 'false'">dfdfdfdfdf</p>
+<button v-if="haha[1] == 'false'" @click="ngek(1)">Click</button>
+<p v-if="haha[1] == 'false'">hahahahasgfjsdfsdfsdfsdfsdf</p>
+</div>
+
+<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+	new Vue({
+		el: "#app",
+		data(){
+			return{
+
+				tags: [],
+				newTag: '',
+				toDelete: 0,
+				haha: ['false', 'false'],
+				limitation: true
+			
+			}
+			
+		},
+		updated: function(){
+			// this.limitation = false
+			// this.ngek()
+
+
+		},
+		methods: {
+			ngek(i){
+				Vue.set(this.haha,i,'true')
+			},
+			deleteTag: function(index){
+				// this.tags.pop(index)
+				this.tags.splice(index,1)
+			},
+			monitor: function(event){
+				if(event.key == "Enter"){
+					if (this.newTag != "") {
+						this.tags.push(this.newTag)
+						this.newTag = ""
+					}
+					
+				}
+				// alert(this.tags.toString())
+				// alert($('.tags').html())
+				
+					
+			},
+			
+		},
+
+	})
+</script>
+</body>
+</html>

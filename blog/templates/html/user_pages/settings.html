@@ -35,6 +35,7 @@
 									</div>
 								</div>
 							</div>
+						
 							<!-- modal for changing profile photo -->
 							<div class="dpModal">
 								<div class="modalHeader">
@@ -128,12 +129,49 @@
 								</div>
 							
 								<div id="skills-tags">
-									<div class="skills">
-										<span v-for="(skill,index) in newSkills"  @click="deleteSkill(index)"  >[skill]</span>
-								
+									<div class="skills">									
+										<span v-for="(skill,index) in addedSkills" @click="undoAddedSkill(index,skill.value,skill.origin)" :key="index">[skill.value]</span>
+										<span v-for="(skill,index) in newSkills"  @click="deleteSkill(index)" :key="index" >[skill]</span>
 									</div>	
 									<input type="text" id="skills-input" v-model="newSkill" @keyup="monitor" placeholder="Enter new skills . . .">
 								</div>
+								<div class="langFrameSelection" v-if="showLanguages">
+									<li v-for="(lang,index) in languages" :key="index" @click="addSkillFromSuggestions(index,lang.value,'languages')">[lang.value] <span class="fa fa-plus"></span> </li>
+									
+								</div>
+						
+								<p class="no-data" v-if="showLangBtnTxt == 'Hide Languages'" v-html="ifLangEmpty"></p>
+					
+								<div class="langFrameSelection" v-if="showFrameworks">
+									<li v-for="(lang,index) in frameworks" :key="index" @click="addSkillFromSuggestions(index,lang.value,'frameworks')">[lang.value] <span class="fa fa-plus"></span> </li>
+									
+								</div>
+					
+								<p class="no-data" v-if="showFwBtnTxt == 'Hide Frameworks'" v-html="ifFwEmpty"></p>
+
+
+								<button type="button" @click="getLanguages();selectToShow('language')" class="show-btns">[showLangBtnTxt]</button>
+								<button type="button" @click="getFrameworks();selectToShow('framework')" class="show-btns">[showFwBtnTxt]</button>
+								
+								
+								<br>
+								<label for="">Country </label>
+								<div class="row flag-section">
+									<div class="col l6 xl6 m6 s12">
+										<img class="flag"  :src="media+countryFlagImg" alt="countryFlagImg"> 
+									</div>
+									<div class="col l6 xl6 m6 s12">
+										<select  class="browser-default" v-model="arrIndex" >
+											<option value=""  disabled selected>Select Country</option>
+											<option v-for="(country,index) in countries" :value="index">[country.name]</option>
+										</select>
+										 <p class="country-name">([myCountry])</p>
+									</div>
+								</div>
+				
+							
+								<label for="">Rate Per Hour (USD)</label>
+								<input type="number" v-model="ratePerHour" placeholder="e.g 80">
 								<label>About Me (Optional)</label>
 								<div v-html="summerNote" class="my-experience">
 								</div>
