@@ -38,7 +38,18 @@
                               
                               <dev-skills skills="{{dev.skills}}"></dev-skills>
                               <div style="width: 100%">
-                                <img class="flag" src="/media/flags/{{dev.countryAbbr}}"> <span class="rate">${{dev.rate}}</span>
+                                 {% if dev.countryAbbr != '' %}
+                                 <img class="flag" src="/media/flags/{{dev.countryAbbr}}"> 
+                                 {% else %}
+                                <!-- -->
+                                 <p class="flag-na">N/A</p> 
+                                 {% endif %}
+                                 {% if dev.rate != '' %}
+                                   <span class="rate">${{dev.rate}}</span>
+                                 {% else %}
+                                   <span class="rate">N/A</span>
+                                 {% endif %}
+                               
                               </div>
                               <button type="button" class="read-more">Read More</button>
                             </div>

@@ -29,7 +29,8 @@ urlpatterns = [
      url(r'^login/(?P<redirectTo>.+)$', views.login, name="Questions"),
      url(r'^userLogin/(?P<redirectTo>.+)$', views.userLogin, name="Questions"),
      url(r'^verified', views.verified, name="Verified"),
-
+     url(r'^completeinfo', views.completeinfohtml, name="Complete Information HTML"),
+     url(r'^setmoreinfo', views.setMoreInfo, name="Complete Information HTML"),
      url(r'^developers/search/(?P<search>.+)$', views.searchDevs, name="Search"),
 
      # url(r'^userLogin', views.userLogin, name="User Login"),

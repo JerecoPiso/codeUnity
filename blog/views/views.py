@@ -108,61 +108,69 @@ def verify(request):
 def verified(request):
   ret_msg = ""
   goto = ""
-  if request.session.get('code') != request.POST['code']:
-    ret_msg = "Incorrect code!"
+  if request.session.get("code"):
+      if request.session.get('code') != request.POST['code']:
+         ret_msg = "Incorrect code!"
+      else:
+         # return HttpResponse("HAHAHA")
+         # saved new user's info to the db if the verification code match
+         if Developers.objects.filter(email__exact = request.session.get('reg_email')):
+            ret_msg = "Email already exist!"
+         
+         else:
+           
+            hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
+            user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo = "dp.jpg", uname = request.session.get('reg_username'), expertise=request.session.get('expertise'), rate=request.session.get('rate'), country=request.session.get('country'), countryAbbr=request.session.get('countryAbbr'), skills=request.session.get('skills'), aboutme=request.session.get('more'))
+            user.save()
+            # save session for the users panel
+            
+            
+            # del all sessions stored
+            try:
+               del request.session['code']
+               del request.session['reg_password']
+               del request.session['reg_email']
+               del request.session['reg_username']
+               del request.session['session_ok']
+               del request.session['reg_photo']
+               del request.session['expertise']
+               del request.session['rate']
+               del request.session['country']
+               del request.session['countryAbbr']
+               del request.session['skills']
+               del request.session['more']
+            except:
+               pass
+
+            ret_msg = True
+      if ret_msg == True:
+
+         if request.session.get('redirectTo'):
+               if request.session['redirectTo'] == "user":
+                   request.session['id'] = user.id
+                   request.session['loggin'] = True
+                   request.session['username'] = user.uname
+                   goto = "/user"
+               else:
+                   request.session['loggin'] = True
+                   request.session['id'] = user.id
+                   route = request.session['redirectTo']        
+                   goto = "/question/"+route[13:len(route)+1]           
+         else:
+             request.session['id'] = user.id
+             request.session['loggin'] = True
+             request.session['username'] = user.uname
+             goto = "/user"
+                  
+
+      else:
+            
+            goto = "/verify"
+            messages.error(request, ret_msg)
+
   else:
-    # return HttpResponse("HAHAHA")
-    # saved new user's info to the db if the verification code match
-    if Developers.objects.filter(email__exact = request.session.get('reg_email')):
-        ret_msg = "Email already exist!"
-    
-    else:
-
-        hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
-        user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo = "dp.jpg", uname = request.session.get('reg_username'))
-        user.save()
-        # save session for the users panel
-       
-      
-        # del all sessions stored
-        try:
-          del request.session['code']
-          del request.session['reg_password']
-          del request.session['reg_email']
-          del request.session['reg_username']
-          del request.session['session_ok']
-          del request.session['reg_photo']
-        except:
-          pass
-
-        ret_msg = True
-  if ret_msg == True:
-
-            if request.session.get('redirectTo'):
-              if request.session['redirectTo'] == "user":
-                request.session['id'] = user.id
-                request.session['loggin'] = True
-                request.session['username'] = user.uname
-                goto = "/user"
-              else:
-                request.session['loggin'] = True
-                request.session['id'] = user.id
-                route = request.session['redirectTo']
-               
-                goto = "/question/"+route[13:len(route)+1]
-                
-            else:
-                request.session['id'] = user.id
-                request.session['loggin'] = True
-                request.session['username'] = user.uname
-                goto = "/user"
-              
-
-  else:
-        
-      goto = "/verify"
-      messages.error(request, ret_msg)
-
+      goto = "/"
+ 
   return redirect(goto)
 
 # logout for the viewQuestionPage
@@ -308,7 +316,7 @@ def getQuestion(request, toGetQuestion, value):
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
   request.session['title'] = "Questions"
-  return render(request, 'html/questions.html', {'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
+  return render(request, 'html/questions.html', {'toSearch': value,'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
 
 def getDevelopers(request, toGetDevelopers, value):
   dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
@@ -680,4 +688,26 @@ def deleteComment(request):
     except:
         return HttpResponse("Something went wrong!")
 
-        
+def completeinfohtml(request):
+    request.session['title'] = "Complete Information"
+    if request.session.get('code'):
+        return render(request, 'html/completeinfo.html')
+    else:
+        return redirect("/")
+       
+    
+
+def setMoreInfo(request):
+   try:
+         request.session['expertise'] = request.POST['expertise']
+         request.session['rate'] = request.POST['rate']
+         request.session['country'] = request.POST['country']
+         request.session['countryAbbr'] = request.POST['countryAbbr']
+         request.session['skills'] = request.POST['skills']
+         request.session['more'] = request.POST['more']
+         return HttpResponse("Success")
+   except:
+         
+         return HttpResponse("Error")
+   #  return HttpResponse(request.POST['more'])
+    

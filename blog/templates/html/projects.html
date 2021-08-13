@@ -37,23 +37,23 @@
 					    {% endfor %}
 						<p class="languages">Mobile </p>
 						{% for lang in languages %}	
-							{% if lang.category == "Android " %}
+							{% if lang.category == "Android Development" %}
 						   <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
 							{% endif %}
 					   {% endfor %}
 					   {% for fw in frameworks %}	
-						{% if fw.category == "Android " %}
+						{% if fw.category == "Android Development" %}
 							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 						{% endif %}
 					   {% endfor %}
 					   {% for lang in languages %}	
-					   {% if lang.category == "iOS " %}
+					   {% if lang.category == "iOS Development" %}
 					  	<li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
 					   {% endif %}
 						{% endfor %}
 
 						{% for fw in frameworks %}	
-						{% if fw.category == "iOS " %}
+						{% if fw.category == "iOS Development" %}
 							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 						{% endif %}
 						{% endfor %}

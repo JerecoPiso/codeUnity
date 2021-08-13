@@ -436,12 +436,19 @@ body{
 }
 .imp-txt{
 	color: rgb(0, 128, 128);
-	font-size: 1.4em;
+	font-size: 1.2em;
 }
 .flag{
     width: 45px;
     height: 25px;
     top: 2.2%;
+    position: absolute;
+    z-index: 1;
+}
+.flag-na{
+    width: 45px;
+    height: 25px;
+    top: -0.5em;
     position: absolute;
     z-index: 1;
 }

@@ -328,27 +328,27 @@ var settingsOtherInfo = new Vue({
     delimiters: ['[', ']'],
     el: "#other-info",
     data:{
-    newSkills: [],
-    newSkill: '',
-    expertise: '',
-    mySkills: [],
-    rmSkills: [],
-    summerNote: '',
-    languages: [],
-    frameworks: [],
-    showLanguages: false,
-    showFrameworks: false,
-    showLangBtnTxt: 'Show Languages',
-    showFwBtnTxt: 'Show Frameworks',
-    addedSkills: [],
-    ifLangEmpty: '',
-    ifFwEmpty: '',
-    countries: [],
-    arrIndex: '',
-    ratePerHour: 0,
-    myCountry: '',
-    media: '/media/flags/',
-    countryFlagImg: ''
+        newSkills: [],
+        newSkill: '',
+        expertise: '',
+        mySkills: [],
+        rmSkills: [],
+        summerNote: '',
+        languages: [],
+        frameworks: [],
+        showLanguages: false,
+        showFrameworks: false,
+        showLangBtnTxt: 'Show Languages',
+        showFwBtnTxt: 'Show Frameworks',
+        addedSkills: [],
+        ifLangEmpty: '',
+        ifFwEmpty: '',
+        countries: [],
+        arrIndex: '',
+        ratePerHour: 0,
+        myCountry: '',
+        media: '/media/flags/',
+        countryFlagImg: ''
     },
     components:{
     'my-skills': my_component
@@ -524,24 +524,31 @@ var settingsOtherInfo = new Vue({
             return tags
         },
         monitor: function(event){
-
+           
             if(event.key == "Enter"){
                 if (this.newSkill != "") {
                     var list = []
-                    for(var i = 0; i< settingsOtherInfo.addedSkills.length; i++){
-                        list.push(settingsOtherInfo.addedSkills[i].value.toLowerCase())
-                        
+                    if(settingsOtherInfo.addedSkills.length != 0){
+                        for(var i = 0; i < settingsOtherInfo.addedSkills.length; i++){
+                            list.push(settingsOtherInfo.addedSkills[i].value.toLowerCase())
+                          
+                        }
                     }
+                 
                   
                     if(list.concat(settingsOtherInfo.newSkills).length != 0){
                         for(var i = 0; i < list.concat(settingsOtherInfo.newSkills).length; i++){
                             if(list.concat(settingsOtherInfo.newSkills).indexOf(this.newSkill.toLowerCase()) < 0){
-                                this.newSkills.push(this.newSkill)
+                                this.newSkills.push(
+                                    this.newSkill
+                                )
         
                         }
                     }
                     }else{
-                        this.newSkills.push(this.newSkill)
+                        this.newSkills.push(
+                  this.newSkill
+                        )
                     }
                   
                     this.newSkill = ""
@@ -571,11 +578,24 @@ var settingsOtherInfo = new Vue({
                 for (a = 0; a < settingsOtherInfo.mySkills.length; a++){
                     list.push(settingsOtherInfo.mySkills[a].toLowerCase())
                 }
-                var join = settingsOtherInfo.addedSkills.concat(settingsOtherInfo.newSkills)
+                var join = settingsOtherInfo.addedSkills
                 var finalJoin = []
+                if(settingsOtherInfo.newSkills.length != 0){
+                    for(var i = 0; i < settingsOtherInfo.newSkills.length; i++){
+                      
+                       
+                     
+                            finalJoin.push(settingsOtherInfo.newSkills[i].toLowerCase())
+                     
+                    }
+                }
                 if(join.length != 0){
                     for(var i = 0; i < join.length; i++){
-                        finalJoin.push(join[i].value.toLowerCase())
+                      
+                      
+                            finalJoin.push(join[i].value.toLowerCase())
+                    
+                       
                      
                     }
                     list = list.concat(finalJoin)
@@ -611,8 +631,17 @@ var settingsOtherInfo = new Vue({
                 for (a = 0; a < settingsOtherInfo.mySkills.length; a++){
                     list.push(settingsOtherInfo.mySkills[a].toLowerCase())
                 }
-                var join = settingsOtherInfo.addedSkills.concat(settingsOtherInfo.newSkills)
+                var join = settingsOtherInfo.addedSkills
                 var finalJoin = []
+                if(settingsOtherInfo.newSkills.length != 0){
+                    for(var i = 0; i < settingsOtherInfo.newSkills.length; i++){
+                      
+                       
+                     
+                            finalJoin.push(settingsOtherInfo.newSkills[i].toLowerCase())
+                     
+                    }
+                }
                 if(join.length != 0){
                     for(var i = 0; i < join.length; i++){
                         finalJoin.push(join[i].value.toLowerCase())
@@ -686,8 +715,10 @@ var settingsOtherInfo = new Vue({
 
     }
 })
+
+// auto update the about me section in the users setting every changes in the summernote
 $('#work-experience').on('summernote.change', function(we, contents, $editable) {
-// console.log(contents);
+
 settingsOtherInfo.getAboutMe(contents)
 });
 

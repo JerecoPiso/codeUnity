@@ -1,0 +1,88 @@
+{% extends 'html/templates/base.html' %}
+
+{% block main_page %}
+
+    <div id="completeinfo">
+        <div class="Modal" v-if="responseModal">
+          
+            <div class="modalDialog">
+                <div class="modalHeader">
+                     <button type="button" @click="responseModal = false" class="closeModal">&times;</button>
+                </div>
+                <div class="modalBody">
+                    <p class=" error-logo">  <span class="fa fa-exclamation"></span></p>
+                  
+                    <p class="error-msg">[responseMsg]</p>
+                </div>
+               
+            </div>
+        </div>
+     
+        <form id="completeform">
+            {% csrf_token %}
+            <p class="codeUnity">codeUnity</p>
+            <div class="flex">
+                <div class="flex-xs-10 flex-s-10 flex-m-5 flex-l-5">
+                    <label for="" class="label">Expertise</label>
+                    <input type="text" v-model="expertise">
+                </div>
+                <div class="flex-xs-10 flex-s-10 flex-m-5 flex-l-5">
+                    <label for="" class="label">Country</label>
+                    <select class="browser-default" v-model="arrIndex">
+                        <option v-for="(country,index) in countries" :value="index">[country.name]</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex">
+                <div class="flex-xs-10 flex-s-10 flex-m-3 flex-l-3">
+                    <label for="" class="label">Rate</label>
+                    <input type="number" v-model="rate">
+                </div>
+                <div class="flex-xs-10 flex-s-10 flex-m-7 flex-l-7">
+                    <label for="" class="label">Skills</label>
+                    <div id="skills-tags">
+                        <div class="skills">									
+                            <span v-for="(skill,index) in addedSkills" @click="undoAddedSkill(index,skill.value,skill.origin)" :key="index">[skill.value]</span>
+                            <span v-for="(skill,index) in newSkills"  @click="deleteSkill(index)" :key="index" >[skill]</span> 
+                        </div>	
+                        <input type="text" id="skills-input" v-model="newSkill" @keyup="monitor" placeholder="Enter new skills . . .">
+                    </div>
+                    <div class="langFrameSelection" v-if="showLanguages">
+                        <li v-for="(lang,index) in languages" :key="index" @click="addSkillFromSuggestions(index,lang.value,'languages')">[lang.value] <span class="fa fa-plus"></span> </li>
+                        
+                    </div>
+            
+                    <p class="no-data" v-if="showLangBtnTxt == 'Hide Languages'" v-html="ifLangEmpty"></p>
+        
+                    <div class="langFrameSelection" v-if="showFrameworks">
+                        <li v-for="(lang,index) in frameworks" :key="index" @click="addSkillFromSuggestions(index,lang.value,'frameworks')">[lang.value] <span class="fa fa-plus"></span> </li>
+                        
+                    </div>
+        
+                    <p class="no-data" v-if="showFwBtnTxt == 'Hide Frameworks'" v-html="ifFwEmpty"></p>
+
+
+                    <button type="button" @click="getLanguages();selectToShow('language')" class="show-btns">[showLangBtnTxt]</button>
+                    <button type="button" @click="getFrameworks();selectToShow('framework')" class="show-btns">[showFwBtnTxt]</button>
+                </div>
+            </div>
+            <div class="flex">
+                
+                <div class="flex-xs-10 flex-s-10 flex-m-10 flex-l-10">
+                   
+                <label for="" class="label">More <i class="optional">(Optional)</i> </label>
+             
+                <div  id="more-aboutme"></div>
+                 <br>
+                 <input type="checkbox" v-model="termsAndCondition" class="filled-in " id="filled-in-box"  />
+                 <label for="filled-in-box" id="agree" >I agree to the Terms and Condition.</label>
+                </div>
+               
+            </div>
+          
+           <button class="btn-register" type="button" @click="submit()">Complete</button>
+           
+        </form>
+    </div>
+
+{% endblock %}

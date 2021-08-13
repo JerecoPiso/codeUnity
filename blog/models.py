@@ -26,7 +26,7 @@ class Developers(models.Model):
 	resume = models.FileField(upload_to="media/", blank=True)
 	rate = models.CharField(max_length=55, blank=True)
 	countryAbbr = models.CharField(max_length=25, blank=True)
-	country = models.CharField(max_length=25, blank=True)
+	country = models.CharField(max_length=100, blank=True)
 
 	def __str__(self):
 		return self.email + " " + self.password + " " + self.photo + " " + self.uname + " " + self.skills + " " + self.aboutme + " " + self.expertise  + " " + self.resume + " " + self.rate + " " + self.countryAbbr + " " + self.country

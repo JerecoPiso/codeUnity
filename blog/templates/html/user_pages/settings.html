@@ -133,7 +133,7 @@
 										<span v-for="(skill,index) in addedSkills" @click="undoAddedSkill(index,skill.value,skill.origin)" :key="index">[skill.value]</span>
 										<span v-for="(skill,index) in newSkills"  @click="deleteSkill(index)" :key="index" >[skill]</span>
 									</div>	
-									<input type="text" id="skills-input" v-model="newSkill" @keyup="monitor" placeholder="Enter new skills . . .">
+									<input type="text" id="skills-input" @keyup="monitor" v-model="newSkill" placeholder="Enter new skills . . .">
 								</div>
 								<div class="langFrameSelection" v-if="showLanguages">
 									<li v-for="(lang,index) in languages" :key="index" @click="addSkillFromSuggestions(index,lang.value,'languages')">[lang.value] <span class="fa fa-plus"></span> </li>

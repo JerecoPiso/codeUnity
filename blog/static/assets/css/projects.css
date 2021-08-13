@@ -524,7 +524,7 @@
 	.languages{
 		margin-top: 1.5em;
 		padding: 0 1% 1% 1%;
-		margin-bottom: 2%;
+		margin-bottom: 1%;
 		font-size: 18px;
 		margin-left: 6%;
 		color: rgb(0, 128, 128);
@@ -648,7 +648,7 @@
 	.languages{
 		margin-top: 0.5em;
 		padding: 0 1% 1% 1%;
-		margin-bottom: 2%;
+		margin-bottom: 0;
 		font-size: 18px;
 		margin-left: 6%;
 		color: rgb(0, 128, 128);
