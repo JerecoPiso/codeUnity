@@ -497,10 +497,10 @@ def developers(request):
 def viewProject(request, project_name):
       request.session['title'] = "viewProject"
       project = Projects.objects.get(project_name=project_name)
-      
+      developer = Developers.objects.get(id=project.uploader_id)
       project.views = project.views + 1
       project.save()
-      return render(request, "html/view_project.html", {'project': project})
+      return render(request, "html/view_project.html", {'project': project, 'developer': developer})
 
 def viewQuestion(request, id):
       request.session['title'] = "viewQuestion"
