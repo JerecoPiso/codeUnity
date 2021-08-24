@@ -517,7 +517,7 @@ var settingsOtherInfo = new Vue({
                     
                 
                 }
-                console.log("Sd")
+              
                 
             }
             // console.log(tags)

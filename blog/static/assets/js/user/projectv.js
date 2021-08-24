@@ -115,7 +115,15 @@ var folderUpload = new Vue({
                 fd.append("language", folderUpload.language)
                 fd.append("photo", folderUpload.appPhoto)
                 //  alert(folderUpload.language)
-                axios.post('uploadProject', fd,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
+            
+                axios.post('uploadProject', fd,
+                {
+                    headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },  
+                    onUploadProgress: function( progressEvent ) {
+                            console.log(progressEvent.loaded)
+                  }.bind(this)
+                }
+                 ).then(function(response){
                    
                  
                    
