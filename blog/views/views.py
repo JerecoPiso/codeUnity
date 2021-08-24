@@ -215,7 +215,7 @@ def getProjects(request, toGet, search):
 
       project = Projects.objects.filter(project_name__icontains=search)
   else:
-      project = Projects.objects.filter(language__contains=search)
+      project = Projects.objects.filter(language__icontains=search)
       
   language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
@@ -259,9 +259,9 @@ def getQuestion(request, toGetQuestion, value):
   ).annotate(category_count=Count('category')).filter(category_count__gt=0)
 
   if toGetQuestion == "tags":
-     questions = Questions.objects.filter(tags__contains=value).order_by('-id')
+     questions = Questions.objects.filter(tags__icontains=value).order_by('-id')
   elif toGetQuestion == "search":
-     questions = Questions.objects.filter(question__contains=value)
+     questions = Questions.objects.filter(question__icontains=value)
   elif toGetQuestion == "filter":
       if value == "latest":
           questions = Questions.objects.filter().order_by('-id')[:10]
@@ -270,7 +270,7 @@ def getQuestion(request, toGetQuestion, value):
       else:
           questions = Questions.objects.filter(status='').order_by('-id')
   elif toGetQuestion == "category":
-      questions = Questions.objects.filter(category__contains=value).order_by('-id')
+      questions = Questions.objects.filter(category__icontains=value).order_by('-id')
   else:
       return HttpResponse("dfdf")
 
@@ -290,13 +290,13 @@ def getQuestion(request, toGetQuestion, value):
 def getDevelopers(request, toGetDevelopers, value):
   dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
   if toGetDevelopers == "skills":
-      devs = Developers.objects.filter(skills__contains=value).order_by("-id")
+      devs = Developers.objects.filter(skills__icontains=value).order_by("-id")
   elif toGetDevelopers == "expertise":
-      devs = Developers.objects.filter(expertise__contains=value).order_by("-id")
+      devs = Developers.objects.filter(expertise__icontains=value).order_by("-id")
   elif toGetDevelopers == "country":
-      devs = Developers.objects.filter(country__contains=value).order_by("-id")
+      devs = Developers.objects.filter(country__icontains=value).order_by("-id")
   else:
-      devs = Developers.objects.filter(Q(skills__contains=value) | Q(expertise__contains=value) | Q(country__contains=value)).order_by("-id")
+      devs = Developers.objects.filter(Q(skills__icontains=value) | Q(expertise__icontains=value) | Q(country__icontains=value)).order_by("-id")
    
   
   if devs.count() < 10 and devs.count() > 1:
@@ -319,7 +319,7 @@ def searchDevsRate(request, min, max):
   
   devs = Developers.objects.filter(rate__range=(min,max)).order_by("-id")
   dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
-  print(devs.count())
+
   if devs.count() < 10 and devs.count() > 1:
      paginator = Paginator(devs, devs.count())
   elif devs.count() > 10:
