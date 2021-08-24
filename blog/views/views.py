@@ -120,7 +120,7 @@ def verified(request):
          else:
            
             hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
-            user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo = "dp.jpg", uname = request.session.get('reg_username'), expertise=request.session.get('expertise'), rate=request.session.get('rate'), country=request.session.get('country'), countryAbbr=request.session.get('countryAbbr'), skills=request.session.get('skills'), aboutme=request.session.get('more'))
+            user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo = "dp.jpg", uname = request.session.get('reg_username'), expertise=request.session.get('expertise'), rate=request.session.get('rate'), country=request.session.get('country'), countryAbbr=request.session.get('countryAbbr')+".png", skills=request.session.get('skills'), aboutme=request.session.get('more'))
             user.save()
             # save session for the users panel
             
@@ -186,7 +186,7 @@ def logout(request,questionId):
     return redirect("/login/"+questionId)
 
 def projects(request):
-
+  
   project = Projects.objects.all()
   # lang = Projects.objects.values(
   #   'language'
@@ -208,10 +208,15 @@ def projects(request):
   request.session['title'] = "Projects"
   return render(request, 'html/projects.html', {'frameworks': frameworks,'total_project': project.count(),'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
-def searchProject(request,toSearch):
- 
+def getProjects(request, toGet, search):
+
   frameworks = Frameworks.objects.all()
-  project = Projects.objects.filter(project_name__icontains=toSearch)
+  if toGet == "search":
+
+      project = Projects.objects.filter(project_name__icontains=search)
+  else:
+      project = Projects.objects.filter(language__contains=search)
+      
   language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
   newest_apps = Projects.objects.order_by('-id')[:10]
@@ -225,28 +230,7 @@ def searchProject(request,toSearch):
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
-  return render(request, 'html/projects.html', {'frameworks': frameworks,'toSearch': toSearch,'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
-
-def filterProjects(request, toSearch):
-  frameworks = Frameworks.objects.all()
-  project = Projects.objects.filter(language__contains=toSearch)
-  # language = Projects.objects.values(
-  #   'language'
-  #   ).annotate(language_count=Count('language')).filter(language_count__gt=0)
-  language = Language.objects.all()
-  apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
-  newest_apps = Projects.objects.order_by('-id')[:10]
-
-  if project.count() < 10 and project.count() > 1:
-     paginator = Paginator(project, project.count())
-  elif project.count() > 10:
-     paginator = Paginator(project, 10)
-  else:
-     paginator = Paginator(project, 1)
-  page_number = request.GET.get('page')
-  page_obj = paginator.get_page(page_number)
-  request.session['title'] = "Projects"
-  return render(request, 'html/projects.html', {'frameworks': frameworks,'languages': language,'toSearch': toSearch, 'new_apps': newest_apps, 'projects': page_obj,'page_obj': page_obj, 'apps': apps})
+  return render(request, 'html/projects.html', {'frameworks': frameworks,'toSearch': search,'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
 def questions(request):
   # languages = Language.objects.all()
@@ -269,32 +253,15 @@ def questions(request):
   request.session['title'] = "Questions"
   return render(request, 'html/questions.html', {'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
 
-
-def searchQuestion(request, toSearch):
-  category = Questions.objects.values(
-  'category'
-  ).annotate(category_count=Count('category')).filter(category_count__gt=0)
-
-  questions = Questions.objects.filter(question__contains=toSearch)
-  if questions.count() < 10 and questions.count() > 1:
-     paginator = Paginator(questions, questions.count())
-  elif questions.count() > 10:
-     paginator = Paginator(questions, 10)
-  else:
-     paginator = Paginator(questions, 1)
-  page_number = request.GET.get('page')
-  page_obj = paginator.get_page(page_number)
-  total_questions = Questions.objects.all().count()
-  request.session['title'] = "Questions"
-  return render(request, 'html/questions.html', {'question_cat': category,'toSearch': toSearch,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
-
 def getQuestion(request, toGetQuestion, value):
   category = Questions.objects.values(
   'category'
   ).annotate(category_count=Count('category')).filter(category_count__gt=0)
 
   if toGetQuestion == "tags":
-    questions = Questions.objects.filter(tags__contains=value).order_by('-id')
+     questions = Questions.objects.filter(tags__contains=value).order_by('-id')
+  elif toGetQuestion == "search":
+     questions = Questions.objects.filter(question__contains=value)
   elif toGetQuestion == "filter":
       if value == "latest":
           questions = Questions.objects.filter().order_by('-id')[:10]
@@ -302,8 +269,10 @@ def getQuestion(request, toGetQuestion, value):
           questions = Questions.objects.filter(status='Answered').order_by('-id')
       else:
           questions = Questions.objects.filter(status='').order_by('-id')
+  elif toGetQuestion == "category":
+      questions = Questions.objects.filter(category__contains=value).order_by('-id')
   else:
-    questions = Questions.objects.filter(category__contains=value).order_by('-id')
+      return HttpResponse("dfdf")
 
 
   if questions.count() < 10 and questions.count() > 1:
@@ -321,9 +290,14 @@ def getQuestion(request, toGetQuestion, value):
 def getDevelopers(request, toGetDevelopers, value):
   dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
   if toGetDevelopers == "skills":
-    devs = Developers.objects.filter(skills__contains=value).order_by("-id")
+      devs = Developers.objects.filter(skills__contains=value).order_by("-id")
+  elif toGetDevelopers == "expertise":
+      devs = Developers.objects.filter(expertise__contains=value).order_by("-id")
+  elif toGetDevelopers == "country":
+      devs = Developers.objects.filter(country__contains=value).order_by("-id")
   else:
-    devs = Developers.objects.filter(expertise__contains=value).order_by("-id")
+      devs = Developers.objects.filter(Q(skills__contains=value) | Q(expertise__contains=value) | Q(country__contains=value)).order_by("-id")
+   
   
   if devs.count() < 10 and devs.count() > 1:
      paginator = Paginator(devs, devs.count())
@@ -341,10 +315,11 @@ def getDevelopers(request, toGetDevelopers, value):
   page_obj = paginator.get_page(page_number)
   return render(request, 'html/developers.html', {"categor": dev_cat,'search': value,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total_devs': total_devs, 'languages': language})
 
-def searchDevs(request, search):
+def searchDevsRate(request, min, max):
   
-  devs = Developers.objects.filter(Q(skills__contains=search) | Q(expertise__contains=search)).order_by("-id")
+  devs = Developers.objects.filter(rate__range=(min,max)).order_by("-id")
   dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
+  print(devs.count())
   if devs.count() < 10 and devs.count() > 1:
      paginator = Paginator(devs, devs.count())
   elif devs.count() > 10:
@@ -359,7 +334,7 @@ def searchDevs(request, search):
   paginator = Paginator(devs, 10)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
-  return render(request, 'html/developers.html', {"categor": dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total_devs': total_devs, 'languages': language, 'search': search})
+  return render(request, 'html/developers.html', {"search": "Min. rate $"+min+" - Max. rate $"+max,"categor": dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total_devs': total_devs, 'languages': language})
 
 def userLogin(request, redirectTo):
     request.session['title'] = "Login"
@@ -448,27 +423,8 @@ def register(request):
                                request.session['reg_username'] = request.POST['username']
                                request.session['code'] = code
                                request.session['session_ok'] = True
+                               request.session['receiver'] = request.POST['email'] 
                                request.session.set_expiry(300)
-                              #  port = 465  
-                              #  smtp_server = "smtp.gmail.com"
-                              #  sender_email = "jamesjerecopiso@gmail.com" 
-                              #  receiver_email = request.POST['email'] 
-                              #  password = "PHPprogrammer20"
-                              
-                              #  message = 'Subject: {}\n\n{}'.format("Verify Account", "Verification code : " + code)
-                              #  context = ssl.create_default_context()
-                              #  with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-                              #      server.login(sender_email, password)
-                              #      server.sendmail(sender_email, receiver_email, message)
-                               receiver = request.POST['email'] 
-                               send_mail(
-                                 'Verify Account',
-                                 'Verification code : ' + code,
-                                 settings.EMAIL_HOST_USER,
-                                 [receiver],
-                                 fail_silently=True,
-                               )
-                              
                                msg = "Success"
                             
                     else:
@@ -483,7 +439,8 @@ def register(request):
           msg = "Email cannot be empty!"
      
      if msg == "Success":
-          route = "/verify"
+         #  route = "/verify"
+          route = "/completeinfo"
           
      else:
 
@@ -537,24 +494,32 @@ def developers(request):
      page_obj = paginator.get_page(page_number)
      return render(request, 'html/developers.html', {'categor': dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks,'total_devs': total_devs, 'languages': language})
 
-def viewProject(request, id):
+def viewProject(request, project_name):
       request.session['title'] = "viewProject"
-      project = Projects.objects.get(id=id)
+      project = Projects.objects.get(project_name=project_name)
+      
       project.views = project.views + 1
       project.save()
       return render(request, "html/view_project.html", {'project': project})
 
 def viewQuestion(request, id):
       request.session['title'] = "viewQuestion"
-      # if request.session.get("loggin"):
-      question = Questions.objects.get(id=id)
-      asker_name = Developers.objects.get(id=question.asker_id)
-  
-      return render(request, "html/view_question.html", {'question': question, 'post_id': id, 'poster_name': asker_name.uname})
 
-      # else:
-      #     question = Questions.objects.get(id=id)
-      #     return render(request, "html/view_question.html", {'question': question, 'post_id': id})
+      question = Questions.objects.get(id=id)
+      dev = Developers.objects.filter(id=question.asker_id).exists()
+      # asker_name = Developers.objects.get(id=question.asker_id)
+      if dev :
+          asker_name = Developers.objects.get(id=question.asker_id)
+          return render(request, "html/view_question.html", {'question': question, 'post_id': id, 'poster_name': asker_name.uname})
+      else:
+          request.session['error'] = "Question can't be viewed!"
+          return redirect("/error")
+      # return render(request, "html/view_question.html", {'question': question, 'post_id': id, 'poster_name': asker_name.uname})
+
+def error(request):
+    error = request.session['error']
+   #  del request.session['error']
+    return render(request, "html/error.html", {'error': error})
 
 def addComment(request):
    
@@ -689,11 +654,11 @@ def deleteComment(request):
         return HttpResponse("Something went wrong!")
 
 def completeinfohtml(request):
-    request.session['title'] = "Complete Information"
-    if request.session.get('code'):
-        return render(request, 'html/completeinfo.html')
-    else:
-        return redirect("/")
+   request.session['title'] = "Complete Information"
+   if request.session.get('session_ok'):
+         return render(request, 'html/completeinfo.html')
+   else:
+         return redirect("/")
        
     
 
@@ -705,6 +670,13 @@ def setMoreInfo(request):
          request.session['countryAbbr'] = request.POST['countryAbbr']
          request.session['skills'] = request.POST['skills']
          request.session['more'] = request.POST['more']
+         send_mail(
+            'Verify Account',
+            'Verification code : ' + request.session['code'],
+             settings.EMAIL_HOST_USER,
+             [request.session['receiver']],
+             fail_silently=True,
+          )
          return HttpResponse("Success")
    except:
          

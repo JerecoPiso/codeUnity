@@ -110,7 +110,7 @@
 					
 						{% for project in projects %}
 						<div class="project-box">
-							<a href="/viewProject/{{project.id}}" class="app-title">{{ project.project_name }}</a>
+							<a href="/project/{{project.project_name}}" class="app-title">{{ project.project_name }}</a>
 							<div class="project-container">
 							 <div class="project-img"><img src="/media/{{project.photo}}" style="border: 1px solid white"></div>
 								 <div>
@@ -179,13 +179,13 @@
 						<p class="trends popular-projects">Popular Projects</p>
 						<ul class="trending-projects">
 							{% for app in apps %}
-							<li><a href="/viewProject/{{app.id}}">{{app.project_name}}</a></li>
+							<li><a href="/project/{{app.project_name}}">{{app.project_name}}</a></li>
 							{% endfor %}
 						</ul>
 						<p class="trends">Newest Projects</p>
 						<ul class="trending-projects">
 							{% for app in new_apps %}
-							<li><a href="/viewProject/{{app.id}}">{{app.project_name}}</a></li>
+							<li><a href="/project/{{app.project_name}}">{{app.project_name}}</a></li>
 							{% endfor %}
 						</ul>
 				  </div>

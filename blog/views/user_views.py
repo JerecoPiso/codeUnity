@@ -271,7 +271,7 @@ def changeDp(request):
             fss = FileSystemStorage()
             filename = fss.save(rename, upload_file)
             upload_file_path = fss.path(filename)
-            if dev.photo != "dp.jpg":
+            if str(dev.photo) != "dp.jpg":
                 os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(dev.photo))
             dev.photo = rename
             dev.save()
@@ -282,7 +282,7 @@ def changeDp(request):
 
         return HttpResponse("Saved")
     else:
-        return HttpResponse("eRROR")
+        return HttpResponse("Error")
 
 
 # user logout

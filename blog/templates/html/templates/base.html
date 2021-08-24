@@ -10,7 +10,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/indexd.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/inde.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
@@ -21,7 +21,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projects.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Developers' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developersxxxxxxx.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developervvv.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewProject' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_projectteddd.css' %}">
@@ -38,113 +38,6 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">
 	{% endif %}
 </head>
-<style>
-	.spinner1{
-		width: 100%;position: fixed;top: 0;bottom: 0;z-index: 2;padding-top: 20%;background-color: rgb(0,128,128);
-	}
-	#loader {
-            border: 12px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 12px solid #444444;
-            width: 70px;
-            height: 70px;
-            animation: spin 1s linear infinite;
-        }
-          
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-          
-        .center {
-            /* position: absolute; */
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }
- .rep{
-	 border: 2px solid red;
- }
- .height-200{
-    height: 200px  
-  }
-  
-  .my-editor {
-    /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
-    background: #2d2d2d;
-    color: #ccc;
-	
-    /* you must provide font-family font-size line-height. Example:*/
-    font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    padding: 5px;
-	max-height: 400px;
-	overflow: auto;
-	border-radius: 0.3rem;
-	width: 100%;
-	margin-top: 5px;
-	border-radius: 0.1rem;
-  }
-  .my-editor2 {
-    /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
-    background: #2d2d2d;
-    color: #ccc;
-	
-    /* you must provide font-family font-size line-height. Example:*/
-    font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    padding: 5px;
-	max-height: 400px;
-	overflow: auto;
-	border-radius: 0.3rem;
-	width: 100%;
-	margin-top: 5px;margin-left: 50px;border-radius: 0.1rem;max-width: 70%
-  }
-  /* optional class for removing the outline */
-  .prism-editor__textarea:focus {
-    outline: none;
-  }
-	.tag-link{
-		/* background-color: rgba(0, 128, 255,0.9); */
-		background-color: rgba(224, 235, 235,0.7);
-		color: rgb(0,128,128);
-		margin-right: 10px;
-		padding: 0.5em;
-		font-size: 1em;
-		border-radius: 0.5rem;
-		border: 0.2px solid rgba(153, 153, 153,0.6);
-	}
-	.tag-link:hover{
-		/* background-color: rgba(0, 128, 255,0.9); */
-		background-color: rgb(0,128,128);
-		
-		color: rgb(255,255,255);
-		/* margin-right: 10px;
-		padding: 0.5em;
-		font-size: 1em;
-		border-radius: 0.5rem; */
-	}
-	.skill-link{
-	
-		background-color: red;
-		color: white;
-		margin-right: 10px;
-		padding: 2px;
-		font-size: 1px;
-		border-radius: 0.5rem;
-	}
-	#tags .tag-link:hover{
-		border-bottom: none
-	}
-	.header-extra-style{
-		top: 0;position: fixed;z-index: 1
-	}
-  </style>
 <body>
 	<div class="spinner1">
 
@@ -159,414 +52,44 @@
 <script type="text/javascript" src="{% static 'assets/js/jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/user/countriesListss.js' %}"></script>
 {% if request.session.title == 'Home' %}
 <script type="text/javascript" src="{% static 'assets/js/indexx.js' %}"></script>
 {% endif %}
-{% if request.session.title == 'viewQuestion' %}
+{% if request.session.title == 'viewQuestion' or  request.session.title == 'Complete Information' %}
 <script type="text/javascript" src="{% static 'assets/js/prism.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/vue-prism-editorr.js' %}"></script>
 <script src="{% static 'assets/js/viewQuestionxc.js' %}"></script>
-
+<script src="{% static 'assets/js/completeinfo.js' %}"></script>
 {% endif %}
+
 <script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/moment.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/date_componentedddd.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/user/countriesListss.js' %}"></script>
+{% if request.session.title == 'Questions' %}
+<script type="text/javascript" src="{% static 'assets/js/questionss.js' %}"></script>
+{% endif %}
 
 <script type="text/javascript">
-var completeinfo = new Vue({
-		delimiters: ['[',']'],
-		el: '#completeinfo',
+	new Vue({
+		el: ".search-section",
 		data:{
-			countries: [],
-			expertise: '',
-			rate: '',
-			arrIndex: '',
-			skills: [],
-			more: '',
-			termsAndCondition: false,
-			addedSkills: [],
-			newSkills: [],
-			newSkill: '',
-			showLanguages: false,
-			showFrameworks: false,
-			showLangBtnTxt: 'Show Languages',
-			showFwBtnTxt: 'Show Frameworks',
-			ifLangEmpty: '',
-			ifFwEmpty: '',
-			languages: [],
-			frameworks: [],
-			responseModal: false,
-			responseMsg: ''
-		},
-		mounted: function(){
-			for(var i = 0; i < countryList.length; i++){
-				this.countries.push({
-					name: countryList[i].name,
-					countryAbbr: countryList[i].code.toLowerCase()
-				})
-			}
-			
+			searchValue: "",
+			toSearch: 'Search by:'
 		},
 		methods:{
-			selectToShow: function(toShown){
-				if(toShown == "language"){
-					if(completeinfo.showLanguages == true){
-				
-						completeinfo.showLangBtnTxt = "Show Languages"
-						completeinfo.showLanguages = false
-						completeinfo.ifLangEmpty = ""
-						
-					}else{
-						completeinfo.showLangBtnTxt = "Hide Languages"
-						// settingsOtherInfo.languages = settingsOtherInfo.languages
-						completeinfo.showLanguages = true
-						completeinfo.languages = []
-						completeinfo.ifLangEmpty = ""
-					}
-					completeinfo.showFwBtnTxt = "Show Frameworks"
-					completeinfo.showFrameworks = false
+			search: function(){
+				if(this.toSearch == "Projects"){
+					window.location.href="/projects/search/"+this.searchValue
+				}else if(this.toSearch == "Questions"){
+					window.location.href="/questions/search/"+this.searchValue
 				}else{
-
-					if(completeinfo.showFrameworks){
-						completeinfo.toShow = completeinfo.frameworks
-						completeinfo.showFwBtnTxt = "Show Frameworks"
-						completeinfo.showFrameworks = false
-					}else{
-						completeinfo.showFwBtnTxt = "Hide Frameworks"
-				
-						completeinfo.showFrameworks = true
-						completeinfo.frameworks = []
-					
-					}
-					completeinfo.showLangBtnTxt = "Show Languages"
-					completeinfo.showLanguages = false
-
-			
-				
+					window.location.href="/developers/search/"+this.searchValue
 				}
-            
-			},
-			addSkillFromSuggestions: function(index,val,arrayName){
-      
-				if(arrayName == "languages"){
-					this.languages.splice(index,1)
-				}else{
-					this.frameworks.splice(index,1)
-				}
-				
-				var list = []
-				for(var i = 0; i< completeinfo.addedSkills.length; i++){
-					list.push(completeinfo.addedSkills[i].value.toLowerCase())
-					
-				}
-				// alert(list.concat(settingsOtherInfo.newSkills).length)
-				if(list.concat(completeinfo.newSkills).length != 0){
-						for(var i = 0; i < list.concat(completeinfo.newSkills).length; i++){
-						
-							if(list.concat(completeinfo.newSkills).indexOf(val.toLowerCase()) < 0){
-								this.addedSkills.push({
-									value: val,
-									origin: arrayName
-								})
-								break;
-						}
-					}
-				}else{
-					this.addedSkills.push({
-						origin: arrayName,
-						value: val
-					})
-				}
-				if(arrayName == "languages"){
-					if(completeinfo.languages.length == 0){
-						completeinfo.showLangBtnTxt = "Show Languages"
-						// settingsOtherInfo.ifLangEmpty = "You have already added all the languages in your skills."
-						completeinfo.showLanguages = false
-				
-						
-					}
-				}else{
-					if(completeinfo.frameworks.length == 0){
-						completeinfo.showFwBtnTxt = "Show Frameworks"
-						completeinfo.showFrameworks = false
-				
-						
-					}
-				}
-				
-	 
-	 
-
-  			},
-			getLanguages: function(){
-				completeinfo.languages = []
-					axios.get("/dashboard/getLanguages").then(function(response){
-						
-						var list = []
-						// for (a = 0; a < completeinfo.mySkills.length; a++){
-						//     list.push(completeinfo.mySkills[a].toLowerCase())
-						// }
-						var join = completeinfo.addedSkills
-						var finalJoin = []
-						if(completeinfo.newSkills.length != 0){
-							for(var i = 0; i < completeinfo.newSkills.length; i++){
-							
-							
-							
-									finalJoin.push(completeinfo.newSkills[i].toLowerCase())
-							
-							}
-						}
-						if(join.length != 0){
-							for(var i = 0; i < join.length; i++){
-							
-							
-									finalJoin.push(join[i].value.toLowerCase())
-							
-							
-							
-							}
-							list = list.concat(finalJoin)
-						}
-					
-						// check if the language is already added to new skill
-						for(var x = 0; x < response.data.length;x++){
-							
-							if(list.indexOf(response.data[x].language.toLowerCase()) < 0){
-								completeinfo.languages.push({
-										
-									value: response.data[x].language
-								})
-							
-							}
-
-						}
-						if(completeinfo.languages.length === 0){
-							completeinfo.ifLangEmpty = "You have already used all the languages."
-						}else{
-							completeinfo.ifLangEmpty = ""
-						}
-
-					}).catch(function(err){
-						console.log(err)
-					})
-        	},
-        	getFrameworks: function(){
-					completeinfo.frameworks = []
-					axios.get("/dashboard/getFrameworks").then(function(response){
-					
-						var list = []
-						// for (a = 0; a < settingsOtherInfo.mySkills.length; a++){
-						//     list.push(settingsOtherInfo.mySkills[a].toLowerCase())
-						// }
-						var join = completeinfo.addedSkills
-						var finalJoin = []
-						if(completeinfo.newSkills.length != 0){
-							for(var i = 0; i < completeinfo.newSkills.length; i++){
-							
-							
-							
-									finalJoin.push(completeinfo.newSkills[i].toLowerCase())
-							
-							}
-						}
-						if(join.length != 0){
-							for(var i = 0; i < join.length; i++){
-								finalJoin.push(join[i].value.toLowerCase())
-							
-							}
-							list = list.concat(finalJoin)
-						}
-						for(var x = 0; x < response.data.length;x++){
-						
-							if(list.indexOf(response.data[x].framework.toLowerCase()) < 0){
-								completeinfo.frameworks.push({
-										
-									value: response.data[x].framework
-								})
-							
-							}
-
-						}
-					
-						if(completeinfo.frameworks.length === 0){
-							completeinfo.ifFwEmpty = "You have already used all the frameworks."
-						}else{
-							completeinfo.ifFwEmpty = ""
-						}
-
-					}).catch(function(err){
-						console.log(err)
-					})
-        	},
-			submit: function(){
-				let data = new FormData()
-				var addedSkillsClean = []
-				var summerNoteContent = $("#more-aboutme").summernote('code')
-				if(completeinfo.expertise == ""){
-					completeinfo.responseMsg = "Expertise must not be empty!"
-					completeinfo.responseModal = true
-					// alert("Expertise must be fillep up!")
-				}else if(completeinfo.arrIndex == ""){
-					completeinfo.responseMsg = "You must select a country!"
-					completeinfo.responseModal = true
-				
-				}else if(completeinfo.rate == ""){
-					completeinfo.responseMsg = "Rate must be empty!"
-					completeinfo.responseModal = true
-			
-				}else if(completeinfo.newSkills.concat(addedSkillsClean).length == 0){
-					completeinfo.responseMsg = "You should put a least one skill!"
-					completeinfo.responseModal = true
-	
-
-				}else if(completeinfo.termsAndCondition != true){
-					completeinfo.responseMsg = "It's important to agree to our terms and conditions before completing the form."
-					completeinfo.responseModal = true
-	
-
-				}else{
-					
-					data.append("expertise", completeinfo.expertise)
-					data.append("rate", completeinfo.rate)
-					data.append("country", completeinfo.countries[completeinfo.arrIndex].name)
-					data.append("countryAbbr", completeinfo.countries[completeinfo.arrIndex].countryAbbr)
-					data.append("more", summerNoteContent)
-					for(var i = 0; i < completeinfo.addedSkills.length; i++){
-						addedSkillsClean.push(completeinfo.addedSkillsClean[i].value)
-					}
-					
-					data.append("skills", completeinfo.newSkills.concat(addedSkillsClean))
-					axios.post("/setmoreinfo", data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-						if(response.data === "Success"){
-							window.location.href="/verified"
-						}else{
-							completeinfo.responseMsg = "An error has occured!"
-							completeinfo.responseModal = true
-						}
-					
-					}).catch(function(err){
-						console.log(err)
-					})
-				}
-				
-				
-				
-			},
-			deleteSkill: function(index){
-            		// this.tags.pop(index)
-            		this.newSkills.splice(index,1)
-            
-			},
-			undoAddedSkill: function(index,skill,origin){
-				this.addedSkills.splice(index, 1)
-				if(origin == "languages"){
-					this.languages.unshift({
-						value: skill
-					})
-				}else{
-					this.frameworks.unshift({
-						value: skill
-					})
-				}
-			
-        	},
-			monitor: function(event){
-           
-				if(event.key == "Enter"){
-					if (this.newSkill != "") {
-						var list = []
-						if(completeinfo.addedSkills.length != 0){
-							for(var i = 0; i < completeinfo.addedSkills.length; i++){
-								list.push(completeinfo.addedSkills[i].value.toLowerCase())
-								
-							}
-						}
-						
-						
-						if(list.concat(completeinfo.newSkills).length != 0){
-							for(var i = 0; i < list.concat(completeinfo.newSkills).length; i++){
-								if(list.concat(completeinfo.newSkills).indexOf(this.newSkill.toLowerCase()) < 0){
-									this.newSkills.push(
-										this.newSkill
-									)
-			
-							}
-						}
-						}else{
-							this.newSkills.push(
-									this.newSkill
-							)
-						}
-						
-						this.newSkill = ""
-					}
-					
-				}
-	   		}
-		 }
-		})
-		$("#more-aboutme").summernote('code', '')
-	var my_component = {
-		delimiters: ['[', ']'],
-		props:{
-			
-			skills: String,
-			// dev_skills: String,
-		
-			
-			
-			
-		},
-		data: function(){
-
-			return{
-				tag: this.skills,
-				dev_skills: String,
 			}
+		}
+	})
 
-		},
-		created: function(){
-			this.dev_skills = this.getTags(this.tag)
-		
-			// alert(this.dev_skills)
-		},
-		methods:{
-			getTags: function(skill){
-				var str = skill
-			
-				var n = null;
-				var tags = ""
-				// var num = str.search(",");
-				while(str.length != 0){
-					var ctr = str.search(",");
-					if(ctr != -1){
-						n = str.slice(0,ctr)
-						str = str.slice(ctr+1,str.length)
-					
-						tags = tags+"<a href='/questions/tags/"+n+"' class='tag-link'>"+n+"</a>";
-					
-					}else{
-						str = str.slice(0,str.length)
-						tags = tags+"<a href='/questions/tags/"+str+"' class='tag-link'>"+str+"</a>";
-					
-						str = ""
-						
-						
-					
-					}
-				
-				
-					
-				}
-				console.log(tags)
-				return tags
-				//
-			}
-		},
-		template: '<div id="tags" style="margin: 10px 5px 5px 0;font-size: 10px" v-html="dev_skills"></div>'
-	}
 	var developers_skills = {
 		delimiters: ['[', ']'],
 		props:{
@@ -626,107 +149,68 @@ var completeinfo = new Vue({
 		template: '<div id="" style=" display: flex;flex-wrap: wrap;margin: -5px 5px 5px 0;font-size: 8px" v-html="dev_skills"></div>'
 	}
 	new Vue({
+		delimiters: ['[', ']'],
 		el: "#developers",
 		data:{
-			search: ''
+			search: '',
+			showRates: false,
+			countries: [],
+			country: 'Select Country',
+			min: Number,
+			max: Number
 		},
 		components:{
 			"dev-skills": developers_skills
 		},
+		mounted: function(){
+			for(var i = 0; i < countryList.length; i++){
+				this.countries.push({
+					name: countryList[i].name,
+					countryAbbr: countryList[i].code.toLowerCase()
+				})
+			}
+		},
 		methods:{
+			searchRate: function(){
+				window.location.href="/developers/rate/"+Number(this.min)+"/"+Number(this.max)
+			},
+			showClose: function(){
+				if(this.showRates === false){
+					$(".set-rate").slideToggle()
+					this.showRates = true
+				}else{
+					$(".set-rate").slideToggle()
+					this.showRates = false
+				}
+			},
+			searchCountry: function(){
+				window.location.href="/developers/country/"+this.country
+			},
 			searchDevs: function(){
 				
 				window.location.href="/developers/search/"+this.search
 			}
 		}
 	})
-	new Vue({
-		delimiters: ['[', ']'],
-		el:"#ques",
-		data:{
-			
-			category: '',
-			searchValue: '',
-		
-		},
-		components: {
-		
-		'my-component': my_component,
-		
-
-		},
-		mounted: function(){
-		// console.log(my_component.props.dev_skills.type)
-			
-		},
-		methods: {
-			searchQuestion: function(){
-				let data = new FormData()
-				data.append('search', this.searchValue)
-				// axios.post('/projects/'+this.searchValue, data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-					
-				// })
-			
-				if(this.searchValue != ""){
-					window.location.href="/questions/"+this.searchValue
-				}
-			
-			},
-			getCategory: function(){
-				window.location.href = '/questions/category/'+ this.category
-			}
-		}
-	})
-	new Vue({
-		delimiters: ['[', ']'],
-		el:"#searchQuestion",
-		data:{
-			
-			category: '',
-			searchValue: '',
-		
-		},
-		mounted: function(){
-		// console.log(my_component.props.dev_skills.type)
-			// alert($("#totalComments").text())
-		},
-		methods: {
-			searchQuestion: function(){
-				let data = new FormData()
-				data.append('search', this.searchValue)
-				// axios.post('/projects/'+this.searchValue, data, {headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-					
-				// })
-			
-				if(this.searchValue != ""){
-					window.location.href="/questions/"+this.searchValue
-				}
-			
-			},
-			getCategory: function(){
-				window.location.href = '/questions/category/'+ this.category
-			}
-		}
-	})
-
-
+	
+	
 	new Vue({
 		el:".projects-box",
 		data:{
 			searchValue: ''
 		},
-		components: {
+		// components: {
 		
-			'my-componente': my_component,
+		// 	'my-componente': my_component,
 			
 	
-		},
+		// },
 		methods: {
 			download: function(project_name){
 				 var idName = $("#"+project_name).text()
 				 var totalDownloads = Number(idName.slice(0, idName.search(" ")))
 				
-				 window.location.href="/download/"+project_name
+					window.location.href="/download/"+project_name
 				
 				 var newTotal = totalDownloads+1
 				 if(newTotal <= 1){

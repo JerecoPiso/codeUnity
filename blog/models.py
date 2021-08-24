@@ -24,7 +24,7 @@ class Developers(models.Model):
 	aboutme = models.TextField(blank=True)
 	expertise = models.CharField(max_length=255,blank=True)
 	resume = models.FileField(upload_to="media/", blank=True)
-	rate = models.CharField(max_length=55, blank=True)
+	rate = models.IntegerField(blank=True)
 	countryAbbr = models.CharField(max_length=25, blank=True)
 	country = models.CharField(max_length=100, blank=True)
 

@@ -18,20 +18,28 @@
 	 
 </div>
 
+<div class="search-section">	
+	<button class="x">&times;</button>
+	<form @submit.prevent="search()"  class="flex-search-bar">
+		{% csrf_token %}
+		<div class="flex-item-1">
+			<select id="search-cat" v-model="toSearch" required style="width: 100%">
+				<option disabled selected>Search by:</option>
+				<option>Projects</option>
+				<option>Questions</option>
+				<option>Developers</option>
+			</select> 
+		</div>
+		<div class="flex-item-2">
+			<input type="text"  v-model="searchValue"  id="search-input" placeholder="Search" required>
+		</div>
+		<div class="flex-item-3">
+			 <button type="submit" class="btn-search"><span class="fa fa-search"></span></button>
+		</div>
+	</form>
+</div>
 
-<div class="row search-section">
-	<button class="x">&times;</button><br>
-   <div class="col s12" id="search">
-	  
-	  <button class="search-btn"><span class="fa fa-search"></span></button><input placeholder="Search . . . ">
-	 <select id="search-cat">
-		 <option value="" disabled selected>Search by:</option>
-		 <option value="1">Projects</option>
-		 <option value="2">Questions</option>
-	 </select> 
 
-   </div>
-   
 
 
 </div>

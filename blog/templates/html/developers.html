@@ -9,10 +9,33 @@
             <div class="col l9 m8 s12"  >
               <div class="bg-white" style="padding-bottom: 1.6em;">
                 <p class="devs-slogan">  Well <strong>Experienced</strong>  and <strong>Skilled</strong>  Developers</p>
-                <form @submit.prevent="searchDevs()">
-                  {% csrf_token %}
-                   <input type="text" v-model="search"  id="search-div"  placeholder="Search developer . . .">
-                </form>
+                <div class="row" style="margin-bottom: -25px;">
+                    <div class="col l6 xl6 m12 s12">
+                      <button type="button" @click="showClose()" class="show-rates">Rate</button>
+                      <select class="browser-default" style="height: 45px;margin-top: 10px;width: 65%" v-model="country" @change="searchCountry()">
+                        <option  disabled selected>Select Country</option>
+                        <option v-for="(country,index) in countries" :value="country.name">[country.name]</option>
+                      </select>
+                      
+                      <div class="set-rate">
+                     
+                        <form @submit.prevent="searchRate()">
+                            <label for="">Min. Rate ($)</label>
+                            <input type="number" placeholder="0" v-model="min" required>
+                            <label for="">Max. Rate ($)</label>
+                            <input type="number" placeholder="100" v-model="max" required>
+                            <button class="btn-search-rates">Search Rate</button>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="col l6 xl6 m12 s12">
+                      <form @submit.prevent="searchDevs()">
+                        {% csrf_token %}
+                         <input type="text" v-model="search"  id="search-div"  placeholder="Search developer . . .">
+                      </form>
+                    </div>
+                </div>
+            
                 {% if search and devs %}
                 <p class="result-for clear">Result for: <i class="imp-txt">"{{search}}"</i> </p>
                 {% endif %} <br>
@@ -25,12 +48,9 @@
                             <div class="card-image p-15">
                               <img class="devDP" src="/media/{{dev.photo}}" alt="/media/{{dev.photo}}">
                               
-                              <a href="javascript:void(0)"  class="devname">  {{dev.uname}}
-                               
-                              </a>
+                              <a href="javascript:void(0)"  class="devname">  {{dev.uname}} </a>
                            
                               <p class="dev-expertise">( {{dev.expertise}} )</p>
-                             
 
                             </div>
                           
@@ -57,21 +77,12 @@
                        </div>
                      
                     </div> 
-             
-                    
-                  
-                    
-                  
-                  
-              
-                    
+            
                     {% empty %}
-                      <p class="no-devs">No result found for <i class="imp-txt">"{{search}}"</i> </p>
+                      <p class="no-devs">No result found for <br> <i class="imp-txt">"{{search}}"</i> </p>
+
                     {% endfor %}
-                    
-                                    
-              
-               
+                 
                 </div>
                 <div class="pagination clear">
                   <span class="step-links ">
@@ -110,7 +121,7 @@
                 </p>
                 <p class="filter-by">Developers Expertise</p>
                 <div class="categories">
-                    
+                   
                     {% for cats in categor %}
                      
                       <a href="/developers/expertise/{{cats.expertise}}"> {{cats.expertise}}</a>
