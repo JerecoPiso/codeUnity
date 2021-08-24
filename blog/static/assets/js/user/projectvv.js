@@ -120,8 +120,8 @@ var folderUpload = new Vue({
                 {
                     headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },  
                     onUploadProgress: function( progressEvent ) {
-                            console.log(progressEvent.loaded)
-                  }.bind(this)
+                            console.log("hgfsjhgdjhsgdsdjfg")
+                  }
                 }
                  ).then(function(response){
                    
