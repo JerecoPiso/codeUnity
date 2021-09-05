@@ -10,33 +10,35 @@
 
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/inde.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/mains.css' %}">
 	{% if request.session.title == 'Jobs' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionszzz.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questions.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projects.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Developers' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developervvv.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developervvvvvv.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewProject' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_project.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewQuestion' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-editorr.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-tomorroww.css' %}">
-	<!-- <link rel="stylesheet" type="text/css" href="{% static 'assets/css/prismmm.css' %}"> -->
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/viewQuesss.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/prism-editorr.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/prism-tomorroww.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/viewQuessss.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/summernote-lite.min.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Complete Information' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/completeinfooo.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/completeinfoooox.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">
 	{% endif %}
+
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/footer_linkssss.css' %}">
+
 </head>
 <body>
 	<div class="spinner1">
@@ -48,337 +50,38 @@
 	{% block main_page %}
     
     {% endblock %}
-
-<script type="text/javascript" src="{% static 'assets/js/jquery.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/libraries/moment.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/axios.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/vue.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/user/countriesListss.js' %}"></script>
-{% if request.session.title == 'Home' %}
-<script type="text/javascript" src="{% static 'assets/js/indexx.js' %}"></script>
-{% endif %}
-{% if request.session.title == 'viewQuestion' or  request.session.title == 'Complete Information' %}
-<script type="text/javascript" src="{% static 'assets/js/prism.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/vue-prism-editorr.js' %}"></script>
-<script src="{% static 'assets/js/viewQuestionxc.js' %}"></script>
-<script src="{% static 'assets/js/completeinfo.js' %}"></script>
-{% endif %}
-
 <script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/moment.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/date_componentedddd.js' %}"></script>
-{% if request.session.title == 'Questions' %}
-<script type="text/javascript" src="{% static 'assets/js/questionss.js' %}"></script>
+
+{% if request.session.title == 'Home' %}
+<script type="text/javascript" src="{% static 'assets/js/home.js' %}"></script>
 {% endif %}
+<script type="text/javascript" src="{% static 'assets/js/libraries/prism.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/vue-prism-editor.js' %}"></script>
+{% if request.session.title == 'viewQuestion' %}
 
-<script type="text/javascript">
-	new Vue({
-		el: ".search-section",
-		data:{
-			searchValue: "",
-			toSearch: 'Search by:'
-		},
-		methods:{
-			search: function(){
-				if(this.toSearch == "Projects"){
-					window.location.href="/projects/search/"+this.searchValue
-				}else if(this.toSearch == "Questions"){
-					window.location.href="/questions/search/"+this.searchValue
-				}else{
-					window.location.href="/developers/search/"+this.searchValue
-				}
-			}
-		}
-	})
+<script src="{% static 'assets/js/viewQuestion.js' %}"></script>
 
-	var developers_skills = {
-		delimiters: ['[', ']'],
-		props:{
-			
-			skills: String,
-			// dev_skills: String	
-		},
-		data: function(){
-
-			return{
-				skill: this.skills,
-				dev_skills: String,
-			}
-
-		},
-		created: function(){
-			this.dev_skills = this.getSkills(this.skill)
-		
-			// alert(this.dev_skills)
-		},
-		methods:{
-			getSkills: function(skill){
-				var str = skill
-			
-				var n = null;
-				var skill = ""
-				// var num = str.search(",");
-				var counter = 0
-				while(str.length != 0){
-					var ctr = str.search(",");
-				
-					if(ctr != -1){
-						n = str.slice(0,ctr)
-						str = str.slice(ctr+1,str.length)
-					
-						skill = skill+"<a href='/developers/skills/"+n+"' class='skill-link'>"+n+"</a>";
-						
-					}else{
-						str = str.slice(0,str.length)
-						skill = skill+"<a href='/developers/skills/"+str+"' class='skill-link'>"+str+"</a>";
-					
-						str = ""
-						
-						
-					
-					}
-					counter++;
-					if(counter == 9){
-						break;
-					}
-					
-				}
-			
-				return skill
-			}
-		},
-		template: '<div id="" style=" display: flex;flex-wrap: wrap;margin: -5px 5px 5px 0;font-size: 8px" v-html="dev_skills"></div>'
-	}
-	new Vue({
-		delimiters: ['[', ']'],
-		el: "#developers",
-		data:{
-			search: '',
-			showRates: false,
-			countries: [],
-			country: 'Select Country',
-			min: Number,
-			max: Number
-		},
-		components:{
-			"dev-skills": developers_skills
-		},
-		mounted: function(){
-			for(var i = 0; i < countryList.length; i++){
-				this.countries.push({
-					name: countryList[i].name,
-					countryAbbr: countryList[i].code.toLowerCase()
-				})
-			}
-		},
-		methods:{
-			searchRate: function(){
-				window.location.href="/developers/rate/"+Number(this.min)+"/"+Number(this.max)
-			},
-			showClose: function(){
-				if(this.showRates === false){
-					$(".set-rate").slideToggle()
-					this.showRates = true
-				}else{
-					$(".set-rate").slideToggle()
-					this.showRates = false
-				}
-			},
-			searchCountry: function(){
-				window.location.href="/developers/country/"+this.country
-			},
-			searchDevs: function(){
-				
-				window.location.href="/developers/search/"+this.search
-			}
-		}
-	})
-	
-	
-	new Vue({
-		el:".projects-box",
-		data:{
-			searchValue: ''
-		},
-		// components: {
-		
-		// 	'my-componente': my_component,
-			
-	
-		// },
-		methods: {
-			download: function(project_name){
-				 var idName = $("#"+project_name).text()
-				 var totalDownloads = Number(idName.slice(0, idName.search(" ")))
-				
-					window.location.href="/download/"+project_name
-				
-				 var newTotal = totalDownloads+1
-				 if(newTotal <= 1){
-					$("#"+project_name).text(newTotal.toString()+" Download")
-				 }else{
-					$("#"+project_name).text(newTotal.toString()+" Downloads")
-				 }
-				 
-				},
-			searchProjects: function(){
-				let data = new FormData()
-				data.append('search', this.searchValue)
-			
-				if(this.searchValue != ""){
-					window.location.href="/projects/search/"+this.searchValue
-				}
-			
-			}
-		}
-	})
-	
-
-  $('.btn-put-code').click(function(){
-	  if($(this).text() != "Close"){
-		$('.summernote').slideToggle()
-		$(this).text("Close")
-	  }else{
-		$('.summernote').slideToggle()
-		$(this).text("Put Code")
-	  }
-	 
-  })
-  $('#summernote').summernote({
-        tabsize: 1,
-		maxHeight: 120,
-		
-       
-});
-function setUserDevice(){
-	var screenSize = document.body.clientWidth
-	var deviceName = ''
-	let data = new FormData()
-	if(screenSize < 768){
-		deviceName = "Mobile"
-	}else if(screenSize >= 768 && screenSize < 992){
-		deviceName = "Tablets"
-	}else if(screenSize > 992 ){
-		 deviceName = "Laptop/Desktop"
-	}
-	data.append("deviceName", deviceName)
-	axios.post("/dashboard/setDevice", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
-
-	}).catch(function(err){
-		console.log(err.statusText)
-	})
-}
- $(document).ready(function(){
-	setUserDevice()
-	$('.hh').click(function(){
-		// $(this).text()
-		alert("sdf")
-	})
-	$('.upload-code').click(function(){
-		window.location.href="/login/upload-project"
-	})
-	$('.closeModal').click(function(){
-		$('.LoginModal').slideToggle()
-	})
-	$(".lang").hover(function(){
-
-		$(this).find("span").show()
-
-		$("#languages li").each(function(){
-			if($(this).hasClass("show-chevron")){
-				
-				$(this).find("span").hide()
-			}
-		})
-		if(!$(this).hasClass("show-chevron")){
-			
-			$(this).addClass("show-chevron")
-			$(this).find("span").show()
-		}else{
-			
-			$(this).removeClass("show-chevron")			
-		}	
-	})
-	
-	
+{% endif %}
+{% if request.session.title == 'Complete Information' %}
 
 
+<script src="{% static 'assets/js/completeinfoxxxx.js' %}"></script>
+{% endif %}
+{% if request.session.title == 'Questions' %}
+<script type="text/javascript" src="{% static 'assets/js/questions.js' %}"></script>
+{% endif %}
+{% if request.session.title == 'Projects' %}
+<script type="text/javascript" src="{% static 'assets/js/projects.js' %}"></script>
+{% endif %}
+{% if request.session.title == 'Developers' %}
+<script type="text/javascript" src="{% static 'assets/js/developersx.js' %}"></script>
+{% endif %}
+<script type="text/javascript" src="{% static 'assets/js/main.js' %}"></script>
 
-
-
-	$(window).resize(function(){
-       	if(document.body.clientWidth > 651){
-       		$('#top-nav').css({'width': '100%'})
-       		$('#open').hide() 	
-       	}else{
-       		$('#top-nav').css({'width': '0'})
-       		$('#open').show() 	
-       	}
-
-       	if(document.body.clientWidth > 600 && document.body.clientWidth > 800){
-			$('.languages-box').show()
-       	}else{
-			$('.languages-box').hide()
-       	}
-   	});
-
-	$('#open').click(function(){
-	
-		   $('#top-nav').css({'width': '250px'})
-		   $('#top-nav').show()
-	 	$(this).hide()
-	 	
-	})
-	$('.showSearch').click(function(){
-	 		
-			 $('.search-section').slideDown()
-			 
-			 
-		})
-		$('.x').click(function(){
-	 		
-			 $('.search-section').slideUp()
-			 
-			 
-		})
-	$('#close').click(function(){
-	 		
-	 	$('#top-nav').css({'width': '0'})
-	 	$('#open').show() 	
-	 	
-	})
-  	$('#btn-languages').click(function(){
-	 		
-	 	$('.languages-box').show()
-	 	
-	 	
-	})
-	$('#close-show').click(function(){
-	 		
-		$('.languages-box').hide()
-	 	
-	})
-	
-	})
-	
-  
-
-</script>
-<script>
-	document.onreadystatechange = function() {
-	
-		if (document.readyState !== "complete") {
-			document.querySelector(
-			  "body").style.display = "none";
-			document.querySelector(
-			  ".spinner1").style.display = "block";
-		
-		} else {
-			document.querySelector(
-			  ".spinner1").style.display = "none";
-			document.querySelector(
-			  "body").style.display = "block";
-		}
-	};
-</script>
 </body>
 </html>

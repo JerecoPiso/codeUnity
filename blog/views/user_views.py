@@ -202,6 +202,8 @@ def editProjectInfo(request):
             project = Projects.objects.get(id=request.POST['id'])
             project.project_name = request.POST['project_name']
             project.language = request.POST['language']
+            project.more = request.POST['more']
+            project.about = request.POST['about']
             project.save()
             return HttpResponse("Success")
         else:
@@ -246,12 +248,14 @@ def uploadProject(request):
                     return HttpResponse("File size must not be greater than 10MB!!")
                 else:
                     upload_file = request.FILES['photo']  
+            
                     extension = os.path.splitext(upload_file.name)[1]
+            
                     rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
                     fss = FileSystemStorage()
                     filename = fss.save(rename, upload_file)
-                    upload_file_path = fss.path(filename)
-                    project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = rename, language=request.POST['language'], views = 0, more = request.POST['more'])
+                    # upload_file_path = fss.path(filename)
+                    project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = rename, language=request.POST['language'], date = request.POST['date'], views = 0, more = request.POST['more'])
                     project.save()     
                     return HttpResponse("Uploaded successfully")
         else:
@@ -332,6 +336,25 @@ def updateInfo(request):
         return HttpResponse("Success")
     except:
         return HttpResponse("Failed")
+
+def updateResume(request):
+    currentResume = ''
+    try:
+        resume = request.FILES['resume']
+        extension = os.path.splitext(resume.name)[1]
+        rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
+        fss = FileSystemStorage()
+        filename = fss.save(rename, resume)
+        devinfo = Developers.objects.get(id=request.session['id'])
+        currentResume = devinfo.resume
+        devinfo.resume = rename
+        devinfo.save()
+        # os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(currentResume))
+        return HttpResponse("Success")
+
+    except:
+        return HttpResponse("Failed")
+
 # update asked question
 def updateQuestion(request):
 	try:

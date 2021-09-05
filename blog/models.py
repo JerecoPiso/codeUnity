@@ -31,9 +31,9 @@ class Developers(models.Model):
 	def __str__(self):
 		return self.email + " " + self.password + " " + self.photo + " " + self.uname + " " + self.skills + " " + self.aboutme + " " + self.expertise  + " " + self.resume + " " + self.rate + " " + self.countryAbbr + " " + self.country
 
-	def delete(self, *args, **kwargs):
-		self.photo.delete()
-		super().delete(*args,**kwargs)
+	# def delete(self, *args, **kwargs):
+	# 	self.photo.delete()
+	# 	super().delete(*args,**kwargs)
 
 
 class Comments(models.Model):
@@ -79,13 +79,15 @@ class Projects(models.Model):
 	downloads = models.IntegerField(blank=True)
 	language = models.CharField(max_length=255,blank=True)
 	# language = models.ForeignKey(Language, on_delete=models.CASCADE)
+	date = models.CharField(max_length=255, blank=True)
 	about = models.TextField(blank=True)
 	photo = models.FileField(upload_to="media/", blank=True)
 	views = models.IntegerField(blank=True)
 	more = models.TextField(blank=True)
-
+	resume = models.FileField(upload_to='media/', blank=True)
+					
 	def __str__(self):
-		return self.project_name + " " + self.uploader_id + " " + self.downloads + " " + self.language + " " + self.about + " " + self.photo + " " + self.views + " " + self.more
+		return self.project_name + " " + self.uploader_id + " " + self.downloads + " " + self.language + " " + self.date + " " + self.about + " " + self.photo + " " + self.views + " " + self.more + " " + self.resume
 
 	def delete(self, *args, **kwargs):
 		self.photo.delete()
@@ -146,3 +148,11 @@ class Notifications(models.Model):
 	def __str__(self):
 		return self.notification + " " + self.notified_id + " " + self.notification_category +  " " + self.date + " " + self.status
 
+
+class TempPDF(models.Model):
+	pdfname = models.CharField(max_length=255)
+	time_uploaded = models.DateTimeField()
+	expiraton = models.DateTimeField()
+
+	def __str__(self):
+		return self.pdfname + " " + self.time_uploaded + " " + self.expiraton

@@ -261,7 +261,7 @@
                 <!-- class comments close -->
             </div>      
             {% if not request.session.loggin %}
-            <p class="err-login-first"> <span class="fa fa-exclamation"></span> &nbsp; You must login first to be able to comment/reply in the post.</p>
+            <p class="err-login-first"> <span class="fa fa-exclamation"></span> &nbsp; You must login first to be able to comment/reply in the post. <a href="/login/viewQuestion={{post_id}}">Login</a> </p>
             {% endif %}
         </div>
         <div class="col l4 s12 m4">

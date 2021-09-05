@@ -24,7 +24,7 @@
 							
 
 							<div id="promptModal">
-								<div class="responseModal">
+								<div id="responseModal">
 									<div class="modalHeader">
 										<button @click="closePromptModal()" class="close-file">&times;</button>
 									</div>
@@ -44,8 +44,8 @@
 								<div class="modalBody">
 									<form @submit.prevent="changeDp()">
 										{% csrf_token %}
-										<label>Photo</label><br>
-										<input type="file" ref="photo" @change="dp()"><br>
+										<label style="font-size: 1.1em;">Photo</label><br>
+										<input type="file" accept="image/*" ref="photo" @change="dp()"><br>
 										<button type="submit" class="change-dp-btn">Change</button>
 									</form>
 								</div>
@@ -108,19 +108,21 @@
 						<div id="other-info">
 							
 							<p class="p">Other Information</p>
-							<form>
+							<form class="mb-0">
 								{% csrf_token %}
 								<label for="">Expertise</label>
 								<input type="text" v-model="expertise" placeholder="Your main skill">
-								<label>Skills</label><br>
+								
 								<div class="row" >
 									<div class="col l6 m6 s12 xl6">
+										<label>Skills</label><br>
 										<ol class="skills-max-width">
 									
 											<li v-for="(skill,index) in mySkills" style="font-size: 18px;">[skill] <button type="button" class="rm-skills-btn" @click="deleteMySkills(index,skill)">Remove</button></li>
 										</ol>
 									</div>
 									<div class="col l6 m6 s12 xl6">
+										<label>Remove Skills</label><br>
 										<ol class="skills-max-width">
 									
 											<li v-for="(skill,index) in rmSkills" style="font-size: 18px;">[skill.value] <button type="button" class="rm-skills-btn" @click="undoDeleteSkills(index,skill.value)">Undo</button></li>
@@ -178,6 +180,17 @@
 								<div  id="work-experience"></div>
 								<br>
 								<button class="other-info-edit-btn" type="button" @click="updateInfo()">Update <span class="fa fa-edit"></span> </button>
+							</form>
+							<form class="resume-form" @submit.prevent="updateResume()">
+								<label for="">Update Resume</label>
+								<label class="custom-file-upload">
+									<input type="file" ref="resumeFile" accept="application/pdf" @change="selectResume()" id="resume-file"/>
+									
+									<p class="resume-name">
+										<i class="fa fa-upload upload-logo"></i> <br>
+										[filename]</p>
+								</label>
+								<button type="submit" class="submit-resume-btn">Submit</button>
 							</form>
 						</div>
 					</div>

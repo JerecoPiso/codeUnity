@@ -26,6 +26,7 @@ urlpatterns = [
      url(r'^editProjectInfo', user_views.editProjectInfo, name='Update More Info of the User'),
      url(r'^editCode', user_views.editCode, name='Update File Code'),
      url(r'^changeDp', user_views.changeDp, name='Change Profile'),
+     url(r'^updateResume', user_views.updateResume, name='Update Resume'),
 
      # deleting
      url(r'^deleteProject', user_views.deleteProject, name='Delete Project'),

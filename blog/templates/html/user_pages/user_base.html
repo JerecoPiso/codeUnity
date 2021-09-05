@@ -4,29 +4,30 @@
 	{% load static %}
 	<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/users.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">  
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/prism-editorr.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/prism-tomorroww.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/userssv.css' %}">
 	{% if request.session.title == 'Home' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chart.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/chart.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/projects.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/projectsmmm.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/question.css' %}">
 
 	{% endif %}
 	{% if request.session.title == 'Settings' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settings.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settingsddd.css' %}">
 	{% endif %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/project_file.css' %}">
 	{% if request.session.title == 'Complete Information' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/completeinfsss.css' %}">
 	{% endif %}
 
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}"/>
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}">  
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-editorr.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-tomorroww.css' %}">
+
 </head>
 <style>
    
@@ -62,16 +63,7 @@
   height: 17px;
   border-radius: 0.2rem;
 }
-/* #skills-input{
-	background: #eee;
-	border: 0;
-	margin: 10px 4px 4px 4px;
-	padding: 7px;
-	width: auto;
-	height: 1px;
-	border-radius: 0.2rem;
-} */
-  
+
 </style>
 <body>
 	<div class="spinner1">
@@ -86,28 +78,30 @@
 
 	{% endblock %}
 	
-<script src="{% static 'assets/js/jquery.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/js/libraries/jquery.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/js/libraries/moment.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/prism.js' %}"></script>
+
 {% if request.session.title != "Complete Information" %}
-<script type="text/javascript" src="{% static 'assets/js/users.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/userss.js' %}"></script>
 {% endif %}
-<script type="text/javascript" src="{% static 'assets/js/vue.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/axios.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/vue.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/axios.js' %}"></script>
 {% if request.session.title == 'Home' %}
-<script src="{% static 'assets/js/chart.js' %}" type="text/javascript"></script>
-<script type="text/javascript" src="{% static 'assets/js/myCharts.js' %}"></script>
+<script src="{% static 'assets/js/libraries/charts.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'assets/js/user/myCharts.js' %}"></script>
 {% endif %}
 {% if request.session.title == 'Projects' %}
-<script src="{% static 'assets/js/user/projectvv.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/js/user/projectvvvvvvvv.js' %}" type="text/javascript"></script>
 {% endif %}
 {% if request.session.title == 'Questions' %}
-<script src="{% static 'assets/js/moment.js' %}" type="text/javascript"></script>
-<script src="{% static 'assets/js/user/questions.js' %}" type="text/javascript"></script>
+
+<script src="{% static 'assets/js/user/questionsc.js' %}" type="text/javascript"></script>
 {% endif %}
-<script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/prism.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/vue-prism-editorr.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/vue-prism-editor.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/user/countriesListss.js' %}"></script>
-<script src="{% static 'assets/js/user/settings.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/js/user/settingsdddd.js' %}" type="text/javascript"></script>
 
 <script>
 	document.onreadystatechange = function() {

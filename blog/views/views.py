@@ -1,18 +1,21 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.shortcuts import render, redirect
-from blog.models import Notifications, Yearly_Visitors, Frameworks, User, Developers, Projects, Questions, Language, Question_Category, Comments, Replies
+from blog.models import TempPDF, Notifications, Yearly_Visitors, Frameworks, User, Developers, Projects, Questions, Language, Question_Category, Comments, Replies
 from django.core.files.storage import FileSystemStorage
-import os, datetime, json, zipfile, tempfile, mimetypes
+import os, datetime, json, zipfile, tempfile
+# mimetypes
 from django.conf import settings
 from django.contrib import messages
 import io, smtplib, ssl
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import Paginator
-import random, time, datetime
+import random, time
+from datetime import timedelta
 from django.db.models import Count
 from django.db import connection
 from django.db.models import Q
 from django.core.mail import send_mail
+from pathlib import Path
 
 # download folder in a zip format
 def download(request, folder):
@@ -75,6 +78,9 @@ def getfilenames(folder):
     return list(fileSet)
 
 def index(request):
+#   dev = Developers.objects.get(id=23)
+#   dev.delete()
+  
   if request.session.get('redirectTo'):
     del request.session['redirectTo']
   
@@ -118,9 +124,10 @@ def verified(request):
             ret_msg = "Email already exist!"
          
          else:
-           
+            dev = TempPDF.objects.get(pdfname__exact=request.session.get('resume'))
+            dev.delete()
             hashed_pwd = make_password(request.session.get('reg_password'), salt=None, hasher='default')
-            user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo = "dp.jpg", uname = request.session.get('reg_username'), expertise=request.session.get('expertise'), rate=request.session.get('rate'), country=request.session.get('country'), countryAbbr=request.session.get('countryAbbr')+".png", skills=request.session.get('skills'), aboutme=request.session.get('more'))
+            user = Developers(email=request.session.get('reg_email'), password = hashed_pwd, photo = "dp.jpg", uname = request.session.get('reg_username'), expertise=request.session.get('expertise'), rate=request.session.get('rate'), country=request.session.get('country'), countryAbbr=request.session.get('countryAbbr')+".png", skills=request.session.get('skills'), aboutme=request.session.get('more'), resume=request.session.get("resume"))
             user.save()
             # save session for the users panel
             
@@ -139,6 +146,7 @@ def verified(request):
                del request.session['countryAbbr']
                del request.session['skills']
                del request.session['more']
+               del request.session['resume']
             except:
                pass
 
@@ -186,7 +194,6 @@ def logout(request,questionId):
     return redirect("/login/"+questionId)
 
 def projects(request):
-  
   project = Projects.objects.all()
   # lang = Projects.objects.values(
   #   'language'
@@ -214,8 +221,11 @@ def getProjects(request, toGet, search):
   if toGet == "search":
 
       project = Projects.objects.filter(project_name__icontains=search)
-  else:
+  elif toGet == "language":
       project = Projects.objects.filter(language__icontains=search)
+  else:
+       request.session['error'] = "Page not found!"
+       return redirect("/error")
       
   language = Language.objects.all()
   apps = Projects.objects.filter(downloads__gt=0).order_by('-downloads')[:10]
@@ -235,6 +245,8 @@ def getProjects(request, toGet, search):
 def questions(request):
   # languages = Language.objects.all()
   # frameworks = Frameworks.objects.all() 
+
+  hot = Questions.objects.filter(Q(comments__gt=0) & Q(date__icontains=datetime.datetime.now().strftime("%Y"))).order_by('-comments')[:10]
   category = Questions.objects.values(
   'category'
   ).annotate(category_count=Count('category')).filter(category_count__gt=0)
@@ -251,7 +263,7 @@ def questions(request):
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
   request.session['title'] = "Questions"
-  return render(request, 'html/questions.html', {'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
+  return render(request, 'html/questions.html', {'hot_topics': hot,'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
 
 def getQuestion(request, toGetQuestion, value):
   category = Questions.objects.values(
@@ -269,12 +281,11 @@ def getQuestion(request, toGetQuestion, value):
           questions = Questions.objects.filter(status='Answered').order_by('-id')
       else:
           questions = Questions.objects.filter(status='').order_by('-id')
-  elif toGetQuestion == "category":
-      questions = Questions.objects.filter(category__icontains=value).order_by('-id')
   else:
-      return HttpResponse("dfdf")
+       request.session['error'] = "Page not found!"
+       return redirect("/error")
 
-
+  hot = Questions.objects.filter(Q(comments__gt=0) & Q(date__icontains=datetime.datetime.now().strftime("%Y"))).order_by('-comments')[:10]
   if questions.count() < 10 and questions.count() > 1:
      paginator = Paginator(questions, questions.count())
   elif questions.count() > 10:
@@ -285,7 +296,7 @@ def getQuestion(request, toGetQuestion, value):
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
   request.session['title'] = "Questions"
-  return render(request, 'html/questions.html', {'toSearch': value,'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
+  return render(request, 'html/questions.html', {'hot_topics': hot,'toSearch': value,'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
 
 def getDevelopers(request, toGetDevelopers, value):
   dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
@@ -295,9 +306,13 @@ def getDevelopers(request, toGetDevelopers, value):
       devs = Developers.objects.filter(expertise__icontains=value).order_by("-id")
   elif toGetDevelopers == "country":
       devs = Developers.objects.filter(country__icontains=value).order_by("-id")
-  else:
+  elif toGetDevelopers == "search":
       devs = Developers.objects.filter(Q(skills__icontains=value) | Q(expertise__icontains=value) | Q(country__icontains=value)).order_by("-id")
-   
+  else:
+      request.session['error'] = "Page not found!"
+      return redirect("/error")
+
+ 
   
   if devs.count() < 10 and devs.count() > 1:
      paginator = Paginator(devs, devs.count())
@@ -497,10 +512,17 @@ def developers(request):
 def viewProject(request, project_name):
       request.session['title'] = "viewProject"
       project = Projects.objects.get(project_name=project_name)
-      developer = Developers.objects.get(id=project.uploader_id)
-      project.views = project.views + 1
-      project.save()
-      return render(request, "html/view_project.html", {'project': project, 'developer': developer})
+      dev = Developers.objects.filter(id=project.uploader_id).exists()
+      if dev:
+            developer = Developers.objects.get(id=project.uploader_id)
+            project.views = project.views + 1
+            project.save()
+            return render(request, "html/view_project.html", {'project': project, 'developer': developer})
+      else:
+            request.session['error'] = "Project can't be viewed! There's maybe a problem with the uploader."
+            return redirect("/error")
+     
+     
 
 def viewQuestion(request, id):
       request.session['title'] = "viewQuestion"
@@ -524,38 +546,46 @@ def error(request):
 def addComment(request):
    
       if request.method == "POST":
-        try:
-            comment = Comments(commentor = request.session['id'], post_id = request.POST['post_id'], comment = request.POST['comment'], date = request.POST['date'], answer = request.POST['answer'])
-            comment.save()
-            com = Questions.objects.get(id = request.POST['post_id'])
-           
-            com.comments = com.comments + 1
-            com.save()
-            hour = ""
-            am_pm = ""
-            if int(datetime.datetime.now().strftime("%H")) > 12:
-               hour = int(datetime.datetime.now().strftime("%H")) - 12
-               am_pm = " pm"
-            else:
-               hour = datetime.datetime.now().strftime("%H")
-               am_pm = " pm"
-            datenow =  datetime.datetime.now().strftime("%h") + "-" + datetime.datetime.now().strftime("%d") + "-"+ datetime.datetime.now().strftime("%Y") + " " + str(hour) + ":" + datetime.datetime.now().strftime("%M")+ ":" + datetime.datetime.now().strftime("%S") + "" + am_pm
-            notification_content = "<b>" + request.session['username'] + "</b> commented on your question " + "<b>" + com.question + "</b>."
-            notify = Notifications(notification=notification_content, notified_id=com.asker_id, date=datenow, status="unread")
-            notify.save()
-            return HttpResponse("Commented succesfully.")
+         if request.POST['comment'] != "":
+            try:
+                  comment = Comments(commentor = request.session['id'], post_id = request.POST['post_id'], comment = request.POST['comment'], date = request.POST['date'], answer = request.POST['answer'])
+                  comment.save()
+                  ques = Questions.objects.get(id = request.POST['post_id'])
+               
+                  ques.comments = ques.comments + 1
+                  ques.save()
+                  hour = ""
+                  am_pm = ""
+                  if int(datetime.datetime.now().strftime("%H")) > 12:
+                     hour = int(datetime.datetime.now().strftime("%H")) - 12
+                     am_pm = " pm"
+                  else:
+                     hour = datetime.datetime.now().strftime("%H")
+                     am_pm = " pm"
+                  datenow =  datetime.datetime.now().strftime("%h") + "-" + datetime.datetime.now().strftime("%d") + "-"+ datetime.datetime.now().strftime("%Y") + " " + str(hour) + ":" + datetime.datetime.now().strftime("%M")+ ":" + datetime.datetime.now().strftime("%S") + "" + am_pm
+                  notification_content = "<b>" + request.session['username'] + "</b> commented on your question " + "<b>" + com.question + "</b>."
+                  notify = Notifications(notification=notification_content, notified_id=com.asker_id, date=datenow, status="unread")
+                  notify.save()
+                  return HttpResponse("Commented succesfully.")
         
-        except:
+            except:
 
-            return HttpResponse("An error has occurred!")
+                  return HttpResponse("An error has occurred!")
+
+
+         else: 
+              return HttpResponse("Comment can't be empty!")
+
+
+        
       
       else:
 
-        return HttpResponse("Request method should be POST!")
+           return HttpResponse("Request method should be POST!")
 
 # saved reply
 def reply(request):
-    try:  
+    try: 
         reply = Replies(commentor = request.session['id'], post_id = request.POST['post_id'], comment_id = request.POST['comment_id'], reply = request.POST['reply'], date = request.POST['date'])
         reply.save()
         ques = Questions.objects.get(id = request.POST['post_id'])
@@ -663,23 +693,71 @@ def completeinfohtml(request):
     
 
 def setMoreInfo(request):
-   try:
+   timenow = datetime.datetime.now().strftime("%m")+"/"+datetime.datetime.now().strftime("%d")+"/"+datetime.datetime.now().strftime("%Y")+" "+datetime.datetime.now().strftime("%H")+":"+datetime.datetime.now().strftime("%M")+":"+datetime.datetime.now().strftime("%S")+"."+datetime.datetime.now().strftime("%f")
+   date_format_str = '%d/%m/%Y %H:%M:%S.%f'
+   given_time = datetime.datetime.strptime(timenow, date_format_str)
+   expiredPDF = TempPDF.objects.filter(expiraton__lt=given_time)
+   expiredPDF.delete()
+   receiver = request.session.get('receiver')
+
+   try:  
+         
          request.session['expertise'] = request.POST['expertise']
          request.session['rate'] = request.POST['rate']
          request.session['country'] = request.POST['country']
          request.session['countryAbbr'] = request.POST['countryAbbr']
          request.session['skills'] = request.POST['skills']
          request.session['more'] = request.POST['more']
-         send_mail(
-            'Verify Account',
-            'Verification code : ' + request.session['code'],
-             settings.EMAIL_HOST_USER,
-             [request.session['receiver']],
-             fail_silently=True,
-          )
-         return HttpResponse("Success")
+         
+         try:
+             send_mail(
+               'Verify Account',
+               'Verification code : ' + request.session.get('code'),
+               settings.EMAIL_HOST_USER,
+               [receiver],
+               fail_silently=True,
+             )
+          
+             resume = request.FILES['resume']
+             extension = os.path.splitext(resume.name)[1]
+             
+             rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
+             fss = FileSystemStorage()
+             filename = fss.save(rename, resume)
+             request.session['resume'] = rename
+             timenow = datetime.datetime.now().strftime("%m")+"/"+datetime.datetime.now().strftime("%d")+"/"+datetime.datetime.now().strftime("%Y")+" "+datetime.datetime.now().strftime("%H")+":"+datetime.datetime.now().strftime("%M")+":"+datetime.datetime.now().strftime("%S")+"."+datetime.datetime.now().strftime("%f")
+             date_format_str = '%d/%m/%Y %H:%M:%S.%f'
+             given_time = datetime.datetime.strptime(timenow, date_format_str)
+             final_time = given_time + timedelta(minutes=5)
+             temp_pdf = TempPDF(pdfname=rename, time_uploaded=given_time, expiraton=final_time)
+             temp_pdf.save()
+             
+             return HttpResponse("Success")
+         except:
+             return HttpResponse("Can't send email, Please try again!")
+         
    except:
          
          return HttpResponse("Error")
    #  return HttpResponse(request.POST['more'])
-    
+
+def aboutus(request):
+   request.session['title'] = "About Us"
+   return render(request, "html/aboutus.html")
+
+def termsandconditions(request): 
+   request.session['title'] = "Terms and Conditions"
+   return render(request, "html/termsandcondition.html")
+
+
+def viewResume(request, owner, resume):
+   filepath = os.path.join(settings.MEDIA_ROOT, resume)
+   if os.path.exists(filepath):
+      pdf = open(filepath, 'rb').read()
+
+      return HttpResponse(pdf, content_type="application/pdf")
+   else:
+      request.session['error'] = "File not found "+resume
+      return redirect("/error")
+     
+

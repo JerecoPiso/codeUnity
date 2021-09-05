@@ -23,7 +23,7 @@
 		</div>
 	</div> -->
 	<div class="row row-mt">
-		<div class="col s12 m12 xl8 l8">
+		<div class="col s12 m12 xl9 l9">
 			<div  id="question-box">
 				
 			<div class="questions-total-small-device">
@@ -35,14 +35,19 @@
 
 				{% endif %}
 			</div>
-			<p class="feel-free"> Feel Free to Ask Question <a href="/login/ask" id="ask-btn">Ask Now</a></p>
+			
+			<p class="feel-free"> Feel <strong>Free</strong>  to <strong>Ask Question</strong>  <a href="/login/ask" id="ask-btn">Ask Now</a></p>
 			
 			<div style="padding-left: 2px;padding-right: 2px;clear: both;margin-top: 10px" id="searchQuestion">
-				<select id="form-filter-categories" class="browser-default" v-model="category" @change="getCategory()">
+				<select id="form-filter-categories" class="browser-default" v-model="filter" @change="getFilter()">
 					<option value="" disabled selected>Categories</option>
-					{% for cat in question_cat %}
+					<option value="latest">Latest</option>
+					<option value="answered">Answered</option>
+					<option value="unanswered">Unanswered</option>
+					<!-- {% for cat in question_cat %}
 					<option>{{cat.category}}</option>
-					{% endfor %}
+					
+					{% endfor %} -->
 				  </select>
 		
 				  <form id="search-question"  @submit.prevent="searchQuestion()">
@@ -56,18 +61,20 @@
 				{% for question in questions %}
 				<li class="question">
 					<a href="/question/{{question.id}}">{{ question.question }}</a> <br>
-					<cite class="time-counter">by: Jereco James Piso <i style="font-size: 10px;"><date-posted posted="{{question.date}}"></date-posted></i></cite>
+					<cite class="time-counter">Posted by: Jereco James Piso <i style="font-size: 10px;"><date-posted posted="{{question.date}}"></date-posted></i></cite>
 
-					
+
 					<div class="infos">
 						<span class="fa fa-comments comments"></span><b class="question-info">  {{ question.comments }}</b> 
 						<b class="question-info"><span class="fa fa-eye likes" ></span> {{ question.views }}</b>
 					</div>
+
+					{% if question.tags %}
 					<cite style="font-style: normal;">Tags</cite>
 
 					
 					<my-component tags="{{question.tags}}"></my-component>
-				
+					{% endif %}
 				
 				</li>
 				{% empty %}
@@ -98,7 +105,7 @@
 			</div>  
 		  </div>	
 		</div>
-		<div class="col s12 m12 xl4 l4">
+		<div class="col s12 m12 xl3 l">
 			<div class="questions-total-large-device">
 				{% if total_questions > 1 %}
 						{{total_questions}} Questions
@@ -109,13 +116,12 @@
 				{% endif %}
 			</div>
 		
-			<p class="filter-p">Filter</p>
-			<div class="questions-btn">
-
-				<a href="/questions/filter/latest">Latest</a>
-				<a href="/questions/filter/answered">Answered</a>
-				<a href="/questions/filter/unanswered">Unanswered</a>
-			</div>
+			<p class="hot-topics">Hot Topics	</p>
+			<ul class="hot-topic">
+				 {% for topic in hot_topics %}
+				<li> <a href="/question/{{topic.id}}">{{topic.question}}</a></li>
+				{% endfor %}
+			</ul>
 		</div> 
 	</div>
 

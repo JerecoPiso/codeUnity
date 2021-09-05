@@ -1,0 +1,23 @@
+{% extends 'html/templates/base.html' %}
+
+{% block main_page %}
+{% include 'html/templates/header.html' %}
+    <div class="aboutUs">
+        <div class="content">   
+            <strong><b class="imp-txt">Terms</b> and <b class="imp-txt">Conditions</b></strong> <br>
+            
+            By continuing to browse this website you agree to our terms and conditions.
+
+            <ul id="ul">
+                <li>You are not allowed to upload a project that contains a virus or anything else that may damage users' devices.</li>
+                <li>You are not allowed to sell projects that you can download here. Unless you have given a permission by the owner.</li>
+                <li>Posting or commenting on obscene material is strictly prohibited.</li>
+                <li>Re -uploading a project by someone else is prohibited. If we find out that it does not belong to you there are corresponding penalties. In case the owner has a complaint the codeunity is not liable for any violations of the law.</li>
+                <li>When you get the information on this website you must, make sure that the information you get is correct. Whatever mistake you make, codeunity is no longer responsible.</li>
+                <li>By uploading your project you are giving permission to other users to download your work.</li>
+            </ul>
+        </div>
+      
+    </div>
+    {% include 'html/templates/footer.html' %}
+{% endblock %}

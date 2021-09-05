@@ -13,7 +13,7 @@
 		
 				<div class="row clear-float" >
 					<div id="promptModal">
-						<div class="responseModal">
+						<div id="responseModal">
 							<div class="modalHeader">
 
 							
@@ -72,6 +72,7 @@
 										<option v-for="cat in question_cat">[cat.category]</option>
 									</select>
 							</div>
+							
 							<div class="ModalFooter">							
 								<button id="btn-update" @click="updateQuestion()"> <span class="fa fa-edit"></span> Update</button>
 

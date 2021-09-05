@@ -1,0 +1,510 @@
+.about-project{
+    font-size: 16px;
+}
+.app-img{
+    width: 100%;
+    margin-top: 5px;
+    height: 400px;
+}
+.delreply{
+    border: none;
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    color: rgb(255,0,0);
+    font-size: 12px;
+    border-radius: 0.3rem;
+    padding: 4px 6px 4px 6px;
+    margin-top: 0;
+    border: 1px solid rgb(255,0,0);
+    margin-left: 50px;
+   
+}
+.set-as-answered-reply{
+    margin-top: 10px;
+    border: none;
+    color: rgb(92, 138, 138);
+    background-color: transparent;
+    border: 1px solid rgb(92, 138, 138);
+    font-size: 14px;
+    border-radius: 0.3rem;
+    padding: 2px 4px 2px 4px;
+    
+   
+}
+.btn-reply{
+    /* margin-left: 50px; */
+    border: none;
+    color: rgb(0, 102, 204); 
+    border: 1px solid rgb(0, 102, 204); 
+    background-color: transparent; 
+    font-size: 16px;
+    border-radius: 0.3rem;
+    padding: 4px 8px 4px 8px;
+    margin-bottom: 20px;
+}
+
+.btn-delete{
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: transparent;
+    color: rgb(255,0,0);
+    border: none;
+    font-size: 16px;
+    border: 1px solid rgb(255,0,0);
+    border-radius: 0.3rem;
+    padding: 4px 8px 4px 8px;
+}
+.set-as-answered{
+    margin-top: 10px;
+    border: none;
+    color: rgb(92, 138, 138);
+    background-color: transparent;
+    border: 1px solid rgb(92, 138, 138);
+    font-size: 20px;
+    border-radius: 0.3rem;
+    padding: 2px 4px 2px 4px;
+    
+   
+}
+.answer{
+    color: rgb(0, 179, 89);
+    margin-left: 50px;
+    font-size: 20px;
+}
+.fz-12{
+    font-size: 12px;
+}
+.ml-10{
+    margin-left: 10px;
+}
+.font-size-25{
+    font-size: 25px;
+}
+.mt-10{
+    margin-top: 10px;
+}
+cite{
+    color: rgb(92, 138, 138);
+    margin-bottom: 3px;
+}
+.comments{
+    /* background-color: rgba(93, 213, 213,0.5); */
+    padding: 2%;
+    margin-top: -20px
+}
+.comment{
+    margin-top: 5px;
+    margin-bottom: 0px;
+     margin-left: 50px;
+     box-sizing: border-box;
+        
+     margin-top: -10px;
+     /* max-height: 7em; */
+     overflow: hidden;
+    /* line-height: 25px; */
+ 
+    margin-right: 50px;
+     
+    
+}
+/* .read-more{
+    margin-left: 85%;
+    margin-top: -20px;
+    color: rgb(0, 153, 255);
+   
+} */
+.comment:hover {
+    overflow: visible;
+  }
+.commentor-dp{
+    width: 40px;
+    float: left;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.commentor-name{
+    color: rgb(0, 153, 255);
+    font-size: 18px;
+    margin-bottom: 10px;
+  /* padding-top: 1px;
+  font-size: 16px;
+  color: rgb(92, 138, 138); */
+}
+
+.sec-comments{
+    margin-left: 50px;
+   
+}
+.project-title{
+    color: rgb(0, 153, 255);
+}
+
+.question-code{
+	max-height: 350px;
+    /* overflow: auto; */
+
+    border: 2px solid rgb(194, 214, 214);
+  
+}
+.question-code::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+
+  }
+ body{
+     background-color: rgba(230, 230, 230,0.5);
+ }
+.question-box{
+    border: 1px solid rgba(153, 153, 153,0.2);
+    margin: 0 5% 0 5%;
+    padding: 1% 2% 4% 2%;
+    background-color: rgb(255, 255, 255);
+}
+.for-code{
+    margin-bottom: 10px;display: none;
+}
+.MyModal{
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 104%;;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: none;
+}
+
+/* .MyModalReply{
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 104%;;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: none;
+} */
+@media(max-width: 360px){
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 35%;
+        border-radius: 0.5rem;
+        
+    }
+    .question-box{
+        margin-top: 3em;
+    }
+    .err-login-first{
+        font-size: 1.2em;
+        width: 100%;
+        margin-bottom: 0;
+    }
+}
+@media(min-width: 361px) and (max-width: 560px){
+    .err-login-first{
+        font-size: 1.2em;
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .question-box{
+        margin-top: 3em;
+    }
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 35%;
+        border-radius: 0.5rem;
+        
+    }
+}
+@media(min-width: 561px) and (max-width: 768px){
+    .err-login-first{
+        font-size: 1.2em;
+        width: 100%;
+        margin-bottom: -0.8em;
+    }
+    .question-box{
+        margin-top: 3em;
+    }
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 12%;
+        border-radius: 0.5rem;
+        
+    }
+}
+@media(min-width: 769px) and (max-width: 991px){
+    .err-login-first{
+        font-size: 1em;
+        width: 100%;
+        margin-bottom: -1em;
+    }
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 70%;
+        margin-left: 18%;
+        margin-top: 35%;
+        border-radius: 0.5rem;
+        
+    }
+    .question-box{
+        margin-top: 4em;
+    }
+}
+@media(min-width: 992px) and (max-width: 1999px){
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 40%;
+        margin-left: 30%;
+        margin-top: 10%;
+        border-radius: 0.5rem;
+        
+    }
+    .question-box{
+        margin-top: 3.5em;
+    }
+    .err-login-first{
+        margin-left: 10%;
+        width: 80%;
+        font-size: 1em;
+        margin-bottom: -1.5em;
+    }   
+}
+@media(min-width: 1200px){
+    .err-login-first{
+        margin-left: 15%;
+        width: 70%;
+        font-size: 1em;
+        margin-bottom: -2em;
+    }
+    .question-box{
+        margin-top: 3em;
+    }
+    .ModalDialog{
+        background-color: rgb(255,255,255);
+        height: auto;
+        width: 40%;
+        margin-left: 30%;
+        margin-top: 10%;
+        border-radius: 0.5rem;
+        
+    }
+}
+.ModalHeaderAlert{
+    padding: 10px;
+    border-bottom: 1px solid rgb(230, 230, 230);
+   height: auto;
+}
+.ModalHeader{
+    padding: 1px;
+    border-bottom: 1px solid rgb(230, 230, 230);
+   height: 50px;
+}
+.ModalHeader button{
+    background-color: transparent;
+    font-size: 30px;
+    float: right;
+    border: none;
+    color: rgb(255,0,0);
+}
+.ModalContent{
+    margin: 20px 20px 0 20px;
+}
+.ModalContent p{
+
+    padding: 0 5% 0 5%;
+    text-align: center;
+    font-size: 20px;
+}
+.ModalFooter{
+    
+    padding: 5px 10px 60px 10px;
+  
+}
+.ModalFooter button{
+    margin-right: 10px;
+
+    float: right;
+    color: rgb(255,255,255);
+    border: none;
+   
+
+    padding: 10px 25px 10px 25px;
+    border-radius: 0.3rem
+}
+
+.btn-post{
+	background-color: rgb(0, 102, 204); 
+}
+#comment-txt{
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid rgba(102, 153, 153,0.5);
+    width: 100%;
+    padding: 5px;
+    height: 100px;
+    overflow: auto;
+
+}
+.comments-logo{
+    font-size: 30px;border:none;color: green
+}
+.clear{
+    clear: both;
+}
+.date-posted{
+  font-style: normal;
+    font-size: 10px;
+}
+.view-logo{
+    background-color: transparent;font-size: 30px;border:none;color: blue;margin-left: 20px;
+}
+#comment-txt:focus{
+    border: 2px solid red;
+}
+.comment-area{
+    /* border: 2px solid red; */
+    width: 102%;
+    margin-top: 10px;
+  
+}
+.comment-area img{
+    width: 10%;
+    float: left;
+    height: 45px;
+    /* border-radius: 50%; */
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+   
+}
+.comment-area textarea{
+    background-color: rgba(230, 230, 230,0.5);;
+    width: 100%;
+    padding: 10px;
+    height: 100px;
+    border: 1px solid rgb(194, 214, 214);
+
+}
+.comment-area button{
+    float: right;
+}
+.comment-area textarea::placeholder{
+
+    color: rgba(0, 153, 255,0.6);
+}
+.btn-comment{
+    background-color: rgb(0, 102, 204); 
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 10px 15px 10px 15px;
+    font-size: 16px;
+    border-radius: 0.2rem;
+}
+.btn-put-code{
+    background-color: rgb(92, 138, 138); 
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 10px 15px 10px 15px;
+    font-size: 16px;
+    margin-right: 10px;
+    border-radius: 0.2rem;
+}
+::-webkit-resizer{
+    display: none;
+}
+.note{
+    clear: both;
+    margin-top: 50px;
+    font-style: italic;
+}
+.flash-msg{
+    position: fixed;
+    /* top: 5%; */
+    width: auto;
+    padding: 10px;
+    text-align: center;
+    /* color: rgb(255, 255, 255); */
+    /* font-size: 15px; */
+    /* border: 2px solid rgb(0,128,128); */
+    letter-spacing: 0.4px;
+    left: 10px;
+    bottom: 5%;
+    font-family: 'Arial Narrow Bold', sans-serif;
+    /* background-color: rgb(255,255,255); */
+    display: none;
+
+
+    background-color: rgba(0, 0, 0,0.8);
+	/* padding: 10px; */
+	border-radius: 0.1rem;
+	color: rgb(255, 255, 255);
+}
+.reply-dp{
+  float:left;width: 40px;height: 35px;border-radius: 50%;margin-left: 10px;margin-top: 5px
+}
+.reply-name{
+    margin-top:9px;width: 200px;float:left;margin-left: 5px;font-size: 18px;
+    font-family: Tahoma, sans-serif;
+}
+.btn-ok{
+	background-color: rgb(0, 102, 204);
+}
+.btn-cancel{
+	background-color: rgb(255,0,0);
+}
+.ModalHeaderAlert span{
+		font-size: 50px;
+		margin-left: 48%;
+        color: rgb(255,0,0)
+}
+.err-login-first{
+    /* color: rgb(255,0,0); */
+    color: rgb(255,255,255);
+    padding: 0.5em;
+    
+    border-radius: 0.3em;
+    margin-top: 3em;
+  
+    background-color: rgb(255,0,0);
+    text-align: center;
+   
+}
+.err-login-first a{
+    background-color: rgb(255, 255, 255);
+    padding: 5px 12px 5px 12px;
+    border-radius: 1em;
+    font-family: sans-serif;
+    color: rgb(0,128,128);
+    
+}
+.show-more-reply{
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 153, 255);
+    margin-left: 43px;
+}
+.hide-replies{
+    margin-left: 93px;
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 153, 255);
+    margin-bottom: 20px;
+  
+}

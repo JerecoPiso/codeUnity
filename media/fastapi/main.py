@@ -26,14 +26,14 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse)
 async def read_item(request: Request):
-	names = {}
-	haha = []
-	haha.append("jj")
-	haha.append("jj")
-	haha.append("jj")
-	haha.append("jj")
-	names['fname'] = haha
+	# names = {}
+	# haha = []
+	# haha.append("jj")
+	# haha.append("jj")
+	# haha.append("jj")
+	# haha.append("jj")
+	# names['fname'] = haha
 
 	# print(names['fname'])
-	return templates.TemplateResponse("index.html",{"request": request, "names": haha})
+	return templates.TemplateResponse("index.html",{"request": request})
 

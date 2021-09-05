@@ -705,14 +705,6 @@ body{
 .clear-float{
 	clear: both;
 }
-.download-app{
-	background-color: rgb(0, 134, 179);
-	color: rgb(255,255,255);
-	padding: 10px;
-	border-radius: 0.3rem;
-	float: right;
-	margin-top: 8px;
-}
 
 
 .project-container{
@@ -856,6 +848,19 @@ body{
 .imp-txt{
 	color: rgb(0, 128, 128);
 	font-size: 28px;
+}
+.poster-name{
+	margin: -3px 0 0 0;
+	font-family: sans-serif;
+	font-size: 0.9em;
+	font-style: italic;
+	/* letter-spacing: 0.5px; */
+	color: rgb(117, 163, 163);
+	margin-left: 2px
+}
+.poster-name strong{
+	/* font-weight: bold; */
+	font-size: 1.1em;
 }
 /* 
 #languages::-webkit-scrollbar {

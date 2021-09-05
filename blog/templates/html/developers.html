@@ -4,8 +4,30 @@
 {% block main_page %}
 	
 	{% include 'html/templates/header.html' %}
-    
+       
         <div class="row " id="developers">
+          
+          <div class="modalDeveloper">
+            <div class="modalContent">
+                <div class="modalHeader">
+                  <button class="close" @click="hideDev()">&times;</button>
+                </div>
+                <div class="modalBody">
+                   <img :src="media+devInfo.photo" alt="" class="selectedDeveloperDp">
+                   <a href="javascript:void(0)"  class="devname"> [devInfo.name]</a>
+                   <p style="margin-bottom: 7px;" class="dev-expertise">( [devInfo.expertise] )</p>
+                   <img class="flag" :src="media+'flags/'+devInfo.flag"> 
+                   <span class="dev-rate">Rate/Hour <br> $[devInfo.rate]</span>
+                   <p class="about-dev" v-html="devInfo.aboutme"></p>
+                   <p class="selectedDevSkills">Skills</p>
+    
+                      <div  class="selectedDevelopersSkills"  v-html="devInfo.skills"></div>
+                 
+                   <a :href="'/resume/'+devInfo.name+'/'+devInfo.resume" class="view-resume">View Resume</a>
+                  
+                </div>
+            </div>
+        </div>
             <div class="col l9 m8 s12"  >
               <div class="bg-white" style="padding-bottom: 1.6em;">
                 <p class="devs-slogan">  Well <strong>Experienced</strong>  and <strong>Skilled</strong>  Developers</p>
@@ -43,6 +65,7 @@
                 <div class="flex">
                  
                   {% for dev in devs %}
+                  
                     <div class="flex-item">
                         <div class="card">
                             <div class="card-image p-15">
@@ -51,7 +74,7 @@
                               <a href="javascript:void(0)"  class="devname">  {{dev.uname}} </a>
                            
                               <p class="dev-expertise">( {{dev.expertise}} )</p>
-
+                             
                             </div>
                           
                             <div class="card-skills card-skills-max">
@@ -71,7 +94,8 @@
                                  {% endif %}
                                
                               </div>
-                              <button type="button" class="read-more">Read More</button>
+                           
+                              <button type="button" class="read-more" @click="showDev('{{dev.countryAbbr}}', {{dev.rate}},'{{dev.expertise}}','{{dev.skills}}','{{dev.photo}}','{{dev.uname}}','{{dev.aboutme|escapejs}}','{{dev.resume}}')">Read More</button>
                             </div>
                           
                        </div>
@@ -110,7 +134,6 @@
               </div>
               
             </div>
-
             <div class="col l3 s12 m4">
                 <p class="total-developers">
                   {% if total > 1%}

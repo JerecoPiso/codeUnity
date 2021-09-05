@@ -1,0 +1,74 @@
+@media(max-width: 568px){
+    .aboutUs{
+        margin: 0 5% 0 5%;
+        height: auto;
+        
+    
+    }
+}
+@media(min-width: 569px) and (max-width: 768px){
+    .aboutUs{
+        margin: 0 10% 0 10%;
+        height: 100vh;
+      
+    
+    }
+}
+@media(min-width: 769px) and (max-width: 991px){
+    .aboutUs{
+        margin: 0 10% 0 10%;
+        height: 100vh;
+      
+    
+    }
+}
+@media(min-width: 992px) and (max-width: 1999px){
+    .aboutUs{
+        margin: 0 10% 0 10%;
+        height: 100vh;
+      
+    
+    }
+}
+@media(min-width: 1200px){
+    .aboutUs{
+        margin: 0 15% 0 15%;
+        height: 100vh;
+      
+    
+    }
+}
+body{
+    background-color: rgba(230, 230, 230,0.5);
+}
+.aboutUs{
+    border: 0.5px solid rgba(153, 153, 153,0.6);
+    background-color: rgb(255, 255, 255);
+}
+.aboutUs div.content{
+    font-family: sans-serif;
+    font-size: 1.1em;
+  
+    margin: 70px 10% 10% 8%
+}
+.content strong{
+    font-size: 1.8em;
+    font-family: sans-serif;
+    margin-left: -0.5%;
+}
+.imp-txt{
+    color: rgb(0,128,128);
+}
+#ul li{
+    list-style-type: square;
+    margin-bottom: 2%;
+}
+.about{
+    margin-top: 2px;
+}
+.about li{
+    list-style-type: square;
+    margin-bottom: 1.5%;
+    margin-left: -0.5%;
+  
+}
