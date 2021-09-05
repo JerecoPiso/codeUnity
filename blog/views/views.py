@@ -563,8 +563,8 @@ def addComment(request):
                      hour = datetime.datetime.now().strftime("%H")
                      am_pm = " pm"
                   datenow =  datetime.datetime.now().strftime("%h") + "-" + datetime.datetime.now().strftime("%d") + "-"+ datetime.datetime.now().strftime("%Y") + " " + str(hour) + ":" + datetime.datetime.now().strftime("%M")+ ":" + datetime.datetime.now().strftime("%S") + "" + am_pm
-                  notification_content = "<b>" + request.session['username'] + "</b> commented on your question " + "<b>" + com.question + "</b>."
-                  notify = Notifications(notification=notification_content, notified_id=com.asker_id, date=datenow, status="unread")
+                  notification_content = "<b>" + request.session['username'] + "</b> commented on your question " + "<b>" + ques.question + "</b>."
+                  notify = Notifications(notification=notification_content, notified_id=ques.asker_id, date=datenow, status="unread")
                   notify.save()
                   return HttpResponse("Commented succesfully.")
         
