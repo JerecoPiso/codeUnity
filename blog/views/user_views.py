@@ -40,6 +40,8 @@ def index(request):
 
 # projects of the user
 def projects(request):
+    # pro  = Projects.objects.get(id=95)
+    # pro.delete()
     if request.session.get("loggin"):
         request.session['title'] = "Projects"
         count = Projects.objects.filter(uploader_id__exact=request.session['id']).count()
@@ -92,7 +94,7 @@ def editCode(request):
 
 # getting the directories and files the users project
 def project_files(request, folder):
-    request.session['title'] = folder
+    request.session['title'] = "Project Files"
     context = {}
     getProjectName = folder.find("%", 0, len(folder))
    
@@ -100,10 +102,14 @@ def project_files(request, folder):
     if folder_checker < 0:
         request.session['app'] = folder
         if getProjectName == -1:
-            total = Projects.objects.get(project_name__exact=folder)
+            proj = Projects.objects.get(project_name__exact=folder)
         else:
-            total = Projects.objects.get(project_name__exact=folder[0:getProjectName])
-        request.session['total_download'] = total.downloads
+            proj = Projects.objects.get(project_name__exact=folder[0:getProjectName])
+        
+        request.session['total_download'] = proj.downloads
+        request.session['language'] = proj.language
+        
+
 
     rep = folder.replace("%", "\\")
     subFolders = []
@@ -253,7 +259,8 @@ def uploadProject(request):
             
                     rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
                     fss = FileSystemStorage()
-                    filename = fss.save(rename, upload_file)
+                    fss.save(rename, upload_file)
+                    # filename = 
                     # upload_file_path = fss.path(filename)
                     project = Projects(project_name=request.POST['project_name'], uploader_id=request.session['id'], downloads = 0, about=request.POST['about'], photo = rename, language=request.POST['language'], date = request.POST['date'], views = 0, more = request.POST['more'])
                     project.save()     
@@ -273,8 +280,9 @@ def changeDp(request):
             extension = os.path.splitext(upload_file.name)[1]
             rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
             fss = FileSystemStorage()
-            filename = fss.save(rename, upload_file)
-            upload_file_path = fss.path(filename)
+            fss.save(rename, upload_file)
+            # upload_file_path = fss.path(filename)
+ 
             if str(dev.photo) != "dp.jpg":
                 os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(dev.photo))
             dev.photo = rename
@@ -391,3 +399,26 @@ def editPassword(request):
 
     except:
         return HttpResponse("Error")
+
+def clearNotifs(request):
+    try:
+        notif = Notifications.objects.filter(notified_id=request.session['id'])
+        if notif.count() == 0:
+            return HttpResponse("Nothing to delete!")
+        else:
+            notif.delete()
+            return HttpResponse("Notifications cleared successfully")
+
+    except:
+
+        return HttpResponse("An error has occurred! Please try again.")
+def deleteNotif(request):
+    try:
+        notif = Notifications.objects.get(id=request.POST['id'])
+        print(request.POST['id'])
+        notif.delete()
+        return HttpResponse("Notification deleted successfully")
+
+    except:
+
+        return HttpResponse("An error has occurred! Please try again.")

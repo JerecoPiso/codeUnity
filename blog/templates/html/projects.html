@@ -69,47 +69,33 @@
 							<li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
 						{% endif %}
 					   {% endfor %}
-					  <!-- <p class="languages">iOS Development</p>
-					   {% for lang in languages %}	
-						   {% if lang.category == "iOS Development" %}
-						  <li class="lang" id="{{lang.language}}"> <a href="/projects/language/{{lang.language}}">{{lang.language}} </a> </li>
-						   {% endif %}
-					  {% endfor %}
-
-					  {% for fw in frameworks %}	
-					  {% if fw.category == "iOS Development" %}
-						  <li class="lang" id="{{fw.framework}}"> <a href="/projects/language/{{fw.framework}}">{{fw.framework}}</a> </li>
-					  {% endif %}
-					 {% endfor %}
-				    -->
-					
-				
-					
+			
 				</div>
 				</div>
 				<div class="projects-box" >
 					<div class="project-box-white-bg" style="padding-bottom: 20px;">
-					<p class="total_project_uploaded">
-						{% if total_project > 1 %}
-							{{total_project}} Projects
-						{% else %}
-							{{total_project}} Project
-						{% endif %}
-						
-						
-						Uploaded by Co-Developers</p>
-				
+				 
+				 <p class="total_project_uploaded"> <b class="">( {{total_project}} )</b>   {% if total_project > 1 %}
+					<b class="bold-color">Source Codes</b> 
+				{% else %}
+				<b class="bold-color">Code</b>
+					
+				{% endif %}  for <b class="bold-color">Free</b>  </p>
 					<button id="btn-languages" >Languages</button>
 				
-					<form @submit.prevent="searchProjects()">
+					<form @submit.prevent="searchProjects()" style="margin-top: 10px">
 						{% csrf_token %}
 						<input type="text" id="search-project" placeholder="Search project . . ." v-model="searchValue">
 						<button type="submit" class="searchBtn"><span class="fa fa-search" style="font-size: 23px;opacity: 0.7;"></span></button>
 					</form>
 					<div class="projects-div clear-float">
-					
+						{% if toSearch and  projects %}
+						<p class="result-for">Result for: <i>"
+							{{toSearch}}"</i> </p>
+						{% endif %}
 						{% for project in projects %}
 						<div class="project-box">
+							
 							<a href="/project/{{project.project_name}}" class="app-title">{{ project.project_name }}</a>
 							 <p class="poster-name">Posted by: <strong>Jereco James Piso</strong> (<date-posted :posted="'{{project.date}}'"></date-posted>)</p>
 							
@@ -145,7 +131,7 @@
 						{% empty %}
 
 						
-						<p class="no-projects"> {% if toSearch %}  No  project/s  found for  <strong class="imp-txt"><i>"{{ toSearch }} "</i> </strong>  {% else %} There's no <strong class="imp-txt">Project/s</strong> uploaded this time.   {% endif %}</p>
+						<p class="no-projects"> {% if toSearch %}  No  project/s  found for  <strong class="imp-txt"><i>"{{ toSearch }}"</i> </strong>  {% else %} There's no <strong class="imp-txt">Project/s</strong> uploaded this time.   {% endif %}</p>
 						{% endfor %}
 						{% if projects %}
 						<div class="pagination">
@@ -179,13 +165,13 @@
 						<!-- <p style="font-size: 20px;font-family: sans-serif;margin-top: 10px;margin-bottom: 1px">
 							Download projects for free</p> -->
 						<button class="upload-code">Upload Source Code</button>
-						<p class="trends popular-projects">Popular Projects</p>
+						<p class="trends popular-projects">Popular</p>
 						<ul class="trending-projects">
 							{% for app in apps %}
 							<li><a href="/project/{{app.project_name}}">{{app.project_name}}</a></li>
 							{% endfor %}
 						</ul>
-						<p class="trends">Newest Projects</p>
+						<p class="trends">Newest</p>
 						<ul class="trending-projects">
 							{% for app in new_apps %}
 							<li><a href="/project/{{app.project_name}}">{{app.project_name}}</a></li>

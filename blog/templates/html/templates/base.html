@@ -16,25 +16,25 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jobs.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Questions' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questions.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/questionsccDDdd.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Projects' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projects.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/projectsbbbbb.css' %}">
 	{% endif %}
 	{% if request.session.title == 'Developers' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developervvvvvvv.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/developervvvvvvvvVvv.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewProject' %}
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/view_project.css' %}">
 	{% endif %}
 	{% if request.session.title == 'viewQuestion' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-editorr.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/prism-tomorroww.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/viewQuessss.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/prism-editorr.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/prism-tomorroww.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/viewQuessssx.css' %}">
 	
 	{% endif %}
 	{% if request.session.title == 'Complete Information' %}
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/completeinfoooox.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/completeinfooooxxx.css' %}">
 	<!-- <link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}"> -->
 	{% endif %}
 
@@ -51,15 +51,16 @@
 	{% block main_page %}
     
     {% endblock %}
-	<script type="text/javascript" src="{% static 'assets/js/libraries/moment.js' %}"></script>
+	
 <script type="text/javascript" src="{% static 'assets/js/libraries/jquery.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/libraries/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/libraries/vue.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/user/countriesListss.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/summernote-lite.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/user/countriesLists.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/summernote-lite.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/moment.js' %}"></script>
 
 {% if request.session.title == 'Home' %}
-<script type="text/javascript" src="{% static 'assets/js/home.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/homes.js' %}"></script>
 {% endif %}
 <script type="text/javascript" src="{% static 'assets/js/libraries/prism.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/libraries/vue-prism-editor.js' %}"></script>
@@ -71,10 +72,11 @@
 {% if request.session.title == 'Complete Information' %}
 
 
-<script src="{% static 'assets/js/completeinfoxxxx.js' %}"></script>
+<script src="{% static 'assets/js/completeinfoxxxxx.js' %}"></script>
 {% endif %}
-{% if request.session.title == 'Questions' %}
-<script type="text/javascript" src="{% static 'assets/js/questions.js' %}"></script>
+<!-- i call this also in viw question page to access the component for calculating the time of the question since its posted until now -->
+{% if request.session.title == 'Questions' or request.session.title == 'viewQuestion' %}
+<script type="text/javascript" src="{% static 'assets/js/questionssz.js' %}"></script>
 {% endif %}
 {% if request.session.title == 'Projects' %}
 <script type="text/javascript" src="{% static 'assets/js/projects.js' %}"></script>
@@ -82,7 +84,166 @@
 {% if request.session.title == 'Developers' %}
 <script type="text/javascript" src="{% static 'assets/js/developersx.js' %}"></script>
 {% endif %}
-<script type="text/javascript" src="{% static 'assets/js/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/mainzx.js' %}"></script>
+<script>
+	
+	var marginLeft = 0
+  var click = 0
+  var devicesScreens = ['xs','s','m','l']
+  var currentDeviceScreen = ''
+  var total_top_devs = 0
+  var right_click = 0
+  window.onload = function(){
+    var width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    
+    total_top_devs = document.getElementById("total-top-devs").value
+    // alert(total_top_devs)
+    if(width <= 568){
+      click = 4
+      currentDeviceScreen = devicesScreens[0]
+     
+      if(total_top_devs < 3){
+        document.getElementById("prev").style.display = "none"
+        document.getElementById("next").style.display = "none"
+      }else{
+        document.getElementById("prev").style.display = "initial"
+        document.getElementById("next").style.display = "initial"
+      }
+    }else if(width >= 569 && width <= 768){
+      click = 4
+      currentDeviceScreen = devicesScreens[1]
+      if(total_top_devs < 3){
+        document.getElementById("prev").style.display = "none"
+        document.getElementById("next").style.display = "none"
+      }else{
+        document.getElementById("prev").style.display = "initial"
+        document.getElementById("next").style.display = "initial"
+      }
+    }else if(width >= 769 && width <= 992){
+      click = 3
+      currentDeviceScreen = devicesScreens[2]
+      if(total_top_devs < 4){
+        document.getElementById("prev").style.display = "none"
+        document.getElementById("next").style.display = "none"
+      }else{
+        document.getElementById("prev").style.display = "initial"
+        document.getElementById("next").style.display = "initial"
+      }
+    }else{
+      click = 1
+      currentDeviceScreen = devicesScreens[3]
+      if(total_top_devs > 5){
+        document.getElementById("prev").style.display = "none"
+        document.getElementById("next").style.display = "none"
+      }else{
+        document.getElementById("prev").style.display = "initial"
+        document.getElementById("next").style.display = "initial"
+      }
+     
+    }
+  }
+  window.onresize = function(){
 
+      var animation = document.getElementById('first')
+      animation.style.marginLeft = "0%"
+    marginLeft = 0
+    total_top_devs = document.getElementById("total-top-devs").value
+    var width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    if(width <= 568){
+      click = 4
+      currentDeviceScreen = devicesScreens[0]
+      if(total_top_devs < 3){
+        document.getElementById("prev").style.display = "none"
+        document.getElementById("next").style.display = "none"
+      }else{
+        document.getElementById("prev").style.display = "initial"
+        document.getElementById("next").style.display = "initial"
+      }
+    }else if(width >= 569 && width <= 768){
+      click = 4
+      currentDeviceScreen = devicesScreens[1]
+      if(total_top_devs < 3){
+        document.getElementById("prev").style.display = "none"
+        document.getElementById("next").style.display = "none"
+      }
+    }else if(width >= 769 && width <= 992){
+      click = 3
+      currentDeviceScreen = devicesScreens[2]
+      if(total_top_devs < 4){
+        document.getElementById("prev").style.display = "none"
+        document.getElementById("next").style.display = "none"
+      }else{
+        document.getElementById("prev").style.display = "initial"
+        document.getElementById("next").style.display = "initial"
+      }
+    }else{
+      click = 1
+      currentDeviceScreen = devicesScreens[3]
+      if(total_top_devs == 5){
+        document.getElementById("prev").style.display = "initial"
+        document.getElementById("next").style.display = "initial"
+      }else{
+       
+        document.getElementById("prev").style.display = "none"
+        document.getElementById("next").style.display = "none"
+      }
+    }
+  }
+
+  function prevNext(event){
+    var animation = document.getElementById('first')
+    alert(click)
+    if(event == "prev"){
+      
+      if(click != 0){
+        right_click++
+          click--;
+          if(currentDeviceScreen == 'xs'){
+                marginLeft = marginLeft + 52.5
+          }else if(currentDeviceScreen == 's'){
+                marginLeft = marginLeft + 51.7
+          }else if(currentDeviceScreen == 'm'){
+                marginLeft = marginLeft + 34
+          }else{
+            // alert(currentDeviceScreen)
+              marginLeft = marginLeft + 20.5
+          }
+          // marginLeft = marginLeft + 20.5
+          
+        animation.style.marginLeft = "-" + marginLeft.toString() +"%"
+
+        animation.style.transition = "1s"
+
+      }
+    }else{
+      if(right_click != 0){
+        if(right_click <= 4){
+          click++;
+          right_click--;
+          if(currentDeviceScreen == 'xs'){
+                marginLeft = marginLeft - 52.5
+          }else if(currentDeviceScreen == 's'){
+                marginLeft = marginLeft - 51.7
+          }else if(currentDeviceScreen == 'm'){
+                marginLeft = marginLeft - 34
+          }else{
+            // alert(currentDeviceScreen)
+              marginLeft = marginLeft - 20.5
+          }
+        }
+        
+        animation.style.marginLeft = "-" + marginLeft.toString() +"%"
+        animation.style.transition = "1s"
+
+      }
+    }
+
+  }
+
+</script>
 </body>
 </html>

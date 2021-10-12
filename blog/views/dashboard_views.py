@@ -1,12 +1,13 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, response
 from django.shortcuts import render, redirect
 from django.conf import settings
 from blog.models import Users_Device, Language, Projects, Question_Category, Questions, User, Frameworks, Developers, Yearly_Visitors
 from django.contrib.auth.hashers import make_password, check_password
 from django.db import connection
 from django.db.models import Count, Q
-import datetime
-
+from django.core.files.storage import FileSystemStorage
+import datetime, os
+from pathlib import Path
 # PAGES
 def index(request):
 	request.session['title'] = "Home"
@@ -21,8 +22,8 @@ def home(request):
 	totals = {}
 	totals['total_apps'] = Projects.objects.all().count()
 	totals['total_devs'] = Developers.objects.all().count()
-	totals['total_questions'] = Questions.objects.all().count()
-	totals['total_languages'] = Language.objects.all().count()
+	totals['total_questions'] = Questions.objects.all().count() 
+	totals['total_languages'] = Language.objects.all().count() + Frameworks.objects.all().count()
 
 	if request.session.get('admin_id'):
 		return render(request, 'html/dashboard/index.html', totals)
@@ -32,9 +33,11 @@ def home(request):
 	
 
 def logout(request):
-	del request.session['admin_id']
-	del request.session['admin_name']
-
+	try:
+		del request.session['admin_id']
+		del request.session['admin_name']
+	except:
+		pass
 	return redirect('/dashboard')
 
 def projects(request):
@@ -42,7 +45,8 @@ def projects(request):
 	projectsLanguage = Projects.objects.values(
     'language'
     ).annotate(language_count=Count('language')).filter(language_count__gt=0)
-	latestProjects = Projects.objects.filter(downloads__gt=0)[:10]
+	# latestProjects = Projects.objects.filter(downloads__gt=0)[:10]
+	latestProjects = Projects.objects.filter(Q(downloads__gt=0) & Q(date__contains=datetime.datetime.now().strftime("%Y"))).order_by("-id")
 	if request.session.get('admin_id'):
 		return render(request, 'html/dashboard/projects.html', {'projectsLanguage': projectsLanguage, 'latestProjects':latestProjects })
 	
@@ -76,17 +80,24 @@ def languages(request):
 def signup(request):
 	# request.session['title'] = "Signup"
 	if request.method == "POST":
+	
 		if request.POST['username'] != "" and request.POST['pass'] != "" and request.POST['pass2'] != "":
+			if all(x.isalpha() or x.isspace() for x in request.POST['username']):
 
-			if request.POST['pass'] == request.POST['pass2']:
-				hashed_pwd = make_password(request.POST['pass'], salt=None, hasher='default')
-				admin = User(username = request.POST['username'], password = hashed_pwd)
-				admin.save()
-				return HttpResponse("Sign up successfully")
-		
+				if len(request.POST['pass']) >= 8:
+					if request.POST['pass'] == request.POST['pass2']:
+						hashed_pwd = make_password(request.POST['pass'], salt=None, hasher='default')
+						admin = User(username = request.POST['username'], password = hashed_pwd, file='dp.jpg')
+						admin.save()
+						return HttpResponse("Success")
+				
+					else:
+						return HttpResponse("Password didn't matched!")
+				else:
+					return HttpResponse("Password must contain at least 8 characters")
 			else:
-				return HttpResponse("Password didn't matched!")
 
+				return HttpResponse("Username must be contain letters and white spaces only!")
 		else:
 			return HttpResponse("All fields must be filled up!")	
 		
@@ -269,7 +280,7 @@ def editQuestionCategory(request):
 # getting datas
 def getLanguages(request):
 	try:
-		lang = Language.objects.all().values()
+		lang = Language.objects.all().order_by("-id").values()
 		return JsonResponse(list(lang), safe=False)
 		
 	except:
@@ -278,7 +289,7 @@ def getLanguages(request):
 def getFrameworks(request):
 	with connection.cursor() as cursor:
 			try:
-				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.language_id, blog_Frameworks.framework, blog_Frameworks.category, blog_Language.language FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id")
+				cursor.execute("SELECT blog_Frameworks.id, blog_Frameworks.language_id, blog_Frameworks.framework, blog_Frameworks.category, blog_Language.language FROM blog_Frameworks LEFT JOIN blog_Language ON blog_Frameworks.language_id = blog_Language.id ORDER BY blog_Frameworks.id DESC")
 				# framework = Frameworks.objects.all().values()
 				return JsonResponse(list(dictfetchall(cursor)), safe=False)
 			finally:
@@ -304,7 +315,7 @@ def getDevs(request):
 
 def getDevices(request):
 	try:
-		devices = Users_Device.objects.all().order_by("-id").values()
+		devices = Users_Device.objects.all().values()
 		return JsonResponse(list(devices), safe=False)
 	except:
 		return HttpResponse("Failed")	
@@ -364,3 +375,87 @@ def dictfetchall(cursor):
           dict(zip(columns, row))
           for row in cursor.fetchall()
       ]
+
+def userprofile(request):
+	request.session['title'] = 'User Profile'
+	request.session.set_expiry(0)
+	return render(request, 'html/dashboard/user_profile.html')
+
+def getAdminInfo(request):
+	try:
+		admin = User.objects.filter(id=request.session.get('admin_id')).values()
+		return JsonResponse(list(admin), safe=False)
+	except:
+		return HttpResponse("Error")
+
+
+# changing profile of the current user
+def changeDp(request):
+    if request.method == "POST":
+        admin = User.objects.get(id__exact=request.session.get('admin_id')) 
+        if os.path.exists(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(admin.file)):
+
+            upload_file = request.FILES["photo"]
+            extension = os.path.splitext(upload_file.name)[1]
+            rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
+            fss = FileSystemStorage()
+            fss.save(rename, upload_file)
+            # upload_file_path = fss.path(filename)
+ 
+            if str(admin.file) != "dp.jpg":
+                os.remove(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+str(admin.file))
+            admin.file = rename
+            admin.save()
+
+        else:
+
+            return HttpResponse("Path did'nt exists!")
+
+        return HttpResponse("Profile changed successfully")
+    else:
+        return HttpResponse("Error error has occurred")
+
+def changepass(request):
+	resposnseMsg = ''
+	if request.method == "POST":
+		if len(request.POST['password']) > 7:
+			if request.POST['password'] == request.POST['pass2']:
+				hashed_pwd = make_password(request.POST['password'], salt=None, hasher='default')
+				admin = User.objects.get(id=request.session.get('admin_id'))
+				admin.password = hashed_pwd
+				admin.save()
+				resposnseMsg = "Password changed successfully"
+			else:
+				resposnseMsg = "Password didn't matched!"
+		else:
+			resposnseMsg = "Password must be at least 8 characters!"
+
+	else:
+		resposnseMsg = "Something went wrong!"
+	
+	return HttpResponse(resposnseMsg)
+
+def editname(request):
+	responseMsg = ''
+	if request.method == 'POST':
+		if request.POST['username'] != "":
+			if all(x.isspace() or x.isalpha() for x in request.POST['username']):
+				
+				if User.objects.filter(id=request.session.get('admin_id')).count() > 0:
+					user = User.objects.get(id=request.session.get('admin_id'))
+					user.username = request.POST['username']
+					user.save()
+					responseMsg = "Success"
+				else:
+					responseMsg = "User id not found!"
+
+			else:
+				responseMsg = "Username must be alphabet only!"
+		else:
+			responseMsg = "Username must not be empty!"
+		
+	else:
+		responseMsg = "Something went wrong!"
+	
+	return HttpResponse(responseMsg)
+

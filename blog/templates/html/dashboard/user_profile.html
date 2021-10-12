@@ -1,0 +1,83 @@
+{% extends 'html/templates/dashboard_base.html' %}
+
+{% block body %}
+
+<div id="user-profile">
+    <div class="user-header">
+            Admin Profile
+    </div>
+    <div class="user-content" id="admin">
+        <div class="flexitem1">
+            <img :src="media+dp" alt="" width="100%" height="200px">
+            <button type="button" class="btn-changedp" @click="showDpModal()">Change Profile</button>
+            <p class="name">[username]
+            </p>
+            <p class="expertise">( Web Developer )</p>
+            <button type="button" @click="editname()" id="edit-name">Edit Name</button>
+            <button type="button" id="edit-pass" @click="showModal()">Change Password</button>
+            
+            <div id="editpassmodal">
+                
+                <div class="usermodal">
+                    <div class="modalheader">
+                        <button class="x" @click="showModal()">&times;</button>
+                    </div>
+                    <div class="modalbody">
+                            <form @submit.prevent="changePass()">
+                                {% csrf_token %}
+                                <label for="">New Password</label>
+                                <input type="password" v-model="password" placeholder="Enter new password . . . ">
+                                <label for="">Re-type Password</label>
+                                <input type="password" v-model="pass2"  placeholder="Re-type password . . .">
+                                <button type="submit" id="change-pass-btn">Change Password</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+            <div id="editdpmodal">
+                
+                <div class="usermodal">
+                    <div class="modalheader">
+                        <button class="x" @click="showDpModal()">&times;</button>
+                    </div>
+                    <div class="modalbody">
+                            <form @submit.prevent="changeDp()">
+                                {% csrf_token %}
+                                <label for="">Change Profile</label>
+                                <input type="file" class="mt-2" required style="border: none;height: auto;"  accept="image/*" ref="photo" @change="photoChanger()"><br>
+                                <button type="submit" class="change-dp-btn">Change Password</button>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flexitem2">
+            <ul class="collection activities">
+                <li class="collection-item">
+                    <p class="act-log">Activity Log</p>
+                    <div class="activity">
+                        
+                       <button type="button" class="clear-activities"> <span class="fa fa-broom"></span> Clear Activities</button>
+                        <p>You deleted the language 'PHP'.skd sjkdh kjshdfk jhsdjkf hskdjfh kjsdhf kjsdhf jkshdfjks hfs kdfh kfh <br>
+                            <span class="date">July 18 1999 12:23pm</span>
+                            <button class="rm-activity"> <span class="fa fa-trash"></span> Remove</button>
+                        </p>
+                        
+                        <p>You deleted the language 'PHP'.skd sjkdh kjshdfk jhsdjkf hskdjfh kjsdhf kjsdhf jkshdfjks hfs kdfh kfh <br>
+                            <span class="date">July 18 1999 12:23pm</span>
+                            <button class="rm-activity"> <span class="fa fa-trash"></span>  Remove</button>
+                        </p>
+  
+                        <p>You deleted the language 'PHP'.skd sjkdh kjshdfk jhsdjkf hskdjfh kjsdhf kjsdhf jkshdfjks hfs kdfh kfh <br>
+                            <span class="date">July 18 1999 12:23pm</span>
+                            <button class="rm-activity"> <span class="fa fa-trash"></span>  Remove</button>
+                        </p>
+  
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

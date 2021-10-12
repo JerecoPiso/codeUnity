@@ -1,4 +1,4 @@
-{% extends 'html/user_pages/user_base.html' %}
+{% extends 'html/templates/user_base.html' %}
 {% block user_page %}
 		<span class="fa fa-bars" id="show"></span>
 		
@@ -11,9 +11,9 @@
 				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
 				<!-- <button class="btn-back" onclick="back()"> <span class="fa fa-arrow-left"></span> Back</button>
 				<button class="btn-home" onclick="home()"> <span class="fa fa-home"></span> Home</button> -->
-				<p class="project-name">{{ request.session.app }}<span>{{ request.session.total_download }} Download/s</span></p>
-				
-				<div class="row" >
+				<p class="project-name"> <strong>{{ request.session.app }}</strong>  <cite>( {{ request.session.language }} ) </cite>  <span>{{ request.session.total_download }} Download/s</span></p>
+			    <input type="hidden" id="language" value="{{ request.session.language }}">
+				<div class="row bg-white" >
 					
 						<div class="col l4 s12 ">
 							
@@ -29,7 +29,7 @@
 										</li>
 									{% endif %}
 								{% endfor %}
-									
+								
 								</ul>
 							</div>
 						</div>
@@ -108,7 +108,7 @@
 									{% with forloop.counter as fileName %}
 									{% for f_name in file_name %}
 										{% if fileName == forloop.counter %}
-										<button @click="path = '{{ file }}';filename = '{{ f_name }}';getFile()"  class="file">
+										<button @click="path = '{{ file }}';filename = '{{ f_name }}';getFile();"  class="file">
 											{{ f_name }}
 
 										{% endif %}

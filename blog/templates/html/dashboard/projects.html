@@ -1,4 +1,4 @@
-{% extends 'html/dashboard/base.html' %}
+{% extends 'html/templates/dashboard_base.html' %}
 
 {% block body %}
 	
@@ -64,7 +64,7 @@
 						<p class="noOfProjectsByLanguage">No. of Projects by Language</p>
 						{% for count in projectsLanguage %}
 	
-							<li class="collection-item">{{count.language}} <span>| {{count.language_count}}
+							<li class="collection-item"> <b>{{count.language}}</b>  <span>| {{count.language_count}}
 								
 								{% if count.language_count == 1 %}
 										Project
@@ -83,8 +83,8 @@
 						<p>Latest Projects</p>
 						{% for count in latestProjects %}
 		
-							<li class="collection-item">{{count.project_name}}</li>
-		
+							<li class="collection-item"> <b>{{count.project_name}}</b>  <cite class="since-upload"><date-posted posted="{{count.date}}"></date-posted></cite> </li>
+
 						{% endfor %}
 		
 					</ul>

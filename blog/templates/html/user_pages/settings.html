@@ -1,4 +1,4 @@
-{% extends 'html/user_pages/user_base.html' %}
+{% extends 'html/templates/user_base.html' %}
 
 
 {% block user_page %}
@@ -37,19 +37,22 @@
 							</div>
 						
 							<!-- modal for changing profile photo -->
-							<div class="dpModal">
-								<div class="modalHeader">
-									<p id="change-dp-title">Change Profile</p> <button  @click="changeDpModal('hide')" id="close">&times;</button>
-								</div>
-								<div class="modalBody">
-									<form @submit.prevent="changeDp()">
-										{% csrf_token %}
-										<label style="font-size: 1.1em;">Photo</label><br>
-										<input type="file" accept="image/*" ref="photo" @change="dp()"><br>
-										<button type="submit" class="change-dp-btn">Change</button>
-									</form>
+							<div class="ModalsBg" id="dpModal">
+								<div class="dpModal">
+									<div class="modalHeader">
+										<p id="change-dp-title">Change Profile</p> <button  @click="changeDpModal('hide')" id="close">&times;</button>
+									</div>
+									<div class="modalBody">
+										<form @submit.prevent="changeDp()">
+											{% csrf_token %}
+											<label style="font-size: 1.1em;">Photo</label><br>
+											<input type="file" accept="image/*" ref="photo" @change="dp()"><br>
+											<button type="submit" class="change-dp-btn">Change</button>
+										</form>
+									</div>
 								</div>
 							</div>
+							
 						</div>
 						
 						
@@ -58,18 +61,21 @@
 						<!-- modal for verifying password -->
 		
 						<div id="security-info">
-							<div class="passwordModal" >
-								<div class="modalHeader">
-									<p id="change-password-title">Verify Password</p> <button  @click="closeVerifyPass()" class="x">&times;</button>
-								</div>
-								<div class="modalBody">
-									<form @submit.prevent="changePassword()">
-										<label>Re-type Password</label>
-										<input type="password" v-model="userInfo.verifyPass"  id="verify-pass">
-										<button class="verify-pass-btn">Verify</button>
-									</form>
+							<div class="ModalsBg" id="passwordModal">
+								<div class="passwordModal" >
+									<div class="modalHeader">
+										<p id="change-password-title">Verify Password</p> <button  @click="closeVerifyPass()" class="x">&times;</button>
+									</div>
+									<div class="modalBody">
+										<form @submit.prevent="changePassword()">
+											<label>Re-type Password</label>
+											<input type="password" v-model="userInfo.verifyPass"  id="verify-pass">
+											<button class="verify-pass-btn">Verify</button>
+										</form>
+									</div>
 								</div>
 							</div>
+						
 							<p>Security</p>
 							<div id="forms">
 								<div>

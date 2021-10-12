@@ -9,6 +9,7 @@ var signup = new Vue({
 	},
 	mounted: function(){
 		// alert($('input[name=csrfmiddlewaretoken]').val())
+		alert("Df")
 
 	},
 	methods: {

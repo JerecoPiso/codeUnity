@@ -1,0 +1,273 @@
+
+@media screen and (max-width: 599px){
+	.other-project{
+
+		min-height: auto;
+		
+	}
+	.projects{
+		margin-left: 2%;
+		
+	}
+}
+@media screen and (min-width: 600px) and (max-width: 991px){
+	.projects{
+		margin-left: 4px;
+		
+	}
+	.other-project{
+	
+		min-height: auto;
+		
+	}
+}
+@media screen and (min-width: 992px) and (max-width: 1199px){
+	.other-project{
+		border-right: 1.8px solid rgb(102, 153, 153);
+		min-height: 100vh;
+		
+	}
+}
+
+@media screen and (min-width: 1200px){
+	.other-project{
+		border-right: 1.8px solid rgb(102, 153, 153);
+		min-height: 100vh;
+		
+	}
+}
+body{
+	background-color: rgb(242, 242, 242);
+}
+.bg-white{
+	background-color: rgb(255, 255, 255);
+	margin: 0 1% 1% 1%;
+	height: 100vh;
+	box-shadow: 0px 0px 1px 0px grey;
+}
+.for-other-projects-left{
+	/*background-color: rgb(242, 242, 242);*/
+	height: auto;
+}
+
+.filename{
+	font-size: 100%;
+	color: rgb(255,255,255);
+	float: left;
+	margin-left: 10px;
+	margin-top: 2%;
+}
+.folders-files{
+	display: flex;
+	flex-wrap: wrap;
+	margin: 1% 0% 1% 0%;
+/*	width: 100%;*/
+	box-sizing: border-box;
+
+}
+.folders-files .folder{
+	background-color:  rgb(57, 172, 115);
+	color: rgb(255,255,255);
+	padding: 5% 1% 5% 1%;
+	text-align: center;
+	border-radius: 0.4rem;
+	margin-right: 3%;
+	min-width: 17%;
+	max-width: 17%;
+	font-size: 120%;
+	white-space: nowrap; 
+	text-overflow: ellipsis;
+	overflow: hidden;
+	margin-top: 1%;
+}
+.folders-files .file{
+	white-space: nowrap; 
+	text-overflow: ellipsis;
+	background-color: rgb(230, 230, 230);
+	color: rgb(0, 128, 128);
+	padding: 3% 2% 3% 2%;
+	text-align: center;
+	border-radius: 0.4rem;
+	margin-right: 3%;
+	min-width: 17%;
+	max-width: 17%;
+	font-size: 120%;
+	overflow: hidden;
+	margin-top: 1%;
+	border: none;
+}
+
+.file:hover, .folder:hover{
+	 box-shadow: 5px 5px 5px #888888;
+}
+.fileModal, .photoModal, .responseModal{
+	border-radius: 0.3rem;
+}
+.file_image{
+	width: 100%;
+	height: 400px;
+}
+
+.modalEditor, .imgModal{
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: rgba(0,0,0,0.5);
+}
+.other-project{
+	padding: 0% 1% 0% 1%;
+	margin-top: 0;
+
+	margin-left: -8px;
+	/* min-height: 100vh; */
+	overflow: auto;
+}
+.other-project ul li{
+	padding: 2% 0% 2% 0.5%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 100%;
+}
+
+.path{
+	background-color: rgb(230, 230, 230);
+	padding: 1%;
+
+	border-radius: 0.5rem;
+	color: rgb(0, 128, 128);
+	width: 100%;
+	margin-bottom: 0%;
+}
+.path span{
+	font-size: 250%;
+
+}
+.path b{
+	padding-bottom: 10%;
+	margin-left: 0.5%;
+}
+pre{
+	padding: 0% 2% 2% 2%;
+}
+.projects{
+	font-size: 150%;
+	margin-top: 5%;
+	margin-bottom: -4%;
+	padding-left: 0%;
+	color: rgb(0, 128, 128);
+	font-family: sans-serif;
+	
+}
+
+.project-name{
+	background-color: rgb(255, 255, 255);
+	margin: 0.5% 1% 0% 1%;
+	/*border: 1px solid  rgb(0, 128, 128);*/
+	padding: 1%  1% 1% 0.7%;
+	font-size: 1.2em;
+	/* color: rgb(82, 122, 122); */
+	color: rgb(0, 128, 128);
+	border-radius: 0.1rem;
+	box-shadow: 0px 0px 1px 0px grey;
+}
+.project-name span{
+	float: right;
+	background-color: rgb(255,0,0);
+	color: rgb(255,255,255);
+	font-size: 70%;
+	border-radius: 2rem;
+	padding: 0.3% 0.8% 0.3% 0.8%;
+}
+.project-name cite{
+	color: rgb(153, 153, 153);
+	font-size: 0.8em;
+}
+.project-name strong{
+	color: rgb(0, 128, 128);
+	/* border-bottom: 1.5px solid rgb(0, 128, 128); */
+
+}
+
+.promptModal .err{
+	font-size: 50px;
+	margin-left: 48%;
+	color: rgb(255,0,0);
+}
+.promptModal .success{
+	font-size: 50px;
+	margin-left: 45%;
+	color: rgb(0, 179, 134);
+}
+.promptModal{
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.pull-right{
+	float: right;
+}
+.promptMsg{
+	font-size: 20px;
+}
+
+
+.responseModal{
+	width: 40%;
+	margin-left: 30%;
+	margin-top: 5%;
+	background-color: rgb(255, 255, 255);
+}
+  
+ul li a{
+	font-size: 120%;
+	color: rgba(0, 128,128);
+
+	
+}
+
+ul li:hover a{
+	padding-left: 2%;
+
+	transition: 1s;
+	color: rgb(255, 255, 255);
+}
+ul li:hover{
+	background-color: rgb(0,128,128);
+
+	border-radius: 0.1em;
+	
+}
+.update-code-btn{
+	background-color: rgb(0,128,128);
+	float: right;
+	border: none;
+	color: rgb(255, 255, 255);
+	font-size: 18px;
+	padding: 7px 10px 7px 10px;
+	margin-top: 5px;
+	border-radius: 0.3rem;
+	width: 100px;
+	margin-bottom: 5px;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: rgb(255, 255, 255); 
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+
+  }

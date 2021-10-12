@@ -1,9 +1,9 @@
-{% extends 'html/dashboard/base.html' %}
+{% extends 'html/templates/dashboard_base.html' %}
 
 {% block body %}
 
 	<div class="row mt-1" id="languageFramework">
-			<h5 class="manage"><span class="fa fa-language"></span> <span id="total-project">| [totalLanguage + totalFW] |</span></h5>
+			<h5 class="manage"><span class="fa fa-language"></span> <span id="total-project">| [totalLanguage + totalFW] Languages| </span></h5>
 
 			<div class="col l12 s12 m12 xl12 mt-3" id="table-div">
                 
@@ -23,7 +23,7 @@
 										
 										<!-- {% csrf_token %} -->
 										<label>Language Specialization</label>
-										<select class="language-cat" v-model="language.category"  required>
+										<select class="browser-default language-cat" v-model="language.category"  required>
 											<!-- <option value="" disabled selected> Specialization</option> -->
 											<option>Front-End</option>
 											<option>Back-End</option>
@@ -103,13 +103,13 @@
 									<form id="addFormFramework" @submit.prevent="Framework()">
 										<!-- {% csrf_token %} -->
 										<label>Language</label>
-										<select id="framework-lang" v-model="framework.language_id" required>
+										<select id="framework-lang" class="browser-default" v-model="framework.language_id" required>
 											<option value="" disabled selected>Language</option>
 											<option  v-for="lang in toShowLanguages"  :value="lang.id">[lang.language]</option>
 											
 										</select> 
 										<label>Language Specialization</label>
-										<select class="language-cat" v-model="framework.category"  required>
+										<select class="language-cat browser-default" v-model="framework.category"  required>
 											<option value="" disabled selected>Specialization</option>
 											<option>Front-End</option>
 											<option>Back-End</option>

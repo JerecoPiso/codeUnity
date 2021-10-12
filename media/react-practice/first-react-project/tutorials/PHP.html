@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Java Tutorial</title>
+    <link rel="stylesheet" href="../css/index.css">
+  </head>
+  <body>
+   <ul class="top-links">
+      <b class="signature" style="">codeHub</b>
+      <li>
+        <a href="../index.html">Home</a>
+      </li>
+      <li>
+          <a href="Java.html">Java</a>
+      </li>
+      <li>
+          <a href="PHP.html">PHP</a>
+      </li>
+      <li>
+        <a href="Javascript.html">Javascript</a>
+      </li>
+    <!--  <button class="btn-search">Search</button> -->
+      <li>
+        <a href="tutorials/Csharp.html">C#</a>
+      </li>
+       <li>
+        <a href="tutorials/Python.html">Python</a>
+      </li>
+      <input class="search-input" type="text" />
+    </ul>
+
+            <div class="flex-container" id="root"></div>
+
+
+
+
+
+
+    <script type="text/javascript" src="../js/react.js"></script>
+    <script type="text/javascript" src="../js/react-dom.js"></script>
+    <script type="text/javascript" src="../js/react-router-dom.js"></script>
+    <script type="text/javascript" src="../js/babel.js"></script>
+    <script type="text/babel" >
+
+      const Router = ReactRouterDOM.HashRouter;
+      const Switch = ReactRouterDOM.Switch;
+      const Route = ReactRouterDOM.Route;
+      const Link = ReactRouterDOM.Link;
+
+      var App = props => (
+
+
+          <Router>
+
+              <ul class="side-nav">
+
+                <li class="title"> <a id="topic-title" class="active">PHP</a></li>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/hello_world_app">Hello Word</Link>
+                </li>
+                <li>
+                  <Link to="/php">Accessing Data in Arrays</Link>
+                </li>
+                <li>
+                  <Link to="/dashboard">C#</Link>
+                </li>
+                <li>
+                  <Link to="/dashboard">Javascript</Link>
+                </li>
+
+              </ul>
+
+
+          <Switch>
+                <Route  exact  path="/"><PHP/></Route>
+                <Route path="/hello_world_app"><PHP_Hello_Word/></Route>
+                <Route path="/php" component={C}></Route>
+
+            </Switch>
+
+          </Router>
+
+
+
+      )
+        const Java = props => <h1>Php</h1>
+            const Hello_World = props => <h1>Hello World</h1>
+            const B = props => <h1>B</h1>
+              const C = props => <h1>PHP</h1>
+
+      const hello = "<?php echo 'Hello World'; ?>"
+
+      function PHP_Hello_Word() {
+        return (
+          <div class="flex-item">
+              <h1>Hello World App</h1>
+
+              <div class="codes">
+              		{hello}
+              </div>
+          </div>
+        );
+      }
+
+      function Dashboard() {
+        return (
+          <div class="flex-item">
+            <h2>Dashboard</h2>
+          </div>
+        );
+      }
+      function PHP(){
+
+      	return (
+          <div class="flex-item">
+              <p class="meaning">The PHP Hypertext Preprocessor (PHP) is a programming language that allows web developers to create dynamic content that interacts with databases. PHP is basically used for developing web based software applications. This tutorial helps you to build your base with PHP.</p>
+          </div>
+        );
+
+
+  	  }
+        ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+  </body>
+</html>

@@ -3,55 +3,54 @@
 
 {% block main_page %}
    {% include 'html/templates/header.html' %}
-   <!-- {% load date_converter %} -->
-   	<div  id="signup" style="margin-top: 40px;">
-   		<div class="img-container">
-        <!-- <p class="slogan">We CODE As ONE</p>  -->
-        <p class="slogan">A Place for Coders</p>
-        
-   			<img class="img mt" src="/media/slider.jpg" width="100%" height="500px">
-   		   <form id="form" action="register" method="POST">
-               {% csrf_token %}
-               
-                <p class="form-title">codeUnity</p>
-              
-                <label> Username</label>
-                <input type="text" name="username" v-model="signupInfo.username" @keyup="usernameMonitor" required >
-                <label> Email</label>
-                <input  type="email" name="email" v-model="signupInfo.email" @keyup="emailMonitor"  required>
-             
-                 <label>Password</label>
-                <input type="password" name="password" v-model="signupInfo.password" @keyup="passwordMonitor" required>
-             
-                 <label>Re-type password </label>
-                <input type="password" name="password2"  v-model="signupInfo.password2"  @keyup="password2Monitor" required>
-       
-                <button type="submit" class="btn-signup"   :disabled="btnDisable">Signup</button>
-                <p style="font-size: 13px" class="center-align error" v-html="error"></p>
-                {% if messages %}
-              
-                    {% for message in messages %}
-                    <p {% if message.tags %} class="center-align error2"{% endif %}>{{ message }}</p>
-                    {%endfor %}
-              
-                {% endif %}
-               
-             </form>
-             
+   <div class="front-page">
+         <div class="row">
+               <div class="col s12 m7 l7 xl8">
 
-   		</div>
-      </div>
+                  <p class="slogan">A <strong class="slogan-imp-txt">Place</strong>  for <strong class="slogan-imp-txt">Coders</strong> 
+                     
+                  </p>
+                  <p class="be-part">Be part of our fast growing community, by helping and sharing our ideas  with others together we can reach our goals.</p>
+                  
+               </div>
+               <div class="col s12 m5 l5 xl4"  id="signup" >
+                  <form id="form" action="register" method="POST">
+                     {% csrf_token %}
+                     
+                      <p class="form-title">codeUnity</p>
+                    
+                      <label> Username</label>
+                      <input type="text" name="username" v-model="signupInfo.username" @keyup="usernameMonitor" required >
+                      <label> Email</label>
+                      <input  type="email" name="email" v-model="signupInfo.email" @keyup="emailMonitor"  required>
+                   
+                       <label>Password</label>
+                      <input type="password" name="password" v-model="signupInfo.password" @keyup="passwordMonitor" required>
+                   
+                       <label>Re-type password </label>
+                      <input type="password" name="password2"  v-model="signupInfo.password2"  @keyup="password2Monitor" required>
+             
+                      <button type="submit" class="btn-signup"   :disabled="btnDisable">Signup</button>
+                      <p style="font-size: 13px" class="center-align error" v-html="error"></p>
+                      {% if messages %}
+                    
+                          {% for message in messages %}
+                          <p {% if message.tags %} class="center-align error2"{% endif %}>{{ message }}</p>
+                          {%endfor %}
+                    
+                      {% endif %}
+                     
+                   </form>
+               </div>
+         </div>
+   </div>
+      <!-- the section with white background color -->
       <div class="bg-color">
          <div class="slogan-2">
-         
-               
-            A Helpful Platform for Developers <br>
-        
-            
-       </div>
-
+            A <b class="imp-txt"> Helpful Platform</b>  for <b class="imp-txt"> Developers </b> <br>
+        </div>
        <div class="row cards-row" >
-          <div class="col l4 m6 s12">
+          <div class="col xl4 l4 m6 s12">
              <div class="card card-min-height" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
                 <div class="card-content">
                    <img src="/media/updown.png" class="card-logos upload-download">
@@ -59,11 +58,14 @@
                      Upload projects that you want to share with other developers. <br>
                      Download projects that you will study for,  to hone your skills.
                    </div>
-                </div>             
+                </div>         
+                <div class="hover-content">
+                  <a href="/login/upload-project">Upload Now <span class="fa fa-upload"></span> </a>
+            </div>    
           </div>
       
           </div>
-          <div class="col l4 m6 s12">
+          <div class="col xl4 l4 m6 s12">
              <div class="card card-min-height" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
                 <div class="card-content">
  
@@ -71,13 +73,16 @@
                       <div class="card-desc">
                          Post a question about the problem you encounter in your project, studies, etc. <br>
                          Help other developers solve their problems by answering there questions.
-                      </div>                 
+                      </div>       
+                                
                 </div>
-               
+                <div class="hover-content">
+                  <a href="/login/ask">Ask Now <span class="fa fa-comments"></span> </a>
+            </div>
           </div>
       
           </div>
-          <div class="col l4 m6 s12">
+          <div class="col xl4 l4 m6 s12">
              <div class="card card-min-height" style="border: 0.5px solid rgba(153, 153, 153,0.6)">
                 <div class="card-content">   
                    <img src="/media/s.png" class="card-logos find-dev">
@@ -86,13 +91,71 @@
                         
                       </div>    
                 </div>
-               
+               <div class="hover-content">
+                     <a href="/developers">Find Now <span class="fa fa-search"></span> </a>
+               </div>
           </div>
       
           </div>
        </div>
-      </div>
-     
+       <!-- end class 'cards-row' -->
+   </div>
+   <!-- end class bg-color -->
 
+   <!-- carousel for the top developers of codeunity  -->
+   <div class="top-developers">
+      <p class="p">Top Developers</p>
+      <input type="hidden" id="total-top-devs" value="5">
+      <div class="topDevsCarousel">
+
+            <div class="carousel-item" id="first">
+                  <img src="/media/council.png" alt="" class="img">
+                  <p class="name"> Jereco James Piso<br>    <span>(Web Developer)</span>  </p>
+            </div>
+            <div class="carousel-item">
+                  <img src="/media/dp.jpg" alt="" class="img">
+                  <p class="name">Jereco Piso<br>    <span>(PHP Developer)</span></p>
+            </div>
+            <div class="carousel-item">
+                  <img src="/media/council.png" alt="" class="img">
+                  <p class="name">Jereco Piso <br>    <span>(Graphic Designer)</span></p>
+            </div>
+            <div class="carousel-item">
+               <img src="/media/dp.jpg" alt="" class="img">
+               <p class="name">Jereco Piso</p>
+            </div>
+            <div class="carousel-item">
+                  <img src="/media/council.png" alt="" class="img">
+                  <p class="name">Jereco Piso</p>
+            </div>
+            <div class="carousel-item">
+               <img src="/media/dp.jpg" alt="" class="img">
+               <p class="name">Jereco Piso</p>
+            </div>
+      </div>
+      <!-- class topDevsCarousel end -->
+      <button type="button" class="prev" id="prev" onclick="prevNext('prev')"><span>&larr;</span></button>
+      <button type="button" class="next" id="next" onclick="prevNext('next')"><span>&rarr;</span></button>
+
+   </div>
+   <!-- class top-developers end -->
+
+   <!-- sending message to our website -->
+   <!-- <div id="send-message">
+         <form action="">
+            <p>Send Feedback</p>
+            <label for="">Email</label>
+            <input type="email" placeholder="Your email here . . .">
+            <label for="">Message</label>
+          
+            <textarea  class="materialize-textarea" placeholder="Enter your message here . . ."></textarea>
+            
+            <button type="submit" class="send-msg-btn">Send Message</button>
+            
+         </form>
+   </div>
+    -->
+   <!-- footers section -->
    {% include 'html/templates/footer.html' %}
+
 {% endblock %}

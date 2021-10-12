@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+
+<div id="root"> 
+  
+</div>
+<script type="text/javascript" src="react.js"></script>
+<script type="text/javascript" src="react-dom.js"></script>
+
+<!-- 
+<script type="text/javascript" src="react-router.js"></script> -->
+
+<script type="text/javascript" src="react-router-dom.js"></script>
+
+<script type="text/javascript" src="babel.js"></script>
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.2.0/react-router-dom.js.map"></script> -->
+
+<!-- <script type="text/javascript" src="react-router-dom.js"></script> -->
+<script  type="text/babel">
+
+
+const Router = ReactRouterDOM.HashRouter;
+const Switch = ReactRouterDOM.Switch;
+const Route = ReactRouterDOM.Route;
+const Link = ReactRouterDOM.Link;
+const Redirect =  ReactRouterDOM.Redirect;
+const Prompt =  ReactRouterDOM.Prompt;
+var App = props => (
+   <Router>
+      <QueryParamsDemo />
+    </Router>
+   
+)
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+function useQuery() {
+  return new URLSearchParams(ReactRouterDOM.useLocation().search);
+}
+
+function QueryParamsDemo() {
+  let query = useQuery();
+
+  return (
+    <div>
+      <div>
+        <h2>Accounts</h2>
+        <ul>
+          <li>
+            <Link to="/account?name=netflix">Netflix</Link>
+          </li>
+          <li>
+            <Link to="/account?name=zillow-group">Zillow Group</Link>
+          </li>
+          <li>
+            <Link to="/account?name=yahoo">Yahoo</Link>
+          </li>
+          <li>
+            <Link to="/account?name=modus-create">Modus Create</Link>
+          </li>
+        </ul>
+
+        <Child name={query.get("name")} />
+      </div>
+    </div>
+  );
+}
+
+function Child({ name }) {
+  return (
+    <div>
+      {name ? (
+        <h3>
+          The <code>name</code> in the query string is &quot;{name}
+          &quot;
+        </h3>
+      ) : (
+        <h3>There is no name in the query string</h3>
+      )}
+    </div>
+  );
+}
+
+
+
+  ReactDOM.render(<App />, document.getElementById("root"));
+</script>
+</body>
+</html>

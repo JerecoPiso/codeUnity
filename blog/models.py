@@ -156,3 +156,14 @@ class TempPDF(models.Model):
 
 	def __str__(self):
 		return self.pdfname + " " + self.time_uploaded + " " + self.expiraton
+
+class UserActivityLogs(models.Model):
+	log = models.CharField(max_length=500)
+	admin_id = models.IntegerField()
+	date = models.TextField(max_length=50, blank=True)
+
+	def __str__(self):
+		return self.log + ' ' + self.admin_id + ' ' + self.date
+
+	
+	

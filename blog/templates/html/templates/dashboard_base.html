@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>{{ request.session.title }}</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>{{request.session.title}}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/dashboardDdddd.css' %}">
+	{% if request.session.title == 'Projects' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/projectse.css' %}">
+	{% endif %}
+	{% if request.session.title == 'Language' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/lannguagesd.css' %}">
+	{% endif %}
+	{% if request.session.title == 'Questions' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/questions.css' %}">
+	{% endif %}
+	{% if request.session.title == 'Developers' %}
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/developers.css' %}">
+	{% endif %}
+	{% if request.session.title == "User Profile" %}
+
+		<link rel="stylesheet" href="{% static 'assets/css/dashboard/user_profilexxxxxx.css' %}">
+	{% endif %}
+</head>
+<body>
+	<!-- for the loading animation while the page is not fully display -->
+	<div class="spinner1">
+		<div id="loader" class="center">
+
+		</div>
+	</div>
+	<div class="flex-container">
+		<div class="flex-item-1 bg-color" id="side-nav">
+			<span class="close fa fa-bars"></span>
+			<div class="admin-panel">
+		
+			<img :src="media+dp">
+			<p class="user-name">[username]</p>
+			</div>
+			 <ul>
+			 	<li><span class="fa fa-home"></span><a href="/dashboard/home">Home</a></li>
+			 	<li><span class="fa fa-folder"></span><a href="/dashboard/projects">Projects</a></li>
+			 	<li><span class="fa fa-language"></span><a href="/dashboard/languages">Languages</a></li>
+				<li><span class="fa fa-question"></span><a href="/dashboard/questions">Questions</a></li>
+				<li><span class="fa fa-users"></span><a href="/dashboard/developers">Developers</a></li>
+						 	
+			 </ul>	
+		</div>
+
+		<div class="flex-item-2">
+
+			<div id="top-nav">
+				<button id="show-side-nav"><span class="fa fa-bars"></span></button>
+				<div class="dropdown">
+					<img src="/media/dp.jpg">
+				  <div class="dropbtn"><p>Jereco James Piso <span id="down" class="fa fa-sort-down"></span></p></div>
+				  <div class="drop-content">
+				    <a href="userprofile">Account Settings</a>
+				    <a href="logout">Logout</a>
+				  </div>
+				</div>
+			</div>
+
+			{% block body %}
+
+
+
+			{% endblock %}
+			
+		</div>
+	</div>
+	
+
+<script type="text/javascript" src="{% static 'assets/js/libraries/axios.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/vue.js' %}"></script>	
+<script type="text/javascript" src="{% static 'assets/js/libraries/jquery.js' %}"></script>	
+<script type="text/javascript" src="{% static 'assets/js/libraries/charts.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/moment.js' %}"></script>
+{% if request.session.title == 'Main' %}
+<script type="text/javascript" src="{% static 'assets/js/dashboard/dashboardChartcss.js' %}"></script>
+{% endif %}
+<script type="text/javascript"> 
+	document.onreadystatechange = function() {
+	
+	if (document.readyState !== "complete") {
+		document.querySelector(
+		  "body").style.display = "none";
+		document.querySelector(
+		  ".spinner1").style.display = "block";
+	
+	} else {
+		document.querySelector(
+		  ".spinner1").style.display = "none";
+		document.querySelector(
+		  "body").style.display = "block";
+	}
+};
+$(document).ready(function(){
+	$("#show-side-nav").click(function(){
+		$("#side-nav").show()
+	})
+	
+	$(".close").click(function(){
+		$("#side-nav").hide()
+	})
+
+	$(window).resize(function(){
+       	if(document.body.clientWidth > 991){
+       		$('.flex-item-1').show()
+       		// $('#open').hide() 	
+       	}else{
+			$('.flex-item-1').hide()
+		}
+   	});
+})
+var sideNav = new Vue({
+	delimiters: ['[',']'],
+	el: '#side-nav',
+	data:{
+		dp: '',
+		username: '',
+		media: '/media/',
+		
+	},
+	mounted: function(){
+		this.getAdmininfo()
+	},
+	methods: {
+		
+		getAdmininfo: function(){
+			axios.get('/dashboard/getAdminInfo').then(function(response){
+				if(response.data != "Error"){
+					sideNav.username = response.data[0].username
+					sideNav.dp = response.data[0].file
+					
+				}
+			})
+		}
+	}
+})
+var admin = new Vue({
+	delimiters: ['[',']'],
+	el: "#admin",
+	data:{
+		modal: false,
+		password: '',
+		pass2: '',
+		username: '',
+		dp: '',
+		modalNameStatus: false,
+		modalPassStatus: false,
+		media: '/media/',
+		photo: ''
+	},
+	mounted: function(){
+		this.getAdmininfo()
+	},
+	methods: {
+		photoChanger: function(){
+			admin.photo  = this.$refs.photo.files[0]
+	
+		},
+		changePass: function(){
+			if(admin.password != ""){
+				if(admin.password.length > 7){
+					if(admin.password == admin.pass2){
+						let data = new FormData()
+						data.append('password', admin.password)
+						data.append('pass2', admin.pass2)
+						axios.post('/dashboard/changepass', data,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
+							alert(response.data)
+							admin.showModal()
+							admin.password = ''
+							admin.pass2 = ''
+							// admin.getAdmininfo()
+							// sideNav.getAdmininfo()
+							// admin.photo = ''
+							// admin.showDpModal()
+						})
+					}else{
+						alert("Password didn't matched!")
+					}
+				}else{
+					alert("Password must be at least 8 characters!")
+				}
+			}else{
+				alert("Password can't be empty!")
+			}
+		},
+		changeDp: function(){
+			let data = new FormData()
+			data.append('photo', admin.photo)
+			if(admin.photo != ''){
+				axios.post('/dashboard/changedp', data,{headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}} ).then(function(response){
+					alert(response.data)
+					admin.getAdmininfo()
+					sideNav.getAdmininfo()
+					admin.photo = ''
+					admin.showDpModal()
+				})
+			}else{
+				alert("Photo can't be empty!")
+			}
+			
+		},
+		editname: function(){
+			var newname = prompt("New Username:", admin.username)
+			if(newname != '' && newname != null){
+				let data = new FormData()
+				data.append('username', newname)
+				axios.post("/dashboard/editname", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+					admin.getAdmininfo()
+					sideNav.getAdmininfo()
+				})
+			}
+			
+		},
+		editpass: function(){
+		
+		},
+		getAdmininfo: function(){
+			axios.get('/dashboard/getAdminInfo').then(function(response){
+				if(response.data != "Error"){
+					admin.username = response.data[0].username
+					admin.dp = response.data[0].file
+					
+				}
+			})
+		},
+		showModal: function(){
+			if(admin.modalNameStatus == false){
+				$('#editpassmodal').show()
+				admin.modalNameStatus = true
+			}else{
+				$('#editpassmodal').hide()
+				admin.modalNameStatus = false
+			}
+		},
+		showDpModal: function(){
+			if(admin.modalPassStatus == false){
+				$('#editdpmodal').show()
+				admin.modalPassStatus = true
+			}else{
+				$('#editdpmodal').hide()
+				admin.modalPassStatus = false
+			}
+		}
+	}
+})
+var my_component = {
+	delimiters: ['[', ']'],
+	props:{
+		
+		posted: String
+	},
+	data: function(){
+		return {
+			post: this.posted,
+			date: ''
+		}
+	},
+	created: function(){
+
+		this.date = this.getDate(this.post)
+
+
+	},
+	methods: {
+		getDate: function(val){
+			var now = moment().year()+"-"+(moment().month()+1)+"-"+moment().date()+" "+moment().hour()+":"+moment().minutes()+":"+moment().seconds() 
+			var currDate = moment(now)
+			var dateToTest = moment(val);				 
+			var years = currDate.diff(dateToTest, 'years')
+			var months = currDate.diff(dateToTest, 'months')
+			var weeks = currDate.diff(dateToTest, 'weeks')
+			var days = currDate.diff(dateToTest, 'days')
+			var hours = currDate.diff(dateToTest, 'hours')
+			 var minutes = currDate.diff(dateToTest, 'minutes')
+			   // check year if less than or equal to 1
+			   if(years <= 1){
+					 // check months if less than 1
+					 if (months < 12) {
+							 // check if months is less than or equal to 1
+						   if(months <= 1){
+							   // check if weeks
+							   if (weeks > 4) {
+								   return(months+" month ago")
+							   // check if weeks is greater than 1 and less than 5
+							   }else if (weeks > 1 && weeks < 5){
+
+								   return(weeks+" weeks ago")
+
+							   }else{
+								   // check if weeks is equal to 1 and days is equal to 7
+								   if (weeks == 1 && days == 7) {
+
+									   return(weeks+" week ago")
+
+								   }else{
+									   // check if days is greater than 1 and days is less than 7
+									   if (days > 1 && days < 7) {
+										   return(days+" days ago")
+									   }else{
+										   // check if days is equal to 1 and hours is equal to 24
+										   if(days == 1){
+										   
+											   return(days+" day ago")
+											   
+										   }else{
+
+											   if(hours > 1 && hours < 24){
+												   return(hours+" hours ago")
+											   }else if(hours >= 24){
+												 var day = hours/24
+
+													   if(Math.floor(day) > 1){
+														   return(Math.floor(day)+" days ago")
+													   }else{
+														   return(Math.floor(day)+" day ago")
+													   }
+
+											   }else{
+
+												   if(minutes == 60 && hours == 1){
+													   return(hours+" hour ago")
+												   }else if(minutes >= 60){
+													   var hour = minutes/60
+
+													   if(Math.floor(hour) > 1){
+														   return(Math.floor(hour)+" hours ago")
+													   }else{
+														   return(Math.floor(hour)+" hour ago")
+													   }
+
+												   }else{
+													   if (minutes > 1 && minutes == 60) {
+														   return(minutes+" minutes ago")
+													   }else{
+														   if(minutes == 1){
+															return(minutes+" minute ago")
+														   }else if(minutes == 0){
+															return("now")
+														   }else{
+															return(minutes+" minutes ago")
+														   }
+														   
+													   }
+												   }
+											   }
+											   
+										   }
+									   
+									   }
+								   }
+								   
+							   }
+
+						   }else{
+							   return(months+" months ago")
+						   }
+					   }else{
+						   return(years+" year ago")
+					   }
+			   }else{
+					   return(years + " years ago")
+			   }
+			   
+		}
+	},
+	template: "<span> ( [date] )  </span>"
+
+}
+var devs = new Vue({
+	delimiters: ['[', ']'],
+	el: "#devs",
+	data:{
+		developers: [],
+		src: '/media/',
+		totalDevs: '',
+		filter: '',
+		limitToShow: [],
+		devsToShowCtr: 0
+	},
+	mounted: function(){
+		this.getDevs()
+	},
+	computed: {
+		 filterDevs(){
+			return this.developers.filter(filteredDevs => {
+				const uname = filteredDevs.uname.toString().toLowerCase()
+				const expertise = filteredDevs.expertise.toString().toLowerCase()
+				const searchTerm  = this.filter.toLowerCase()
+
+				return(
+					uname.includes(searchTerm) || expertise.includes(searchTerm)
+				)
+
+			})
+		 }
+	 },
+	methods:{
+		getDevs: function(){
+			axios.get("getDevs").then(function(response){
+				devs.developers = response.data
+				if(response.data.length > 1){
+					devs.totalDevs = response.data.length +" Developers"
+				}else{
+					devs.totalDevs = response.data.length +" Developer"
+				}
+				var devs_length = response.data.length
+					if(devs_length >= 10){
+						var ctr = devs_length/10;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+							// if(i == 0){
+							// 	projects.limitToShow.push(2)
+							// }else if(i == 1){
+								devs.limitToShow.push(10*i)
+							// }else{
+							// 	projects.limitToShow.push(2*i)
+							// }
+							
+						}
+						if(Math.floor(ctr)*10 != devs_length){
+							devs.limitToShow.push(devs_length)
+							
+						}
+						devs.devsToShowCtr = 10
+					}else{
+						devs.limitToShow.push(devs_length)
+						devs.devsToShowCtr = devs_length
+					}
+			}).catch(function(err){
+				console.log(err)
+			})
+		}
+	}
+})
+ var questions = new Vue({
+	 delimiters: ['[', ']'],
+	 el: "#questions",
+	 data:{
+		 question_cat: [],
+		 category: '',
+		 toShowLanguages: [],
+		 id: '',
+		 filter: '',
+		 newCategory: '',
+		 allQuestions: [],
+		 limitToShow: [],
+		 questionToShowCtr: 0,
+		 selectedLanguage: '',
+		 totalQuestions: 0
+	 },
+	 mounted: function(){
+		this.getCategories()
+		this.getLanguages()
+		this.getQuestions()
+		
+	 },
+	 components:{
+		 'date-posted': my_component
+	 },
+	 methods:{
+		 filterByLanguage: function(){
+			questions.filter = questions.selectedLanguage
+		 },
+		addCategory: function(){
+			let data = new FormData()
+			data.append("category", questions.category)
+			axios.post("addCategory", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+				if(response.data == "Question Category added successfuly"){
+					questions.getCategories()
+					questions.getCategories()
+					questions.category = ""
+					alert(response.data)
+				}
+				
+			})
+		},
+		deleteQuestionCat: function(){
+			if (confirm("Are you sure you want to delete this data?") == true) {
+				let data = new FormData()
+				data.append("id", questions.id)
+	
+				axios.post("deleteQuestionCategory", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+
+					alert(response.data)
+					questions.getCategories()
+					
+				})
+			} 
+		},
+		editQuestionCat: function(){
+			var newCat = prompt("Enter New Question Category", questions.newCategory)
+			if(newCat != "" && newCat != null){			
+					let data = new FormData()
+					data.append("id", questions.id)
+					data.append("category", newCat)
+					axios.post("editQuestionCategory", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+						alert(response.data)
+						questions.getCategories()
+					})			
+			}
+			
+		},
+		getCategories: function(){
+			 axios.get("getCategory").then(function(response){
+				questions.question_cat = response.data
+			 })
+		 },
+		 getQuestions: function(){
+			axios.get("getQuestions").then(function(response){
+				questions.totalQuestions = response.data.length
+				questions.allQuestions = response.data
+			
+					var questions_length = response.data.length
+					if(questions_length >= 5){
+						var ctr = questions_length/5;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+							// if(i == 0){
+							// 	projects.limitToShow.push(2)
+							// }else if(i == 1){
+								questions.limitToShow.push(5*i)
+							// }else{
+							// 	projects.limitToShow.push(2*i)
+							// }
+							
+						}
+						if(Math.floor(ctr)*5 != questions_length){
+							questions.limitToShow.push(questions_length)
+							
+						}
+						questions.questionToShowCtr = 5
+					}else{
+						questions.limitToShow.push(questions_length)
+						questions.questionToShowCtr = questions_length
+					}
+				
+			})
+		 },
+		 getLanguages: function(){
+			axios.get('getLanguages').then(function(response){
+				
+				if(response.data == "Failed"){
+					alert("Unable to retrieve Languages!")
+				}else{
+				
+					questions.toShowLanguages = response.data
+				}
+			})
+		}
+	 },
+	 computed: {
+		 filterQuestions(){
+			 return this.allQuestions.filter(filteredQuestions => {
+				const question = filteredQuestions.question.toString().toLowerCase()
+				const language = filteredQuestions.language.toString().toLowerCase()
+				const searchTerm = this.filter.toLowerCase()
+				return (
+					question.includes(searchTerm) || language.includes(searchTerm)
+				)
+			 })
+		 }
+	 }
+ })
+ var projects = new Vue({
+ 	 delimiters: ['[', ']'],
+	 el: "#projects-dash",
+	 data:{
+		filter: "",
+		languages: [],
+		toShowProjects: [],
+		limitToShow: [],
+		projectToShowCtr: 0,
+		selectedLanguage: '',
+		totalProjects: ''
+	 },
+	 mounted: function(){
+		 
+		 this.getLanguages();
+		 this.getProjects()
+	 },
+	 components:{
+		'date-posted': my_component
+	 },
+	 computed: {
+		filterProject() {
+			return this.toShowProjects.filter(filteredProject => {
+				
+				const project_name = filteredProject.project_name.toString().toLowerCase();
+				const language = filteredProject.language.toLowerCase();
+				const searchTerm = this.filter.toLowerCase();
+				
+				return (
+					project_name.includes(searchTerm) || language.includes(searchTerm)
+				
+				);
+		
+			
+			});
+			
+   		 },
+	 },
+	 methods:{
+		
+		filterValue: function(h){	
+			projects.filter = projects.selectedLanguage
+		
+		},
+		getLanguages: function(){
+			axios.get('getLanguages').then(function(response){
+				if(response.data == "Failed"){
+					alert("Unable to retrieve Languages!")
+				}else{
+					projects.languages = response.data
+				}
+			})
+		},
+		getProjects: function(){
+			axios.get('getProjects').then(function(response){
+				if(response.data == "Failed"){
+					alert("Unable to retrieve Projects!")
+				}else{
+					if(response.data.length > 1){
+						projects.totalProjects = response.data.length.toString()+ " Projects"
+					}else{
+						projects.totalProjects = response.data.length.toString()+ " Project"
+					}
+					
+					projects.toShowProjects = response.data
+					var project_length = response.data.length
+					if(project_length >= 5){
+						var ctr = project_length/5;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+							// if(i == 0){
+							// 	projects.limitToShow.push(2)
+							// }else if(i == 1){
+								projects.limitToShow.push(5*i)
+							// }else{
+							// 	projects.limitToShow.push(2*i)
+							// }
+							
+						}
+						if(Math.floor(ctr)*5 != project_length){
+							projects.limitToShow.push(project_length)
+							
+						}
+						projects.projectToShowCtr = 5
+					}else{
+						projects.limitToShow.push(project_length)
+						projects.projectToShowCtr = project_length
+					}
+				
+					
+				}
+			})
+		},
+		
+	 }
+ })
+ var languages = new Vue({
+	 delimiters: ['[', ']'],
+	 el: "#languageFramework",
+	 data:{
+		language: {category: '', lang: '', id: ''},
+		framework: {language_id: '', framework: '', id: '', category: ''},
+		toShowLanguages: [],
+		toShowFrameworks: [],
+		showAddLanguage: false,
+		showAddFramework: false,
+		languageFunction: '',
+		frameworkFunction: '',
+		languageBtn: '',
+		frameworkBtn: '',
+		csrf_token: '',
+		languageCtr: 0,
+		frameworkCtr: 0,
+		searchLanguage: '',
+		searchFramework: '',
+		limitToShowLanguage: [],
+		limitToShowFramework: [],
+		totalFW: 0,
+		totalLanguage: 0,
+	
+	 },
+	 mounted: function(){
+		this.getLanguages()
+		this.getFrameworks()
+	
+
+	
+	
+		
+	 },
+	 computed: {
+		filterLanguage() {
+			return this.toShowLanguages.filter(filteredLanguage => {
+				// alert(filteredLanguage.language)
+				const lang = filteredLanguage.language.toString().toLowerCase();
+				const cat = filteredLanguage.category.toLowerCase();
+				const searchTerm = this.searchLanguage.toLowerCase();
+			
+				return (
+					lang.includes(searchTerm) || cat.includes(searchTerm)
+				
+				);
+		
+			
+			});
+			
+			},
+		filterFramework(){
+			return this.toShowFrameworks.filter( filteredFramework => {
+
+				const fw = filteredFramework.framework.toString().toLowerCase();
+				const lang = filteredFramework.language.toString().toLowerCase()
+				const cat = filteredFramework.category.toString().toLowerCase()
+				const searchVal = this.searchFramework.toLowerCase()
+
+				return(
+					fw.includes(searchVal) || lang.includes(searchVal) || cat.includes(searchVal)
+				)
+
+
+			})
+		}
+	 },
+	 methods:{
+		Language: function(){
+			let data = new FormData()
+			data.append("category", languages.language.category)
+			data.append("language", languages.language.lang)
+		
+			if(languages.languageFunction == 'update'){
+
+				data.append("id", languages.language.id)
+			}
+			axios.post(languages.languageFunction+"Language", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+
+					alert(response.data)
+					languages.language.category = ""
+					languages.language.lang = ""
+					languages.limitToShowLanguage = []
+					languages.getLanguages()
+
+			})
+
+
+		},
+		Framework: function(){
+			let data = new FormData()
+			data.append("framework", languages.framework.framework)
+			data.append("language_id", languages.framework.language_id)
+			data.append("category", languages.framework.category)
+			// alert(languages.framework.framework)
+			if(languages.frameworkFunction == 'update'){
+				data.append("id", languages.framework.id)
+				
+			}
+		
+			
+			axios.post(languages.frameworkFunction+"Framework", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+					alert(response.data)
+					languages.framework.language_id = ''
+					languages.framework.category = ''
+					languages.framework.framework = ''
+					languages.limitToShowFramework = []
+					languages.getFrameworks()
+				})
+			
+		},
+		deleteLanguage: function(){
+			if (confirm("Are you sure you want to delete this data?") == true) {
+				let data = new FormData()
+				data.append("id", languages.language.id)
+				
+				axios.post("deleteLanguage", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+				
+					alert(response.data)
+					languages.limitToShowLanguage = []
+					languages.getLanguages()
+					
+				})
+			} 
+		},
+		deleteFrameworks: function(){
+			if (confirm("Are you sure you want to delete this data?") == true) {
+				let data = new FormData()
+				data.append("id", languages.framework.id)
+	
+				axios.post("deleteFramework", data, {headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value}}).then(function(response){
+
+					alert(response.data)
+					languages.limitToShowFramework = []
+					languages.getFrameworks()
+					
+				})
+			} 
+		},
+		getLanguages: function(){
+			axios.get('getLanguages').then(function(response){
+				if(response.data == "Failed"){
+					alert("Unable to retrieve Languages!")
+				}else{
+					
+					languages.toShowLanguages = response.data
+					languages.totalLanguage = response.data.length
+					// languages.languageCtr = languages.toShowLanguages.length
+					var languages_length = response.data.length
+					if(languages_length >= 5){
+						var ctr = languages_length/5;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+						
+								languages.limitToShowLanguage.push(5*i)
+						
+						}
+						if((Math.floor(ctr)*5) != languages_length){
+							languages.limitToShowLanguage.push(languages_length)
+							
+						}
+						languages.languageCtr = 5
+					}else{
+						languages.limitToShowLanguage.push(languages_length)
+						languages.languageCtr = languages_length
+					}
+					
+				}
+			})
+		},
+		getFrameworks: function(){
+			axios.get('getFrameworks').then(function(response){
+			
+					languages.toShowFrameworks = response.data
+					// languages.frameworkCtr = languages.toShowFrameworks.length
+
+					var fw_length = response.data.length
+					languages.totalFW = fw_length
+					
+					if(fw_length >= 5){
+						var ctr = fw_length/5;
+						
+						for(var i = 1; i <= Math.floor(ctr); i++){
+
+								languages.limitToShowFramework.push(5*i)
+						
+						}
+						if((Math.floor(ctr)*5) < fw_length){
+							languages.limitToShowFramework.push(fw_length)
+							
+						}
+						languages.frameworkCtr = 5
+					}else{
+						languages.limitToShowFramework.push(fw_length)
+						languages.frameworkCtr = fw_length
+					}
+					
+			})
+		}
+	 }
+ })
+
+</script>
+</body>
+</html>

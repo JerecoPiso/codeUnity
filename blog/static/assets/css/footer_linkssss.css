@@ -38,9 +38,16 @@
     
     }
 }
-body{
-    background-color: rgba(230, 230, 230,0.5);
+.about{
+    margin-top: 2px;
 }
+.about li{
+    list-style-type: square;
+    margin-bottom: 1.5%;
+    margin-left: -0.5%;
+  
+}
+
 .aboutUs{
     border: 0.5px solid rgba(153, 153, 153,0.6);
     background-color: rgb(255, 255, 255);
@@ -50,6 +57,9 @@ body{
     font-size: 1.1em;
   
     margin: 70px 10% 10% 8%
+}
+body{
+    background-color: rgba(230, 230, 230,0.5);
 }
 .content strong{
     font-size: 1.8em;
@@ -62,13 +72,4 @@ body{
 #ul li{
     list-style-type: square;
     margin-bottom: 2%;
-}
-.about{
-    margin-top: 2px;
-}
-.about li{
-    list-style-type: square;
-    margin-bottom: 1.5%;
-    margin-left: -0.5%;
-  
 }

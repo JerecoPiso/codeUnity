@@ -1,0 +1,333 @@
+
+@media screen and (max-width: 699px){
+	#login-form, #signup-form, #verify-form{
+		background-color: rgb(239, 245, 245);
+		width: 90%;
+	
+		margin-left: 5%;
+		padding: 5%;
+		margin-top: 20%;
+		border-radius: 1rem
+	}
+	#recovery-code , #enternewpass{
+	
+		width: 80%;
+		margin-left: 10%;
+		margin-top: 10em;
+		
+	}
+	.recover form{
+		margin-top: 10em;
+		margin-left: 15%;
+		width: 70%;
+		padding: 2% 5% 4% 5%;
+	}
+}
+@media screen and (min-width: 700px) and (max-width: 991px){
+	
+	#login-form, #signup-form, #verify-form{
+		background-color: rgb(239, 245, 245);
+		width: 50%;
+		margin-left: 25%;
+		padding: 4%;
+		margin-top: 15%;
+		border-radius: 1rem
+	}
+	#recovery-code , #enternewpass{
+	
+		width: 50%;
+		margin-left: 25%;
+		margin-top: 20em;
+		
+	}
+	.recover form{
+		margin-top: 15em;
+		margin-left: 25%;
+		width: 50%;
+		padding: 2% 4% 3% 4%;
+	}
+}
+@media screen and (min-width: 992px) and (max-width: 1199px){
+	#login-form, #signup-form, #verify-form{
+		background-color: rgb(239, 245, 245);
+		width: 27%;
+		margin-left: 37%;
+		padding: 1.8%;
+		margin-top: 20em;
+		border-radius: 1rem
+	}
+	#recovery-code , #enternewpass{
+	
+		width: 30%;
+		margin-left: 35%;
+		margin-top: 13em;
+		
+	}
+	.recover form{
+		margin-top: 25em;
+		margin-left: 35%;
+		width: 30%;
+		padding: 1% 2% 2% 2%;
+	}
+}
+@media(min-width: 1200px){
+	#login-form, #signup-form, #verify-form{
+		background-color: rgb(239, 245, 245);
+		width: 27%;
+		margin-left: 37.5%;
+		padding: 1.7%;
+		margin-top: 5%;
+		border-radius: 1rem
+	}
+	#recovery-code , #enternewpass{
+	
+		width: 30%;
+		margin-left: 35%;
+		margin-top: 10em;
+		
+	}
+	.recover form{
+		margin-top: 10em;
+		margin-left: 35.8%;
+		width: 30%;
+		padding: 1% 2% 2% 2%;
+	}
+}
+
+
+#btn-login, #btn-signup, #btn-verify{
+	width: 100%;
+	padding: 3%;
+	
+	background-color: rgb(0, 128, 128);
+	color: rgb(255,255,255);
+	border: none;
+	font-family: sans-serif;
+	font-size: 1.1em;
+	border-radius: 0.2em;
+}
+body{
+	background-color:  rgb(0, 128, 128);
+}
+#border_none{
+	border: none;
+}
+.error{
+	background-color: #ff5252 ;
+	color: rgb(255,255,255);
+	border-radius: 0.7rem;
+	padding: 2%;
+	margin-top: 1%;
+	font-size: 15px;
+	display: none;
+	
+}
+
+.error2{
+	background-color: #ff5252 ;
+	color: rgb(255,255,255);
+	border-radius: 0.7rem;
+	padding: 2%;
+	margin-top: 1%;
+	font-size: 15px;
+
+	
+}
+/* for the recovery code */
+.error-msg{
+	background-color: #ff5252 ;
+	color: rgb(255,255,255);
+	border-radius: 0.2rem;
+	padding: 2%;
+	margin-top: 1%;
+	font-size: 1em;
+	text-align: center;
+}
+.form{
+	margin-top: -7%;
+	height: 787px;
+    width: 100%;
+    padding-top: 10%;
+}
+#forgot-password{
+	background-color: transparent;
+	border: none;
+	padding: 10px 0 10px 0 ;
+	font-size: 16px;
+	color: rgb(102, 102, 102);
+	
+
+}
+.form-title{
+	text-align: center;
+	font-size: 190%;
+	margin-top: -2%;
+	margin-bottom: 40px;
+	color: rgb(0, 128, 128);
+
+}
+#login-form label, #signup-form label, #verify-form label{
+	font-size: 100%;
+	color: rgb(0,0,0);
+	
+	font-weight: bold;
+}
+.login-logo, .signup-logo{
+	border-radius: 60%;
+	width: 20%;
+	margin-bottom: 10%;
+	margin-left: 37%;
+	display: block;
+}
+#login-form div input, #signup-form div input, #verify-form div input{
+	border: 1px solid rgb(0, 128, 128);
+	height: 35px;
+	border-radius: 0.3rem;
+	margin-bottom: 3%;
+	
+}
+#login-form input:focus, #signup-form input:focus, #verify-form input:focus{
+	border: 1px solid rgb(0, 128, 128);
+   
+    padding-left: 0.5%;
+}
+#login-form div, #signup-form div, #verify-form div{
+	margin-top: -10%;
+}
+/* for the login link after changing password */
+.login-now{
+	color: rgb(0,128,128);
+	background-color: rgb(255,255,255);
+	padding: 0.5em 1.5em 0.5em 1.5em;
+	border-radius: 0.5em;
+	margin: 5em;
+	
+}
+.mr-3{
+	margin-right: 3px;
+}
+
+.mt-0{
+	margin-top: 0;
+}
+.mb-15{
+	margin-bottom: 15px;
+}
+
+.mt-7{
+	margin-top: 7px
+}
+#recovery-code , #enternewpass{
+	background-color: rgb(255,255,255);
+	/* width: 30%; */
+	padding: 0.8em 1.5em 1.5em 1.5em;
+	/* margin-left: 35%;
+	margin-top: 10em; */
+	border-radius: 0.3em;
+}
+#recovery-code form .btn-submit, #enternewpass form .btn-submit{
+	width: 100%;
+	padding: 0.5em;
+	border: none;
+	color: rgb(255,255,255);
+	background-color: rgb(0, 128, 128);
+	border-radius: 0.2em;
+	margin-top: -1em;
+}
+#recovery-code form p, #enternewpass form p{
+	/* background-color: rgb(0, 128, 128);
+	color: rgb(255,255,255); */
+	/* font-weight: bold; */
+	font-size: 1.5em;
+	padding: 0 0 0.4em 0;
+	border-radius: 0.2em;
+	text-align: center;
+	margin: 0.2em 0 0.5em 0;
+}
+#recovery-code form label, #enternewpass form label{
+	font-size: 1em;
+}
+/* modal form in the login page for entering email to send verification */
+.recover{
+	background-color: rgba(0,0,0,0.7);
+	height: 100%;
+	width: 100%;
+	top: 0;
+	position: fixed;
+	display: none;
+}
+.recover form{
+	
+	background-color: rgb(255,255,255);
+	
+	
+	border-radius: 0.2em;
+}
+.recover form p{
+	margin: 0 0 2% 0;
+	clear: both;
+	font-size: 1.2em;
+}
+
+.recover form #submit{
+	width: 100%;
+	margin-top: -1%;
+	padding: 0.5em;
+	background-color: rgb(0, 128, 128);
+	color: rgb(255,255,255);
+	border-radius: 0.2em;
+	border: none;
+}
+.recover form #close{
+	/* background-color: rgb(255,0,0); */
+	border: none;
+	color: rgb(255,0,0);
+	background-color: transparent;
+	border-radius: 0.2em;
+	margin-top: 2%;
+	float: right;
+	font-size: 1.8em;
+	margin-right: -6%;
+	margin-top: -5%;
+}
+.recover form input::placeholder{
+	font-size: 0.8em;
+}
+/* end for email modal in sending verification */
+
+#signup-link, #login-link{
+	
+	color: rgb(0, 128, 128);
+	border: 1.5px solid rgba(153, 153, 153,0.6);
+	padding: 2%;
+	margin: auto;
+	display: block;
+	width: 80%;
+	font-size: 17px;
+	border-radius: 0.4rem;
+	text-align: center;
+}
+.site-name{
+	font-size: 200%;
+	color: rgb(0, 128, 128);
+	text-align: center;
+}
+.success-msg{
+	background-color: rgb(0, 179, 89);
+	color: rgb(255,255,255);
+	border-radius: 0.2rem;
+	padding: 2%;
+	margin-top: 1%;
+	font-size: 1em;
+	text-align: center;
+
+}
+.verify-notice{
+	color: rgb(255,0,0);
+}
+::-webkit-scrollbar{
+	display: none;
+}
+::placeholder{
+	font-size: 0.8em;
+}

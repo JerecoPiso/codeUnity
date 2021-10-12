@@ -12,11 +12,15 @@ urlpatterns = [
      url(r'^home', dashboard_views.home, name="Home"),
      url(r'^developers', dashboard_views.developers, name="Home"),
      url(r'^logout', dashboard_views.logout, name="Home"),
+     url(r'^userprofile', dashboard_views.userprofile, name="User Profile"),
 
      # updating database
      url(r'^updateLanguage', dashboard_views.updateLanguage, name="Update Language"),
      url(r'^updateFramework', dashboard_views.updateFramework, name="Update Framework"),
      url(r'^editQuestionCategory', dashboard_views.editQuestionCategory, name="Edit Question Category"),
+     url(r'^editname', dashboard_views.editname, name="Edit Username"),
+     url(r'^changedp', dashboard_views.changeDp, name="Change Profile"),
+     url(r'^changepass', dashboard_views.changepass, name="Change Password"),
      
      # getting data to database
      url(r'^getQuestions', dashboard_views.getQuestions, name="Get Questions"),
@@ -27,6 +31,7 @@ urlpatterns = [
      url(r'^getMostDownloadedApp', dashboard_views.getMostDownloadedApp, name="getMostDownloadedApp"),
      url(r'^getMostViewedQuestions', dashboard_views.getMostViewedQuestions, name="getMostViewedQuestions"),
      url(r'^getDevs', dashboard_views.getDevs, name="getDevs"),
+     url(r'^getAdminInfo', dashboard_views.getAdminInfo, name="Get Admin Info"),
      url(r'^getDevices', dashboard_views.getDevices, name="getDevs"),
      url(r'^yearlyVisitors', dashboard_views.getYearlyVisitors, name="Yearly Visitors"),
 

@@ -2,7 +2,7 @@
 
 {% block login_signup_verify %}
 		
-		
+				
 				<div class="form" id="login">
 					<form action="/userLogin/{{redirect}}" method="POST" id="login-form" >
 						{% csrf_token %}
@@ -15,21 +15,38 @@
 							<input type="email" class="login-input" name="email" required autocomplete="email">
 							<label>Password</label>
 							<input type="password" name="password" required>
-							<button type="submit" id="btn-login">Login</button>
+							<button type="submit" id="btn-login">Login </button>
                             {% if messages %}
                             <ul class="messages">
                                 {% for message in messages %}
-                                <li{% if message.tags %} class="center-align error2"{% endif %}>{{ message }}</li>
-                                {% endfor %}
+                                <!-- <li{% if message.tags %} class="center-align error2"{% endif %}>{{ message }}</li> -->
+									{% if message.tags == 'info' %}
+									<li  class="center-align error2 {{ message.tags }}"> {{message}}</li> 
+									{% else %}
+										<li  class="success-msg {{ message.tags }}"> {{message}}</li> 
+									{% endif %}
+								{% endfor %}
                             </ul>
                             {% endif %}
-         
-							<p class="mt-7"><a href="" id="forgot-password">Forgot password?</a></p>
+						
+							<p class="mt-7"><a href="javascript:void(0)" id="forgot-password">Forgot password?</a></p>
 							
 						
 							<a href="/signup/{{redirect}}" id="signup-link">Create an account</a>
 						</div>				
 					</form>
 				</div>
-			
+				
+				<div class="recover" id="email-form">
+						<form @submit.prevent="sendVerification()">
+							{% csrf_token %}
+							
+								<button type="button" id="close" @click="close()">&times;</button>
+							
+								<p>Recover Account</p>
+								<label for="">Email</label>
+								<input type="email" v-model="email" placeholder="Enter your email here . . ." required>
+								<button type="submit" id="submit">[btnStatus]</button>
+						</form>
+				</div>
 {% endblock %}

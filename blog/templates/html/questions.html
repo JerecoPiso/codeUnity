@@ -23,7 +23,7 @@
 		</div>
 	</div> -->
 	<div class="row row-mt">
-		<div class="col s12 m12 xl9 l9">
+		<div class="col s12 m12 xl9 l8">
 			<div  id="question-box">
 				
 			<div class="questions-total-small-device">
@@ -57,11 +57,15 @@
 			</div>
 			
 			<!-- <strong>Questions</strong> -->
+			{% if toSearch and  questions %}
+				<p class="result-for">Result for: <i>"
+							{{toSearch}}"</i> </p>
+			{% endif %}
 			<ul class="questions-box " id="ques">
 				{% for question in questions %}
 				<li class="question">
-					<a href="/question/{{question.id}}">{{ question.question }}</a> <br>
-					<cite class="time-counter">Posted by: Jereco James Piso <i style="font-size: 10px;"><date-posted posted="{{question.date}}"></date-posted></i></cite>
+					<a href="/question/{{question.question|slugify}}/{{question.id|urlencode}}">{{ question.question }}</a> <br>
+					<cite>Posted by: Jereco James Piso <i style="font-size: 10px;"><date-posted posted="{{question.date}}"></date-posted></i></cite>
 
 
 					<div class="infos">
@@ -72,8 +76,10 @@
 					{% if question.tags %}
 					<cite style="font-style: normal;">Tags</cite>
 
+					<!-- <div id="ques"> -->
+						<my-component tags="{{question.tags}}"></my-component>
+					<!-- </div>s -->
 					
-					<my-component tags="{{question.tags}}"></my-component>
 					{% endif %}
 				
 				</li>
@@ -105,7 +111,7 @@
 			</div>  
 		  </div>	
 		</div>
-		<div class="col s12 m12 xl3 l">
+		<div class="col s12 m12 xl3 l4">
 			<div class="questions-total-large-device">
 				{% if total_questions > 1 %}
 						{{total_questions}} Questions
@@ -119,7 +125,7 @@
 			<p class="hot-topics">Hot Topics	</p>
 			<ul class="hot-topic">
 				 {% for topic in hot_topics %}
-				<li> <a href="/question/{{topic.id}}">{{topic.question}}</a></li>
+				<li> <a href="/question/{{topic.question|slugify}}/{{topic.id}}">{{topic.question}}</a></li>
 				{% endfor %}
 			</ul>
 		</div> 

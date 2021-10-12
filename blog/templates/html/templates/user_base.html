@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>{{request.session.title}}</title>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/summernote-lite.min.css' %}"> 
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/userseee.css' %}">
+	
+	{% if request.session.title == 'Home' %}
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/chart.css' %}">
+	{% endif %}
+
+	{% if request.session.title == 'Projects' %}
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/projects.css' %}">
+	{% endif %}
+
+	{% if request.session.title == 'Questions' %}
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/questions.css' %}">
+	{% endif %}
+
+	{% if request.session.title == 'Settings' %}
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/settings.css' %}">
+	{% endif %}
+
+	{% if request.session.title == 'Project Files' %}
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/prism-editorr.css' %}">
+    	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/libraries/prism-tomorroww.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/project_files.css' %}">
+	{% endif %}
+	<!-- the design here for the modals are working with other page  like the the reponse modal after a axios request -->
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/modals.css' %}">
+
+	{% if request.session.title == 'Complete Information' %}
+		<link rel="stylesheet" type="text/css" href="{% static 'assets/css/users/completeinfsss.css' %}">
+	{% endif %}
+
+
+</head>
+<style>
+   
+
+
+</style>
+<body>
+	<div class="spinner1">
+
+		<div id="loader" class="center">
+
+		</div>
+	</div>
+	{% block user_page %}
+
+
+	{% endblock %}
+	
+<script src="{% static 'assets/js/libraries/jquery.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/js/libraries/moment.js' %}" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/vue.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/axios.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/libraries/summernote-lite.js' %}"></script>
+
+{% if request.session.title == 'Home' %}
+	<script src="{% static 'assets/js/libraries/charts.js' %}" type="text/javascript"></script>
+	<script type="text/javascript" src="{% static 'assets/js/user/home.js' %}"></script>
+{% endif %}
+
+{% if request.session.title == 'Projects' %}
+	<script src="{% static 'assets/js/user/projects.js' %}" type="text/javascript"></script>
+{% endif %}
+
+{% if request.session.title == 'Questions' %}
+	<script src="{% static 'assets/js/user/questions.js' %}" type="text/javascript"></script>
+{% endif %}
+
+{% if request.session.title == 'Project Files' %}
+	<script type="text/javascript" src="{% static 'assets/js/libraries/vue-prism-editor.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/libraries/prism.js' %}"></script>
+	<script src="{% static 'assets/js/user/project_filesd.js' %}" type="text/javascript"></script>
+{% endif %}
+
+<script type="text/javascript" src="{% static 'assets/js/user/countriesLists.js' %}"></script>
+<script src="{% static 'assets/js/user/settings.js' %}" type="text/javascript"></script>
+
+{% if request.session.title != "Complete Information" %}
+	<script type="text/javascript" src="{% static 'assets/js/user/mainbbb.js' %}"></script>
+{% endif %}
+
+</body>
+</html>

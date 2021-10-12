@@ -13,13 +13,18 @@ urlpatterns = [
      url(r'^completeinfo', views.completeinfohtml, name="Complete Information HTML"),
      url(r'^setmoreinfo', views.setMoreInfo, name="Set Information HTML"),
      url(r'^verify', views.verify, name="Verify"),
-
+     url(r'^recoveraccount', views.recoveraccount, name='Recover Account'),
+     url(r'^recoverycode', views.enterRecoveryCode, name="Enter Recovery Code"),
+     url(r'^checkrecoverycode', views.checkRecoveryCode, name="Check Recovery Code"),
+     url(r'^enternewpassword', views.enterNewPassword, name="Enter New Password"),
+     url(r'^changedpassword', views.changedPass, name="Changed Password"),
      # logout for view question page
      url(r'^logout/(?P<questionId>.+)$', views.logout, name="Projects"),
      
      # for projects
      url(r'^projects/(?P<toGet>.+)/(?P<search>.+)$', views.getProjects, name="Filter Projects"),
      url(r'^projects', views.projects, name="Projects"),
+     url(r'^qr', views.qr, name="Projects"),
      
      # view project
      url(r'^project/(?P<project_name>.+)$', views.viewProject, name="View Project"),
@@ -29,8 +34,8 @@ urlpatterns = [
      url(r'^questions', views.questions, name="Questions"),
 
      # view question
-     url(r'^question/(?P<id>.+)$', views.viewQuestion, name="View Question"),
-     url(r'^resume/(?P<owner>.+)/(?P<resume>.+)$', views.viewResume, name="View Question"),
+     url(r'^question/(?P<ques>.+)/(?P<id>.+)$', views.viewQuestion, name="View Question"),
+     url(r'^resume/(?P<owner>.+)/(?P<resume>.+)$', views.viewResume, name="View Resume"),
 
      # setting the question to answered or unanswered
      url(r'^setAnswered', views.setAnswer, name="setAnswered"),

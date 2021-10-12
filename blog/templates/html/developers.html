@@ -39,7 +39,7 @@
                         <option v-for="(country,index) in countries" :value="country.name">[country.name]</option>
                       </select>
                       
-                      <div class="set-rate">
+                      <div class="set-rate" style="z-index: 4;">
                      
                         <form @submit.prevent="searchRate()">
                             <label for="">Min. Rate ($)</label>
@@ -122,7 +122,7 @@
                       <a href="?page={{ page_obj.paginator.num_pages }}" class="total-page"	>{{ page_obj.paginator.num_pages }} &raquo;</a>
                     {% endif %}
                     {% if devs %}
-                    <span class="current current-page mb-n2" style="margin-top: -1em">
+                    <span class="current current-page " id="pagenum">
                       Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                     </span>
                     {% endif %}

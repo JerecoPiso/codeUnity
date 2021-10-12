@@ -1,9 +1,9 @@
-{% extends 'html/dashboard/base.html' %}
+{% extends 'html/templates/dashboard_base.html' %}
 
 {% block body %}
 	
 	<div class="row mt-1" id="questions">
-			<h5 class="manage"><span class="fa fa-question"></span> <span id="total-project">| 2000 Questions |</span></h5>
+			<h5 class="manage"><span class="fa fa-question"></span> <span id="total-project">| [totalQuestions] Questions |</span></h5>
 
 
 			<div class="col l6 s12 m12 xl6">
@@ -75,7 +75,7 @@
 							<th>Id</th>
 							<th>Question</th>
 							<th>Language</th>
-							<th>Date</th>
+							<th>Asked</th>
 							<th>Comments</th>
 							<th>Views</th>
 						
@@ -88,7 +88,9 @@
 							<td>[ques.id]</td>
 							<td>[ques.question]</td>
 							<td>[ques.language]</td>
-							<td>[ques.date]</td>
+							<td>
+								<date-posted :posted="ques.date"></date-posted>
+							</td>
 							<td>[ques.comments]</td>
 							<td>[ques.views]</td>
 							

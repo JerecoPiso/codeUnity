@@ -1,4 +1,4 @@
-{% extends 'html/user_pages/user_base.html' %}
+{% extends 'html/templates/user_base.html' %}
 
 {% block user_page %}
 		<span class="fa fa-bars" id="show"></span>
@@ -80,6 +80,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="col l6 s12 m12 xl6" >
 
 						<p class="questions-asked-p">Questions Asked (Unanswered) ([total_ques_unanswered])</p>
@@ -89,7 +90,7 @@
 							
 								<cite class="date-asked"><b>Posted: </b><date-posted :posted="ques.date"></date-posted></cite>
 								<div class="question-info">
-									<button  class="btn-view-comments" @click="viewQuestion(ques.id)"> <span class="fa fa-eye"></span> View</button>
+									<button  class="btn-view-comments" @click="viewQuestion(ques.id, ques.question)"> <span class="fa fa-eye"></span> View</button>
 									<button class="btn-remove" @click="questionInfo.id = ques.id;showHideDelModal('show')"> <span class="fa fa-trash"></span> Remove </button>
 									<button class="edit-btn" @click="questionEditInfo.language = ques.language;questionEditInfo.id = ques.id;questionEditInfo.question = ques.question;questionEditInfo.category = ques.category;editModalMethod('show');"> <span class="fa fa-edit"></span> Edit</button>
 

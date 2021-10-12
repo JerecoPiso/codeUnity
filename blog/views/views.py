@@ -1,22 +1,21 @@
-from django.http import HttpResponse, JsonResponse, FileResponse
+from django import http
+from django.http import HttpResponse, JsonResponse, request
 from django.shortcuts import render, redirect
 from blog.models import TempPDF, Notifications, Yearly_Visitors, Frameworks, User, Developers, Projects, Questions, Language, Question_Category, Comments, Replies
 from django.core.files.storage import FileSystemStorage
-import os, datetime, json, zipfile, tempfile
+import os, datetime, json, zipfile, random, io
 # mimetypes
 from django.conf import settings
 from django.contrib import messages
-import io, smtplib, ssl
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import Paginator
-import random, time
 from datetime import timedelta
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.db import connection
-from django.db.models import Q
 from django.core.mail import send_mail
 from pathlib import Path
 
+year = datetime.datetime.now().strftime("%Y")
 # download folder in a zip format
 def download(request, folder):
     
@@ -78,9 +77,8 @@ def getfilenames(folder):
     return list(fileSet)
 
 def index(request):
-#   dev = Developers.objects.get(id=23)
-#   dev.delete()
-  
+#   pro = Projects.objects.filter(id__gte=86)
+#   pro.delete()
   if request.session.get('redirectTo'):
     del request.session['redirectTo']
   
@@ -99,11 +97,12 @@ def index(request):
       add_year_now = Yearly_Visitors(year=year_now, total_visitors=1)
       add_year_now.save()
   
-  return render(request, 'html/index.html')
+  return render(request, 'html/index.html', {'year': year})
 
 def verify(request):
  
   request.session.title = "Verify Account"
+  request.session.set_expiry(0)
   # check if the session_ok is set
   if request.session.get("session_ok"):
     return render(request, 'html/verify.html')
@@ -120,7 +119,7 @@ def verified(request):
       else:
          # return HttpResponse("HAHAHA")
          # saved new user's info to the db if the verification code match
-         if Developers.objects.filter(email__exact = request.session.get('reg_email')):
+         if Developers.objects.filter(email__exact = request.session.get('reg_email')).exists():
             ret_msg = "Email already exist!"
          
          else:
@@ -181,20 +180,8 @@ def verified(request):
  
   return redirect(goto)
 
-# logout for the viewQuestionPage
-def logout(request,questionId):
-    try:
-        del request.session['loggin']
-        del request.session['id']
-        del request.session['photo']
-        del request.session['username']   
-    except:
-       pass
-
-    return redirect("/login/"+questionId)
-
 def projects(request):
-  project = Projects.objects.all()
+  project = Projects.objects.all().order_by("-id")
   # lang = Projects.objects.values(
   #   'language'
   #   ).annotate(language_count=Count('language')).filter(language_count__gt=0)
@@ -213,7 +200,7 @@ def projects(request):
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
-  return render(request, 'html/projects.html', {'frameworks': frameworks,'total_project': project.count(),'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
+  return render(request, 'html/projects.html', {'year': year,'frameworks': frameworks,'total_project': project.count(),'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
 def getProjects(request, toGet, search):
 
@@ -236,16 +223,14 @@ def getProjects(request, toGet, search):
      paginator = Paginator(project, 10)
   else:
      paginator = Paginator(project, 1)
-  
+  total_project = Projects.objects.all().count()
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   request.session['title'] = "Projects"
-  return render(request, 'html/projects.html', {'frameworks': frameworks,'toSearch': search,'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
+
+  return render(request, 'html/projects.html', {'toSearch': search,'total_project': total_project,'year': year,'frameworks': frameworks,'toSearch': search,'new_apps': newest_apps, 'projects': page_obj, 'languages': language, 'page_obj': page_obj, 'apps': apps})
 
 def questions(request):
-  # languages = Language.objects.all()
-  # frameworks = Frameworks.objects.all() 
-
   hot = Questions.objects.filter(Q(comments__gt=0) & Q(date__icontains=datetime.datetime.now().strftime("%Y"))).order_by('-comments')[:10]
   category = Questions.objects.values(
   'category'
@@ -263,7 +248,7 @@ def questions(request):
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
   request.session['title'] = "Questions"
-  return render(request, 'html/questions.html', {'hot_topics': hot,'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
+  return render(request, 'html/questions.html', {'year': year,'hot_topics': hot,'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
 
 def getQuestion(request, toGetQuestion, value):
   category = Questions.objects.values(
@@ -296,7 +281,7 @@ def getQuestion(request, toGetQuestion, value):
   page_obj = paginator.get_page(page_number)
   total_questions = Questions.objects.all().count()
   request.session['title'] = "Questions"
-  return render(request, 'html/questions.html', {'hot_topics': hot,'toSearch': value,'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
+  return render(request, 'html/questions.html', {'toSearch': value,'year': year,'hot_topics': hot,'toSearch': value,'question_cat': category,'total_questions': total_questions, 'page_obj': page_obj, 'questions': page_obj})
 
 def getDevelopers(request, toGetDevelopers, value):
   dev_cat = Developers.objects.values('expertise').annotate(expertise_count=Count('expertise')).filter(expertise_count__gt=0)
@@ -328,7 +313,7 @@ def getDevelopers(request, toGetDevelopers, value):
   paginator = Paginator(devs, 10)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
-  return render(request, 'html/developers.html', {"categor": dev_cat,'search': value,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total_devs': total_devs, 'languages': language})
+  return render(request, 'html/developers.html', {'year': year,"categor": dev_cat,'search': value,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total_devs': total_devs, 'languages': language})
 
 def searchDevsRate(request, min, max):
   
@@ -349,7 +334,7 @@ def searchDevsRate(request, min, max):
   paginator = Paginator(devs, 10)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
-  return render(request, 'html/developers.html', {"search": "Min. rate $"+min+" - Max. rate $"+max,"categor": dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total_devs': total_devs, 'languages': language})
+  return render(request, 'html/developers.html', {'year': year,"search": "Min. rate $"+min+" - Max. rate $"+max,"categor": dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks, 'total_devs': total_devs, 'languages': language})
 
 def userLogin(request, redirectTo):
     request.session['title'] = "Login"
@@ -383,8 +368,8 @@ def userLogin(request, redirectTo):
                         question.views = question.views + 1
                         question.save()
                         # request.session.set_expiry(60)
-                        redirectedTo = "/question/"+(redirectTo[13:len(redirectTo)+1])
-                       
+                        redirectedTo = "/question/"+request.session['question']+"/"+(redirectTo[13:len(redirectTo)+1])
+                        
                     
                     msg = True
 
@@ -412,7 +397,7 @@ def userLogin(request, redirectTo):
       else:
 
         redirectedTo = "/login/viewQuestion/"+(redirectTo[13:len(redirectTo)+1])
-      messages.error(request, msg)
+      messages.info(request, msg)
 
     return redirect(redirectedTo)
 
@@ -427,7 +412,7 @@ def register(request):
                if request.POST["password"] != "" and request.POST["password2"] != "":
                     if request.POST["password"] == request.POST["password2"]:
 
-                         if Developers.objects.filter(email__exact = request.POST["email"]):
+                         if Developers.objects.filter(email__exact = request.POST["email"]).exists():
                                msg = "Email already exist!"
                          else:
                             
@@ -473,12 +458,13 @@ def register(request):
 def signup(request, redirectTo):
      request.session['title'] = "Signup"
      request.session['redirectTo'] = redirectTo
-     print(request.session['redirectTo'])
+     request.session.set_expiry(0)
      return render(request, "html/signup.html")
      
 def login(request, redirectTo):
     #  messages.warning(request, 'Your account expires in three days.')
      request.session['title'] = "Login"
+     request.session.set_expiry(0)
      if request.session.get("loggin"):
           if redirectTo == "user":
              return redirect("/user/")
@@ -507,7 +493,7 @@ def developers(request):
     
      page_number = request.GET.get('page')
      page_obj = paginator.get_page(page_number)
-     return render(request, 'html/developers.html', {'categor': dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks,'total_devs': total_devs, 'languages': language})
+     return render(request, 'html/developers.html', {'year': year,'categor': dev_cat,'page_obj': page_obj, 'devs': page_obj,'frameworks': frameworks,'total_devs': total_devs, 'languages': language})
 
 def viewProject(request, project_name):
       request.session['title'] = "viewProject"
@@ -517,22 +503,24 @@ def viewProject(request, project_name):
             developer = Developers.objects.get(id=project.uploader_id)
             project.views = project.views + 1
             project.save()
-            return render(request, "html/view_project.html", {'project': project, 'developer': developer})
+            return render(request, "html/view_project.html", {'year': year,'project': project, 'developer': developer})
       else:
             request.session['error'] = "Project can't be viewed! There's maybe a problem with the uploader."
             return redirect("/error")
      
      
 
-def viewQuestion(request, id):
+def viewQuestion(request, ques, id):
       request.session['title'] = "viewQuestion"
+      request.session['question'] = ques
+      request.session.set_expiry(0)
 
       question = Questions.objects.get(id=id)
       dev = Developers.objects.filter(id=question.asker_id).exists()
       # asker_name = Developers.objects.get(id=question.asker_id)
       if dev :
           asker_name = Developers.objects.get(id=question.asker_id)
-          return render(request, "html/view_question.html", {'question': question, 'post_id': id, 'poster_name': asker_name.uname})
+          return render(request, "html/view_question.html", {'year': year,'question': question, 'post_id': id, 'poster_name': asker_name.uname})
       else:
           request.session['error'] = "Question can't be viewed!"
           return redirect("/error")
@@ -540,6 +528,7 @@ def viewQuestion(request, id):
 
 def error(request):
     error = request.session['error']
+    request.session.set_expiry(0)
    #  del request.session['error']
     return render(request, "html/error.html", {'error': error})
 
@@ -566,7 +555,7 @@ def addComment(request):
                   notification_content = "<b>" + request.session['username'] + "</b> commented on your question " + "<b>" + ques.question + "</b>."
                   notify = Notifications(notification=notification_content, notified_id=ques.asker_id, date=datenow, status="unread")
                   notify.save()
-                  return HttpResponse("Commented succesfully.")
+                  return HttpResponse("Commented succesfully")
         
             except:
 
@@ -685,6 +674,7 @@ def deleteComment(request):
 
 def completeinfohtml(request):
    request.session['title'] = "Complete Information"
+   request.session.set_expiry(0)
    if request.session.get('session_ok'):
          return render(request, 'html/completeinfo.html')
    else:
@@ -723,7 +713,7 @@ def setMoreInfo(request):
              
              rename = datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S") + extension
              fss = FileSystemStorage()
-             filename = fss.save(rename, resume)
+             fss.save(rename, resume)
              request.session['resume'] = rename
              timenow = datetime.datetime.now().strftime("%m")+"/"+datetime.datetime.now().strftime("%d")+"/"+datetime.datetime.now().strftime("%Y")+" "+datetime.datetime.now().strftime("%H")+":"+datetime.datetime.now().strftime("%M")+":"+datetime.datetime.now().strftime("%S")+"."+datetime.datetime.now().strftime("%f")
              date_format_str = '%d/%m/%Y %H:%M:%S.%f'
@@ -740,14 +730,95 @@ def setMoreInfo(request):
          
          return HttpResponse("Error")
    #  return HttpResponse(request.POST['more'])
+def recoveraccount(request):
+   if request.POST['email'] != '': 
+       if Developers.objects.filter(email__exact=request.POST['email']).exists():
+          try:
+             recoverycode = str(random.randint(0,9)) + str(random.randint(0,9)) + str(random.randint(0,9)) + str(random.randint(0,9)) + str(random.randint(0,9))
+             request.session['recoverycode'] = recoverycode
+             request.session['email'] = request.POST['email']
+             request.session.set_expiry(300)
+             send_mail(
+                'Recover Account',
+                'Recovery Code:'+ recoverycode,
+                 settings.EMAIL_HOST_USER,
+                 [request.POST['email']],
+                 fail_silently=True,
+             )
+             return HttpResponse("Success")
+          except:
+             return HttpResponse("Can't send email. Please try again!")
+       else:
+          return HttpResponse("Email doesn't exist!")
+
+   else:
+      return HttpResponse("Email canno't be empty!")
+
+def enterRecoveryCode(request):
+   # if request.session.get('recoverycode'):
+      return render(request, 'html/recover_account.html')
+   # else:
+   #    return redirect("login/user")
+  
+def enterNewPassword(request):
+   if request.session.get('email') and request.session.get('recoverycode'):
+      return render(request, "html/enternewpassword.html")
+   else:
+      return redirect("/login/user")
+
+def changedPass(request):
+         if request.POST['password'] != '' and request.POST['retypepassword'] != '':
+            if len(request.POST['password']) > 7:
+                  if not request.POST['password'].isalpha() and not request.POST['password'].isdigit():
+                        if request.POST['password'] == request.POST['retypepassword']:
+                           # hash_pwd = make_password(request.POST['password'], salt=None, hasher='default')
+                           # dev = Developers.objects.get(email=request.session.get('email'))
+                           # dev.password = hash_pwd
+                           # dev.save()
+                           try:
+
+                              del request.session['email']
+                              del request.session['recoverycode']
+
+                           except:
+                              pass
+
+                           messages.success(request, "Password changed successfully. You can now login.")
+                           return redirect("/enternewpassword")
+                        else:
+                           messages.info(request, "Password didn't matched!")
+                           return redirect("/enternewpassword")
+
+                  else:
+                     messages.info(request, "Password must contain letters and numbers!")
+                     return redirect("/enternewpassword")
+            else:
+               messages.info(request, "Password must contain at least 8 characters!")
+               return redirect("/enternewpassword")
+         else:
+            messages.info(request, "All fields must be filled up!")
+            return redirect("/enternewpassword")
+  
+
+def checkRecoveryCode(request):
+   # request.session['recoverycode']
+   if request.POST['code'] == '123':
+
+      return redirect("/enternewpassword")
+     
+   else:
+      messages.info(request, "Recovery code is incorrect!")
+      return redirect("/recoverycode")
 
 def aboutus(request):
    request.session['title'] = "About Us"
-   return render(request, "html/aboutus.html")
+   request.session.set_expiry(0)
+   return render(request, "html/aboutus.html",{'year': year,})
 
 def termsandconditions(request): 
    request.session['title'] = "Terms and Conditions"
-   return render(request, "html/termsandcondition.html")
+   request.session.set_expiry(0)
+   return render(request, "html/termsandcondition.html",{'year': year,})
 
 
 def viewResume(request, owner, resume):
@@ -760,4 +831,21 @@ def viewResume(request, owner, resume):
       request.session['error'] = "File not found "+resume
       return redirect("/error")
      
+# logout for the viewQuestionPage
+def logout(request,questionId):
+   
+    try:
+        del request.session['loggin']
+        del request.session['id']
+        del request.session['photo']
+        del request.session['username']   
+        del request.session['question']
+    except:
+       pass
 
+    return redirect("/login/"+questionId)
+   
+
+def qr(request):
+   
+  return render(request, 'html/qr.html')

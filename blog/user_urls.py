@@ -17,6 +17,7 @@ urlpatterns = [
      url(r'^getProjects', user_views.getProject, name='Get Projects'),
      url(r'^getQuestions', user_views.getQuestions, name='Get Questions'),
      url(r'^getNotifications', user_views.getNotifications, name='Get Notifications'),
+   
 
      # updating 
      url(r'^updateQuestion', user_views.updateQuestion, name="Update Question"),
@@ -32,6 +33,7 @@ urlpatterns = [
      url(r'^deleteProject', user_views.deleteProject, name='Delete Project'),
      url(r'^deleteQuestion', user_views.deleteQuestion, name='Delete Question'),
      url(r'^deleteFile', user_views.deleteFile, name='Delete Question'),
-
+     url(r'^clearnotifications', user_views.clearNotifs, name="Clear Notifications"),
+     url(r'^deletenotification', user_views.deleteNotif, name="Clear Notifications"),
      url(r'^project_files/(?P<folder>.+)$', user_views.project_files, name='Project Files')
 ]

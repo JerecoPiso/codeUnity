@@ -146,7 +146,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
 # SESSION_COOKIE_AGE = 20
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

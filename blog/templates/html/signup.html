@@ -1,6 +1,7 @@
 {% extends 'html/templates/login_signup_base.html' %}
 
 {% block login_signup_verify %}
+
 		<div class="form" id="signup">
 
 			<form id="signup-form" action="/register" method="POST">
@@ -31,13 +32,13 @@
 						{%endfor %}
 				
 					{% endif %}
-					
+			
 					<a href="/login/user" id="login-link">Already have an account?</a>
-					
+		
 				</div>				
 			</form>	
 
 		</div>
-				
+
 			
 {% endblock %}

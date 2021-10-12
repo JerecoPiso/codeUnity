@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/login_signup_verifys.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/login_signup_verifysssssssss.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/fontawesome-free/css/all.min.css' %}">
 </head>
 <body>
@@ -20,150 +20,196 @@
 <script type="text/javascript" src="{% static 'assets/js/libraries/axios.js' %}"></script>
 <script type="text/javascript" src="{% static 'assets/js/libraries/vue.js' %}"></script>
 <script>
-	var signup = new Vue({
-	delimiters: ['[', ']'],
-	el: "#signup",
-	data:{
-		signupInfo: {username: '', email: '', password: '', password2: ''},
-		error: '',
-		// success: '',
-		// status: 'Signup'
-		btnDisable: '',
-		stringOnly: /^[a-zA-Z ]+$/,
-		numbersOnly: /^[0-9]+$/
-	},
-	mounted: function(){
-		this.btnDisable = true
-		$('#btn-signup').css({'opacity': '0.7'})
 
-	},
-	methods: {
-		disable: function(){
+	
+	var forgotPass = new Vue({
+		delimiters: ['[', ']'],
+		el: "#email-form",
+		data:{
+			email: '',
+			err: '',
+			btnStatus: 'Send Verification'
+		},
+		mounted: function(){
+			var btnForgotPass = document.getElementById("forgot-password")
+			var closeForgotPassBtn = document.getElementById("close")
+			btnForgotPass.addEventListener('click', function(){
+				document.getElementById("email-form").style.display = "block"
+			})
+
+		},
+		methods:{
+			close: function(){
+				$("#email-form").hide()
+			},
+			sendVerification: function(){
+				
+				let data = new FormData()
+				data.append("email", forgotPass.email)
+				axios.post('/recoveraccount',data,  { 
+					 headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
+					 progress:( progressEvent ) => {
+						 forgotPass.btnStatus = "Sending . . ."
+                        
+                  	}
+				
+				}).then(function(response){
+					
+					if(response.data == "Success"){
+						window.location.href="/recoverycode"
+					}else{
+						forgotPass.btnStatus = "Send Verification"
+						alert(response.data)
+					}
+				})
+			}
+		}
+	})
+	var signup = new Vue({
+		delimiters: ['[', ']'],
+		el: "#signup",
+		data:{
+			signupInfo: {username: '', email: '', password: '', password2: ''},
+			error: '',
+			// success: '',
+			// status: 'Signup',
+			btnDisable: '',
+			stringOnly: /^[a-zA-Z ]+$/,
+			numbersOnly: /^[0-9]+$/
+		},
+		mounted: function(){
 			this.btnDisable = true
 			$('#btn-signup').css({'opacity': '0.7'})
 		
-		},
-		usernameMonitor: function(event){
-			const key = event.key
-			
-			if(!key.toString().match(signup.stringOnly)){
-				newname = this.signupInfo.username
-				this.signupInfo.username = newname.substr(0,newname.length-1)
-			}else{
-				this.finalChecker()
-			}
-			
 
 		},
-		emailMonitor: function(event){
+		methods: {
+			disable: function(){
+				this.btnDisable = true
+				$('#btn-signup').css({'opacity': '0.7'})
 			
-			this.finalChecker()
-			
-
-		},
-		passwordMonitor: function(event){
-			
-			if(signup.signupInfo.password.length < 8){
+			},
+			usernameMonitor: function(event){
+				const key = event.key
 				
-				this.error = "Password must contain at least 8 characters!"
-				$(".error").show()
-				this.disable()
-				
-			}else if((this.signupInfo.password.match(signup.numbersOnly) || this.signupInfo.password.match(signup.stringOnly))){
-		
-				this.error = "Password must contain letters and numbers!"
-				$(".error").show()
-				this.disable()
-
-			}else{
-				this.error = ""
-				$(".error").hide()
-				if(!this.signupInfo.password2 == "" && this.signupInfo.password2.length >= 8){
-
-					if((signup.signupInfo.email && signup.signupInfo.username && signup.signupInfo.password2) != ""){			
-						
-						this.btnDisable = false
-						$("#btn-signup").css({'opacity': '1'})
-					}
-						this.error = ""
-						$(".error").hide()
-						
+				if(!key.toString().match(signup.stringOnly)){
+					newname = this.signupInfo.username
+					this.signupInfo.username = newname.substr(0,newname.length-1)
+				}else{
+					this.finalChecker()
 				}
 				
-			}
-			if(event.key == " "){
-				newpass = this.signupInfo.password
-				this.signupInfo.password = newpass.substr(0,newpass.length-1)
-				this.error = "Password must not contain a whitespace!"
-				$(".error").show()
+
+			},
+			emailMonitor: function(event){
+				
+				this.finalChecker()
+				
+
+			},
+			passwordMonitor: function(event){
+				
+				if(signup.signupInfo.password.length < 8){
+					
+					this.error = "Password must contain at least 8 characters!"
+					$(".error").show()
+					this.disable()
+					
+				}else if((this.signupInfo.password.match(signup.numbersOnly) || this.signupInfo.password.match(signup.stringOnly))){
 			
-			}
-		},
-		password2Monitor: function(event){
-				if(this.signupInfo.password != ""){
+					this.error = "Password must contain letters and numbers!"
+					$(".error").show()
+					this.disable()
+
+				}else{
+					this.error = ""
+					$(".error").hide()
+					if(!this.signupInfo.password2 == "" && this.signupInfo.password2.length >= 8){
+
+						if((signup.signupInfo.email && signup.signupInfo.username && signup.signupInfo.password2) != ""){			
+							
+							this.btnDisable = false
+							$("#btn-signup").css({'opacity': '1'})
+						}
+							this.error = ""
+							$(".error").hide()
+							
+					}
+					
+				}
+				if(event.key == " "){
+					newpass = this.signupInfo.password
+					this.signupInfo.password = newpass.substr(0,newpass.length-1)
+					this.error = "Password must not contain a whitespace!"
+					$(".error").show()
+				
+				}
+			},
+			password2Monitor: function(event){
+					if(this.signupInfo.password != ""){
+						
+
+							if(this.signupInfo.password2 == ""){
+								this.error = "Password didn't matched!"
+								$(".error").show()
+								this.disable()
+
+								
+
+							}else if(this.signupInfo.password2.length < 8){
+								this.error = "Password didn't matched!"
+								$(".error").show()
+								this.disable()
+								
+
+							
+							}else{
+							
+								if((this.signupInfo.password.length < 8)){
+										this.error = "Password must contain at least 8 characters!"
+										$(".error").show()
+										this.disable()
+										
+								}else if((this.signupInfo.password.match(this.numbersOnly) || this.signupInfo.password.match(this.stringOnly))){
+									
+										this.error = "Password must contain letters and numbers!"
+										$(".error").show()
+										this.disable()
+
+								}else{
+									$(".error").hide()
+									this.finalChecker()
+								}
+							}	
+							
+						// }
 					
 
-						if(this.signupInfo.password2 == ""){
-							this.error = "Password didn't matched!"
-							$(".error").show()
-							this.disable()
-
-							
-
-						}else if(this.signupInfo.password2.length < 8){
-							this.error = "Password didn't matched!"
-							$(".error").show()
-							this.disable()
-							
-
-						
-						}else{
-						
-							if((this.signupInfo.password.length < 8)){
-									this.error = "Password must contain at least 8 characters!"
-									$(".error").show()
+					}
+					
+			
+					
+			},
+			finalChecker: function(){
+				if(this.signupInfo.password == this.signupInfo.password2){
+								if((signup.signupInfo.email && signup.signupInfo.password && signup.signupInfo.username && signup.signupInfo.password2) != ""){			
+									this.btnDisable = false
+									$("#btn-signup").css({'opacity': '1'})
+									this.error = ""
+									$(".error").hide()
+								}else{
 									this.disable()
-									
-							}else if((this.signupInfo.password.match(this.numbersOnly) || this.signupInfo.password.match(this.stringOnly))){
+								}
 								
-									this.error = "Password must contain letters and numbers!"
-									$(".error").show()
-									this.disable()
-
 							}else{
-								$(".error").hide()
-								this.finalChecker()
-							}
-						}	
-						
-					// }
-				
-
-				}
-				
-		
-				
-		},
-		finalChecker: function(){
-			if(this.signupInfo.password == this.signupInfo.password2){
-							if((signup.signupInfo.email && signup.signupInfo.password && signup.signupInfo.username && signup.signupInfo.password2) != ""){			
-								this.btnDisable = false
-								$("#btn-signup").css({'opacity': '1'})
-								this.error = ""
-								$(".error").hide()
-							}else{
+								this.error = "Pasword didn't matched!"
+								$(".error").show()
 								this.disable()
 							}
-							
-						}else{
-							this.error = "Pasword didn't matched!"
-							$(".error").show()
-							this.disable()
-						}
+			}
+		
+		
 		}
-	
-	
-	}
 })
 	var verify = new Vue({
 		el: "#verify",

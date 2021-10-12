@@ -3,11 +3,11 @@
 {% block main_page %}
 
     <div id="completeinfo">
-        <div class="Modal" v-if="responseModal">
+        <div class="Modal">
           
             <div class="modalDialog">
                 <div class="modalHeader">
-                     <button type="button" @click="responseModal = false" class="closeModal">&times;</button>
+                     <button type="button" @click="$('.Modal').hide()" class="closeModal">&times;</button>
                 </div>
                 <div class="modalBody">
                     <p class=" error-logo">  <span class="fa fa-exclamation"></span></p>
@@ -97,8 +97,10 @@
                
             </div>
 
-          
-           <button class="btn-register" type="button" @click="submit()">Complete</button>
+            <div class="circle-progress-bar" v-if="bar != 0 && bar != 100">
+                <p>[bar]</p>
+              </div>
+           <button class="btn-register" type="button" @click="submit()">Submit</button>
            
         </form>
     </div>

@@ -1,15 +1,15 @@
-{% extends 'html/user_pages/user_base.html' %}
+{% extends 'html/templates/user_base.html' %}
 
 
 {% block user_page %}
 		
-
 		<span class="fa fa-bars" id="show"></span>
 		<div class="flex-container">
 			<div class="flex-item1">
 				{% include 'html/user_pages/side_nav.html' %}
 			</div>
 			<div class="flex-item2" style="background-color: rgba(230, 230, 230,0.5);">
+				
 				<p id="calendar"><span class="fa fa-clock mr-1"></span><span id="time"></span> <span id="date"></span><span class="fa fa-calendar right mr-1"></span> </p>
 				<div class="row">
 				
@@ -51,7 +51,7 @@
 						</div>
 					</div>
 					
-					<div class="col l8 m12 s12 xl8" >
+					<div class="col l7 m12 s12 xl8" >
 						<div class="row">
 							<div class="col l12 s12 m12">
 								<div class="canvas myCharts projectDownloadChart"> 
@@ -70,15 +70,32 @@
 							
 							</div>
 					</div>
-					<div class="col l4 m12 s12 xl4" >
+					<div class="col l5 m12 s12 xl4" >
 						<div class="notifications-div"> 
+							<div class="MyModal" id="deleteNotif">
+								<div class="ModalDialog">
+									<div class="ModalHeader">
+										<span class="fa fa-exclamation"></span>
+									</div>
+									<div class="ModalContent">
+										<p>[modalMsg]</p>
+									</div>
+									<div class="ModalFooter">
+										<button class="btn-ok" @click="del()">OK</button>
+										<button class="btn-cancel" @click="showDelModal('hide')">Cancel</button>
+			
+									</div>
+								</div>
+							</div>
+							<p class="response-msg">[responseMsg]</p>
 							<b class="b">Notifications</b>
-						
-							
+							{% csrf_token %}
+							<button type="button" class="clear-notif" v-if="noti.length != 0 " @click="toDelete='all';showDelModal('show')" ><span class="fa fa-trash"></span> Clear </button>
+							<!-- v-if="noti.length != 0 " -->
 							<ul id="notifications-div">
-								<li v-for="not in noti"><p v-html="not.notification" style="margin: 0"></p> <b>[not.date]</b> </li>
-							
-							
+								<li v-for="notif in noti"><p v-html="notif.notification" style="margin: 0"></p> <b>[notif.date]</b> <button type="button"  @click="notifId=notif.id;toDelete='one';showDelModal('show')"  class="remove-notif"><span class="fa fa-trash"></span></button></li>
+								<p v-if="noti.length == 0" class="no-notif">Empty Notifications</p>
+								
 							</ul>
 							<cite class="note"> <strong>Note: </strong> Notifications total will only count the notifications that inserted before you login.</cite>
 						</div>

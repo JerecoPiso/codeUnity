@@ -1,0 +1,24 @@
+{% extends 'html/templates/login_signup_base.html' %}
+
+{% block login_signup_verify %}
+
+            <div id="recovery-code">
+                <form action="/checkrecoverycode" method="POST">
+                    {% csrf_token %}
+                    <p>-- Recover Account --</p>
+                    <label for="">Code</label>
+                    <input type="number" name="code" autocomplete="email"  placeholder="Enter the recovery code here . . ." required> 
+                    <button type="submit" class="btn-submit">Submit</button>
+                    {% if messages %}
+
+                            <ul class="messages">   
+                                {% for message in messages %}
+                                   <li {% if message.tags %} class="error-msg {{ message.tags }}"{% endif %}> {{message}}</li> 
+                                {% endfor %}
+                            </ul>
+
+                    {% endif %}
+                </form>
+            </div>
+ 
+{% endblock %}

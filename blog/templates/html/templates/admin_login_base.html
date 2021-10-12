@@ -7,9 +7,41 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>{{request.session.title}}</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/materialize.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/login.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'assets/css/dashboard/loginxxx.css' %}">
     
 </head>
+<style>
+#forgot-password{
+    background-color: transparent;
+    border: none;
+    padding: 5px 0 10px 0 ;
+    font-size: 16px;
+    color: rgb(102, 102, 102);
+}
+#signup-link, #login-link{
+	
+	color: rgb(0, 128, 128);
+	border: 1.5px solid rgba(153, 153, 153,0.6);
+	padding: 2%;
+	
+	display: block;
+	width: 80%;
+	font-size: 17px;
+	border-radius: 0.4rem;
+	text-align: center;
+}
+#signup-link{
+	margin: auto;
+	
+}
+#login-link{
+	
+	
+	margin: 4% auto auto auto;
+
+}
+
+</style>
 <body>
 
 	{% block admin_login %}
@@ -20,8 +52,9 @@
 <script type="text/javascript" src="{% static 'assets/js/libraries/axios.js' %}"></script>
 
 <script type="text/javascript" src="{% static 'assets/js/libraries/vue.js' %}"></script>
+
 <script type="text/javascript">
-    new Vue({
+    var admin = new Vue({
         delimiters: ['[', ']'],
         el: "#admin",
         data:{
@@ -45,22 +78,49 @@
         methods:{
             signup: function(){
                 let data = new FormData()
+               
                 data.append('username', this.signupInfo.username)
                 data.append('pass', this.signupInfo.pass)
                 data.append('pass2', this.signupInfo.pass2)
                 axios.post('signup', data,{headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-                    alert(response.data)
+                    
+                    if(response.data == "Success"){
+                        alert(response.data + ". " + "You can now login.")
+                     
+
+                        admin.signupInfo.username = ''
+                        admin.signupInfo.pass = ''
+                        admin.signupInfo.pass2 = ''
+                        setTimeout(function(){
+                            admin.loginFormStatus = true
+                         }, 3000)
+                       
+                    }else{
+                        alert(response.data)
+                    }
+                     
+                
                 })
             },
             login: function(){
                 let data = new FormData()
                 data.append('username', this.loginInfo.username)
                 data.append('password', this.loginInfo.password)
-              
+            
+      
                 axios.post('login', data,{headers: {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val()}}).then(function(response){
-                    alert(response.data)
+                 
                     if(response.data == "Login"){
-                        window.location.href = "home"
+                        admin.loginBtnStatus = "Logging in..."
+                        setTimeout(function(){
+                            window.location.href = "home"
+                         }, 2000)
+                       
+                    }else{
+                        admin.error.loginErr = response.data
+                        setTimeout(function(){
+                            admin.error.loginErr = ''
+                         }, 2000)
                     }
                 })
             }

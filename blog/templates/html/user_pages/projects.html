@@ -1,4 +1,4 @@
-{% extends 'html/user_pages/user_base.html' %}
+{% extends 'html/templates/user_base.html' %}
 
 
 {% block user_page %}
@@ -141,8 +141,15 @@
 					   {% csrf_token %}
 						  <div>
 							  <label>Folder</label><br>
-							 
-							  <div class="file-field input-field">
+							  <!-- <label for="">Update Resume</label> -->
+							  <label class="custom-file-upload">
+								  <input type="file" ref="file" @change="handleFileUpload()"  id="resume-file" required webkitdirectory />
+								  
+								  <p class="resume-name">
+									  <i class="fa fa-upload upload-logo"></i> <br>
+									  [placeHolder]</p>
+							  </label>
+							  <!-- <div class="file-field input-field">
 								<div class="btn">
 								  <span>Folder</span>
 								  <input type="file" required webkitdirectory ref="file" @change="handleFileUpload()">
@@ -150,7 +157,7 @@
 								<div class="file-path-wrapper">
 								  <input class="file-path validate" type="text" :placeholder="placeHolder">
 								</div>
-							</div>
+							</div> -->	
 							  <!-- <input type='file' id="projectFile" webkitdirectory ref="file" @change="handleFileUpload()" ><br>  -->
 							  <label >About</label>
 							  <div  id="about"></div>
