@@ -78,8 +78,10 @@ def deleteFile(request):
         else:
            ret_msg = "File doesn't exists!"
         
+        
     except: 
         ret_msg = "Unable to delete file!"
+
     return HttpResponse(ret_msg)
 # edit the file code
 def editCode(request):
@@ -193,11 +195,12 @@ def deleteProject(request):
                     os.rmdir(os.path.join(root, name))
             os.rmdir(os.path.join(Path(__file__).resolve().parent.parent.parent, 'media'+'/')+project.project_name)
             project.delete()
+            return HttpResponse("Deleted successfully")
 
         else:
             return HttpResponse("Path didn't exists!")
 
-        return HttpResponse("Deleted successfully")
+        
     
     except:
         return HttpResponse("An error has occurred!")

@@ -50,10 +50,10 @@ def download(request, folder):
     am_pm = ""
     if int(datetime.datetime.now().strftime("%H")) > 12:
        hour = int(datetime.datetime.now().strftime("%H")) - 12
-       am_pm = " pm"
+       am_pm = " PM"
     else:
        hour = datetime.datetime.now().strftime("%H")
-       am_pm = " pm"
+       am_pm = " AM"
     datenow =  datetime.datetime.now().strftime("%h") + "-" + datetime.datetime.now().strftime("%d") + "-"+ datetime.datetime.now().strftime("%Y") + " " + str(hour) + ":" + datetime.datetime.now().strftime("%M")+ ":" + datetime.datetime.now().strftime("%S") + "" + am_pm
     notification_content = "A user downloaded your <b>" + folder + "</b> project. It has now <b>" + str(d_total) + "</b> download/s."
     notify = Notifications(notification=notification_content, notified_id=download_total.uploader_id, date=datenow, status="unread")

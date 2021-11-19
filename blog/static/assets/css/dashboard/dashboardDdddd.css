@@ -574,11 +574,11 @@ body{
 	margin-right: 1%;
 }
   
-
+/*
 #table{
 	border: 2px solid rgb(0, 179, 134);
 	overflow: auto;
-}
+}*/
 #table tbody tr td, #table thead tr th{
 	border: 1px solid rgb(0, 179, 134);
 	font-weight: bold;
