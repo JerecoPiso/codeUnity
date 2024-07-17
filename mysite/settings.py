@@ -158,7 +158,7 @@ EMAIL_USE_SSL = False
 EMAIL_PORT = 587
 # 465
 EMAIL_HOST_USER = 'jamesjerecopiso@gmail.com'
-EMAIL_HOST_PASSWORD = "PHPprogrammer20"
+EMAIL_HOST_PASSWORD = ""
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
